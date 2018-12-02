@@ -46,7 +46,7 @@ testem.log
 *.sig
 
 pkg/
-src/
+# src/
 
 ### Eclipse ###
 
