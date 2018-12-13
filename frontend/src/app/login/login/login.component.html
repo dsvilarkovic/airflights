@@ -9,11 +9,12 @@
 						<input type="email" id="email" required [(ngModel)]="user.email" name="email" class="form-control input-underline input-lg" id="" placeholder="Email">
 					</div>
 					<div class="form-group">
-            <input name="password" [(ngModel)]="user.password" type="password" id="inputPassword" class="form-control input-underline input-lg"  placeholder="Password" required>
+            			<input name="password" [(ngModel)]="user.password" type="password" id="inputPassword" class="form-control input-underline input-lg"  placeholder="Password" required>
 					</div>
 				</div>
-				<a [routerLink]="['/']" class="btn rounded-btn"> Log in </a>
+				<button class="btn rounded-btn"> Log in </button>
 			</form>
+			
 		</div>	
 	</div>
 </div>

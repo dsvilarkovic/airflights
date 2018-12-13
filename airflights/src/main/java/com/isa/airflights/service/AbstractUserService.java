@@ -2,9 +2,18 @@ package com.isa.airflights.service;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.AbstractUser;
@@ -18,6 +27,11 @@ public class AbstractUserService {
 	@Autowired
 	private  AbstractUserRepository abstractUserRepository;
 	
+	@Autowired
+    private JavaMailSender sender;
+	
+	@Autowired
+	private Environment env;
 
 
 	public List<AbstractUser> findAll() {
@@ -48,15 +62,50 @@ public class AbstractUserService {
 	public AbstractUser login(AbstractUser user) {
 		System.out.println("USao u servis login " + user.getEmail());
 		AbstractUser _user = abstractUserRepository.findByEmail(user.getEmail());
+		
+		
+		
 		if(_user != null) {
 			System.out.println("USao u if u servis login");
+			if(_user.getVerify() == false) {
+				System.out.println("Nije verifikovan");
+				return null;
+			}
 			if(_user.getPassword().equals(user.getPassword())) {
 				return _user;
 			} else {
 				return null;
 			}
-		}
-		return null;
+		}else
+			return null;
+	}
+	
+	public AbstractUser getOne(Long id) {
+		return abstractUserRepository.getOne(id);
+	}
+	
+	
+	public String sendVerMail(AbstractUser user) throws MailException, InterruptedException, MessagingException {
+		MimeMessage mime = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mime,false,"utf-8");
+		
+		
+			try {
+				//mime.setContent("poruka", "text/html");
+				helper.setTo(user.getEmail());
+				helper.setText("Pozdrav "+ user.getFirstName() + "\n Ovde ce "
+						+ "kasnije biti aktivacioni link");
+				helper.setSubject("Testiranje ISE");
+				helper.setFrom(env.getProperty("spring.mail.username"));
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		sender.send(mime);
+		
+		return "Mail je poslat";
+		
 	}
 	
 	

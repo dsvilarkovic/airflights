@@ -5,5 +5,5 @@ export class User {
     firstName: string;
     lastName: string;
     city: string;
-    phone: string; 
+    phone: string;
 }

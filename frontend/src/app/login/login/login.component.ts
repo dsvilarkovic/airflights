@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.user).subscribe(data => {
       this.user = data;
       alert("Sve je ok. User je: " + this.user.firstName);
+      this.router.navigate(['/']);
       console.log(this.user);
     });
 

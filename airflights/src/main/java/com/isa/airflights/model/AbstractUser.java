@@ -24,10 +24,10 @@ import javax.persistence.OneToMany;
 public class AbstractUser {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "indexNumber", nullable = false)
+	@Column(name = "indexNumber", nullable = true)
 	String index;
 	
 	@Column(name = "firstName", nullable = false)
@@ -53,12 +53,15 @@ public class AbstractUser {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
+	@Column(name = "verify", nullable = false)
+	private Boolean verify;
+	
 	public AbstractUser() {
 		super();
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password) {
+			String password, Boolean v) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -67,14 +70,23 @@ public class AbstractUser {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.password = password;
+		this.verify = v;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify());
 	}
 
 
+
+	public Boolean getVerify() {
+		return verify;
+	}
+
+	public void setVerify(Boolean verify) {
+		this.verify = verify;
+	}
 
 	public Long getId() {
 		return id;
@@ -175,6 +187,14 @@ public class AbstractUser {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
 	}
 	
 	

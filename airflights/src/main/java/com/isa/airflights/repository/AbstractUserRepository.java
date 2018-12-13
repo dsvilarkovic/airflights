@@ -23,4 +23,5 @@ public interface AbstractUserRepository extends JpaRepository<AbstractUser, Long
 	AbstractUser findOneByIndex(String index);
 	
 	AbstractUser findByEmail(String email);
+
 }

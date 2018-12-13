@@ -10,16 +10,20 @@ import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
+import { RegisterService } from 'src/services/register.service';
 
 
 const appRoutes: Routes = [
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -34,7 +38,7 @@ const appRoutes: Routes = [
       }
     )
   ],
-  providers: [LoginService],
+  providers: [LoginService, RegisterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
