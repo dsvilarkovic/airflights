@@ -89,13 +89,23 @@ public class AbstractUserService {
 		MimeMessage mime = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mime,false,"utf-8");
 		
+		String link = "<html>" + 
+				"					  \r\n" + 
+				"					  <head>" + 
+				"					    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" + "\r\n" + 
+				"					    <title>Welcome to airflights</title>" + 
+				"					  </head>\r\n" + 
+				"					  \r\n" + 
+				" 					  <body>" +
+				"					<br><br><a href=\"http://localhost:4200/verify/" + user.getId() + "\" style=\"display:block; padding:15px 25px; background-color:#0087D1; color:#ffffff; border-radius:3px; text-decoration:none;\">Verify Email Address</a>"
+				+ "</body></html>";
 		
 			try {
-				//mime.setContent("poruka", "text/html");
+				mime.setContent(link, "text/html");
 				helper.setTo(user.getEmail());
-				helper.setText("Pozdrav "+ user.getFirstName() + "\n Ovde ce "
-						+ "kasnije biti aktivacioni link");
-				helper.setSubject("Testiranje ISE");
+				/*helper.setText("Pozdrav "+ user.getFirstName() + "\n Ovde ce "
+						+ "kasnije biti aktivacioni link");*/
+				helper.setSubject("Verifikacioni e-mail");
 				helper.setFrom(env.getProperty("spring.mail.username"));
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block

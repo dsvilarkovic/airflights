@@ -1,3 +1,4 @@
+import { VerifyComponent } from './verify/verify.component';
 import { LoginService } from './../services/login.service';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -16,7 +17,8 @@ import { RegisterService } from 'src/services/register.service';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  {path: 'register', component: RegisterComponent},
+  {path: 'verify/:id', component: VerifyComponent}
 ];
 
 @NgModule({
@@ -24,6 +26,7 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    VerifyComponent
   ],
   imports: [
     ReactiveFormsModule,

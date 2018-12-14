@@ -96,13 +96,22 @@ public class AbstractUserController {
 				// TODO Auto-generated catch block
 				logger.info(e.getMessage());
 			}
-			
-		
-		
+
 		
 		return "Kao poslato";
 	}
 	
-	
+
+	@RequestMapping(value= "/verify/{id}")
+	public ResponseEntity<AbstractUser> verify(@PathVariable Long id) {
+		AbstractUser user = abstractUserService.getOne(id);
+		user.setVerify(true);
+		AbstractUser retVal = new AbstractUser();
+		System.out.println("Getovali smo pravog user/a: "+user.getEmail() + " " + user.getVerify());
+		
+		retVal = abstractUserService.save(user);
+		
+		return new ResponseEntity<AbstractUser>(retVal,HttpStatus.OK);
+	}
 	
 }

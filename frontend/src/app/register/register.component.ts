@@ -27,4 +27,9 @@ export class RegisterComponent implements OnInit {
       })
   }
 
+  verify() {
+    
+  }
+
+
 }

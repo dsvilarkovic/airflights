@@ -16,4 +16,10 @@ export class RegisterService {
   sendMail(id) {
     return this.http.get("//localhost:8080/api/abstractUsers/mail/"+id);
   }
+
+  verify(id): Observable<any> {
+    return this.http.get("//localhost:8080/api/abstractUsers/verify/"+id);
+  }
+
+
 }
