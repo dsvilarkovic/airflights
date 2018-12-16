@@ -5,12 +5,33 @@
 			<h1>AirFlights <small>Free Edition</small></h1>
 			<form role="form" (ngSubmit)="register()">
 				<div class="form-content">
+						<div [formGroup]="registrationFormGroup">
 					<div class="form-group">
-						<input type="email" id="email" required [(ngModel)]="user.email" name="email" class="form-control input-underline input-lg" id="" placeholder="Email">
+						<input type="email" id="email" required [(ngModel)]="user.email" name="email" class="form-control input-underline input-lg"  placeholder="Email" formControlName="email">
 					</div>
+					<p class="bg-danger" *ngIf="registrationFormGroup.controls.email.errors?.required && registrationFormGroup.controls.email.touched">Email is required</p>
+						</div>
+
+
+
+				<div [formGroup]="passwordFormGroup">
 					<div class="form-group">
-            <input name="password" [(ngModel)]="user.password" type="password" id="inputPassword" class="form-control input-underline input-lg"  placeholder="Password" required>
-          </div>
+						<input name="password" [(ngModel)]="user.password" type="password" id="inputPassword" class="form-control input-underline input-lg"  placeholder="Password" required formControlName="password">
+					</div>
+					<p class="bg-danger" *ngIf="passwordFormGroup.controls.password.errors?.required && passwordFormGroup.controls.password.touched">Password is required</p>
+
+					<div class="form-group">
+            <input name="confirm_password"  type="password" id="confirm_password" class="form-control input-underline input-lg"  placeholder="Confirm password" required formControlName="confirmPassword">
+					</div>
+					<p class="bg-danger" *ngIf="passwordFormGroup.controls.confirmPassword.errors?.required && passwordFormGroup.controls.confirmPassword.touched">Repeat password is required</p>
+        	<p class="bg-danger" *ngIf="passwordFormGroup.errors?.doesMatchPassword">Password does not match</p>
+				</div>
+
+
+
+
+
+
           <div class="form-group">
             <input name="firstName" [(ngModel)]="user.firstName" type="text" id="firstName" class="form-control input-underline input-lg"  placeholder="First name" required>
           </div>

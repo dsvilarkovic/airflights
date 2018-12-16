@@ -38,7 +38,7 @@ public class AbstractUser {
 	private String lastName;
 	/** @pdOid 4b5cfa10-6719-4561-919b-67a40409a869 */
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	/** @pdOid 961d918c-800c-4d13-9583-739c96511640 */
 	
