@@ -78,6 +78,7 @@ public class AbstractUserController {
 		user.setPhoneNumber(absuser.getPhoneNumber());
 		user.setLastName(absuser.getLastName());
 		user.setVerify(false);
+		user.setrole(0);
 		user = abstractUserService.save(user);
 		
 		return new ResponseEntity<AbstractUser>(new AbstractUser(user), HttpStatus.CREATED);

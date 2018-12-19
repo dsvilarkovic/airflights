@@ -11,9 +11,6 @@
 					</div>
 					<p class="bg-danger" *ngIf="registrationFormGroup.controls.email.errors?.required && registrationFormGroup.controls.email.touched">Email is required</p>
 						</div>
-
-
-
 				<div [formGroup]="passwordFormGroup">
 					<div class="form-group">
 						<input name="password" [(ngModel)]="user.password" type="password" id="inputPassword" class="form-control input-underline input-lg"  placeholder="Password" required formControlName="password">
@@ -26,11 +23,6 @@
 					<p class="bg-danger" *ngIf="passwordFormGroup.controls.confirmPassword.errors?.required && passwordFormGroup.controls.confirmPassword.touched">Repeat password is required</p>
         	<p class="bg-danger" *ngIf="passwordFormGroup.errors?.doesMatchPassword">Password does not match</p>
 				</div>
-
-
-
-
-
 
           <div class="form-group">
             <input name="firstName" [(ngModel)]="user.firstName" type="text" id="firstName" class="form-control input-underline input-lg"  placeholder="First name" required>

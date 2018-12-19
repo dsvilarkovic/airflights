@@ -38,15 +38,15 @@ public class AbstractUser {
 	private String lastName;
 	/** @pdOid 4b5cfa10-6719-4561-919b-67a40409a869 */
 	
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", nullable = false)
 	private String email;
 	/** @pdOid 961d918c-800c-4d13-9583-739c96511640 */
 	
-	@Column(name = "phoneNumber", nullable = true)
+	@Column(name = "phoneNumber", nullable = false)
 	private String phoneNumber;
 	/** @pdOid 4b1f425a-b666-46ed-8696-e88f32341055 */
 	
-	@Column(name = "address", nullable = true)
+	@Column(name = "address", nullable = false)
 	private String address;
 	/** @pdOid efe39867-d211-48b9-9944-f39eb66d7b4e */
 	
@@ -56,12 +56,21 @@ public class AbstractUser {
 	@Column(name = "verify", nullable = false)
 	private Boolean verify;
 	
+	/*
+	 * role = 0 nije admin
+	 * role = 1 admin aviokompanije
+	 * role = 2 admin hotela
+	 * role = 3 admin rent a car servisa
+	 * */
+	@Column(name = "role", nullable = true)
+	private long role;
+	
 	public AbstractUser() {
 		super();
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password, Boolean v) {
+			String password, Boolean v, Long l) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -71,14 +80,24 @@ public class AbstractUser {
 		this.address = address;
 		this.password = password;
 		this.verify = v;
+		this.role = l;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getrole());
 	}
 
 
+	
+
+	public long getrole() {
+		return role;
+	}
+
+	public void setrole(long role) {
+		this.role = role;
+	}
 
 	public Boolean getVerify() {
 		return verify;

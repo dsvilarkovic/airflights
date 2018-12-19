@@ -22,8 +22,14 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.user).subscribe(data => {
       this.user = data;
-      alert("Sve je ok. User je: " + this.user.firstName);
-      this.router.navigate(['/']);
+      alert("Sve je ok. User je: " + this.user.firstName + " " + this.user.role)
+      if(this.user.role == 3) {
+        alert("Ide na home page admina za " + this.user.role);
+        this.router.navigate(['/rentacar']);
+      } else {
+        alert("Ide na home page korisnika!");
+      }
+      
       console.log(this.user);
     });
 

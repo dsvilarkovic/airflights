@@ -1,3 +1,4 @@
+import { ModalService } from './../services/modal.service';
 import { VerifyComponent } from './verify/verify.component';
 import { LoginService } from './../services/login.service';
 
@@ -13,12 +14,19 @@ import { LoginComponent } from './login/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from 'src/services/register.service';
+import { RentacarComponent } from './rentacar/rentacar.component';
+import { RentacarService } from 'src/services/rentacar.service';
+import { RacprofileComponent } from './racprofile/racprofile.component';
+
+
 
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'verify/:id', component: VerifyComponent}
+  {path: 'verify/:id', component: VerifyComponent},
+  {path: 'rentacar', component: RentacarComponent},
+  {path: 'rentacar/:id', component: RacprofileComponent}
 ];
 
 @NgModule({
@@ -26,7 +34,9 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    VerifyComponent
+    VerifyComponent,
+    RentacarComponent,
+    RacprofileComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -41,7 +51,7 @@ const appRoutes: Routes = [
       }
     )
   ],
-  providers: [LoginService, RegisterService],
+  providers: [LoginService, RegisterService,RentacarService,ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
