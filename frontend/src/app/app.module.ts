@@ -1,8 +1,9 @@
+import { AuthInterceptor } from './auth-interceptor';
 import { ModalService } from './../services/modal.service';
 import { VerifyComponent } from './verify/verify.component';
 import { LoginService } from './../services/login.service';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -51,7 +52,10 @@ const appRoutes: Routes = [
       }
     )
   ],
-  providers: [LoginService, RegisterService,RentacarService,ModalService],
+  providers: [LoginService, RegisterService,RentacarService,ModalService,{ provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
