@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa.airflights.model.AbstractUser;
-import com.isa.airflights.model.RentACar;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.service.VehicleService;
 
@@ -57,7 +55,8 @@ public class VehicleController {
 		v.setType(vehicle.getType());
 		v.setPrice(vehicle.getPrice());
 		v.setRentacar(vehicle.getRentacar());
-		
+		v.setRating(0);
+		v.setReserved(false);
 		v = vs.save(v);
 		
 		return new ResponseEntity<Vehicle>(new Vehicle(v),HttpStatus.CREATED);
@@ -68,7 +67,12 @@ public class VehicleController {
 		Vehicle v = vs.getOne(vehicle.getId());
 		if(v != null){
 			Vehicle u = vs.update(v, vehicle);
-			return new ResponseEntity<Vehicle>(new Vehicle(u), HttpStatus.OK );
+			if(u == null) {
+				return null;
+			} else {
+				return new ResponseEntity<Vehicle>(new Vehicle(u), HttpStatus.OK );
+			}
+			
 		}else{
 			return null;
 		}
@@ -76,7 +80,12 @@ public class VehicleController {
 	
 	@RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?>  deleteVehicle(@PathVariable Long id) {
-		vs.delete(id);
+		Vehicle v = vs.delete(id);
+		if(v == null) {
+			//nismo obrisali
+			System.out.println("Objekat je nepostojeci li je reservisan");
+			return new ResponseEntity<Boolean>(false,HttpStatus.FORBIDDEN);
+		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

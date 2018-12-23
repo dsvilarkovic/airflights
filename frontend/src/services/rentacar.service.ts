@@ -57,4 +57,9 @@ export class RentacarService {
     return this.http.delete("//localhost:8080/api/branch/delete/"+id);
   }
 
+  getLogged(httOptions):Observable<any> {
+    return this.http.get("//localhost:8080/api/abstractUsers/logged",httOptions);
+  }
+
+
 }

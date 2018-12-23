@@ -10,7 +10,7 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   register(user : Object): Observable<any> { 
-    return this.http.post("//localhost:8080/api/abstractUsers/register",user);
+    return this.http.post("//localhost:8080/api/auth/signup",user);
   }
 
   sendMail(id) {

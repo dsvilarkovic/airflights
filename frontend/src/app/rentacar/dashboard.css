@@ -107,3 +107,10 @@ body {
     border-color: transparent;
     box-shadow: 0 0 0 3px  #31acd8;
   }
+
+  button {
+    background-color: #31acd8;
+    color: aliceblue;
+  }
+
+  

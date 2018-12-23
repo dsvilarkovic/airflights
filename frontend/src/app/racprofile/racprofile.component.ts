@@ -1,3 +1,4 @@
+import { TokenStorageService } from './../../services/auth/token-storage.service';
 import { ModalService } from './../../services/modal.service';
 import { rentacar } from './../rentacar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +38,7 @@ export class RacprofileComponent implements OnInit {
   updateB: Branch = new Branch();
   tempBranch: Branch = new Branch();
 
+  checkReserved: boolean = false;
 
 //za update
   name = new FormControl("");
@@ -51,9 +53,12 @@ export class RacprofileComponent implements OnInit {
   city = new FormControl("");
 
 
-  constructor(private racService : RentacarService, private route : ActivatedRoute, private modalService: ModalService, private router: Router) { }
+  constructor(private racService : RentacarService, private route : ActivatedRoute, private modalService: ModalService, private router: Router, private token: TokenStorageService) { }
 
   ngOnInit() {
+
+    
+
     this.id = this.route.snapshot.params.id;
     this.racService.getOne(this.id).subscribe(data => {
       this.rac = data;
@@ -126,15 +131,23 @@ export class RacprofileComponent implements OnInit {
     this.updateV.rentacar = this.rac;
 
     this.racService.updateVehicle(this.updateV).subscribe(data => {
+      
       this.tempVehicle = data;
-      this.currentVehicle.id = this.tempVehicle.id;
-      this.currentVehicle.name = this.tempVehicle.name;
-      this.currentVehicle.brand = this.tempVehicle.brand;
-      this.currentVehicle.model = this.tempVehicle.model;
-      this.currentVehicle.year = this.tempVehicle.year;
-      this.currentVehicle.seats = this.tempVehicle.seats;
-      this.currentVehicle.price = this.tempVehicle.price;
-      this.currentVehicle.type = this.tempVehicle.type;
+      alert("thslkjtha " + this.tempVehicle);
+      if(this.tempVehicle == null) {
+        alert("Vozilo je rezervizano i nije moguce izmena");
+      } else {
+        this.currentVehicle.id = this.tempVehicle.id;
+        this.currentVehicle.name = this.tempVehicle.name;
+        this.currentVehicle.brand = this.tempVehicle.brand;
+        this.currentVehicle.model = this.tempVehicle.model;
+        this.currentVehicle.year = this.tempVehicle.year;
+        this.currentVehicle.seats = this.tempVehicle.seats;
+        this.currentVehicle.price = this.tempVehicle.price;
+        this.currentVehicle.type = this.tempVehicle.type;
+      }
+      
+     
     
       
     })
@@ -146,14 +159,21 @@ export class RacprofileComponent implements OnInit {
   }
   delete() {
     this.racService.deleteVehicle(this.currentVehicle.id).subscribe(data => {
+      this.checkReserved = data;
+      
       alert("Uspesno obrisao: ");
       
     })
 
-    const index: number = this.vehicles2.indexOf(this.currentVehicle);
+    if(this.checkReserved == false) {
+      alert("Automobil je reservisan!");
+    } else {
+      const index: number = this.vehicles2.indexOf(this.currentVehicle);
       if (index !== -1) {
         this.vehicles2.splice(index, 1);
     }   
+    }
+    
 
   }
 
@@ -206,6 +226,12 @@ export class RacprofileComponent implements OnInit {
         this.branches2.splice(index, 1);
     }   
 
+  }
+
+
+  logout() {
+    this.token.signOut();
+    this.router.navigate(['/login']);
   }
 
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.model.BranchLocations;
-import com.isa.airflights.model.BranchLocations;
+
 import com.isa.airflights.service.BranchLocationsService;
 
 @RestController

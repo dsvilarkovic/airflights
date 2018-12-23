@@ -3,4 +3,5 @@ export class rentacar {
     name: string;
     address: string;
     description: string;
+    rating: number;
 }

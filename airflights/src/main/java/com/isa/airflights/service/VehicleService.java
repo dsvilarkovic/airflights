@@ -29,37 +29,51 @@ public class VehicleService {
 	
 	public Vehicle update(Vehicle old_vehicle, Vehicle new_vehicle) {
 		// TODO Auto-generated method stub
-		if( new_vehicle.getName() != null){
-			old_vehicle.setName(new_vehicle.getName());
-		}
-		if(new_vehicle.getModel() != null) {
-			old_vehicle.setModel(new_vehicle.getModel());
-		}
-		if(new_vehicle.getBrand() != null) {
-			old_vehicle.setBrand(new_vehicle.getBrand());
-		}
-		if((Double)new_vehicle.getPrice() != null) {
-			old_vehicle.setPrice(new_vehicle.getPrice());
-		}
-		if((Integer)new_vehicle.getSeats() != null) {
-			old_vehicle.setSeats(new_vehicle.getSeats());
-		}
-		if((Integer)new_vehicle.getYear() != null) {
-			old_vehicle.setYear(new_vehicle.getYear());
-		}
 		
-		
+		if(old_vehicle.getReserved()) {
+			return null;
+		} else {
+			if( new_vehicle.getName() != null){
+				old_vehicle.setName(new_vehicle.getName());
+			}
+			if(new_vehicle.getModel() != null) {
+				old_vehicle.setModel(new_vehicle.getModel());
+			}
+			if(new_vehicle.getBrand() != null) {
+				old_vehicle.setBrand(new_vehicle.getBrand());
+			}
+			if((Double)new_vehicle.getPrice() != null) {
+				old_vehicle.setPrice(new_vehicle.getPrice());
+			}
+			if((Integer)new_vehicle.getSeats() != null) {
+				old_vehicle.setSeats(new_vehicle.getSeats());
+			}
+			if((Integer)new_vehicle.getYear() != null) {
+				old_vehicle.setYear(new_vehicle.getYear());
+			}
+			
+			
 
-		return vr.save(old_vehicle);
+			return vr.save(old_vehicle);
+		}
+		
+		
 	}
 	
-	public void delete(Long id) {
+	public Vehicle delete(Long id) {
 		System.out.println("Usao u delete na servisu?");
 		Vehicle v = vr.getOne(id);
 		if(v != null) {
-			System.out.println("U delete: " + v.getId());
-			vr.deleteById(v.getId());
+			//ako je reservisano ne moze se obrisati
+			if(v.getReserved()) {
+				return null;
+			} else {
+				System.out.println("U delete: " + v.getId());
+				vr.deleteById(v.getId());
+				return v;
+			}
 		}
+		return v;
 	}
 	
 }

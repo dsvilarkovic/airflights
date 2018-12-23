@@ -1,23 +1,36 @@
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify,role)
-VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','dimisav','4535',true,3);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,role)
-VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','sima123','43537', true,2);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,role)
-VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','tviksi','4353', true,1);
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify)
+VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4535',true);
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify)
+VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','sima123','43537', true);
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify)
+VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','tviksi','4353', true);
 
-INSERT INTO rentacar(id, address, description, name)
-VALUES (1, 'Bulevar oslobođenja 13/1 Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact');
-INSERT INTO rentacar(id, address, description, name)
-VALUES (2, 'Bulevar oslobođenja 13/1, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar');
-INSERT INTO rentacar(id, address, description, name)
-VALUES (3, 'Puškinova, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021');
 
-INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,rentacar_id) 
-VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','Putnicko vozilo', '2' , '20','3');
-INSERT INTO vehicle (id,name, brand,model,  year,seats,type, rating,price,rentacar_id) 
-VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', 'Putnicko vozilo', '3', '30','2');
-INSERT INTO vehicle (id,name, brand,model,  year,seats,type, rating,price,rentacar_id) 
-VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','Putnicko vozilo', '5', '40','1');
+
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_PM');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+
+INSERT INTO user_roles(user_id, role_id) VALUES(1,1);
+
+
+INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
+INSERT INTO user_authority (user_id, authority_id) VALUES (2, 1);
+INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
+
+INSERT INTO rentacar(id, address, description, name, rating)
+VALUES (1, 'Bulevar oslobođenja 13/1 Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 2);
+INSERT INTO rentacar(id, address, description, name, rating)
+VALUES (2, 'Bulevar oslobođenja 13/1, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',3);
+INSERT INTO rentacar(id, address, description, name, rating)
+VALUES (3, 'Puškinova, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',4);
+
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id) 
+VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','Putnicko vozilo', '2' , '20', false,'3');
+INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id) 
+VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', 'Putnicko vozilo', '3', '30', false,'2');
+INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id) 
+VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','Putnicko vozilo', '5', '40', false,'1');
 
 
 INSERT INTO branch_locations(id, address, city, rentacar_id)

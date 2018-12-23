@@ -4,7 +4,9 @@
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" style="color: aliceblue" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#" style="color: aliceblue">Sign out</a>
+            <button  class="list-group-item list-group-item-action" (click)="logout()" >
+                Sign Out
+            </button>
         </li>
       </ul>
     </nav>
@@ -53,6 +55,7 @@
                   <th>Naziv</th>
                   <th>Adresa</th>
                   <th>Opis</th>
+                  <th>Prosečna ocena</th>
                   <th>Uredi servis</th>
                 </tr>
               </thead>
@@ -62,6 +65,7 @@
                     <td>{{rentacar.name}}</td>
                     <td>{{rentacar.address}}</td>
                     <td>{{rentacar.description}}</td>
+                    <td>{{rentacar.rating}}</td>
                     <td><a [routerLink]="[rentacar.id]">Uredi</a></td>
                  </tr>
               </tbody>

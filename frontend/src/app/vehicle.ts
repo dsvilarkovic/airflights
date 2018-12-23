@@ -10,5 +10,6 @@ export class Vehicle {
     price: Number;
     rating: Number;
     type: String;
+    reserved: String;
     rentacar: rentacar;
 }

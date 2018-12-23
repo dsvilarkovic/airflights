@@ -1,6 +1,10 @@
+import { TokenStorageService } from './../../../services/auth/token-storage.service';
+import { AuthService } from './../../../services/auth/auth.service';
+import { AuthLoginInfo } from './../../forms/loginForm';
+import { Token } from './../../Token';
 import { LoginService } from './../../../services/login.service';
 import { User } from './../../user';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -14,14 +18,48 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   user: User = new User();
-  constructor(private loginService: LoginService, private router: Router) { }
+  @Input() verified : boolean;
+  private loginInfo : AuthLoginInfo;
+  isLoggedIn = false;
+  isLoginFailed = false;
+  errorMessage = '';
+  roles: string[] = [];
+  token: Token = new Token();
+  constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
   }
 
   login() {
-    this.loginService.login(this.user).subscribe(data => {
-      this.user = data;
+    this.loginInfo = new AuthLoginInfo(this.user.email,this.user.password);
+
+    this.authService.attemptAuth(this.loginInfo).subscribe(data => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUsername(data.username);
+        this.tokenStorage.saveAuthorities(data.authorities);
+
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.roles = this.tokenStorage.getAuthorities();
+        localStorage["sent"] = false;
+
+        if(this.roles.includes('ROLE_USER')) {
+          this.router.navigate(['/']);
+        }
+        
+
+    },
+    error => {
+      console.log(error);
+      this.isLoginFailed = true;
+      
+    });
+    this.user = new User();
+  }
+
+    /*his.loginService.login(this.user).subscribe(data => {
+      this.token = data;
+      localStorage.setItem("jwtToken", this.token.accessToken);
       alert("Sve je ok. User je: " + this.user.firstName + " " + this.user.role)
       if(this.user.role == 3) {
         alert("Ide na home page admina za " + this.user.role);
@@ -34,5 +72,5 @@ export class LoginComponent implements OnInit {
     });
 
     this.user = new User();
-  }
+  }*/
 }

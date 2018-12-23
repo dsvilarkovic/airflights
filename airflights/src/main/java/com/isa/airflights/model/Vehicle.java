@@ -37,6 +37,9 @@ public class Vehicle {
 	
 	@Column(name = "price", nullable = false)
 	private double price;
+	
+	@Column(name = "reserved", nullable = false)
+	private Boolean reserved;
 
 	@ManyToOne()  
 	private RentACar rentacar;
@@ -48,7 +51,7 @@ public class Vehicle {
 
 
 
-	public Vehicle(Long id, String name, String brand, String model, int year, int seats, String type, int rating, double price) {
+	public Vehicle(Long id, String name, String brand, String model, int year, int seats, String type, int rating, double price, Boolean r) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,10 +62,23 @@ public class Vehicle {
 		this.type = type;
 		this.rating = rating;
 		this.price = price;
+		this.reserved = r;
 	}
 	
 	public Vehicle(Vehicle v) {
-		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice());
+		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved());
+	}
+
+
+
+	public Boolean getReserved() {
+		return reserved;
+	}
+
+
+
+	public void setReserved(Boolean reserved) {
+		this.reserved = reserved;
 	}
 
 

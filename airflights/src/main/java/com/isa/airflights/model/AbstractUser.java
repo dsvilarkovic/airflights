@@ -1,9 +1,10 @@
 package com.isa.airflights.model;
 
 
-import javax.persistence.Entity;
+import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,7 +14,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.joda.time.DateTime;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
 
 /**
  *  @author Viktor
@@ -21,7 +31,7 @@ import javax.persistence.OneToMany;
  * */
 
 @Entity
-public class AbstractUser {
+public class AbstractUser  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +52,7 @@ public class AbstractUser {
 	private String email;
 	/** @pdOid 961d918c-800c-4d13-9583-739c96511640 */
 	
-	@Column(name = "phoneNumber", nullable = false)
+	@Column(name = "phoneNumber", nullable = true)
 	private String phoneNumber;
 	/** @pdOid 4b1f425a-b666-46ed-8696-e88f32341055 */
 	
@@ -53,24 +63,26 @@ public class AbstractUser {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "verify", nullable = false)
+	@Column(name = "verify", nullable = true)
 	private Boolean verify;
 	
-	/*
-	 * role = 0 nije admin
-	 * role = 1 admin aviokompanije
-	 * role = 2 admin hotela
-	 * role = 3 admin rent a car servisa
-	 * */
-	@Column(name = "role", nullable = true)
-	private long role;
+
+	
+	@Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles", 
+    	joinColumns = @JoinColumn(name = "user_id"), 
+    	inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 	
 	public AbstractUser() {
-		super();
+		
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password, Boolean v, Long l) {
+			String password, Boolean v) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -80,24 +92,15 @@ public class AbstractUser {
 		this.address = address;
 		this.password = password;
 		this.verify = v;
-		this.role = l;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getrole());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify());
 	}
 
 
 	
-
-	public long getrole() {
-		return role;
-	}
-
-	public void setrole(long role) {
-		this.role = role;
-	}
 
 	public Boolean getVerify() {
 		return verify;
@@ -175,38 +178,23 @@ public class AbstractUser {
 
 
 	public void setPassword(String password) {
-		this.password = password;
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate( now );
+        this.password = password;
 	}
 
+	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+	
+	public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
 
 
 
 
-	@Override
-	public boolean equals(Object arg0) {
-		// TODO Auto-generated method stub
-		return super.equals(arg0);
-	}
-
-
-
-
-
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
-
-
-
-
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
+	
 
 	public String getIndex() {
 		return index;
@@ -214,6 +202,18 @@ public class AbstractUser {
 
 	public void setIndex(String index) {
 		this.index = index;
+	}
+
+	
+
+	
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 	
