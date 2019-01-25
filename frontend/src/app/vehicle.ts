@@ -1,3 +1,4 @@
+import { Branch } from './branch';
 import { rentacar } from "./rentacar";
 
 export class Vehicle {
@@ -12,4 +13,5 @@ export class Vehicle {
     type: String;
     reserved: String;
     rentacar: rentacar;
+    branch_locations: Branch;
 }

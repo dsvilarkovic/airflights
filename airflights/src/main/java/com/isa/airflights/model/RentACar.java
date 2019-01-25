@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class RentACar {
 
@@ -23,7 +25,7 @@ public class RentACar {
 	private String name;
 	/** @pdOid e0db3c3a-50d2-402c-b71c-973cbf62c53b */
 	
-	@Column(name = "address", nullable = true)
+	@Column(name = "address", nullable = true) 
 	private String address;
 	/** @pdOid efe39867-d211-48b9-9944-f39eb66d7b4e */
 	
@@ -35,10 +37,10 @@ public class RentACar {
 	@Column(name = "rating", nullable = false)
 	private int rating;
 	
-	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 
-	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<BranchLocations> branch_locations = new HashSet<BranchLocations>();
 	/** @pdOid 4b5cfa10-6719-4561-919b-67a40409a869 */
 	

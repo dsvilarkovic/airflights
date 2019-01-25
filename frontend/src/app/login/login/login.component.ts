@@ -34,19 +34,30 @@ export class LoginComponent implements OnInit {
     this.loginInfo = new AuthLoginInfo(this.user.email,this.user.password);
 
     this.authService.attemptAuth(this.loginInfo).subscribe(data => {
+
+     
+      if(data.accessToken === undefined) {
+        alert("Pokusaj logovanja neverifikovanog korsinika! Potrebno je verifikovati nalog na svom email servisu!")
+      } else {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.username);
         this.tokenStorage.saveAuthorities(data.authorities);
 
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getAuthorities();
-        localStorage["sent"] = false;
 
-        if(this.roles.includes('ROLE_USER')) {
-          this.router.navigate(['/']);
-        }
-        
+        this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.roles = this.tokenStorage.getAuthorities();
+          localStorage["sent"] = false;
+
+          if(this.roles.includes('ROLE_USER')) {
+            this.router.navigate(['/home']);
+          } else if(this.roles.includes('ROLE_SYSTEMADMIN')) {
+            
+          } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
+            this.router.navigate(['/rentacar/' + data.idCompany]);
+          }
+      }
+
 
     },
     error => {

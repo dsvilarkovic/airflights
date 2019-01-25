@@ -43,6 +43,12 @@
                         </div>
                         <div class="modal-body">
                           <form role="form" (ngSubmit)="addVehicle()">
+                              <div class="form-group">
+                                  <label for="recipient-name" class="col-form-label">Filijala: </label>
+                                  <select  [(ngModel)]="newVehicle.branch_locations" name="branch_locations">
+                                        <option *ngFor="let b of branches2"  [ngValue]="b">{{b.id}}:{{b.address}}</option>
+                                    </select>
+                                </div>
                             <div class="form-group">
                               <label for="recipient-name" class="col-form-label">Naziv: </label>
                               <input type="text" class="form-control" id="name" [(ngModel)]="newVehicle.name" name="name">
@@ -156,6 +162,7 @@
                     <th>Cena po danu u €</th>
                     <th>Prosečna ocena vozila</th>
                     <th>Reservisano</th>
+                    <th>Filijala</th>
                     <th></th>
                     <th></th>
                   </tr>
@@ -172,9 +179,10 @@
                       <td>{{v.price}}</td>
                       <td>{{v.rating}}</td>
                       <td>{{v.reserved}}</td>
-                      <td> <button *ngIf="checkReserved" (click)="updateVehicle(v)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal" data-whatever="@getbootstrap">Izmeni</button>
+                      <td>{{v.branch_locations.id}}</td>
+                      <td> <button *ngIf="checkReserved == false" (click)="updateVehicle(v)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal" data-whatever="@getbootstrap">Izmeni</button>
                       </td>
-                      <td><button (click)="deleteVehicle(v)"type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-whatever="@getbootstrap">Obrisi</button></td>
+                      <td><button *ngIf="checkReserved == false" (click)="deleteVehicle(v)"type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-whatever="@getbootstrap">Obrisi</button></td>
                    </tr>
                 </tbody>
               </table>
@@ -217,7 +225,12 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                   
+                      <div class="form-group">
+                          <label for="recipient-name" class="col-form-label">Filijala: </label>
+                            <select  [(ngModel)]="currentVehicle.branch_locations" name="branch_locations">
+                              <option *ngFor="let b of branches2"  [ngValue]="b">{{b.id}}:{{b.address}}</option>
+                            </select>
+                        </div>
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Naziv: </label>
                         <input type="text" class="form-control" id="name" [formControl]="name" name="name">

@@ -51,16 +51,21 @@ export class RacprofileComponent implements OnInit {
 
   branchAddress = new FormControl("");
   city = new FormControl("");
+//za error page
+niz : Array<any>;
+  pom : String;
 
+  //promena 30.12.2018
+  nizBranches : Array<any>;
 
   constructor(private racService : RentacarService, private route : ActivatedRoute, private modalService: ModalService, private router: Router, private token: TokenStorageService) { }
 
   ngOnInit() {
-
-    
-
-    this.id = this.route.snapshot.params.id;
-    this.racService.getOne(this.id).subscribe(data => {
+    this.niz = this.token.getAuthorities();
+    this.pom = JSON.stringify(this.niz);
+    if(this.pom == "[\"ROLE_SYSTEMADMIN\"]" || this.pom == "[\"ROLE_RENTACARADMIN\"]") {
+      this.id = this.route.snapshot.params.id;
+      this.racService.getOne(this.id).subscribe(data => {
       this.rac = data;
       this.naziv = this.rac.name;
       this.adresa = this.rac.address;
@@ -76,6 +81,11 @@ export class RacprofileComponent implements OnInit {
 
 
     })
+    } else {
+      alert("Niko nije ulogovan, ne moze se pristupiti ovoj stranici!");
+      this.router.navigate(['/error45']);
+    }
+    
 
   }
 
@@ -98,11 +108,13 @@ export class RacprofileComponent implements OnInit {
 
   addVehicle() {
     this.newVehicle.rentacar = this.rac;
+   // this.newVehicle.branch_locations = this.newVehicle.branch_locations;
+    //alert("Filijala: " + this.newVehicle.branch_locations.id);
     this.racService.addVehicle(this.newVehicle).subscribe(data => {
         alert("Dodao sam novo vozilo!");
         this.tempVehicle = data;
         this.newVehicle.id = this.tempVehicle.id;
-        this.vehicles2.push(this.newVehicle);
+        this.vehicles2.push(this.tempVehicle);
     });
   }
 
@@ -129,6 +141,7 @@ export class RacprofileComponent implements OnInit {
     this.updateV.price = this.price.value;
     this.updateV.type = this.type.value;
     this.updateV.rentacar = this.rac;
+    this.updateV.branch_locations = this.currentVehicle.branch_locations;
 
     this.racService.updateVehicle(this.updateV).subscribe(data => {
       
@@ -145,6 +158,7 @@ export class RacprofileComponent implements OnInit {
         this.currentVehicle.seats = this.tempVehicle.seats;
         this.currentVehicle.price = this.tempVehicle.price;
         this.currentVehicle.type = this.tempVehicle.type;
+        this.currentVehicle.branch_locations = this.tempVehicle.branch_locations;
       }
       
      

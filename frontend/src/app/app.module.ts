@@ -18,6 +18,8 @@ import { RegisterService } from 'src/services/register.service';
 import { RentacarComponent } from './rentacar/rentacar.component';
 import { RentacarService } from 'src/services/rentacar.service';
 import { RacprofileComponent } from './racprofile/racprofile.component';
+import { ErrorComponent } from './error/error.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -27,7 +29,9 @@ const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'verify/:id', component: VerifyComponent},
   {path: 'rentacar', component: RentacarComponent},
-  {path: 'rentacar/:id', component: RacprofileComponent}
+  {path: 'rentacar/:id', component: RacprofileComponent},
+  {path: 'error45', component: ErrorComponent},
+  {path: 'home', component: HomeComponent}
 ];
 
 @NgModule({
@@ -37,7 +41,9 @@ const appRoutes: Routes = [
     RegisterComponent,
     VerifyComponent,
     RentacarComponent,
-    RacprofileComponent
+    RacprofileComponent,
+    ErrorComponent,
+    HomeComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -9,16 +9,30 @@ public class JwtResponse {
     private String type = "Bearer";
     private String username;
 	private Collection<? extends GrantedAuthority> authorities;
+	private int idCompany;
 
-	public JwtResponse(String accessToken, String username, Collection<? extends GrantedAuthority> authorities) {
+	public JwtResponse(String accessToken, String username, Collection<? extends GrantedAuthority> authorities, int id) {
 		this.token = accessToken;
 		this.username = username;
 		this.authorities = authorities;
+		this.idCompany = id;
 	}
 	
 	
 
-    public String getUsername() {
+    public int getIdCompany() {
+		return idCompany;
+	}
+
+
+
+	public void setIdCompany(int idCompany) {
+		this.idCompany = idCompany;
+	}
+
+
+
+	public String getUsername() {
 		return username;
 	}
 

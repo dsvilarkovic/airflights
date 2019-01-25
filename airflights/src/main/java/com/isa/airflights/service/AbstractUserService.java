@@ -77,6 +77,15 @@ public class AbstractUserService {
 		return abstractUserRepository.getOne(id);
 	}
 
+	public Boolean checkVerify(String email) {
+		Optional<AbstractUser> user = abstractUserRepository.findByEmail(email);
+		if(user.get().getVerify()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public String sendVerMail(AbstractUser user) throws MailException, InterruptedException, MessagingException {
 		MimeMessage mime = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mime, false, "utf-8");

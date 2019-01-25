@@ -1,6 +1,7 @@
 package com.isa.airflights.controller;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -28,8 +29,10 @@ import com.isa.airflights.repository.AbstractUserRepository;
 import com.isa.airflights.repository.RoleRepository;
 import com.isa.airflights.request.LoginForm;
 import com.isa.airflights.request.SignUpForm;
+import com.isa.airflights.response.ErrorResponse;
 import com.isa.airflights.response.JwtResponse;
 import com.isa.airflights.security.jwt.JwtProvider;
+import com.isa.airflights.service.AbstractUserService;
 
 
 
@@ -38,6 +41,9 @@ import com.isa.airflights.security.jwt.JwtProvider;
 @RequestMapping("/api/auth")
 public class AuthRestAPIs {
 
+	@Autowired
+	AbstractUserService aus;
+	
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -56,19 +62,31 @@ public class AuthRestAPIs {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+    	System.out.println("DFKLJF " + loginRequest.getEmail());
+    	if(aus.checkVerify(loginRequest.getEmail())) {
+    		System.out.println("Verifikovan");
+    		Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String jwt = jwtProvider.generateJwtToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Optional<AbstractUser> user = userRepository.findByEmail(loginRequest.getEmail());
+            user.get().getIdRentACar();
+            
+            
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities(),user.get().getIdRentACar()));
+    	} else {
+    		System.out.println("Nije verifikovan");
+    		  return  ResponseEntity.ok(new ErrorResponse("Ne valja","Ne valja","Ne valja"));
+    	}
+    	
         
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
        
     }
 
@@ -85,6 +103,7 @@ public class AuthRestAPIs {
         user.setLastName(signUpRequest.getLastName());
         user.setAddress(signUpRequest.getAddress());
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setIdRentACar(0);
         
         
         

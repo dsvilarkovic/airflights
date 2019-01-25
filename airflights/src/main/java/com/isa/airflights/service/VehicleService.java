@@ -51,6 +51,9 @@ public class VehicleService {
 			if((Integer)new_vehicle.getYear() != null) {
 				old_vehicle.setYear(new_vehicle.getYear());
 			}
+			if(new_vehicle.getBranch_locations() != null) {
+				old_vehicle.setBranch_locations(new_vehicle.getBranch_locations());
+			}
 			
 			
 

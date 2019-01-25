@@ -55,8 +55,12 @@ public class VehicleController {
 		v.setType(vehicle.getType());
 		v.setPrice(vehicle.getPrice());
 		v.setRentacar(vehicle.getRentacar());
+		v.setBranch_locations(vehicle.getBranch_locations());
 		v.setRating(0);
 		v.setReserved(false);
+		
+		System.out.println("GetBranch: " + v.getBranch_locations());
+		
 		v = vs.save(v);
 		
 		return new ResponseEntity<Vehicle>(new Vehicle(v),HttpStatus.CREATED);

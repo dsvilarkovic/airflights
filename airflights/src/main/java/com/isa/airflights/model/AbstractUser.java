@@ -66,6 +66,12 @@ public class AbstractUser  {
 	@Column(name = "verify", nullable = true)
 	private Boolean verify;
 	
+	/**
+	 * Polje koje oznacava kojeg servisa je admin ovaj korisnik
+	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
+	 * */
+	@Column(name = "id_company", nullable = false)
+	private int idCompany;
 
 	
 	@Column(name = "last_password_reset_date")
@@ -82,7 +88,7 @@ public class AbstractUser  {
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password, Boolean v) {
+			String password, Boolean v, int idCompany) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -92,15 +98,24 @@ public class AbstractUser  {
 		this.address = address;
 		this.password = password;
 		this.verify = v;
+		this.idCompany = idCompany;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar());
 	}
 
 
 	
+
+	public int getIdRentACar() {
+		return idCompany;
+	}
+
+	public void setIdRentACar(int idRentACar) {
+		this.idCompany = idRentACar;
+	}
 
 	public Boolean getVerify() {
 		return verify;

@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Vehicle {
 	
@@ -41,8 +43,11 @@ public class Vehicle {
 	@Column(name = "reserved", nullable = false)
 	private Boolean reserved;
 
-	@ManyToOne()  
+	@ManyToOne  
 	private RentACar rentacar;
+	
+	@ManyToOne 
+	private BranchLocations branch_locations;
 	
 	public Vehicle() {
 		//super();
@@ -196,6 +201,20 @@ public class Vehicle {
 	public void setRentacar(RentACar rentacar) {
 		this.rentacar = rentacar;
 	}
+
+
+
+	public BranchLocations getBranch_locations() {
+		return branch_locations;
+	}
+
+
+
+	public void setBranch_locations(BranchLocations branch_locations) {
+		this.branch_locations = branch_locations;
+	}
+	
+	
 	
 	
 }
