@@ -3,6 +3,6 @@ jdk:
   - oraclejdk8
   
 install:
-  - airflights/mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - chmod +x mvnw airflights/mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
   - airflights/mvnw clean compile
