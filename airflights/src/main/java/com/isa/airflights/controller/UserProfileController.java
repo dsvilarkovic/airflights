@@ -41,7 +41,7 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@RequestMapping(
-			value = "/update",
+			value = "/update/confirm",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
