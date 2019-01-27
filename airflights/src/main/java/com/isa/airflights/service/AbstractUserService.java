@@ -17,6 +17,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.repository.AbstractUserRepository;
 
@@ -117,5 +118,30 @@ public class AbstractUserService {
 		return "Mail je poslat";
 
 	}
+	
+	/**
+	 * Metoda za podesavanje izmena <br>
+	 * @author Dusan
+	 * @param updatedUser
+	 * @return
+	 */
+	public AbstractUser updateAbstractUser(AbstractUserDTO updatedUser) {
+		//Prvo se proveri da li postoji pod tim id-jem.
+		AbstractUser foundAbstractUser = abstractUserRepository.getOne(updatedUser.getId());
+		if(foundAbstractUser == null) {
+			return null;
+		}
+		//Zatim se proveri za password da li je prazan.
+		if(foundAbstractUser.getPassword().isEmpty()) {
+			return null;
+		}
+		//zatim se podesi novi nalog pod tim id-jem
+		abstractUserRepository.deleteById(updatedUser.getId());
+		abstractUserRepository.saveAndFlush(updatedUser.getAbstractUser());
+		//zatim se vrati null ili updatedUser opet
+		return abstractUserRepository.getOne(updatedUser.getId());
+	}
+	
+	
 
 }
