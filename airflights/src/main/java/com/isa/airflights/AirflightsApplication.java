@@ -9,5 +9,6 @@ public class AirflightsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AirflightsApplication.class, args);
 		System.out.println("RADI!");
+		System.out.println("TEST");
 	}
 }
