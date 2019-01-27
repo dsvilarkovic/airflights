@@ -21,12 +21,12 @@ INSERT INTO user_roles(user_id, role_id) VALUES(2,4);
 INSERT INTO user_roles(user_id, role_id) VALUES(3,3);
 INSERT INTO user_roles(user_id, role_id) VALUES(5,5);
 
-INSERT INTO rentacar(id, address, description, name, rating)
-VALUES (1, 'Bulevar oslobođenja 13/1 Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 2);
-INSERT INTO rentacar(id, address, description, name, rating)
-VALUES (2, 'Bulevar oslobođenja 13/1, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',3);
-INSERT INTO rentacar(id, address, description, name, rating)
-VALUES (3, 'Puškinova, Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',4);
+INSERT INTO rentacar(id, address, city, description, name, rating)
+VALUES (1, 'Bulevar oslobođenja 13/1', 'Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 2);
+INSERT INTO rentacar(id, address, city, description, name, rating)
+VALUES (2, 'Bulevar oslobođenja 13/1', 'Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',3);
+INSERT INTO rentacar(id, address, city, description, name, rating)
+VALUES (3, 'Puškinova','Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',4);
 
 INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id) 
 VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','Putnicko vozilo', '2' , '20', false,'1', '1');
@@ -47,4 +47,5 @@ INSERT INTO branch_locations(id, address, city, rentacar_id)
 VALUES (4, 'Seljackih buna 13', 'Novi Sad', '2');
 INSERT INTO branch_locations(id, address, city, rentacar_id)
 VALUES (5, 'Bulevar Despota Stefana 66', 'Novi Sad', '3');
-
+INSERT INTO branch_locations(id, address, city, rentacar_id)
+VALUES (6, 'Knez Mihajlova 34', 'Beograd', '3');

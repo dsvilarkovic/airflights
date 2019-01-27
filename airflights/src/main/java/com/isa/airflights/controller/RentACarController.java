@@ -48,8 +48,20 @@ public class RentACarController {
 		return new ResponseEntity<RentACar>(racService.getOne(id),HttpStatus.OK);
 	}
 	
-
+	@RequestMapping(value = "/search/{name}")
+	public ResponseEntity<List<RentACar>> getAllSearch(@PathVariable String name) {
+		List<RentACar> rac = racService.findAll();
+		List<RentACar> r = new ArrayList<RentACar>();
 		
+		for (RentACar rentACar : rac) {
+			/*if(rentACar.getCity().contains(name) || rentACar.getName().contains(name)) {
+				r.add(rentACar);
+			}*/
+			r.add(rentACar);
+		}
+				
+		return new ResponseEntity<List<RentACar>>(r,HttpStatus.OK);
+	}
 	
 	
 	

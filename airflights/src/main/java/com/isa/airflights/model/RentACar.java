@@ -29,13 +29,17 @@ public class RentACar {
 	private String address;
 	/** @pdOid efe39867-d211-48b9-9944-f39eb66d7b4e */
 	
+	@Column(name = "city", nullable = true) 
+	private String city;
+	
+	
 	@Column(name = "description", nullable = false)
 	private String description;
 	
 	
 	//prosecna ocena servisa
 	@Column(name = "rating", nullable = false)
-	private int rating;
+	private double rating;
 	
 	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
@@ -48,22 +52,31 @@ public class RentACar {
 		super();
 	}
 	
-	public RentACar(Long id, String name, String address, String description, int r) {
+	public RentACar(Long id, String name, String address, String description, String city, double r) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
+		this.city = city;
 		this.rating = r;
 	}
 	
 	public RentACar(RentACar r) {
-		this(r.getId(),r.getName(),r.getAddress(),r.getDescription(),r.getRating());
+		this(r.getId(),r.getName(),r.getAddress(),r.getDescription(),r.getCity(),r.getRating());
 	}
 	
 	
 	
-	public int getRating() {
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public double getRating() {
 		return rating;
 	}
 
