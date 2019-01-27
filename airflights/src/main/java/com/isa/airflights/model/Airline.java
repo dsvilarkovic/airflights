@@ -40,7 +40,7 @@ public class Airline {
 	 * Adresu (dodatno prikaz lokacije korišćenjem Google mapa)
 	 */
 	@OneToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(unique = true)
 	@NonNull
 	private Location location;
 	

@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,9 +21,11 @@ public class FlightTicket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
+	/**
+	 * Svaka karta pripada jednoj kompaniji
+	 */
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn
 	private Airline airline;
 	
 	
@@ -34,15 +35,15 @@ public class FlightTicket {
 	/**
 	 * Svaka karta ima jednu i samo jednu klasu i cenu kojoj pripada na letu
 	 */
-	@OneToMany
-	@JoinColumn(name = "id")
+	@ManyToOne
+	@JoinColumn
 	private FlightClassPrice flightClassPrice;
 	
 	/**
 	 * Svaka karta pripada jednom i samo jednom sedistu
 	 */
 	@OneToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(unique = true)
 	private ReservedSeat reservedSeat;
 	
 

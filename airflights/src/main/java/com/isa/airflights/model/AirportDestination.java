@@ -32,14 +32,12 @@ public class AirportDestination {
 	private String fullName;
 	
 	@OneToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(unique = true)
 	private Location location;
 	
-	@ManyToMany(mappedBy = "airport")
+	@ManyToMany(mappedBy = "destinations")
 	private Set<Airline> airlines = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "airport")
-	private Set<AirportDestination> airportDestinations = new HashSet<>();
 	
 	public Long getId() {
 		return id;
@@ -66,12 +64,6 @@ public class AirportDestination {
 		this.airlines = airlines;
 	}
 	
-	public Set<AirportDestination> getAirportDestinations() {
-		return airportDestinations;
-	}
-	public void setAirportDestinations(Set<AirportDestination> airportDestinations) {
-		this.airportDestinations = airportDestinations;
-	}
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(getId());

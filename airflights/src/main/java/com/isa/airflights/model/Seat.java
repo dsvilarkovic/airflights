@@ -25,10 +25,10 @@ public class Seat {
 	private Long Id;
 	
 	
-	@Column(name = "row")
+	@Column(name = "seatRow")
 	private Integer row;
 	
-	@Column(name = "column")
+	@Column(name = "seatColumn")
 	private Integer column;
 	
 	@Column(name = "segmentNum")
@@ -37,7 +37,7 @@ public class Seat {
 	
 	@ManyToOne
 	@NonNull
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "configuration")
 	private SegmentConfig segmentConfig;
 	
 	

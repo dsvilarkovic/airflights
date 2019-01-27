@@ -18,15 +18,18 @@ import io.jsonwebtoken.lang.Objects;
  *
  */
 @Entity
-@Table(name = "luggageClass")
+@Table(name = "luggageClassPrice")
 public class LuggageClassPrice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	/**
+	 * Svaka cena odredjenog prtljaga pripada jednom cenovniku
+	 */
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn
 	private LuggageClassPriceList luggageClassPriceList;
 	
 	

@@ -1,7 +1,5 @@
 package com.isa.airflights.model;
 
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import io.jsonwebtoken.lang.Objects;
@@ -28,11 +26,11 @@ public class Airplane {
 	private String fullName;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn
 	private Airline airline;
 	
-	@OneToMany(mappedBy = "airplane", cascade = CascadeType.ALL)
-	private Set<SegmentConfig> segmentConfig = new HashSet<>();
+	@OneToOne(mappedBy = "airplane", cascade = CascadeType.ALL)
+	private SegmentConfig segmentConfig;
 
 	public Long getId() {
 		return id;
@@ -58,11 +56,11 @@ public class Airplane {
 		this.airline = airline;
 	}
 	
-	public Set<SegmentConfig> getSegmentConfig() {
+	public SegmentConfig getSegmentConfig() {
 		return segmentConfig;
 	}
 
-	public void setSegmentConfig(Set<SegmentConfig> segmentConfig) {
+	public void setSegmentConfig(SegmentConfig segmentConfig) {
 		this.segmentConfig = segmentConfig;
 	}
 

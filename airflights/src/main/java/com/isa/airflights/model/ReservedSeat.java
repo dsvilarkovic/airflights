@@ -27,8 +27,8 @@ public class ReservedSeat {
 	 */
 	
 	@ManyToOne
-	@JoinColumn(name = "original")
-	private Seat original;
+	@JoinColumn
+	private Seat seat;
 	
 	
 	/**
@@ -49,12 +49,13 @@ public class ReservedSeat {
 		this.id = id;
 	}
 
-	public Seat getOriginal() {
-		return original;
+
+	public Seat getSeat() {
+		return seat;
 	}
 
-	public void setOriginal(Seat original) {
-		this.original = original;
+	public void setSeat(Seat seat) {
+		this.seat = seat;
 	}
 
 	public FlightTicket getFlightTicket() {

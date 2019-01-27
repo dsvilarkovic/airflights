@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 import io.jsonwebtoken.lang.Objects;
 
 /**
@@ -30,8 +32,12 @@ public class LuggageClassPriceList {
 	private Long id;
 	
 	
+	/**
+	 * Svaki cenovnik pripada jednoj i samo jednoj aviokompaniji
+	 */
 	@OneToOne
-	@JoinColumn(name = "id")
+	@NonNull
+	@JoinColumn(unique = true)
 	private Airline airline;
 	
 	

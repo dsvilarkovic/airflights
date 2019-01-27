@@ -11,9 +11,10 @@ public class Friendship {
 	private Long id;
 	
 	/**
-	 * Friend_to
+	 * Friend_to 
 	 */
 	//TODO: dodati kad @Djuka sredi svoje
+	
 	
 	/**
 	 * Friend_of

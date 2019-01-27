@@ -38,14 +38,14 @@ public class Flight {
 	private Date arrivalDateTime;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn
 	private Airline airline;
 	
 	
 	@ManyToMany
 	@JoinTable(name = "flight_flight_legs",
-		joinColumns = { @JoinColumn(name = "id") },
-		inverseJoinColumns = { @JoinColumn(name = "id") })
+		joinColumns = { @JoinColumn(name = "flight_id") },
+		inverseJoinColumns = { @JoinColumn(name = "airport_id") })
 	private Set<AirportDestination> flightsLegs;
 	
 	/**

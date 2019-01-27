@@ -29,7 +29,7 @@ public class FlightClassPrice {
 	 * Svaka cena klase pripada jednom letu
 	 */
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn
 	private Flight flight;
 	
 	
