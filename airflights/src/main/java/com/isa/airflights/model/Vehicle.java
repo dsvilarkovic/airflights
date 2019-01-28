@@ -2,6 +2,7 @@ package com.isa.airflights.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,9 +44,6 @@ public class Vehicle {
 	@Column(name = "reserved", nullable = false)
 	private Boolean reserved;
 
-	@ManyToOne  
-	private RentACar rentacar;
-	
 	@ManyToOne 
 	private BranchLocations branch_locations;
 	
@@ -194,13 +192,13 @@ public class Vehicle {
 		this.type = type;
 	}
 	
-	public RentACar getRentacar() {
+	/*public RentACar getRentacar() {
 		return rentacar;
 	}
 
 	public void setRentacar(RentACar rentacar) {
 		this.rentacar = rentacar;
-	}
+	}*/
 
 
 

@@ -20,6 +20,7 @@ import { RentacarService } from 'src/services/rentacar.service';
 import { RacprofileComponent } from './racprofile/racprofile.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
+import { RentacarpreviewComponent } from './rentacarpreview/rentacarpreview.component';
 
 
 
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
   {path: 'rentacar', component: RentacarComponent},
   {path: 'rentacar/:id', component: RacprofileComponent},
   {path: 'error45', component: ErrorComponent},
-  {path: 'home', component: HomeComponent}
+  {path: 'home', component: HomeComponent},
+  {path: 'rentacarPreview', component: RentacarpreviewComponent}
 ];
 
 @NgModule({
