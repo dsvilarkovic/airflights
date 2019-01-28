@@ -37,8 +37,7 @@ public class RentACar {
 	@Column(name = "rating", nullable = false)
 	private int rating;
 	
-	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
-	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
+	
 
 	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<BranchLocations> branch_locations = new HashSet<BranchLocations>();

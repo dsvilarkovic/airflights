@@ -31,7 +31,7 @@ public class BranchLocations {
 	@OneToOne 
 	private RentACar rentacar;
 	
-	@OneToMany(mappedBy = "branch_locations", fetch = FetchType.EAGER) @JsonIgnore
+	@OneToMany(mappedBy = "branch_locations", fetch = FetchType.EAGER)
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 	
 	
