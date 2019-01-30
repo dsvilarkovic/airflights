@@ -102,7 +102,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Dodavanje vozila</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Dodavanje filijale</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -179,7 +179,7 @@
                       <td>{{v.price}}</td>
                       <td>{{v.rating}}</td>
                       <td>{{v.reserved}}</td>
-                      <td>{{v.branch_locations.id}}</td>
+                      <td>{{v.branchOffice_id}}</td>
                       <td> <button *ngIf="checkReserved == false" (click)="updateVehicle(v)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal" data-whatever="@getbootstrap">Izmeni</button>
                       </td>
                       <td><button *ngIf="checkReserved == false" (click)="deleteVehicle(v)"type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-whatever="@getbootstrap">Obrisi</button></td>

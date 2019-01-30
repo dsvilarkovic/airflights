@@ -1,0 +1,68 @@
+    
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Airflights</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a routerLink="/home"class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
+          <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
+          <li class="nav-item active"><a  routerLink="/rentacarPreview">Rent a cars</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+            <span>Sign Out</span>
+        </button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END nav -->
+
+  <div class="hero-wrap js-fullheight" style="background-image: url('assets/Rent-car-1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+        <div class="col-md-9 " data-scrollax=" properties: { translateY: '70%' }">
+        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong> <br></strong></h1>
+        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Search location</p>
+        
+        <form (ngSubmit)="search()" >
+              <div class="textfield-search one-third">
+                <input type="text" class="form-control" [(ngModel)]="searchAttemp" name="searchAttemp" placeholder="Type pick-up location or name of rent a car service">
+              </div>
+              <input type="submit" class="search-submit btn btn-primary" value="Search">  
+
+          </form>
+
+    <div class="theelements" *ngFor="let rent of rentacars2" style="background-blend-mode: inherit">
+      <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
+          <img src="https://image.flaticon.com/icons/png/512/75/75702.png" class="card-img-top" alt="...">
+          <div class="card-body">
+              <h5 class="card-title">{{rent.name}} <span class="ml-1">{{rent.rating}}</span><span style="color:gold"><i class="fas fa-star"></i></span></h5>
+              <div *ngFor="let b of rent.branches">          
+                    <p style="color: black"><i class="fas fa-city"></i> {{b.address}} {{b.city}}</p>                  
+              </div>
+            
+              <button  (click)="btnVisit(rent.id)" class="btn btn-primary mt-4 mb-4">Visit Us!</button>
+          </div>
+    </div>
+  </div>
+         
+          </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- tabela posle search-a -->
+
+ 
+ 
+  
+
+
+

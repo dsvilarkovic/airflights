@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.airflights.dto.RentACarDTO;
 import com.isa.airflights.model.BranchLocations;
 import com.isa.airflights.model.RentACar;
 import com.isa.airflights.service.AbstractUserService;
@@ -31,24 +32,40 @@ public class RentACarController {
 	private RentACarService racService;
 	
 	@RequestMapping("/test")
-	public ResponseEntity<List<RentACar>> getAll() {
+	public ResponseEntity<List<RentACarDTO>> getAll() {
 		List<RentACar> rac = racService.findAll();
-		List<RentACar> r = new ArrayList<RentACar>();
+		List<RentACarDTO> r = new ArrayList<RentACarDTO>();
 		
 		for (RentACar rentACar : rac) {
-			r.add(rentACar);
+			r.add(new RentACarDTO(rentACar));
 			
 		}
 				
-		return new ResponseEntity<List<RentACar>>(r,HttpStatus.OK);
+		return new ResponseEntity<List<RentACarDTO>>(r,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}")
-	public ResponseEntity<RentACar> getOne(@PathVariable Long id) {
-		return new ResponseEntity<RentACar>(racService.getOne(id),HttpStatus.OK);
+	public ResponseEntity<RentACarDTO> getOne(@PathVariable Long id) {
+		RentACar r = racService.getOne(id);
+		RentACarDTO dto = new RentACarDTO(r);
+		return new ResponseEntity<RentACarDTO>(dto,HttpStatus.OK);
 	}
 	
-
+	
+	@RequestMapping("/search/{name}")
+	public ResponseEntity<List<RentACarDTO>> getSearch(@PathVariable String name) {
+		List<RentACar> rac = racService.findAll();
+		List<RentACarDTO> r = new ArrayList<RentACarDTO>();
+		
+		for (RentACar rentACar : rac) {
+			if(rentACar.getName().contains(name) || rentACar.getCity().contains(name))
+				r.add(new RentACarDTO(rentACar));
+			
+		}
+				
+		return new ResponseEntity<List<RentACarDTO>>(r,HttpStatus.OK);
+	}
+	
 		
 	
 	

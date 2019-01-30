@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,10 +32,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  * */
 
 @Entity
+@SequenceGenerator(name="seq", initialValue=6)
 public class AbstractUser  {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 	private Long id;
 	
 	@Column(name = "indexNumber", nullable = true)
@@ -82,6 +84,10 @@ public class AbstractUser  {
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+	
+	
+	@OneToMany(mappedBy = "abstractUser")
+	private Set<VehicleReservation> vehicleReservation = new HashSet<VehicleReservation>();
 	
 	public AbstractUser() {
 		

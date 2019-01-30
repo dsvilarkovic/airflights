@@ -5,5 +5,5 @@ export class Branch {
     id: Number;
     address: String;
     city: String;
-    rentacar: rentacar;
+    rentACarId: Number;
 }

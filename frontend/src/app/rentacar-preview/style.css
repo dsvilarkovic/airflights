@@ -496,7 +496,7 @@ pre {
   .no-gutters > [class*="col-"] {
     padding-right: 0;
     padding-left: 0;
-    margin-top: 16%; }
+    margin-top: 9%; }
 
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
 .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
@@ -1692,7 +1692,8 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   height: calc(2.875rem + 2px); }
 
 .form-group {
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  width: 139%; }
 
 .form-text {
   display: block;
@@ -3587,8 +3588,8 @@ input[type="button"].btn-block {
 .card {
   position: relative;
   display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -webkit-box;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -5120,6 +5121,7 @@ button.bg-dark:focus {
   display: table-cell !important; }
 
 .d-flex {
+  width: 139%;
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important; }
@@ -5343,6 +5345,7 @@ button.bg-dark:focus {
   flex-shrink: 1 !important; }
 
 .justify-content-start {
+  width: 139%;
   -webkit-box-pack: start !important;
   -ms-flex-pack: start !important;
   justify-content: flex-start !important; }
@@ -7452,7 +7455,7 @@ h1, h2, h3, h4, h5,
 
 .hero-wrap {
   width: 100%;
-  height: 100vh;
+  height: 425px; 
   position: inherit; }
   .hero-wrap .overlay {
     position: absolute;
