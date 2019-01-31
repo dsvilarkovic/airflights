@@ -71,6 +71,14 @@ public class Hotel {
 		this.description = description;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	/*public Set<Room> getRooms() {
 		return rooms;
 	}

@@ -130,7 +130,7 @@
                       <p style="color: black"><i class="fas fa-euro-sign"></i>Price per day: {{vehicle.price}} </p>             
                 
               
-                <button  (click)="btnBook(vehicle.id)" class="btn btn-primary mt-4 mb-4">Book me</button>
+                <button *ngIf="loggedFlag"  (click)="btnBook(vehicle.id)" class="btn btn-primary mt-4 mb-4">Book me</button>
             </div>
       </div>
     </div>

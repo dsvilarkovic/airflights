@@ -46,7 +46,7 @@ export class HotelAddComponent implements OnInit, OnDestroy {
   }
 
   gotoList() {
-    this.router.navigate(['hotel/list']);
+    this.router.navigate(['admin/hotels']);
   }
 
   save(form: NgForm) {

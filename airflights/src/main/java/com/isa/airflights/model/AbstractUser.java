@@ -2,12 +2,10 @@ package com.isa.airflights.model;
 
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
+
 
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,8 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.joda.time.DateTime;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -77,7 +74,7 @@ public class AbstractUser {
 	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
 	 * */
 	@Column(name = "id_company", nullable = false)
-	private int idCompany;
+	private Integer idCompany;
 
 	
 	
@@ -254,6 +251,30 @@ public class AbstractUser {
 				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
 				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
 				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
+	}
+
+	public Integer getIdCompany() {
+		return idCompany;
+	}
+
+	public void setIdCompany(Integer idCompany) {
+		this.idCompany = idCompany;
+	}
+
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
+	public Set<VehicleReservation> getVehicleReservation() {
+		return vehicleReservation;
+	}
+
+	public void setVehicleReservation(Set<VehicleReservation> vehicleReservation) {
+		this.vehicleReservation = vehicleReservation;
 	}
 	
 	

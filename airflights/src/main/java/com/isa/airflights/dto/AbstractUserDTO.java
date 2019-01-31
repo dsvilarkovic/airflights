@@ -15,7 +15,7 @@ public class AbstractUserDTO{
 	private String email;
 	private String phoneNumber; 
 	private String address;
-	private int idCompany;
+	private Integer idCompany;
 	private boolean verify;
 	
 	
@@ -69,10 +69,10 @@ public class AbstractUserDTO{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getIdCompany() {
+	public Integer getIdCompany() {
 		return idCompany;
 	}
-	public void setIdCompany(int idCompany) {
+	public void setIdCompany(Integer idCompany) {
 		this.idCompany = idCompany;
 	}
 	public boolean isVerify() {
@@ -89,7 +89,17 @@ public class AbstractUserDTO{
 	}
 	
 	
-	
+	public AbstractUserDTO(AbstractUser user) {
+		this.id = user.getId();
+		this.index = user.getIndex();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.phoneNumber = user.getPhoneNumber();
+		this.address = user.getAddress();
+		this.idCompany = user.getIdCompany();
+		this.verify = user.getVerify();
+	}
 	
 	
 	
