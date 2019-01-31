@@ -45,10 +45,10 @@ public class UserProfileController {
 	 PasswordEncoder encoder;
 	
 	
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+//	@Bean
+//	public ModelMapper modelMapper() {
+//		return new ModelMapper();
+//	}
 	
 	
 //	@Autowired
