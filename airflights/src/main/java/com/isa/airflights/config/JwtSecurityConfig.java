@@ -60,16 +60,23 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
+    
+    //
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/abstractUsers/**").permitAll()
-                .antMatchers("/api/vehicle/**").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
-                .antMatchers("/api/rentacar/**").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
-                .antMatchers("/api/branch/**").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
-                .antMatchers("/api/userProfile/**").permitAll()//hasAnyRole("USER", "AIRFLIGHTADMIN")
+                .antMatchers("/api/rentacar/search/**").permitAll()
+                .antMatchers("/api/reservation/**").permitAll()
+                .antMatchers("/api/branch/getAllBranches").permitAll()
+                
+                .antMatchers("/api/vehicle/**").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")              
+                .antMatchers("/api/branch/**").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
+                .antMatchers("/api/rentacar/test").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
+                .antMatchers("/api/rentacar/{id}").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
+                
                 /*.antMatchers("/api/vehicle/**").hasRole("RENTACARADMIN") 
                 .antMatchers("/api/rentacar/**").hasRole("RENTACARADMIN") 
                 .antMatchers("/api/branch/**").hasRole("RENTACARADMIN") */

@@ -2,10 +2,12 @@ package com.isa.airflights.model;
 
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,10 +36,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * */
 
 @Entity
+@SequenceGenerator(name="seq", initialValue=6)
 public class AbstractUser {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 	private Long id;
 	
 	@Column(name = "indexNumber", nullable = true)
@@ -90,7 +97,8 @@ public class AbstractUser {
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 	
-	
+	@OneToMany(mappedBy = "abstractUser")
+	private Set<VehicleReservation> vehicleReservation = new HashSet<VehicleReservation>();
 	
 	
 	public AbstractUser() {

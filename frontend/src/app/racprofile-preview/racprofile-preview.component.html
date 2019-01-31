@@ -1,0 +1,151 @@
+   
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Airflights</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="oi oi-menu"></span> Menu
+    </button>
+
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
+        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
+        <li class="nav-item active"><a  class="nav-link">Rent a cars</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+          <span>Sign Out</span>
+      </button></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- END nav -->
+
+<div class="hero-wrap js-fullheight" style="background-image: url('assets/Rent-car-1.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+      <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+      <div class="col-md-9 " data-scrollax=" properties: { translateY: '70%' }">
+      <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong> <br></strong></h1>
+      <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Search location</p>
+      
+      <form action="#" class="home_search_form" id="home_search_form">
+        <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">                                   
+
+                  <select [formControl]="pickuploc" name="filter" class="form-control" id="company-select">
+                     <option></option>
+                     <option *ngFor="let b of branches2"  [ngValue]="b.id">{{b.address}} {{b.city}}</option>
+                  </select>
+
+                  <select [formControl]="dropoffloc" name="filter" class="form-control" id="company-select">
+                    <option></option>
+                    <option *ngFor="let b of branches2" [ngValue]="b.id">{{b.address}} {{b.city}}</option>
+                 </select>
+                            
+                 <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+                </ngb-datepicker>
+                 <ng-template #t let-date let-focused="focused">
+                  <span class="custom-day"
+                        [class.focused]="focused"
+                        [class.range]="isRange(date)"
+                        [class.faded]="isHovered(date) || isInside(date)"
+                        (mouseenter)="hoveredDate = date"
+                        (mouseleave)="hoveredDate = null">
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+                  
+              <button class="btn btn-primary mt-4 mb-4" (click)="search()">Search</button>
+              <button class="btn btn-primary mt-4 mb-4" (click)="reset()">Reset</button>
+             
+
+          </div>
+      </form>
+      <br><br><br><br><br><br>
+      <button (click)="openFilter()" class="btn btn-primary mt-4 mb-4" >Open filter</button>
+      <button class="btn btn-primary mt-4 mb-4" (click)="closeFilter()">Close filter</button>
+
+      <div *ngIf="filterFlag">
+        <form action="">
+          <div class="row traka-za-pretragu" style="margin-bottom:50px;margin-top:50px;">
+             
+              <div class="form-group col-3 polje">
+                  <label for="company">Brand</label>
+                  <select [(ngModel)]="filter.brand" name="filter" class="form-control" (change)="onChange($event.target.value)" id="company-select">
+                      <option></option>
+                      <option *ngFor="let v of vehicles2">{{v.brand}}</option>
+                  </select>
+                  </div>
+                  <div class="form-group col-3 polje">
+                      <label for="company">Model</label>
+                      <select [(ngModel)]="filter.model" name="model" class="form-control"  >
+                          <option></option>
+                          <option *ngFor="let v of vehicles2">{{v.model}}</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-3 polje">
+                      <label for="company">Year</label>
+                      <input type="number" [(ngModel)]="filter.year" name="year" class="form-control" />
+                         
+                      </div>
+                      <div class="form-group col-3 polje">
+                          <label for="company">Seats</label>
+                          <input type="number" [(ngModel)]="filter.seats" name="seats" class="form-control" />
+                      </div>
+                      <div class="form-group col-3 polje">
+                          <label for="company">Price range</label>                                         
+                          <input type="number" [(ngModel)]="rangerFrom" name="rangerFrom" class="form-control" placeholder="From">
+                          <input type="number" [(ngModel)]="rangerTo"   name="rangerTo" class="form-control mt-2" placeholder="To">
+                          </div>
+                          <div class="form-group col-3 polje">
+                              <label for="company">Type</label>
+                              <select [(ngModel)]="filter.type" name="type" class="form-control"  >
+                                  <option></option>
+                              <option *ngFor="let t of typess">{{t}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-3 polje">
+                              <label for="company">Rating</label>
+                              <input type="number" max="5" min="1" [(ngModel)]="rating" name="rating" class="form-control" />
+                              </div>
+                              <button (click)="reset()" class="btn btn-primary mt-4 mb-4">Reset</button>
+                           
+                      
+          </div>
+      </form>
+      </div>
+
+
+      <div class="theelements" *ngFor="let vehicle of vehicles2" style="background-blend-mode: inherit">
+        <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
+            <img src="https://image.flaticon.com/icons/png/512/75/75702.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{vehicle.brand}} {{vehicle.model}} <span class="ml-1">{{vehicle.rating}}</span><span style="color:gold"><i class="fas fa-star"></i></span></h5>
+                  
+                      <p style="color: black"><i class="fas fa-user"></i> {{vehicle.seats}} </p>  
+                      <p style="color: black"><i class="fas fa-car"></i>Type: {{vehicle.type}} </p> 
+                      <p style="color: black"><i class="fas fa-car"></i>Year: {{vehicle.year}} </p> 
+                      <p style="color: black"><i class="fas fa-euro-sign"></i>Price per day: {{vehicle.price}} </p>             
+                
+              
+                <button  (click)="btnBook(vehicle.id)" class="btn btn-primary mt-4 mb-4">Book me</button>
+            </div>
+      </div>
+    </div>
+      
+       
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- tabela posle search-a -->
+
+
+
+
+
+
+
