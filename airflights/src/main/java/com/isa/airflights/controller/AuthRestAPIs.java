@@ -1,7 +1,6 @@
 package com.isa.airflights.controller;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Role;
 import com.isa.airflights.model.RoleName;
-import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.repository.AbstractUserRepository;
 import com.isa.airflights.repository.RoleRepository;
 import com.isa.airflights.request.LoginForm;

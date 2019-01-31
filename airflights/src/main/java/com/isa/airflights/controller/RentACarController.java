@@ -1,7 +1,6 @@
 package com.isa.airflights.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.RentACarDTO;
-import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.RentACar;
 import com.isa.airflights.service.RentACarService;
 

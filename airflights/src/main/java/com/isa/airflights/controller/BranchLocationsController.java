@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.dto.BranchLocationsDTO;
 import com.isa.airflights.model.BranchLocations;
 import com.isa.airflights.model.RentACar;
-import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.service.BranchLocationsService;
 import com.isa.airflights.service.RentACarService;
 
@@ -48,19 +47,9 @@ public class BranchLocationsController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BranchLocationsDTO> addBranch(@RequestBody BranchLocations branch,@PathVariable Long id) {
 		System.out.println("Usao u metodu " + branch.getAddress() + branch.getCity());
-		/*BranchLocationsDTO v = new BranchLocationsDTO();
-		v.setAddress(branch.getAddress());
-		v.setCity(branch.getCity());
-		
-		v.setRentACarId(branch.getRentacar().getId());*/
+
 		RentACar rac = rs.getOne(id);
-		/*List<BranchLocations> lista = bls.findAll();
-		BranchLocations poslednji = new BranchLocations();
-		System.out.println("lista size: " + lista.size());
-		poslednji = lista.get(lista.size() - 1);
-		System.out.println("Poslednji id: " + poslednji.getId());
-		Long pom = poslednji.getId() + 1;
-		branch.setId(pom);*/
+
 		branch.setRentacar(rac);
 		
 		bls.save(branch);

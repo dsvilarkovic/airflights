@@ -3,12 +3,10 @@ package com.isa.airflights.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.isa.airflights.config.JwtSecurityConfig;
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.service.AbstractUserService;
@@ -49,10 +45,10 @@ public class UserProfileController {
 	 PasswordEncoder encoder;
 	
 	
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+//	@Bean
+//	public ModelMapper modelMapper() {
+//		return new ModelMapper();
+//	}
 	
 	
 //	@Autowired
@@ -103,6 +99,12 @@ public class UserProfileController {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		
+
+		//ako nema logovanog korisnika, vrati nazad		
+		if(loggedUser == null) {
+			System.out.println("Ne postoji logovani korisnik");
+			return new ResponseEntity<StringJSON>(new StringJSON("No logged user under this data"),HttpStatus.NOT_FOUND);
+		}
 		
 		//proveri da li nova sifra uopste postoji, i ako postoji, proveravaj dalje
 		if(updatedUserDTO.getNewPassword() != null && updatedUserDTO.getNewPassword().length() != 0) {
@@ -128,11 +130,6 @@ public class UserProfileController {
 			updatedUserDTO.setPassword(loggedUser.getPassword());
 		}
 		
-		//ako nema logovanog korisnika, vrati nazad		
-		if(loggedUser == null) {
-			System.out.println("Ne postoji logovani korisnik");
-			return new ResponseEntity<StringJSON>(new StringJSON("No logged user under this data"),HttpStatus.NOT_FOUND);
-		}
 		
 		//prebaci DTO u entitet
 		AbstractUser updatedUser = convertToEntity(updatedUserDTO);
