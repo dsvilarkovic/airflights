@@ -1,0 +1,50 @@
+<div class="room-add animate container-fluid">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <form #roomAddForm="ngForm" (ngSubmit)="save(roomAddForm.value)">
+        <h1 class="title">New room</h1>
+        <h2 class="title">Hotel "{{hotel.name}}"</h2>
+        <div class="form-content">
+          <div class="form-group">
+              <label for="roomN">Room number</label>
+              <input type="number" min="0" [(ngModel)]="room.number" required class="form-control" name="number" id="roomN" placeholder="Enter room number">
+              <small id="roomMsg" class="form-text text-muted" hidden>Invalid</small>
+          </div>
+          <div class="form-group">
+            <label for="floor">Floor</label>
+            <input type="number" min="0" [(ngModel)]="room.floor" required class="form-control" name="floor" id="floor" placeholder="Enter floor">
+            <small id="floorMsg" class="form-text text-muted" hidden>Invalid</small>
+          </div>
+          <div class="form-group">
+            <label for="beds">Beds</label>
+            <input type="number" min="0" [(ngModel)]="room.beds" required class="form-control" name="beds" id="beds" placeholder="Enter number of beds">
+            <small id="bedsMsg" class="form-text text-muted" hidden>Invalid</small>
+          </div>
+          <div class="form-group">
+            <label for="rooms">Rooms</label>
+            <input type="number" min="0" [(ngModel)]="room.rooms" required class="form-control" name="rooms" id="rooms" placeholder="Enter number of rooms">
+            <small id="roomsMsg" class="form-text text-muted" hidden>Invalid</small>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-group">
+              <input type="number" min="0" [(ngModel)]="room.price" required class="form-control" name="price" id="price" placeholder="Enter price per night">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+            </div>
+            <small id="priceMsg" class="form-text text-muted" hidden>Invalid</small>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" [(ngModel)]="room.balcony" type="checkbox" name="hasBalcony" id="balcony">
+            <label class="form-check-label" for="balcony">Balcony</label>
+           </div>
+          <div class="float-right">
+            <a id="btnCancel" class="btn btn-primary" routerLink="/hotel/edit/{{hotel.id}}/rooms">Cancel</a>
+            <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!roomAddForm.form.valid">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

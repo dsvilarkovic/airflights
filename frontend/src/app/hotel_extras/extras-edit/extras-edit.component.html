@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+          <form #extraEditForm="ngForm" (ngSubmit)="update(extraEditForm.value)">
+            <h1 class="title">Edit hotel extra</h1>
+            <h2 class="title">Hotel {{hotel.name}}</h2>
+            <div class="form-content">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" [(ngModel)]="extra.name" required class="form-control" name="name" id="name" placeholder="Enter extras name">
+                <small id="nameMsg" class="form-text text-muted" hidden>Invalid</small>
+              </div>
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" min="0" [(ngModel)]="extra.price" required class="form-control" name="price" id="price" placeholder="Enter price">
+                <small id="priceMsg" class="form-text text-muted" hidden>Invalid</small>
+              </div>
+              <div class="form-group">
+                <label for="pr_unit">Select price unit</label>
+                <select  name="pr_unit" [(ngModel)]="extra.unit" class="form-control" id="unit">
+                  <option value="PER_DAY">Per day</option>
+                  <option value="PER_PERSON">Per person</option>
+                  <option value="PER_DAY_PER_PERSON">Per day per person</option>
+                  <option value="TOTAL">Total</option>
+                </select>
+              </div>
+            <div class="float-right">
+              <button id="btnCancel" class="btn btn-primary" routerLink="/hotel/edit/{{hotel.id}}/extras">Cancel</button>
+              <button id="btnUpdate" class="btn btn-primary" type="submit" [disabled]="!extraEditForm.form.valid">Update</button>
+            </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>

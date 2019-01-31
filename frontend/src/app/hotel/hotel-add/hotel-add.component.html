@@ -1,0 +1,21 @@
+<div class="hotel-add animate container-fluid">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <form #hotelAddForm="ngForm" (ngSubmit)="save(hotelAddForm.value)">
+        <h1 class="title">New hotel</h1>
+        <div class="form-content">
+            <div class="form-group">
+              <input placeholder="Hotel name" [(ngModel)]="hotel.name" required name="name" #name class="form-control input-underline input-lg">
+              <input placeholder="Hotel address" [(ngModel)]="hotel.address" required name="address" #address class="form-control input-underline input-lg">
+              <textarea placeholder="Description" [(ngModel)]="hotel.description" name="description" class="form-control input-underline" rows="5"></textarea>
+            </div>
+        </div>
+          <input type="hidden" name="href" [(ngModel)]="hotel.href">
+        <div> 
+          <a id="btnCancel" class="btn rounded-btn" routerLink="/hotel/list">Cancel</a>
+          <button id="btnAdd" class="btn rounded-btn" type="submit" [disabled]="!hotelAddForm.form.valid">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

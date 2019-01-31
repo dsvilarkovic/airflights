@@ -1,0 +1,20 @@
+<div class="hotel-list animate">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <ul class="list-group">
+        <h1>Manage hotels</h1>
+        <li class="list-group-item" *ngFor="let hotel of hotels">
+          <div class="jumbotron">
+              <h1 class="display-4">{{hotel.name}}</h1>
+              <p>{{hotel.description}}</p>
+              <a class="btn btn-primary btn-lg" [routerLink]="['/hotel/edit', hotel.id]">Edit</a>
+              <button class="btn btn-primary btn-lg" (click)="delete(hotel.id)">Delete</button>
+              <button class="btn btn-primary btn-lg" [routerLink]="['/hotel/edit', hotel.id, 'rooms']">Rooms</button>
+              <button class="btn btn-primary btn-lg" (click)="delete(hotel.id)">Extras</button>
+            </div>
+        </li>
+      </ul>
+      <button color="primary" [routerLink]="['/hotel/add']">Add</button>
+    </div>
+    
+</div>

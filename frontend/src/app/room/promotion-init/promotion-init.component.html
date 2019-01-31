@@ -1,0 +1,39 @@
+<div class="room-edit animate container-fluid">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1>Hotel "{{hotel.name}}"</h1>
+      <h2>Room {{room.number}} - Promotion setup</h2>
+      <form #promoInitForm="ngForm" (ngSubmit)="save(promoInitForm.value)">
+        <div class="form-content">
+          <div class="form-group">
+            <label for="dis">Discount</label>
+            <div class="input-group">
+              <input type="number" min="0" [(ngModel)]="room.discount" required class="form-control" name="discount" id="discount" placeholder="Enter discount">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ex">Extras</label>
+            <ng-multiselect-dropdown
+              [placeholder]="'Select extras'"
+              [data]="extras"
+              [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelect)="onItemDeselect($event)"
+              (onDeSelectAll)="onDeselectAll($event)"
+              >
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="float-right">
+          <button id="btnCancel" class="btn btn-primary" routerLink="/hotel/edit/{{hotel.id}}/rooms/{{room.id}}/edit">Cancel</button>
+          <button id="btnUpdate" class="btn btn-primary" type="submit" [disabled]="!promoInitForm.form.valid">Make</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
