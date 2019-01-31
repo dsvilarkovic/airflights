@@ -10,12 +10,19 @@ import { HotelService } from 'src/services/hotel.service';
 export class AdminHotelsComponent implements OnInit {
 
   hotels: Array<any>;
+  readonly type: string = "H";
 
   constructor(private route: ActivatedRoute, private router: Router, private hotelService: HotelService) { }
 
   ngOnInit() {
     this.hotelService.getAll().subscribe(data => {
       this.hotels = data;
+    }, error => console.error(error));
+  }
+
+  delete(id: number) {
+    this.hotelService.remove(id).subscribe( r => {
+      window.location.reload();
     }, error => console.error(error));
   }
 

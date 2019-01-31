@@ -25,6 +25,7 @@
               <td>{{hotel.address}}</td>
               <td>{{hotel.city}}</td>
               <td>{{hotel.rating}}</td>
+              <td><button class="btn btn-success" routerLink="/admin/hotel/{{hotel.id}}/H/newAdmin">Add admin</button></td>
               <td><button class="btn btn-danger" (click)="delete(hotel.id)">Delete</button></td>
             </tr>
           </tbody>

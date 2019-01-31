@@ -54,6 +54,8 @@ import { ConfigSeatsComponent } from './config-seats/config-seats.component';
 import { AdminsComponent } from './admin/admins/admins.component';
 import { RoomService } from 'src/services/room.service';
 import { AdminsService } from 'src/services/admins.service';
+import { AdminAddComponent } from './admin/admin-add/admin-add.component';
+import { AdminRentACarAddComponent } from './admin/admin-rent-a-car-add/admin-rent-a-car-add.component';
 
 
 const appRoutes: Routes = [
@@ -67,6 +69,7 @@ const appRoutes: Routes = [
 
   {path: 'hotel/list', component: HotelListComponent },
   {path: 'admin/hotel/add', component: HotelAddComponent },
+  {path: 'admin/rac/add', component: AdminRentACarAddComponent },
   {path: 'hotel/edit/:id', component: HotelEditComponent },
   {path: 'hotel/edit/:id/rooms', component: RoomListComponent },
   {path: 'hotel/edit/:id/addRoom', component: RoomAddComponent },
@@ -83,6 +86,7 @@ const appRoutes: Routes = [
   {path: 'admin/rac', component: AdminRentACarComponent},
   {path: 'admin/admins', component: AdminsComponent},
   {path: 'admin/bonus', component: AdminBonusesComponent},
+  {path: 'admin/hotel/:id/:type/newAdmin', component: AdminAddComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'rentacarPreview', component: RentacarPreviewComponent},
@@ -130,6 +134,8 @@ const appRoutes: Routes = [
     RacprofilePreviewComponent,
     AirplaneTableComponent,
     ConfigSeatsComponent,
+    AdminAddComponent,
+    AdminRentACarAddComponent,
   ],
   imports: [
     ReactiveFormsModule,

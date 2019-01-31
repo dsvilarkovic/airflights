@@ -3,6 +3,7 @@ import { rentacar } from './../app/rentacar';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RENT_A_CAR_API } from 'src/app/globals';
 
 @Injectable({
   providedIn: 'root'
@@ -73,4 +74,18 @@ export class RentacarService {
   searchBranch(id): Observable<any> {
     return this.http.get("//localhost8080/api/branch/search/"+id);
   }
+
+  save(rac: Object) : Observable<any> {
+    return this.http.post(RENT_A_CAR_API, rac);
+  }
+
+  remove(id: number) : Observable<any> {
+    return this.http.delete(RENT_A_CAR_API + id);
+  }
+
+  getAllRacs(): Observable<any> {
+    return this.http.get(RENT_A_CAR_API + "allRacs");
+  }
+
+
 }

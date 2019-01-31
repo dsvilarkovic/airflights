@@ -1,6 +1,9 @@
 package com.isa.airflights.dto;
 
 import com.isa.airflights.model.AbstractUser;
+import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.Hotel;
+import com.isa.airflights.model.Role;
 
 /**
  * DTO sluzi da sakrije sifru pri slanju ka korisniku
@@ -17,8 +20,19 @@ public class AbstractUserDTO{
 	private String address;
 	private Integer idCompany;
 	private boolean verify;
+	private Role role;
+	private Hotel hotel;
+	private Airline airline;
 	
 	
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
 	private String password;
 	private String newPassword;
 	public Long getId() {
@@ -89,6 +103,19 @@ public class AbstractUserDTO{
 	}
 	
 	
+	public Hotel getHotel() {
+		return hotel;
+	}
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+	public Airline getAirline() {
+		return airline;
+	}
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+	
 	public AbstractUserDTO(AbstractUser user) {
 		this.id = user.getId();
 		this.index = user.getIndex();
@@ -99,9 +126,10 @@ public class AbstractUserDTO{
 		this.address = user.getAddress();
 		this.idCompany = user.getIdCompany();
 		this.verify = user.getVerify();
+		this.role = user.getRole();
+		this.hotel = user.getHotel();
+		this.airline = user.getAirline();
 	}
-	
-	
 	
 
 }

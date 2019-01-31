@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RentacarService } from 'src/services/rentacar.service';
 
 @Component({
   selector: 'app-admin-rent-a-car',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminRentACarComponent implements OnInit {
 
-  constructor() { }
+  racs: Array<any>;
+  readonly type: string = "R";
+
+  constructor(private route: ActivatedRoute, private router: Router, private racService: RentacarService) { }
+
 
   ngOnInit() {
+    this.racService.getAllRacs().subscribe(data => {
+      this.racs = data;
+    }, error => console.error(error));
+  }
+
+  delete(id: number) {
+    this.racService.remove(id).subscribe( r => {
+      window.location.reload();
+    }, error => console.error(error));
   }
 
 }

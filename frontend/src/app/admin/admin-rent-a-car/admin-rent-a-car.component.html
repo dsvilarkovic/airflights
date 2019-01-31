@@ -9,6 +9,27 @@
           <li><a class="btn btn-info active">Rent a car</a></li>
           <li><a class="btn btn-info" routerLink="/admin/admins">Admins</a></li>
           <li><a class="btn btn-info" routerLink="/admin/bonus">Bonuses</a></li>
+          <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rac of racs">
+                  <th scope="row">{{rac.name}}</th>
+                  <td>{{rac.address}}</td>
+                  <td>{{rac.city}}</td>
+                  <td>{{rac.rating}}</td>
+                  <td><button class="btn btn-success" routerLink="/admin/hotel/{{rac.id}}/{{type}}/newAdmin">Add admin</button></td>
+                  <td><button class="btn btn-danger" (click)="delete(rac.id)">Delete</button></td>
+                </tr>
+              </tbody>
+          </table>
+          <a id="btnAdd" class="btn btn-primary btn-lg" routerLink="/admin/rac/add"><b>+</b></a>
         </ul>
       </div>
     </div>
