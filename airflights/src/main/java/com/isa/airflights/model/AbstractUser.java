@@ -77,7 +77,7 @@ public class AbstractUser {
 	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
 	 * */
 	@Column(name = "id_company", nullable = false)
-	private int idCompany;
+	private Integer idCompany;
 
 	
 	
@@ -254,6 +254,30 @@ public class AbstractUser {
 				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
 				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
 				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
+	}
+
+	public Integer getIdCompany() {
+		return idCompany;
+	}
+
+	public void setIdCompany(Integer idCompany) {
+		this.idCompany = idCompany;
+	}
+
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
+	public Set<VehicleReservation> getVehicleReservation() {
+		return vehicleReservation;
+	}
+
+	public void setVehicleReservation(Set<VehicleReservation> vehicleReservation) {
+		this.vehicleReservation = vehicleReservation;
 	}
 	
 	

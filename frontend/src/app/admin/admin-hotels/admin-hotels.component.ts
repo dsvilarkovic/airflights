@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HotelService } from 'src/services/hotel.service';
 
 @Component({
   selector: 'app-admin-hotels',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminHotelsComponent implements OnInit {
 
-  constructor() { }
+  hotels: Array<any>;
+
+  constructor(private route: ActivatedRoute, private router: Router, private hotelService: HotelService) { }
 
   ngOnInit() {
+    this.hotelService.getAll().subscribe(data => {
+      this.hotels = data;
+    }, error => console.error(error));
   }
 
 }

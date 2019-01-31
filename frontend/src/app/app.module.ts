@@ -51,6 +51,9 @@ import { RacprofilePreviewComponent } from './racprofile-preview/racprofile-prev
 import { DatePipe } from '@angular/common';
 import { AirplaneTableComponent } from './airplane-table/airplane-table.component';
 import { ConfigSeatsComponent } from './config-seats/config-seats.component';
+import { AdminsComponent } from './admin/admins/admins.component';
+import { RoomService } from 'src/services/room.service';
+import { AdminsService } from 'src/services/admins.service';
 
 
 const appRoutes: Routes = [
@@ -63,7 +66,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
 
   {path: 'hotel/list', component: HotelListComponent },
-  {path: 'hotel/add', component: HotelAddComponent },
+  {path: 'admin/hotel/add', component: HotelAddComponent },
   {path: 'hotel/edit/:id', component: HotelEditComponent },
   {path: 'hotel/edit/:id/rooms', component: RoomListComponent },
   {path: 'hotel/edit/:id/addRoom', component: RoomAddComponent },
@@ -78,6 +81,7 @@ const appRoutes: Routes = [
   {path: 'admin/flights', component: AdminFlightsComponent},
   {path: 'admin/hotels', component: AdminHotelsComponent},
   {path: 'admin/rac', component: AdminRentACarComponent},
+  {path: 'admin/admins', component: AdminsComponent},
   {path: 'admin/bonus', component: AdminBonusesComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'userProfile', component: UserProfileComponent},
@@ -118,6 +122,7 @@ const appRoutes: Routes = [
     AdminRentACarComponent,
     AdminBonusesComponent,
     AdminProfileComponent,
+    AdminsComponent,
     HomeComponent,
     UserProfileComponent,
     MessageComponent,
@@ -141,7 +146,7 @@ const appRoutes: Routes = [
       }
     ),
   ],
-  providers: [LoginService, RegisterService,RentacarService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
+  providers: [LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
     },DatePipe],

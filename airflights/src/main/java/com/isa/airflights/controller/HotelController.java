@@ -75,6 +75,11 @@ public class HotelController {
     	return new ResponseEntity<Hotel>(HttpStatus.OK);
     }
     
+    /**
+     * Ne koristi se za sada
+     * @param id
+     * @return
+     */
     @RequestMapping(value="/{id}/rooms", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Hotel> getRooms(@PathVariable("id") Long id) {

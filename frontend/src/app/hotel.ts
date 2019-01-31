@@ -5,4 +5,5 @@ export class Hotel {
     description: string;
     rooms: string;
     extras: String;
+    city: string;
 }
