@@ -25,6 +25,10 @@ public class Hotel {
 	@Column(name = "description", nullable = true)
 	private String description;
 	
+	@Column(name = "city", nullable = false)
+	private String city;
+	
+	
 	//@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonIgnoreProperties("hotel")
 	//@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -105,7 +109,7 @@ public class Hotel {
 
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", name=" + name + "]";
+		return this.name;
 	}
 
 	public Hotel() {
