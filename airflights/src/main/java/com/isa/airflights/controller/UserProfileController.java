@@ -93,7 +93,7 @@ public class UserProfileController {
 	 */
 	@RequestMapping(
 			value = "/update",
-			method = RequestMethod.POST,
+			method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	//TODO @Dusan: izmeniti da umesto AbstractUser koristi AbstractUserDTO, zbog confirm password-a, malo je kompleksniji

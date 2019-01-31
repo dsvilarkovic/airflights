@@ -1,0 +1,157 @@
+<div style="float:left; padding-right: 50px">
+  <h1 style="margin:30px">Seat Configuration</h1>
+  <h5 style="margin-left:30px">Airplane Name:</h5>
+  <input
+    type="text"
+    [(ngModel)]="airplaneMock.fullName"
+    class="form-control"
+    placeholder="Enter airplane name"
+    style="margin-left: 30px"
+  />
+  <label style="margin-left: 30px;margin-top: 30px">Number of rows:</label>
+  <input
+    type="number"
+    [(ngModel)]="rows"
+    class="form-control"
+    placeholder="Enter number of rows"
+    style="margin-left: 30px"
+  />
+  <label style="margin-left: 30px; margin-top: 30px">Number of segments:</label>
+  <input
+    type="number"
+    [(ngModel)]="segmentNumber"
+    (ngModelChange)="refreshView()"
+    class="form-control"
+    placeholder="Enter number of segments"
+    style=" margin-left: 30px;"
+  />
+  <span *ngFor="let i of Arr(segmentNumber).fill(1); let j = index">
+    <label style="margin-left: 30px; margin-top: 30px"
+      >Number of seats in segment {{ j + 1 }}:</label
+    >
+    <input
+      type="number"
+      [(ngModel)]="segmentNumbers[j]"
+      class="form-control"
+      placeholder="Enter number of seats "
+      style=" margin-left: 30px;"
+    />
+  </span>
+</div>
+
+<!-- Seat Plan starts-->
+<div
+  id="seatTable"
+  class="divTable"
+  style=" 
+                    border: 1px solid #dbdbdb;
+                    margin: 30px;
+                    float: left;
+                "
+>
+  <div class="divTableBody">
+    <div class="divTableRow" *ngFor="let a of Arr(rows).fill(1); let i = index">
+      <span *ngFor="let a of Arr(segmentNumber).fill(1); let k = index">
+        <span style="margin-top: 300px; text-align: center"> </span>
+
+        <span *ngFor="let a of Arr(segmentNumbers[k]).fill(1); let j = index">
+          <div
+            *ngIf="checkSeat(i + 1, j + 1, k + 1); let seatClass"
+            class="divTableCell"
+            [ngbTooltip]="tipContent"
+            placement="top"
+            disabled
+            (click)="cellClicked(i + 1, j + 1, k + 1)"
+            [ngClass]="{
+              firstClass: seatClass == 'first',
+              economyClass: seatClass == 'economy',
+              businessClass: seatClass == 'business',
+              premiumClass: seatClass == 'premium',
+              reserved: isReserved(i + 1, j + 1, k + 1)
+            }"
+          >
+            <span style="margin:0px">
+              {{ i + 1 }}/{{ j + 1 }} <br />
+              <span style="font-size:8pt"> sg. {{ k + 1 }} </span>
+            </span>
+
+            <ng-template #tipContent>
+              Class: {{ seatClass }} <br />
+              Segment: {{ k + 1 }} <br />
+              Row: {{ i + 1 }} <br />
+              Column: {{ j + 1 }}
+            </ng-template>
+          </div>
+
+          <div
+            *ngIf="segmentNumbers[k] == j + 1 && k + 1 != segmentNumbers.length"
+            class="divEmptySpace"
+          >
+            seg
+          </div>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+<!-- Seat Plan ends -->
+
+<!-- Legend and Save Button-->
+<div style="float:left; padding-left: 100px;">
+  <h5 style="margin: 50px">Legend:</h5>
+
+  <div
+    class="economyClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Economy Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="businessClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Business Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="firstClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    First Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="premiumClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Premium Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="reserved"
+    style="background-color: rgb(254, 255, 206);height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px;">
+    Reserved Seat
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <p style="color:red">{{ errorMsg }}</p>
+
+  <button class="btn btn-sm btn-success" (click)="saveChanges()">
+    Save Changes
+  </button>
+</div>

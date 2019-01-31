@@ -26,6 +26,8 @@ import { MessageComponent } from './message/message.component';
 import { RentacarPreviewComponent } from './rentacar-preview/rentacar-preview.component';
 import { RacprofilePreviewComponent } from './racprofile-preview/racprofile-preview.component';
 import { DatePipe } from '@angular/common';
+import { AirplaneTableComponent } from './airplane-table/airplane-table.component';
+import { ConfigSeatsComponent } from './config-seats/config-seats.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'rentacarPreview', component: RentacarPreviewComponent},
-  {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent}
+  {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
+  {path: 'seatConfig', component : ConfigSeatsComponent}
 ];
 
 @NgModule({
@@ -54,6 +57,8 @@ const appRoutes: Routes = [
     MessageComponent,
     RentacarPreviewComponent,
     RacprofilePreviewComponent,
+    AirplaneTableComponent,
+    ConfigSeatsComponent,
   ],
   imports: [
     ReactiveFormsModule,

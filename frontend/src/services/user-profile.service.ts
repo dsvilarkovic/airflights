@@ -38,7 +38,7 @@ export class UserProfileService {
 
     var resultCode;
     var resultBody;
-    this.httpClient.post<UserToUpdate>(this.url + "/update", user, {observe: 'response'})
+    this.httpClient.put<UserToUpdate>(this.url + "/update", user, {observe: 'response'})
             .subscribe(
               response => {
                 resultCode = response.status;
