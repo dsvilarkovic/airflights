@@ -1,4 +1,4 @@
-import { Vehicle } from "./Vehicle";
+import { Vehicle } from "./vehicle";
 
 export class VehicleReservation {
     id: number;
