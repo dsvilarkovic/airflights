@@ -1,6 +1,7 @@
 package com.isa.airflights.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Role;
 import com.isa.airflights.model.RoleName;
+import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.repository.AbstractUserRepository;
 import com.isa.airflights.repository.RoleRepository;
 import com.isa.airflights.request.LoginForm;
@@ -73,7 +75,7 @@ public class AuthRestAPIs {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            System.out.println("Get auth: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
             String jwt = jwtProvider.generateJwtToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Optional<AbstractUser> user = userRepository.findByEmail(loginRequest.getEmail());
@@ -96,7 +98,14 @@ public class AuthRestAPIs {
 
         // Creating user's account
         AbstractUser user = new AbstractUser();
-        
+    /*    List<AbstractUser> lista = userRepository.findAll();
+        AbstractUser poslednji = new AbstractUser();
+		System.out.println("lista size: " + lista.size());
+		poslednji = lista.get(lista.size() - 1);
+		System.out.println("Poslednji id: " + poslednji.getId());
+		Long pom = poslednji.getId() + 1;
+		user.setId(pom);
+        */
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
         user.setFirstName(signUpRequest.getFirstName());

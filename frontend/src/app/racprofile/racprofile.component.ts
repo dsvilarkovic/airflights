@@ -91,7 +91,7 @@ niz : Array<any>;
 
   compareVehicle() {
     for(let v of this.vehicles) {
-      if(v.rentacar.id === this.rac.id) {
+      if(v.rentACarId == this.rac.id) {
           this.vehicles2.push(v);
       }
     }
@@ -99,7 +99,7 @@ niz : Array<any>;
 
   compareBranches() {
     for(let b of this.branches) {
-      if(this.rac.id === b.rentacar.id) {
+      if(this.rac.id == b.rentACarId) {
         this.branches2.push(b);
       }
     }
@@ -107,13 +107,15 @@ niz : Array<any>;
 
 
   addVehicle() {
-    this.newVehicle.rentacar = this.rac;
+    this.newVehicle.rentACarId = this.rac.id;
+    this.newVehicle.branchOffice_id = 4;
    // this.newVehicle.branch_locations = this.newVehicle.branch_locations;
     //alert("Filijala: " + this.newVehicle.branch_locations.id);
-    this.racService.addVehicle(this.newVehicle).subscribe(data => {
+    this.racService.addVehicle(this.newVehicle,this.newVehicle.rentACarId,this.newVehicle.branchOffice_id).subscribe(data => {
         alert("Dodao sam novo vozilo!");
         this.tempVehicle = data;
         this.newVehicle.id = this.tempVehicle.id;
+        this.newVehicle.branchOffice_id = this.tempVehicle.branchOffice_id;
         this.vehicles2.push(this.tempVehicle);
     });
   }
@@ -140,8 +142,8 @@ niz : Array<any>;
     this.updateV.seats = this.seats.value;
     this.updateV.price = this.price.value;
     this.updateV.type = this.type.value;
-    this.updateV.rentacar = this.rac;
-    this.updateV.branch_locations = this.currentVehicle.branch_locations;
+    this.updateV.rentACarId = this.rac.id;
+    this.updateV.branchOffice_id = this.currentVehicle.branchOffice_id;
 
     this.racService.updateVehicle(this.updateV).subscribe(data => {
       
@@ -158,7 +160,7 @@ niz : Array<any>;
         this.currentVehicle.seats = this.tempVehicle.seats;
         this.currentVehicle.price = this.tempVehicle.price;
         this.currentVehicle.type = this.tempVehicle.type;
-        this.currentVehicle.branch_locations = this.tempVehicle.branch_locations;
+        this.currentVehicle.branchOffice_id = this.tempVehicle.branchOffice_id;
       }
       
      
@@ -179,7 +181,7 @@ niz : Array<any>;
       
     })
 
-    if(this.checkReserved == false) {
+    if(this.checkReserved == true) {
       alert("Automobil je reservisan!");
     } else {
       const index: number = this.vehicles2.indexOf(this.currentVehicle);
@@ -192,8 +194,9 @@ niz : Array<any>;
   }
 
   addBranch() {
-    this.newBranch.rentacar = this.rac;
-    this.racService.addBranch(this.newBranch).subscribe(data => {
+    this.newBranch.rentACarId = this.rac.id;
+    alert("FSLDKFJ " + this.rac.id)
+    this.racService.addBranch(this.newBranch,this.rac.id).subscribe(data => {
         alert("Dodao sam novu filijalu!");
         this.tempBranch = data;
         this.newBranch.id = this.tempBranch.id;

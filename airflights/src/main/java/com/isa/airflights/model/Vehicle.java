@@ -1,19 +1,27 @@
 package com.isa.airflights.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@SequenceGenerator(name="seq3", initialValue=4)
 public class Vehicle {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq3")
 	private Long id;
 
 	@Column(name = "name", nullable = false)
@@ -40,14 +48,17 @@ public class Vehicle {
 	@Column(name = "price", nullable = false)
 	private double price;
 	
-	@Column(name = "reserved", nullable = false)
+	@Column(name = "reserved", nullable = true)
 	private Boolean reserved;
 
-	@ManyToOne  
-	private RentACar rentacar;
+	@ManyToOne 
+	private RentACar rentACar;
 	
 	@ManyToOne 
 	private BranchLocations branch_locations;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<VehicleReservation> reservations = new HashSet<VehicleReservation>();
 	
 	public Vehicle() {
 		//super();
@@ -195,11 +206,11 @@ public class Vehicle {
 	}
 	
 	public RentACar getRentacar() {
-		return rentacar;
+		return rentACar;
 	}
 
 	public void setRentacar(RentACar rentacar) {
-		this.rentacar = rentacar;
+		this.rentACar = rentacar;
 	}
 
 

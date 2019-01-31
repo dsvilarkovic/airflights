@@ -2,16 +2,16 @@ import { Branch } from './branch';
 import { rentacar } from "./rentacar";
 
 export class Vehicle {
-    id: Number;
+    id: number;
     name: String;
     brand: String;
     model:String;  
     year: Number;
     seats: Number;
-    price: Number;
+    price: number;
     rating: Number;
     type: String;
     reserved: String;
-    rentacar: rentacar;
-    branch_locations: Branch;
+    rentACarId: Number;
+    branchOffice_id: Number;
 }

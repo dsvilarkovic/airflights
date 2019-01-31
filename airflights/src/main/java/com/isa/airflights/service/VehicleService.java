@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.VehicleDTO;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.repository.VehicleRepository;
 
@@ -21,6 +22,8 @@ public class VehicleService {
 	public Vehicle save(Vehicle rac) {
 		return vr.save(rac);
 	}
+	
+	
 	
 	public Vehicle getOne(Long id) {
 		return vr.getOne(id);

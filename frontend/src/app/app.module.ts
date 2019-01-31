@@ -7,12 +7,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login/login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from 'src/services/register.service';
 import { RentacarComponent } from './rentacar/rentacar.component';
@@ -21,7 +22,6 @@ import { RacprofileComponent } from './racprofile/racprofile.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 
-import { UserProfileComponent } from './user-profile/user-profile/user-profile.component';
 import { HotelAddComponent } from './hotel/hotel-add/hotel-add.component';
 import { HotelListComponent } from './hotel/hotel-list/hotel-list.component';
 import { HotelEditComponent } from './hotel/hotel-edit/hotel-edit.component';
@@ -43,6 +43,16 @@ import { AdminRentACarComponent } from './admin/admin-rent-a-car/admin-rent-a-ca
 import { AdminBonusesComponent } from './admin/admin-bonuses/admin-bonuses.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
 
+import { UserProfileComponent} from './user-profile/user-profile.component';
+
+import { MessageComponent } from './message/message.component';
+import { RentacarPreviewComponent } from './rentacar-preview/rentacar-preview.component';
+import { RacprofilePreviewComponent } from './racprofile-preview/racprofile-preview.component';
+import { DatePipe } from '@angular/common';
+import { AirplaneTableComponent } from './airplane-table/airplane-table.component';
+import { ConfigSeatsComponent } from './config-seats/config-seats.component';
+
+
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
@@ -51,6 +61,7 @@ const appRoutes: Routes = [
   {path: 'rentacar/:id', component: RacprofileComponent},
   {path: 'error45', component: ErrorComponent},
   {path: 'home', component: HomeComponent},
+
   {path: 'hotel/list', component: HotelListComponent },
   {path: 'hotel/add', component: HotelAddComponent },
   {path: 'hotel/edit/:id', component: HotelEditComponent },
@@ -69,6 +80,11 @@ const appRoutes: Routes = [
   {path: 'admin/rac', component: AdminRentACarComponent},
   {path: 'admin/bonus', component: AdminBonusesComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
+  {path: 'userProfile', component: UserProfileComponent},
+  {path: 'rentacarPreview', component: RentacarPreviewComponent},
+  {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
+  {path: 'seatConfig', component : ConfigSeatsComponent}
+
 ];
 
 @NgModule({
@@ -102,6 +118,13 @@ const appRoutes: Routes = [
     AdminRentACarComponent,
     AdminBonusesComponent,
     AdminProfileComponent,
+    HomeComponent,
+    UserProfileComponent,
+    MessageComponent,
+    RentacarPreviewComponent,
+    RacprofilePreviewComponent,
+    AirplaneTableComponent,
+    ConfigSeatsComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -111,16 +134,17 @@ const appRoutes: Routes = [
     HttpClientModule,
     HttpModule,
     NgMultiSelectDropDownModule.forRoot(),
+    NgbModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,{
         enableTracing: true
       }
-    )
+    ),
   ],
   providers: [LoginService, RegisterService,RentacarService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-    },],
+    },DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -22,7 +22,7 @@ export class RentacarService {
   } 
 
   getAllVehicles(): Observable<any> {
-    alert("OVDE SAM");
+    alert("OVDE SAM!!!");
     return this.http.get("//localhost:8080/api/vehicle/test");
   }
 
@@ -30,9 +30,9 @@ export class RentacarService {
     return this.http.get("//localhost:8080/api/branch/getAllBranches");
   }
 
-  addVehicle(vehicle: Object): Observable<any> {
+  addVehicle(vehicle: Object, id1,id2): Observable<any> {
     alert("TUSAM");
-    return this.http.post("//localhost:8080/api/vehicle/addVehicle",vehicle);
+    return this.http.post("//localhost:8080/api/vehicle/addVehicle/"+id1+"/"+id2,vehicle);
   }
 
   updateVehicle(vehicle: Object): Observable<any> {
@@ -45,8 +45,8 @@ export class RentacarService {
     return this.http.delete("//localhost:8080/api/vehicle/delete/"+id);
   }
 
-  addBranch(branch: Branch): Observable<any> {
-    return this.http.post("//localhost:8080/api/branch/addBranch",branch)
+  addBranch(branch: Branch,id): Observable<any> {
+    return this.http.post("//localhost:8080/api/branch/addBranch/"+id,branch)
   }
 
   updateBranch(branch: Branch): Observable<any> {
@@ -61,5 +61,16 @@ export class RentacarService {
     return this.http.get("//localhost:8080/api/abstractUsers/logged",httOptions);
   }
 
+  search(name): Observable<any> {
+    alert("Ovde!")
+    return this.http.get("//localhost:8080/api/rentacar/search/"+name);
+  }
 
+  getAllById(id): Observable<any> {
+    return this.http.get("//localhost:8080/api/vehicle/getAll/"+id);
+  }
+
+  searchBranch(id): Observable<any> {
+    return this.http.get("//localhost8080/api/branch/search/"+id);
+  }
 }

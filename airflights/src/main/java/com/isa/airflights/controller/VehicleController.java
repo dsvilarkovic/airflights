@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.airflights.dto.VehicleDTO;
 import com.isa.airflights.model.Vehicle;
+import com.isa.airflights.service.BranchLocationsService;
+import com.isa.airflights.service.RentACarService;
 import com.isa.airflights.service.VehicleService;
 
 @RestController
@@ -25,28 +28,60 @@ public class VehicleController {
 	@Autowired
 	private VehicleService vs;
 	
+	@Autowired
+	private BranchLocationsService bs;
+	
+	@Autowired
+	private RentACarService rs;
+	
 	@RequestMapping("/test")
-	public ResponseEntity<List<Vehicle>> getAll() {
+	public ResponseEntity<List<VehicleDTO>> getAll() {
 		System.out.println("sadfsdaf");
 		List<Vehicle> v = vs.findAll();
 		
-		List<Vehicle> r = new ArrayList<Vehicle>();
+		List<VehicleDTO> vehicledto = new ArrayList<>();
 		
 		for (Vehicle rentACar : v) {
-			r.add(rentACar);
+			vehicledto.add(new VehicleDTO(rentACar));
 			
 		}
 		
 		System.out.println("Pred return");
-		return new ResponseEntity<List<Vehicle>>(r,HttpStatus.OK);
+		return new ResponseEntity<>(vehicledto,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/addVehicle", method = RequestMethod.POST, 
+	@RequestMapping(value="/addVehicle/{id1}/{id2}", method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle) {
-		System.out.println("Usao u metodu");
+	public ResponseEntity<VehicleDTO> addVehicle(@RequestBody Vehicle vehicle,@PathVariable Long id1,@PathVariable Long id2) {
+		/*System.out.println("Usao u metodu" + vehicle.getName() + " dsafasdf " + vehicle.getId());
+		List<Vehicle> lista = vs.findAll();
+		Vehicle poslednji = new Vehicle();
+		System.out.println("lista size: " + lista.size());
+		poslednji = lista.get(lista.size() - 1);
+		System.out.println("Poslednji id: " + poslednji.getId());
+		Long pom = poslednji.getId() + 1;
+		vehicle.setId(pom);*/
+		vehicle.setRentacar(rs.getOne(id1));
+		vehicle.setBranch_locations(bs.getOne(id2));
+
+		
+		VehicleDTO vdto = new VehicleDTO();
+
+		vdto.setName(vehicle.getName());
+		vdto.setBrand(vehicle.getBrand());
+		vdto.setModel(vehicle.getModel());
+		vdto.setYear(vehicle.getYear());
+		vdto.setSeats(vehicle.getSeats());
+		vdto.setType(vehicle.getType());
+		vdto.setPrice(vehicle.getPrice());
+		vdto.setRentACarId(vehicle.getRentacar().getId());
+		vdto.setBranchOffice_id(vehicle.getBranch_locations().getId());
+		vdto.setRating(0);
+		vdto.setReserved(false);
+		/*
 		Vehicle v = new Vehicle();
+		v.setId((long) 4);
 		v.setName(vehicle.getName());
 		v.setBrand(vehicle.getBrand());
 		v.setModel(vehicle.getModel());
@@ -59,11 +94,11 @@ public class VehicleController {
 		v.setRating(0);
 		v.setReserved(false);
 		
-		System.out.println("GetBranch: " + v.getBranch_locations());
+		System.out.println("GetBranch: " + v.getBranch_locations());*/
 		
-		v = vs.save(v);
+		vs.save(vehicle);
 		
-		return new ResponseEntity<Vehicle>(new Vehicle(v),HttpStatus.CREATED);
+		return new ResponseEntity<VehicleDTO>(vdto,HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/update", method = RequestMethod.PUT)
@@ -91,6 +126,27 @@ public class VehicleController {
 			return new ResponseEntity<Boolean>(false,HttpStatus.FORBIDDEN);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * Metoda koja vraca sva vozila iz rent a car-a sa datim id
+	 * */
+	@RequestMapping(value="/getAll/{id}")
+	public ResponseEntity<List<VehicleDTO>>getAll(@PathVariable Long id) {
+		
+		List<Vehicle> lista = vs.findAll();
+		List<VehicleDTO> listaDTO = new ArrayList<>();
+		for (Vehicle vehicle : lista) {
+			if(vehicle.getRentacar().getId().equals(id)) {
+				VehicleDTO vdto = new VehicleDTO(vehicle);
+				listaDTO.add(vdto);
+			}
+		}
+
+		
+		
+		
+		return new ResponseEntity<List<VehicleDTO>>(listaDTO,HttpStatus.OK);
 	}
 	
 }

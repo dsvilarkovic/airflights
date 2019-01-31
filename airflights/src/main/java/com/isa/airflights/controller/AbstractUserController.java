@@ -29,6 +29,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/**
+ * Vazno, ovaj Controller je DEPRECATED, koristiti samo /test 
+ * @author Dusan
+ *
+ */
 @RestController
 @RequestMapping(value="/api/abstractUsers")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -45,9 +51,9 @@ public class AbstractUserController {
 	}
 	
 	@RequestMapping("/whoami")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("permitAll()")
 	public Optional<AbstractUser> user(Principal user) {
-		
+		System.out.println(user);
 		Optional<AbstractUser> a = this.abstractUserService.findByEmail(user.getName());
 		
 		System.out.println("DFLJDSLFKJSD " + a.get().getEmail());

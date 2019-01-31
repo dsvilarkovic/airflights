@@ -12,14 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@SequenceGenerator(name="seq1", initialValue=6)
 public class BranchLocations {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq1")
 	private Long id;
 	
 	@Column(name = "address", nullable = true)
@@ -31,7 +33,7 @@ public class BranchLocations {
 	@OneToOne 
 	private RentACar rentacar;
 	
-	@OneToMany(mappedBy = "branch_locations", fetch = FetchType.EAGER) @JsonIgnore
+	@OneToMany(mappedBy = "branch_locations", fetch = FetchType.EAGER)
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 	
 	

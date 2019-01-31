@@ -8,4 +8,5 @@ import com.isa.airflights.model.Vehicle;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
+	
 }

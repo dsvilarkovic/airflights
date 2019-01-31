@@ -29,7 +29,7 @@ public class Airplane {
 	@JoinColumn
 	private Airline airline;
 	
-	@OneToOne(mappedBy = "airplane", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	private SegmentConfig segmentConfig;
 
 	public Long getId() {
