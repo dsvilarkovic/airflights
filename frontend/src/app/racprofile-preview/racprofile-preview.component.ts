@@ -28,6 +28,8 @@ export class RacprofilePreviewComponent implements OnInit {
   modelDropOff: NgbDateStruct;
   vehicles : Array<Vehicle>;
   vehicles2 :Vehicle[] = [];
+  vehicles3 :Vehicle[] = [];
+  vehicles4 :Vehicle[] = [];
   branches : Array<Branch>
   branches2: Branch[] = [];
   date: {year: number, month: number};
@@ -71,6 +73,21 @@ export class RacprofilePreviewComponent implements OnInit {
   //pom rent a car
   rent: rentacar = new rentacar();
 
+  //informacija da li je korisnik ulogovan, prikaz book mu se nece prikazati (moze samo da gleda)
+  loggedFlag: boolean = false;
+
+  //lista za search
+  reservationsSearch : Array<VehicleReservation>;
+  reservationsSearch2: VehicleReservation [] = [];
+
+  //za datum:
+  day1: number;
+  day2: number;
+  mon1: number;
+  mon2: number;
+  year1: number;
+  year2: number;
+
 
   constructor(private racService: RentacarService, private router: Router,
     private route : ActivatedRoute, private datePipe: DatePipe,
@@ -83,7 +100,8 @@ export class RacprofilePreviewComponent implements OnInit {
      }
 
   ngOnInit() {
-    
+    this.vehicles2 = [];
+    this.loggedFlag = false;
     this.id = this.route.snapshot.params.id;
     this.racService.getOne(this.id).subscribe(data => {
       this.rent = data;
@@ -97,7 +115,12 @@ export class RacprofilePreviewComponent implements OnInit {
     })
 
    
-
+    this.resServise.getAllById(this.id).subscribe(data => {
+      this.reservationsSearch = data;
+      for(let v of this.reservationsSearch) {
+        this.reservationsSearch2.push(v);
+    }
+    })
 
   
     this.racService.getAllById(this.id).subscribe(data => {
@@ -125,11 +148,13 @@ export class RacprofilePreviewComponent implements OnInit {
 
     if(sessionStorage.getItem("AuthUsername") == null) {
       alert("Niko nije ulogovan!");
+      this.loggedFlag = false;
     } else {
     this.loginService.getLogged(sessionStorage.getItem("AuthUsername")).subscribe(data => 
         {
         this.currentUser = data;
         alert("User: " + this.currentUser.firstName);
+        this.loggedFlag = true;
         });
       }
 
@@ -178,18 +203,45 @@ export class RacprofilePreviewComponent implements OnInit {
 
   search() {
     this.vehicles2 = [];
-    this.pickuplocStr = this.pickuploc.value;
-    for(let v of this.vehicles) {
+    this.vehicles3 = [];
+    
+    this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+    this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+
+   /* for(let v of this.vehicles) {
       if(v.branchOffice_id == this.pickuploc.value) {
-        alert("Postoji vozilo!")
+        //da li ima filijalu ?
+        alert("Postoji vozilo u zadatoj filijali!");
         this.vehicles2.push(v);
+
+      } else {
+        alert("Ne postoji u filijali");
       }
-    }
+    }*/
 
-    //to implement validation of reservation for date range!
+    this.resServise.checkDate(this.reserv.pickupdate,this.reserv.dropoffdate,this.id).subscribe(data => {
+      this.vehicles = data;
+      for(let ve of this.vehicles) {
+        this.vehicles3.push(ve);
+      }
+          //to implement validation of reservation for date range!
+        //u reservationSearh ce biti svi slobodni
+      for(let v of this.vehicles3) {
+        if(v.branchOffice_id == this.pickuploc.value) {
+          this.vehicles2.push(v);
+        }
+      }
+          
 
+    })
 
+    
+    
+   
   }
+
+ 
+  
 
   reset() {
     this.ngOnInit();
@@ -218,6 +270,8 @@ export class RacprofilePreviewComponent implements OnInit {
 
     this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
     this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+
+    
 /*
 
     alert("this.reserv.pickuplocation);

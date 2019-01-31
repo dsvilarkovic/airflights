@@ -41,12 +41,15 @@ VALUES (5, 'Bulevar Despota Stefana 66', 'Novi Sad', '3');
 
 INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id) 
 VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','Putnicko vozilo', '2' , '20', false,'1', '1');
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id) 
+VALUES (4,'vozilo4', 'RENAULT', 'Clio',  '2005', '5','Putnicko vozilo', '2' , '20', false,'1', '2');
 INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id) 
 VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', 'Putnicko vozilo', '3', '30', false,'2', '4');
 INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id) 
 VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','Putnicko vozilo', '5', '40', false,'3', '5');
 
-
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
+VALUES ('2019-1-31', '2019-2-14', 333, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
 
 
 

@@ -15,11 +15,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.isa.airflights.dto.AbstractUserDTO;
+
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.repository.AbstractUserRepository;
 

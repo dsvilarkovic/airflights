@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.BranchLocations;
-import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.repository.BranchLocationsRepository;
 
 
