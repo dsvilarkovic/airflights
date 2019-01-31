@@ -36,6 +36,11 @@ import com.isa.airflights.service.AbstractUserService;
 
 
 
+/**
+ * Zvanicni nacin logovanja i registracije na korisnicke servise, izbegavati AbstractUserController
+ * @author Viktor
+ *
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -76,6 +81,7 @@ public class AuthRestAPIs {
 
             String jwt = jwtProvider.generateJwtToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            System.out.println("Ulogovani je : " + userDetails.getUsername());
             Optional<AbstractUser> user = userRepository.findByEmail(loginRequest.getEmail());
             user.get().getIdRentACar();
             

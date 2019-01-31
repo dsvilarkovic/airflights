@@ -2,12 +2,10 @@ package com.isa.airflights.model;
 
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,11 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -31,7 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * */
 
 @Entity
-public class AbstractUser  {
+public class AbstractUser {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,7 +74,14 @@ public class AbstractUser  {
 	private int idCompany;
 
 	
+	
+	@OneToOne
+	@JoinColumn(name = "id_airline", referencedColumnName = "id")
+	private Airline airline;
+	
+	
 	@Column(name = "last_password_reset_date")
+	@JsonIgnore
     private Timestamp lastPasswordResetDate;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -82,6 +89,9 @@ public class AbstractUser  {
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+	
+	
+	
 	
 	public AbstractUser() {
 		
@@ -229,6 +239,14 @@ public class AbstractUser  {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
+				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
+				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
 	}
 	
 	

@@ -21,8 +21,10 @@ import { RacprofileComponent } from './racprofile/racprofile.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { RentacarpreviewComponent } from './rentacarpreview/rentacarpreview.component';
-
-
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { MessageComponent } from './message/message.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule} from 'ngx-toastr'
 
 
 const appRoutes: Routes = [
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
   {path: 'rentacar/:id', component: RacprofileComponent},
   {path: 'error45', component: ErrorComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'rentacarPreview', component: RentacarpreviewComponent}
+  {path: 'rentacarPreview', component: RentacarpreviewComponent},
+  {path: 'userProfile', component: UserProfileComponent}
 ];
 
 @NgModule({
@@ -45,7 +48,10 @@ const appRoutes: Routes = [
     RentacarComponent,
     RacprofileComponent,
     ErrorComponent,
-    HomeComponent
+    HomeComponent,
+    UserProfileComponent,
+    RentacarpreviewComponent,
+    MessageComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -58,7 +64,9 @@ const appRoutes: Routes = [
       appRoutes,{
         enableTracing: true
       }
-    )
+    ),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot() 
   ],
   providers: [LoginService, RegisterService,RentacarService,ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

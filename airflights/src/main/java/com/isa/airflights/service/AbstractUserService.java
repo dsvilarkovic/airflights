@@ -14,6 +14,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +58,11 @@ public class AbstractUserService {
 
 	public AbstractUser login(AbstractUser user) {
 		System.out.println("USao u servis login " + user.getEmail());
-		Optional<AbstractUser> _user = abstractUserRepository.findByEmail(user.getEmail());
-
+		Optional<AbstractUser> foundUser =  abstractUserRepository.findByEmail(user.getEmail());
+		
+		if(foundUser == null) {
+			System.out.println("Nije verifikovan");
+		}
 		/*if (_user != null) {
 			System.out.println("USao u if u servis login");
 			if (_user.getVerify() == false) {
@@ -71,7 +76,7 @@ public class AbstractUserService {
 			}
 		} else
 			return null;*/
-		return null;
+		return foundUser.get();
 	}
 
 	public AbstractUser getOne(Long id) throws AccessDeniedException {
@@ -125,9 +130,12 @@ public class AbstractUserService {
 	 * @param updatedUser
 	 * @return
 	 */
-	public AbstractUser updateAbstractUser(AbstractUserDTO updatedUser) {
+	public AbstractUser updateAbstractUser(AbstractUser updatedUser) {
 		//Prvo se proveri da li postoji pod tim id-jem.
 		AbstractUser foundAbstractUser = abstractUserRepository.getOne(updatedUser.getId());
+		
+		
+		
 		if(foundAbstractUser == null) {
 			return null;
 		}
@@ -135,12 +143,37 @@ public class AbstractUserService {
 		if(foundAbstractUser.getPassword().isEmpty()) {
 			return null;
 		}
+		
+		System.out.println(updatedUser.getPassword());
 		//zatim se podesi novi nalog pod tim id-jem
-		abstractUserRepository.deleteById(updatedUser.getId());
-		abstractUserRepository.saveAndFlush(updatedUser.getAbstractUser());
+		abstractUserRepository.save(updatedUser);
+		System.out.println("Snimljena je izmena");
 		//zatim se vrati null ili updatedUser opet
 		return abstractUserRepository.getOne(updatedUser.getId());
 	}
+	
+	/**
+	 * Vraca nadjeni 
+	 * @Dusan
+	 * @return
+	 */
+	//TODO: da @Djuka pregleda ovaj kod i da mi kaze sta misli
+	public AbstractUser getAbstractUser(Authentication authentication) {
+		//TODO: nalazi korisnika kojeg treba po emajlu, @Djuka posle da proveri
+		Optional<AbstractUser> abstractUser = abstractUserRepository.findByEmail(authentication.getName());
+		
+		AbstractUser foundUser = null;
+		try {
+			foundUser = abstractUser.get();		
+		}
+		catch(Exception e) {
+		}
+		return foundUser;
+	}
+	
+	
+	
+	
 	
 	
 

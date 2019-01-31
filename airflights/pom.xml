@@ -30,6 +30,9 @@
   			<groupId>org.postgresql</groupId>
  			<artifactId>postgresql</artifactId>
   		</dependency>
+  		
+		
+
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -73,6 +76,7 @@
 			<scope>test</scope>
 		</dependency>
 		
+		
 		<!-- SPRING SECURITY -->
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
@@ -80,11 +84,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-				<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
@@ -124,16 +125,13 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-		
+
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.modelmapper.extensions</groupId>
+			<artifactId>modelmapper-spring</artifactId>
+			<version>2.3.0</version>
 		</dependency>
-		
-		
-		
-		
 	</dependencies>
 
 	<build>
