@@ -12,6 +12,8 @@ import { Branch } from '../branch';
 import { ReservationServiceService } from 'src/services/reservation-service.service';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { DomSanitizer } from '@angular/platform-browser';
+import { rentacar } from '../rentacar';
 
 
 @Component({
@@ -62,12 +64,20 @@ export class RacprofilePreviewComponent implements OnInit {
   //broj dana izmedju dva datuma
   days;
 
+  //final address
+  _finalAddress: string = "";
+  _address: string = "";
+
+  //pom rent a car
+  rent: rentacar = new rentacar();
+
 
   constructor(private racService: RentacarService, private router: Router,
     private route : ActivatedRoute, private datePipe: DatePipe,
     private resServise: ReservationServiceService,
     private loginService: LoginService,
-    calendar: NgbCalendar) {
+    public sanitizer: DomSanitizer,
+    private calendar: NgbCalendar) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
      }
@@ -75,6 +85,21 @@ export class RacprofilePreviewComponent implements OnInit {
   ngOnInit() {
     
     this.id = this.route.snapshot.params.id;
+    this.racService.getOne(this.id).subscribe(data => {
+      this.rent = data;
+      //alert("DLAFKJ " + this.rent.id)
+      //alert("Adres: " + this.rent.address);
+
+      this._address += this.rent.address;
+      this._address += " ";
+      this._address += this.rent.address.replace(/ /g,'%20');
+      this._finalAddress += "https://maps.google.com/maps?q="+this._address+"&t=&z=13&ie=UTF8&iwloc=&output=embed";
+    })
+
+   
+
+
+  
     this.racService.getAllById(this.id).subscribe(data => {
       this.vehicles=data;
       for(let v of this.vehicles) {

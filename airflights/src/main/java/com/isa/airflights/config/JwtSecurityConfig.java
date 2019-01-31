@@ -74,8 +74,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 .antMatchers("/api/vehicle/**").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")              
                 .antMatchers("/api/branch/**").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
-                .antMatchers("/api/rentacar/test").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
-                .antMatchers("/api/rentacar/{id}").hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
+                .antMatchers("/api/rentacar/test").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
+                .antMatchers("/api/rentacar/{id}").permitAll()//hasAnyRole("SYSTEMADMIN","RENTACARADMIN")
                 
                 /*.antMatchers("/api/vehicle/**").hasRole("RENTACARADMIN") 
                 .antMatchers("/api/rentacar/**").hasRole("RENTACARADMIN") 
