@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.isa.airflights.model.Airplane;
+import com.isa.airflights.model.Airline;
 
 @Repository
-public interface AirplaneRepository extends JpaRepository<Airplane, Long>{
+public interface AirlineRepository  extends JpaRepository<Airline, Long>{
 	
-	Page<Airplane> findAll(Pageable pageRequest);
-
+	Page<Airline> findAll(Pageable pageRequest);
 }

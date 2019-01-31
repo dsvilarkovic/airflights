@@ -29,7 +29,8 @@ public class SegmentConfig {
 	 * Svaka konfiguracija pripada jednom i samo jednom avionu
 	 */
 	@OneToOne
-	@JoinColumn(name = "airplane_id", referencedColumnName = "id")
+	@JoinColumn(unique = true)
+	//@JoinColumn(name = "airplane_id", referencedColumnName = "id")
 	private Airplane airplane;
 	
 	@Column(name = "segmentNum")
