@@ -28,12 +28,14 @@ public class SegmentConfigService {
 	public void addConfig(SegmentConfig segmentConfig) {
 		
 		segmentConfigRepository.save(segmentConfig);
-		updateSeats(segmentConfig);
+		//updateSeats(segmentConfig);
 	}
 	
 	public Boolean deleteConfig(Long id) {
 		try {
 			segmentConfigRepository.deleteById(id);
+			SegmentConfig segmentConfig =  segmentConfigRepository.getOne(id);
+			System.out.println("SegmentConfig je : " + segmentConfig.getId());
 		}
 		catch(IllegalArgumentException exception) {
 			return false;
@@ -54,11 +56,15 @@ public class SegmentConfigService {
 		}
 		//snimi konfiguraciju
 		segmentConfigRepository.save(segmentConfig);
-		updateSeats(segmentConfig);
+		//updateSeats(segmentConfig);
 		return true;
 	}
 	
 	
+	/**
+	 * Azuriranje sedista koja su falila u prethodnoj konfiguraciji
+	 * @param segmentConfig
+	 */
 	public void updateSeats(SegmentConfig segmentConfig) {
 		Set<Seat> seats = segmentConfig.getSeats();
 		for (Seat seat : seats) {

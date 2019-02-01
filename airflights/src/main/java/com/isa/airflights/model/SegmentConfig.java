@@ -36,7 +36,7 @@ public class SegmentConfig {
 	@Column(name = "segmentNum")
 	private Integer segmentNum;	
 	
-	@OneToMany(mappedBy = "segmentConfig", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "segmentConfig", cascade = CascadeType.REFRESH, orphanRemoval = true)
 	private Set<Seat> seats = new HashSet<>();
 
 	public Long getId() {

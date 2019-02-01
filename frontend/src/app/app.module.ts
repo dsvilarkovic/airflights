@@ -57,6 +57,7 @@ import { AdminsService } from 'src/services/admins.service';
 import { AdminAddComponent } from './admin/admin-add/admin-add.component';
 import { AdminRentACarAddComponent } from './admin/admin-rent-a-car-add/admin-rent-a-car-add.component';
 import { AdminAirlineAddComponent } from './admin/admin-airline-add/admin-airline-add.component';
+import { AddPlaneComponent } from './add-plane/add-plane.component';
 
 
 const appRoutes: Routes = [
@@ -139,6 +140,7 @@ const appRoutes: Routes = [
     AdminAddComponent,
     AdminRentACarAddComponent,
     AdminAirlineAddComponent,
+    AddPlaneComponent,
   ],
   imports: [
     ReactiveFormsModule,

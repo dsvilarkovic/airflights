@@ -3,14 +3,14 @@ package com.isa.airflights.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.isa.airflights.model.Seat;
+import com.isa.airflights.dto.SeatDTO;
 
 public class SegmentConfigDTO {
 
 	private Long id;
 	private Long airplane_id;
 	private Integer segmentNum;
-	private Set<Seat> seats = new HashSet<>();
+	private Set<SeatDTO> seatDTOs = new HashSet<>();
 	
 	public Long getId() {
 		return id;
@@ -30,12 +30,14 @@ public class SegmentConfigDTO {
 	public void setSegmentNum(Integer segmentNum) {
 		this.segmentNum = segmentNum;
 	}
-	public Set<Seat> getSeats() {
-		return seats;
+	public Set<SeatDTO> getSeatDTOs() {
+		return seatDTOs;
 	}
-	public void setSeats(Set<Seat> seats) {
-		this.seats = seats;
+	public void setSeatDTOs(Set<SeatDTO> seatDTOs) {
+		this.seatDTOs = seatDTOs;
 	}
+
+	
 	
 	
 	

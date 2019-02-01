@@ -24,15 +24,20 @@ public class Seat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
+	/**
+	 * Svako sediste ima svoju klasu u avionu kojoj pripada
+	 */
+	@Column(name = "airline_class")
+	private AirlineClassType airline_class;
 	
-	@Column(name = "seatRow")
-	private Integer row;
+	@Column(name = "seat_row")
+	private Integer seat_row;
 	
-	@Column(name = "seatColumn")
-	private Integer column;
+	@Column(name = "seat_column")
+	private Integer seat_column;
 	
-	@Column(name = "segmentNum")
-	private Integer segmentNum;
+	@Column(name = "segment_num")
+	private Integer segment_num;
 	
 	
 	@ManyToOne
@@ -45,11 +50,7 @@ public class Seat {
 	private Set<ReservedSeat> reservedSeats = new HashSet<>();
 	
 	
-	/**
-	 * Svako sediste ima svoju klasu u avionu kojoj pripada
-	 */
-	@Column(name = "class")
-	private AirlineClassType airlineClassType;
+	
 
 
 	public Long getId() {
@@ -62,33 +63,38 @@ public class Seat {
 	}
 
 
-	public Integer getRow() {
-		return row;
+	
+
+
+	public Integer getSeat_row() {
+		return seat_row;
 	}
 
 
-	public void setRow(Integer row) {
-		this.row = row;
+	public void setSeat_row(Integer seat_row) {
+		this.seat_row = seat_row;
 	}
 
 
-	public Integer getColumn() {
-		return column;
+	public Integer getSeat_column() {
+		return seat_column;
 	}
 
 
-	public void setColumn(Integer column) {
-		this.column = column;
+	public void setSeat_column(Integer seat_column) {
+		this.seat_column = seat_column;
 	}
 
 
-	public Integer getSegmentNum() {
-		return segmentNum;
+
+
+	public Integer getSegment_num() {
+		return segment_num;
 	}
 
 
-	public void setSegmentNum(Integer segmentNum) {
-		this.segmentNum = segmentNum;
+	public void setSegment_num(Integer segment_num) {
+		this.segment_num = segment_num;
 	}
 
 
@@ -112,15 +118,17 @@ public class Seat {
 	}
 
 
-	public AirlineClassType getAirlineClassType() {
-		return airlineClassType;
-	}
-
-
-	public void setAirlineClassType(AirlineClassType airlineClassType) {
-		this.airlineClassType = airlineClassType;
-	}
 	
+	public AirlineClassType getAirline_class() {
+		return airline_class;
+	}
+
+
+	public void setAirline_class(AirlineClassType airline_class) {
+		this.airline_class = airline_class;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(getId());
