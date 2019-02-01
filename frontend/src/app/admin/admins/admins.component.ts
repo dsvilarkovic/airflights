@@ -19,12 +19,16 @@ export class AdminsComponent implements OnInit {
       this.admins.forEach(element => {
         
         switch(element.role.id) {
-          case 1: element.kind="User"; break;
-          case 2: element.kind="System admin"; break;
+          case 1: element.kind="User"; 
+          
+          break;
+          case 2: element.kind="System admin"; 
+          
+          break;
           case 3: 
             element.kind="Flight"; 
-            if (element.airline.name != null && element.airline.name != null) {
-              element.com = element.airline.name; 
+            if (element.airline.fullName != null && element.airline.fullName != null) {
+              element.com = element.airline.fullName; 
             }
             break;
           case 4: 

@@ -1,6 +1,7 @@
 import { Hotel } from './hotel';
 import { Role } from './role';
 import { ComponentFactory } from '@angular/core/src/render3';
+import { Airline } from './airline';
 
 export class Admin {
     id: number;
@@ -16,4 +17,5 @@ export class Admin {
     role: Role;
     idCompany: number;
     verify: boolean;
+    airline: Airline;
 }

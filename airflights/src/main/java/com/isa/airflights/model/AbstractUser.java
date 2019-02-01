@@ -26,8 +26,6 @@ import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-
 /**
  *  @author Viktor
  *  Model abstract user-a
@@ -82,7 +80,8 @@ public class AbstractUser {
 	//@Column(name = "id_company", nullable = true)
 	//private RentACar idCompany;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "id_airline", referencedColumnName = "id")
 	private Airline airline;
 	

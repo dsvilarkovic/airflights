@@ -24,7 +24,7 @@
                   <td>{{rac.address}}</td>
                   <td>{{rac.city}}</td>
                   <td>{{rac.rating}}</td>
-                  <td><button class="btn btn-success" routerLink="/admin/hotel/{{rac.id}}/{{type}}/newAdmin">Add admin</button></td>
+                  <td><button class="btn btn-success" routerLink="/admin/{{rac.id}}/{{type}}/newAdmin">Add admin</button></td>
                   <td><button class="btn btn-danger" (click)="delete(rac.id)">Delete</button></td>
                 </tr>
               </tbody>
