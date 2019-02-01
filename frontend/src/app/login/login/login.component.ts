@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginInfo = new AuthLoginInfo(this.user.email,this.user.password);
-
+    alert();
     this.authService.attemptAuth(this.loginInfo).subscribe(data => {
 
      
