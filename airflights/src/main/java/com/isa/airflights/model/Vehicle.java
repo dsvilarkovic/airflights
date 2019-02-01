@@ -40,7 +40,7 @@ public class Vehicle {
 	private int seats;
 	
 	@Column(name = "type", nullable = false)
-	private String type;
+	private VehicleType type;
 	
 	@Column(name = "rating", nullable = false)
 	private int rating;
@@ -50,6 +50,10 @@ public class Vehicle {
 	
 	@Column(name = "reserved", nullable = true)
 	private Boolean reserved;
+	
+	//vrednosti ce biti od (0-1], ukoliko je vrednost polja null, vozilo nije na popustu
+	@Column(name = "discount", nullable = true)
+	private double discount;
 
 	@ManyToOne 
 	private RentACar rentACar;
@@ -67,7 +71,7 @@ public class Vehicle {
 
 
 
-	public Vehicle(Long id, String name, String brand, String model, int year, int seats, String type, int rating, double price, Boolean r) {
+	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, int rating, double price, Boolean r,double discount) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -79,10 +83,28 @@ public class Vehicle {
 		this.rating = rating;
 		this.price = price;
 		this.reserved = r;
+		this.discount = discount;
 	}
 	
 	public Vehicle(Vehicle v) {
-		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved());
+		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount());
+	}
+
+
+
+	
+	
+
+
+
+	public double getDiscount() {
+		return discount;
+	}
+
+
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 
 
@@ -195,13 +217,12 @@ public class Vehicle {
 
 
 
-	public String getType() {
+	public VehicleType getType() {
 		return type;
 	}
 
 
-
-	public void setType(String type) {
+	public void setType(VehicleType type) {
 		this.type = type;
 	}
 	

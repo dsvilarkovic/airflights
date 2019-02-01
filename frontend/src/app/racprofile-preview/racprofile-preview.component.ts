@@ -1,3 +1,5 @@
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
+import { VehicleType } from './../../vehicleType';
 import { User } from './../user';
 import { LoginService } from './../../services/login.service';
 import { VehicleReservation } from './../vehicleReservation';
@@ -14,6 +16,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { rentacar } from '../rentacar';
+
 
 
 @Component({
@@ -88,12 +91,23 @@ export class RacprofilePreviewComponent implements OnInit {
   year1: number;
   year2: number;
 
+  //za price range
+  rangerFrom :number = 0;
+  rangerTo:number = 999;
+  //sedista
+  seats:number;
+
+  //tipovi
+  types: VehicleType;
+  typess:string[] = ["SMALL_CARS", "MEDIUM_CARS", "LARGE_CARS", "PREMIUM_CARS"];
+
 
   constructor(private racService: RentacarService, private router: Router,
     private route : ActivatedRoute, private datePipe: DatePipe,
     private resServise: ReservationServiceService,
     private loginService: LoginService,
     public sanitizer: DomSanitizer,
+    private token: TokenStorageService,
     private calendar: NgbCalendar) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
@@ -101,13 +115,11 @@ export class RacprofilePreviewComponent implements OnInit {
 
   ngOnInit() {
     this.vehicles2 = [];
+    this.branches2 = [];
     this.loggedFlag = false;
     this.id = this.route.snapshot.params.id;
     this.racService.getOne(this.id).subscribe(data => {
       this.rent = data;
-      //alert("DLAFKJ " + this.rent.id)
-      //alert("Adres: " + this.rent.address);
-
       this._address += this.rent.address;
       this._address += " ";
       this._address += this.rent.address.replace(/ /g,'%20');
@@ -204,20 +216,10 @@ export class RacprofilePreviewComponent implements OnInit {
   search() {
     this.vehicles2 = [];
     this.vehicles3 = [];
+    alert("Type? " + this.types);
     
     this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
     this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
-
-   /* for(let v of this.vehicles) {
-      if(v.branchOffice_id == this.pickuploc.value) {
-        //da li ima filijalu ?
-        alert("Postoji vozilo u zadatoj filijali!");
-        this.vehicles2.push(v);
-
-      } else {
-        alert("Ne postoji u filijali");
-      }
-    }*/
 
     this.resServise.checkDate(this.reserv.pickupdate,this.reserv.dropoffdate,this.id).subscribe(data => {
       this.vehicles = data;
@@ -227,16 +229,13 @@ export class RacprofilePreviewComponent implements OnInit {
           //to implement validation of reservation for date range!
         //u reservationSearh ce biti svi slobodni
       for(let v of this.vehicles3) {
-        if(v.branchOffice_id == this.pickuploc.value) {
+        if(v.branchOffice_id == this.pickuploc.value && v.type == this.types && v.seats == this.seats && v.price < this.rangerTo && v.price > this.rangerFrom) {
           this.vehicles2.push(v);
         }
       }
-          
 
     })
 
-    
-    
    
   }
 
@@ -272,12 +271,6 @@ export class RacprofilePreviewComponent implements OnInit {
     this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
 
     
-/*
-
-    alert("this.reserv.pickuplocation);
-    alert("this.reserv.dropofflocation);
-    alert("this.reserv.pickupdate);
-    alert("this.reserv.dropoffdate);*/
 
     this.reserv.reservationdate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
@@ -291,9 +284,9 @@ export class RacprofilePreviewComponent implements OnInit {
     var end = moment(this.reserv.pickupdate); 
     var duration = moment.duration(now.diff(end));
     this.days = duration.asDays();
-    alert("Cena:  " + duration);
+  /*  alert("Cena:  " + duration);
     alert("Cena:  " + this.days);
-    alert("Cena:  " + this.selectedVehicle.price);
+    alert("Cena:  " + this.selectedVehicle.price);*/
 
     this.reserv.price = this.days * this.selectedVehicle.price;
     alert("Cena:  " + this.reserv.price);
@@ -303,6 +296,11 @@ export class RacprofilePreviewComponent implements OnInit {
     })
     
 
+  }
+
+  logout() {
+    this.token.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

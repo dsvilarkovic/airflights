@@ -3584,6 +3584,7 @@
       border-bottom-left-radius: 0.25rem; }
   
   .card-body {
+    display: inline-table;
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -7449,7 +7450,7 @@
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ebdc4', endColorstr='#68e5b2', GradientType=1 ); }
   
   .slider-text {
-    color: #fff; }
+    color: black ; }
     .slider-text h1 {
       font-size: 60px;
       color: #fff;
@@ -9326,4 +9327,9 @@
 
       .ngb-dp-day {
         background-color: rgb(2, 117, 216);
+      }
+
+      .theelements {
+        display:inline-block;
+        text-align: center;
       }

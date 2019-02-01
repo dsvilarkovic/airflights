@@ -3583,6 +3583,7 @@ input[type="button"].btn-block {
     border-bottom-left-radius: 0.25rem; }
 
 .card-body {
+  display: inline-table;
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -7837,7 +7838,7 @@ h1, h2, h3, h4, h5,
     color: #4d4d4d ;
     border: 1px solid #e6e6e6;
     font-size: 14px;
-    width: 100%;
+    width: 700px;
     height: 52px ;
     padding: 10px 20px;
     -webkit-border-radius: 0;
@@ -9315,3 +9316,8 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+    .theelements {
+      display:inline-block;
+	    text-align: center;
+    }

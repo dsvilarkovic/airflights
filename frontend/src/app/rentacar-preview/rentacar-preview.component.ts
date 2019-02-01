@@ -1,3 +1,4 @@
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 import { Route } from '@angular/compiler/src/core';
 import { Vehicle } from './../vehicle';
 import { Component, OnInit } from '@angular/core';
@@ -29,7 +30,7 @@ export class RentacarPreviewComponent implements OnInit {
   //boolean flagovi za promenu stanja
   branchFlag: boolean = false;
 
-  constructor(private calendar: NgbCalendar, private racService: RentacarService, private router: Router) { }
+  constructor(private calendar: NgbCalendar, private racService: RentacarService, private router: Router, private token: TokenStorageService) { }
 
   ngOnInit() {
     this.racService.getAll().subscribe(data => {
@@ -63,6 +64,11 @@ export class RentacarPreviewComponent implements OnInit {
     this.router.navigate(['/rentacarPreview/'+id]);
   }
 
+  
+  logout() {
+    this.token.signOut();
+    this.router.navigate(['/login']);
+  }
 }
 
 
