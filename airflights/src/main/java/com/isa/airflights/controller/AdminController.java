@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
-import com.isa.airflights.model.Hotel;
+import com.isa.airflights.model.Role;
 import com.isa.airflights.service.AdminService;
 
 @RestController
@@ -56,19 +56,51 @@ public class AdminController {
 		
     	abstractUser.setPassword(encoder.encode(abstractUser.getPassword()));
     	
+    	Role role = abstractUser.getRole();
+    	abstractUser.getRoles().add(role);
+    	
+    	/*if (abstractUser.getAirline()!=null) {
+    		
+    	} else if (abstractUser.getIdCompany()!=null) {
+    		
+    	} else if (abstractUser.getHotel()!=null) {
+    		
+    	} else {
+    		// System admin
+    		
+    	}*/
+    	
     	AbstractUserDTO au = new AbstractUserDTO(service.save(abstractUser));
+    	
+    	
     	
     	return new ResponseEntity<AbstractUserDTO>(au,HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE, 
+    @RequestMapping(value="/{id}", method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> removeAdmin(@PathVariable Long id) {
+    public ResponseEntity<AbstractUserDTO> getAdmin(@PathVariable Long id) {
 		
-    	service.remove(id);
+    	AbstractUserDTO ret = new AbstractUserDTO(service.findOne(id));
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.CREATED);
+    	return new ResponseEntity<AbstractUserDTO>(ret, HttpStatus.CREATED);
     }
+    
+    @RequestMapping(value="/passUpdate", method = RequestMethod.PUT, 
+    		consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AbstractUserDTO> updatePass(@RequestBody AbstractUserDTO user) {
+		
+    	AbstractUser u = service.findOne(user.getId());
+    	u.setPassword(encoder.encode(user.getNewPassword()));
+    	
+    	service.save(u);
+    	
+    	return new ResponseEntity<AbstractUserDTO>(new AbstractUserDTO(u), HttpStatus.CREATED);
+    }
+    
+    
+
     
     
 }

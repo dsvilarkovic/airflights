@@ -1,3 +1,4 @@
+import { VehicleType } from './../vehicleType';
 import { Branch } from './branch';
 import { rentacar } from "./rentacar";
 
@@ -10,8 +11,10 @@ export class Vehicle {
     seats: Number;
     price: number;
     rating: Number;
-    type: String;
+    type: VehicleType;
     reserved: String;
     rentACarId: Number;
     branchOffice_id: Number;
+    discount: number;
 }
+

@@ -45,7 +45,7 @@
           <ng-template #bt><a class="btn btn-warning" (click)='endPromo()'>End promotion</a></ng-template>
           <ng-template #bf><button class="btn btn-success" routerLink="/hotel/edit/{{hotel.id}}/{{room.id}}/promo">Promotion</button></ng-template>
           <button id="btnUpdate" class="btn btn-primary float-right" type="submit" [disabled]="!roomEditForm.form.valid">Update</button>
-          <button id="btnCancel" class="btn btn-primary float-right" routerLink="/hotel/edit/{{hotel.id}}/rooms">Cancel</button>
+          <button id="btnCancel" class="btn btn-secondary float-right" routerLink="/hotel/edit/rooms/list">Cancel</button>
         </div>
       </form>
     </div>

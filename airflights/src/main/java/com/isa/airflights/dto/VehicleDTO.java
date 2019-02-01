@@ -1,6 +1,9 @@
 package com.isa.airflights.dto;
 
+import java.util.List;
+
 import com.isa.airflights.model.Vehicle;
+import com.isa.airflights.model.VehicleType;
 
 public class VehicleDTO {
 
@@ -15,7 +18,7 @@ public class VehicleDTO {
 	
 	private int seats;
 	
-	private String type;
+	private VehicleType type;
 	
 	private double rating;
 
@@ -27,6 +30,9 @@ public class VehicleDTO {
 	
 	private Long rentACarId;
 	
+	private double discount;
+	
+
 	
 
 	public VehicleDTO() {
@@ -36,8 +42,8 @@ public class VehicleDTO {
 
 
 
-	public VehicleDTO(Long id, String name, String brand, String model, int year, int seats, String type, double rating,
-			double price, boolean reserved) {
+	public VehicleDTO(Long id, String name, String brand, String model, int year, int seats, VehicleType type, double rating,
+			double price, boolean reserved, double discount) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,14 +55,41 @@ public class VehicleDTO {
 		this.rating = rating;
 		this.price = price;
 		this.reserved = reserved;
+		this.discount = discount;
 	}
 
 	
 	public VehicleDTO(Vehicle v) {
-		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved());
+		//this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount());
+		this.id = v.getId();
+		this.name = v.getName();
+		this.brand = v.getBrand();
+		this.model = v.getModel();
+		this.year = v.getYear();
+		this.seats = v.getSeats();
+		this.type = v.getType();
+		this.rating = v.getRating();
+		this.price = v.getPrice();
+		this.reserved = v.getReserved();
+		this.discount = v.getDiscount();
 		this.branchLocationId = v.getBranch_locations().getId();
 		this.rentACarId = v.getRentacar().getId();
 	}
+
+	
+	
+	
+	public double getDiscount() {
+		return discount;
+	}
+
+
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -130,13 +163,13 @@ public class VehicleDTO {
 
 
 
-	public String getType() {
+	public VehicleType getType() {
 		return type;
 	}
 
 
 
-	public void setType(String type) {
+	public void setType(VehicleType type) {
 		this.type = type;
 	}
 

@@ -82,7 +82,11 @@ public class VehicleReservationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
+	/**
+	 * Metoda koja bi trebalo da vrati sva vozila koja su slobodna za dat vremenski period
+	 * @param date1 od
+	 * @param date2 do
+	 * */
 	@RequestMapping(value="/checkDate/{date1}/{date2}/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<VehicleDTO>> checkDate(@PathVariable String date1,@PathVariable String date2,@PathVariable Long id) throws ParseException {
 		System.out.println("Jel sam usao ?");
@@ -99,7 +103,7 @@ public class VehicleReservationController {
 			
 		}else {
 			for (VehicleReservation l : listaRez) {
-				System.out.println("Sta je ovo: " + l.getPickupdate().toString() + " " + l.getDropoffdate().toString());
+				System.out.println("Sta je ovo: "+ l.getVehicle().getId()+ " " + l.getPickupdate().toString() + " " + l.getDropoffdate().toString());
 				listaAll.remove(l.getVehicle());
 			}
 		}
@@ -124,6 +128,26 @@ public class VehicleReservationController {
 		}*/
 		
 		return new ResponseEntity<List<VehicleDTO>>(dto,HttpStatus.OK);
+		
+	}
+	
+	
+	@RequestMapping(value="/getAllByDate/{date1}/{date2}/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<VehicleReservationDTO>> getAllByDate(@PathVariable String date1,@PathVariable String date2,@PathVariable Long id) throws ParseException {
+		System.out.println("Jel sam usao ?");
+		RentACar r = rs.getOne(id);
+			
+		Date pickup = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
+		Date dropoff = new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+		List<VehicleReservation> listaRez = vss.getAllByDate(r, pickup, dropoff);
+		List<VehicleReservationDTO> dto = new ArrayList<>();
+		
+		for (VehicleReservation v : listaRez) {
+			dto.add(new VehicleReservationDTO(v));
+		}
+		
+		
+		return new ResponseEntity<List<VehicleReservationDTO>>(dto,HttpStatus.OK);
 		
 	}
 	

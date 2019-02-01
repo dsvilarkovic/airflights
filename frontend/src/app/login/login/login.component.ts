@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ROLE_H, ROLE_SYS } from 'src/app/globals';
+import { allSettled } from 'q';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +34,6 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginInfo = new AuthLoginInfo(this.user.email,this.user.password);
-    alert();
     this.authService.attemptAuth(this.loginInfo).subscribe(data => {
 
      
@@ -42,20 +43,24 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.username);
         this.tokenStorage.saveAuthorities(data.authorities);
-
+        this.tokenStorage.saveUser(data.user_id);
 
         this.isLoginFailed = false;
-          this.isLoggedIn = true;
-          this.roles = this.tokenStorage.getAuthorities();
-          localStorage["sent"] = false;
+        this.isLoggedIn = true;
+        this.roles = this.tokenStorage.getAuthorities();
+        localStorage["sent"] = false;
 
-          if(this.roles.includes('ROLE_USER')) {
-            this.router.navigate(['/home']);
-          } else if(this.roles.includes('ROLE_SYSTEMADMIN')) {
-            
-          } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
-            this.router.navigate(['/rentacar/' + data.idCompany]);
-          }
+        //alert(this.roles);
+
+        if(this.roles.includes('ROLE_USER')) {
+          this.router.navigate(['/home']);
+        } else if(this.roles.includes(ROLE_SYS)) {
+          this.router.navigate(['/admin/profile']);
+        } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
+          this.router.navigate(['/rentacar/']);
+        } else if(this.roles.includes(ROLE_H)) {
+          this.router.navigate(['/admin/hotel/profile']);
+        }
       }
 
 

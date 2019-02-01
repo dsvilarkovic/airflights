@@ -5,6 +5,9 @@ import { Room } from 'src/app/room';
 import { NgForOf } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { HotelService } from 'src/services/hotel.service';
+import { ROLE_H } from 'src/app/globals';
+import { TProjectionNode } from '@angular/core/src/render3/interfaces/node';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-room-edit',
@@ -17,9 +20,15 @@ export class RoomEditComponent implements OnInit {
   hotel: any = {};
   roomNumber : string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private hotelservice : HotelService, private roomService: RoomService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private ts: TokenStorageService, private hotelservice : HotelService, private roomService: RoomService) { }
 
   ngOnInit() {
+
+    if (!this.ts.getAuthorities().includes(ROLE_H)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
+
     const id = this.route.snapshot.params['id'];
     this.roomService.get(id).subscribe(data =>{
       this.room = data;
@@ -34,7 +43,7 @@ export class RoomEditComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['/hotel/edit/' + this.hotel.id + '/rooms']);
+    this.router.navigate(['/hotel/edit/rooms/list']);
   }
 
   update(from : NgForm) {

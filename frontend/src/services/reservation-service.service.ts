@@ -21,4 +21,8 @@ export class ReservationServiceService {
   book(id,reservation): Observable<any> {
     return this.http.post("//localhost:8080/api/reservation/book/" +id,reservation)
   }
+
+  getAllByDate(date1,date2,id): Observable<any> {
+    return this.http.get("//localhost:8080/api/reservation/getAllByDate/"+date1+"/"+date2+"/"+id);
+  }
 }

@@ -42,8 +42,11 @@ public class RentACarController {
 	
 	@RequestMapping(value = "/{id}")
 	public ResponseEntity<RentACarDTO> getOne(@PathVariable Long id) {
+		System.out.println("Provera? " + id);
 		RentACar r = racService.getOne(id);
+		System.out.println("Ovde? " + r.getName());
 		RentACarDTO dto = new RentACarDTO(r);
+		System.out.println("Provera? " + dto.getName());
 		return new ResponseEntity<RentACarDTO>(dto,HttpStatus.OK);
 	}
 	

@@ -75,6 +75,14 @@ public class RentACar {
 	
 	
 	
+	public Set<BranchLocations> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(Set<BranchLocations> vehicles) {
+		this.vehicles = vehicles;
+	}
+
 	public String getCity() {
 		return city;
 	}

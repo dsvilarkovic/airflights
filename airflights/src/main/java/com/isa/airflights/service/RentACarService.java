@@ -26,4 +26,8 @@ public class RentACarService {
 		return racRepository.getOne(id);
 	}
 	
+	public List<RentACar> findByCity(String city) {
+		return racRepository.findByCity(city);
+	}
+	
 }

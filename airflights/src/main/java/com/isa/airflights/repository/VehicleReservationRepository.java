@@ -17,4 +17,7 @@ public interface VehicleReservationRepository  extends JpaRepository<VehicleRese
 	@Query("select b from VehicleReservation b where b.rentacar = ?1 and ((b.pickupdate between ?2 and ?3) or (b.dropoffdate between ?2 and ?3) or (b.pickupdate < ?2 and b.dropoffdate > ?3))")
     List<VehicleReservation> findAllReserved(RentACar r, Date pickupdate, Date dropoffdate);	
 	
+	@Query("select b from VehicleReservation b where b.rentacar = ?1 and (b.reservationdate between ?2 and ?3)")
+	List<VehicleReservation> getAllByDate(RentACar r,Date pickupdate, Date dropoffdate);
+	
 }

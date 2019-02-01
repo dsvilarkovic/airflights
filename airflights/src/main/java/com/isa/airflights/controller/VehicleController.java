@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.airflights.dto.RentACarDTO;
 import com.isa.airflights.dto.VehicleDTO;
+import com.isa.airflights.model.RentACar;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.service.BranchLocationsService;
 import com.isa.airflights.service.RentACarService;
@@ -78,7 +80,8 @@ public class VehicleController {
 		vdto.setRentACarId(vehicle.getRentacar().getId());
 		vdto.setBranchOffice_id(vehicle.getBranch_locations().getId());
 		vdto.setRating(0);
-		vdto.setReserved(false);
+		vdto.setReserved(true);
+		vdto.setDiscount(0);
 		/*
 		Vehicle v = new Vehicle();
 		v.setId((long) 4);
@@ -146,6 +149,35 @@ public class VehicleController {
 		
 		
 		
+		return new ResponseEntity<List<VehicleDTO>>(listaDTO,HttpStatus.OK);
+	}
+	
+	/**
+	 * Metoda koja vraca vozila koja su na popustu u svim rent a car servisima u gradu
+	 * koja je destination za korisnika.
+	 * */
+	@RequestMapping(value="/getAllDiscount/{id}/{name}")
+	public ResponseEntity<List<VehicleDTO>>getAllDiscount(@PathVariable Long id,@PathVariable String name) {
+		
+		List<Vehicle> lista = vs.findAll();
+		List<VehicleDTO> listaDTO = new ArrayList<>();
+		
+		/*List<RentACar> listaRac = rs.findByCity(name);
+		List<RentACarDTO> listaRacDto = new ArrayList<>();*/
+		
+		
+		for (Vehicle vehicle : lista) {
+			System.out.println("Popus? " + vehicle.getDiscount() + " dslfkjaslkdf " + vehicle.getRentacar().getCity() + " sdafsdaf " + name );
+				if(vehicle.getDiscount() != 0 && vehicle.getRentacar().getCity().equals(name)) {
+					VehicleDTO vdto = new VehicleDTO(vehicle);
+					listaDTO.add(vdto);
+					System.out.println("IMa ih?");
+					
+				}
+
+		}
+
+		System.out.println("Bio sam ovde sta god bilo");
 		return new ResponseEntity<List<VehicleDTO>>(listaDTO,HttpStatus.OK);
 	}
 	

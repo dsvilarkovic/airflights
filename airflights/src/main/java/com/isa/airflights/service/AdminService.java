@@ -24,7 +24,13 @@ public class AdminService {
 	}
 
 	public void remove(Long id) {
-		repository.deleteById(id);;
+		repository.deleteById(id);
 	}
+
+	public AbstractUser findOne(Long id) {
+		return repository.getOne(id);
+	}
+	
+	
 
 }

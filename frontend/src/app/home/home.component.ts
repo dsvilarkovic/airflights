@@ -9,9 +9,13 @@ import { TokenStorageService } from 'src/services/auth/token-storage.service';
 })
 export class HomeComponent implements OnInit {
 
+  id;
+
   constructor(private router: Router, private token: TokenStorageService) { }
 
   ngOnInit() {
+    
+    this.id = this.token.getUser();
   }
 
   logout() {

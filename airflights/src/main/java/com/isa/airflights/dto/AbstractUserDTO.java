@@ -24,6 +24,9 @@ public class AbstractUserDTO{
 	private Hotel hotel;
 	private Airline airline;
 	
+	public AbstractUserDTO() {
+	
+	}
 	
 	public Role getRole() {
 		return role;
@@ -129,6 +132,7 @@ public class AbstractUserDTO{
 		this.role = user.getRole();
 		this.hotel = user.getHotel();
 		this.airline = user.getAirline();
+		this.password = getPassword();
 	}
 	
 
