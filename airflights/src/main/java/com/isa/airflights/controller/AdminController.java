@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
-import com.isa.airflights.model.Hotel;
 import com.isa.airflights.service.AdminService;
 
 @RestController

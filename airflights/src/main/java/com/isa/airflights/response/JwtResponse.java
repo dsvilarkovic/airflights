@@ -10,17 +10,31 @@ public class JwtResponse {
     private String username;
 	private Collection<? extends GrantedAuthority> authorities;
 	private int idCompany;
+	private Long user_id;
 
-	public JwtResponse(String accessToken, String username, Collection<? extends GrantedAuthority> authorities, int id) {
+	public JwtResponse(String accessToken, String username, Collection<? extends GrantedAuthority> authorities, int id, Long user_id) {
 		this.token = accessToken;
 		this.username = username;
 		this.authorities = authorities;
 		this.idCompany = id;
+		this.user_id = user_id;
 	}
 	
 	
 
-    public int getIdCompany() {
+    public Long getUser_id() {
+		return user_id;
+	}
+
+
+
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
+	}
+
+
+
+	public int getIdCompany() {
 		return idCompany;
 	}
 

@@ -79,8 +79,7 @@ public class AuthRestAPIs {
             Optional<AbstractUser> user = userRepository.findByEmail(loginRequest.getEmail());
             user.get().getIdRentACar();
             
-            
-            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities(),user.get().getIdRentACar()));
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities(),user.get().getIdRentACar(), user.get().getId()));
     	} else {
     		System.out.println("Nije verifikovan");
     		  return  ResponseEntity.ok(new ErrorResponse("Ne valja","Ne valja","Ne valja"));

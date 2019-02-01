@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private token: TokenStorageService) { }
 
   ngOnInit() {
+    alert(this.token.getUser());
   }
 
 }
