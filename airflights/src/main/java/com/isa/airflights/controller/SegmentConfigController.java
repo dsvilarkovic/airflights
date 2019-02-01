@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.SegmentConfigDTO;
+import com.isa.airflights.model.Airplane;
 import com.isa.airflights.model.SegmentConfig;
 import com.isa.airflights.service.AirplaneService;
 import com.isa.airflights.service.SegmentConfigService;
@@ -75,12 +76,24 @@ public class SegmentConfigController {
 	public ResponseEntity<?> addConfiguration(@RequestBody SegmentConfigDTO segmentConfigDTO){
 		SegmentConfig segmentConfig = convertToEntity(segmentConfigDTO);
 		
+		//pri dodavanju segmenta potrebno navesti i kod airplane koja mu je konfiguracija
+		Airplane airplane = airplaneService.findOne(segmentConfigDTO.getAirplane_id());
+		airplane.setSegmentConfig(segmentConfig);
+		airplaneService.updateAirplane(airplane);
+		
+		//podesi i kod segmenta ovu informaciju
+		segmentConfig.setAirplane(airplane);
+		
 		segmentConfigService.addConfig(segmentConfig);
 		
 		return new ResponseEntity<>(new StringJSON("New configuration successfully added"), HttpStatus.OK);
 	}
 	
-	//brisanje
+	/**
+	 * Metoda za brisanje konfigauracije
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(
 			value = "/delete/{id}",
 			method = RequestMethod.DELETE,
@@ -104,7 +117,11 @@ public class SegmentConfigController {
 	
 	
 	
-	//azuriranje
+	/**
+	 * Azuriranje konfiguracije segmenata
+	 * @param segmentConfigDTO
+	 * @return
+	 */
 	@RequestMapping(
 			value = "/update",
 			method = RequestMethod.PUT,

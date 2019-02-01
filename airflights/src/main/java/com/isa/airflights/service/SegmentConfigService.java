@@ -1,11 +1,15 @@
 package com.isa.airflights.service;
 
+import java.util.Set;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.model.Seat;
 import com.isa.airflights.model.SegmentConfig;
+import com.isa.airflights.repository.SeatRepository;
 import com.isa.airflights.repository.SegmentConfigRepository;
 
 @Service
@@ -14,13 +18,17 @@ public class SegmentConfigService {
 	@Autowired
 	SegmentConfigRepository segmentConfigRepository;
 	
+	@Autowired 
+	public SeatRepository seatRepository;
 	
 	public SegmentConfig getConfig(Long id) throws EntityNotFoundException{
 		return segmentConfigRepository.getOne(id);
 	}
 	
 	public void addConfig(SegmentConfig segmentConfig) {
+		
 		segmentConfigRepository.save(segmentConfig);
+		updateSeats(segmentConfig);
 	}
 	
 	public Boolean deleteConfig(Long id) {
@@ -46,7 +54,15 @@ public class SegmentConfigService {
 		}
 		//snimi konfiguraciju
 		segmentConfigRepository.save(segmentConfig);
+		updateSeats(segmentConfig);
 		return true;
 	}
 	
+	
+	public void updateSeats(SegmentConfig segmentConfig) {
+		Set<Seat> seats = segmentConfig.getSeats();
+		for (Seat seat : seats) {
+			seatRepository.save(seat);
+		}
+	}
 }
