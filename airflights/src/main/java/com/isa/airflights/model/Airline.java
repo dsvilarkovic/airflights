@@ -86,8 +86,8 @@ public class Airline {
 	private LuggageClassPriceList luggageClassPriceList;
 
 
-	@OneToOne(mappedBy = "airline")
-	private AbstractUser admin;
+	@OneToMany(mappedBy = "airline")
+	private Set<AbstractUser> admins;
 	
 	public Long getId() {
 		return id;

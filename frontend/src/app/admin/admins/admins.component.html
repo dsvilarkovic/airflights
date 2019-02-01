@@ -22,16 +22,15 @@
             </thead>
             <tbody>
               <tr *ngFor="let admin of admins">
-                <th scope="row">{{admin.firstName}}</th>
+                <td scope="row">{{admin.firstName}}</td>
                 <td>{{admin.lastName}}</td>
                 <td>{{admin.email}}</td>
                 <td>{{admin.kind}}</td>
-                <td>{{admin.idCompany}}</td>
+                <td>{{admin.com}}</td>
                 <td><button class="btn btn-danger" (click)="delete(admin.id)">Delete</button></td>
               </tr>
             </tbody>
         </table>
-        <a id="btnAdd" class="btn btn-primary btn-lg" routerLink="/admin/admins/add"><b>+</b></a>
       </div>
     </div>
   </div>

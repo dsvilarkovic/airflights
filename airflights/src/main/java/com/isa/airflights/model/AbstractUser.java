@@ -3,9 +3,9 @@ package com.isa.airflights.model;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
-
-
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,17 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.joda.time.DateTime;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
 
 /**
  *  @author Viktor
@@ -59,7 +58,7 @@ public class AbstractUser {
 	private String phoneNumber;
 	/** @pdOid 4b1f425a-b666-46ed-8696-e88f32341055 */
 	
-	@Column(name = "address", nullable = false)
+	@Column(name = "address", nullable = true)
 	private String address;
 	/** @pdOid efe39867-d211-48b9-9944-f39eb66d7b4e */
 	
@@ -69,19 +68,30 @@ public class AbstractUser {
 	@Column(name = "verify", nullable = true)
 	private Boolean verify;
 	
+
 	/**
 	 * Polje koje oznacava kojeg servisa je admin ovaj korisnik
 	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
 	 * */
-	@Column(name = "id_company", nullable = false)
+	// @Djuka - Predlog da umesto broja bude referenca na RentACar
+	@Column(name = "id_company", nullable = true)
 	private Integer idCompany;
-
 	
+	//@Column(name = "id_company", nullable = true)
+	//private RentACar idCompany;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "id_airline", referencedColumnName = "id")
 	private Airline airline;
 	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    private Role role;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    private Hotel hotel;
 	
 	@Column(name = "last_password_reset_date")
 	@JsonIgnore
@@ -276,9 +286,23 @@ public class AbstractUser {
 	public void setVehicleReservation(Set<VehicleReservation> vehicleReservation) {
 		this.vehicleReservation = vehicleReservation;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 	
-	
-	
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
 	
 	
 	

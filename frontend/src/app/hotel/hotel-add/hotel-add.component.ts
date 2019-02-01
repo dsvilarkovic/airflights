@@ -13,14 +13,8 @@ import { FRONT } from 'src/app/globals';
   styleUrls: ['./hotel-add.component.scss']
 })
 export class HotelAddComponent implements OnInit, OnDestroy {
-  public API = '//localhost:8080/api/';
-  public HOTEL_API = this.API + 'hotel/';
   
   hotel: Hotel = new Hotel();
-
-  sub: Subscription;
-  pom: String;
-
 
   constructor(private route: ActivatedRoute, private router: Router, private hotelService: HotelService,  private token: TokenStorageService) { }
 

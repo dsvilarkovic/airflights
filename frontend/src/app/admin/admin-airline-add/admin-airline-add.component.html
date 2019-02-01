@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <form #airlineAddForm="ngForm" (ngSubmit)="save(airlineAddForm.value)">
+          <h1 class="title">New airline agency</h1>
+          <div class="form-content">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" [(ngModel)]="airline.fullName" required class="form-control" name="name" id="name" placeholder="Enter airline name">
+              <small id="nameMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" [(ngModel)]="airline.address" class="form-control" name="address" id="address" placeholder="Enter address">
+              <small id="addressMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" [(ngModel)]="airline.city" class="form-control" name="city" id="city" placeholder="Enter city">
+              <small id="cityMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea placeholder="Description" [(ngModel)]="airline.promoInfo" class="form-control" name="description" id="description" placeholder="Type description" rows="5"></textarea>
+              <small id="descriptionMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="float-right">
+              <a id="btnCancel" class="btn btn-secondary" routerLink="/admin/flights">Cancel</a>
+              <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!airlineAddForm.form.valid">Add</button>  
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

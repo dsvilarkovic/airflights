@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <form #racAddForm="ngForm" (ngSubmit)="save(racAddForm.value)">
+          <h1 class="title">New rent a car agency</h1>
+          <div class="form-content">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" [(ngModel)]="rac.name" required class="form-control" name="name" id="name" placeholder="Enter agency name">
+                <small id="nameMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" [(ngModel)]="rac.address" class="form-control" name="address" id="address" placeholder="Enter address">
+              <small id="addressMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" required [(ngModel)]="rac.city" class="form-control" name="city" id="city" placeholder="Enter city">
+              <small id="cityMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea placeholder="Description" [(ngModel)]="rac.description" class="form-control" name="description" id="description" placeholder="Type description" rows="5"></textarea>
+              <small id="descriptionMsg" class="form-text text-muted" hidden>Invalid</small>
+            </div>
+            <div class="float-right">
+              <a id="btnCancel" class="btn btn-secondary" routerLink="/admin/rac">Cancel</a>
+              <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!racAddForm.form.valid">Add</button>  
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

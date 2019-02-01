@@ -10,6 +10,27 @@
           <li><a class="btn btn-info" routerLink="/admin/admins">Admins</a></li>
           <li><a class="btn btn-info" routerLink="/admin/bonus">Bonuses</a></li>
         </ul>
+        <table class="table table-hover">
+          <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let airline of airlines">
+                <th scope="row">{{airline.fullName}}</th>
+                <td>{{airline.address}}</td>
+                <td>{{airline.city}}</td>
+                <td>{{airline.rating}}</td>
+                <td><button class="btn btn-success" routerLink="/admin/{{airline.id}}/A/newAdmin">Add admin</button></td>
+                <td><button class="btn btn-danger" (click)="delete(airline.id)">Delete</button></td>
+              </tr>
+            </tbody>
+        </table>
+        <a id="btnAdd" class="btn btn-primary btn-lg" routerLink="/admin/airline/add"><b>+</b></a> 
       </div>
     </div>
   </div>
