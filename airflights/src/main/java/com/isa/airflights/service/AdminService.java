@@ -27,4 +27,10 @@ public class AdminService {
 		repository.deleteById(id);
 	}
 
+	public AbstractUser findOne(Long id) {
+		return repository.getOne(id);
+	}
+	
+	
+
 }

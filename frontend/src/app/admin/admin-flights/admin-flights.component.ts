@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AirlineService } from 'src/services/airline.service';
+import { ROLE_SYS } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-admin-flights',
@@ -11,9 +13,13 @@ export class AdminFlightsComponent implements OnInit {
 
   airlines: Array<any>;
 
-  constructor(private route: ActivatedRoute, private router: Router, private aService: AirlineService) { }
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private aService: AirlineService) { }
 
   ngOnInit() {
+    if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
     this.aService.getAllAirlines().subscribe(data => {
       this.airlines = data;
     }, error => console.error(error));

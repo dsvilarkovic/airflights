@@ -1,3 +1,77 @@
-<p>
-  admin-profile works!
-</p>
+<div class="room-list animate">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Airflights</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item ">
+            <a class="nav-link"><span class="sr-only"></span></a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+        </form>
+      </div>
+    </nav>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1>System administration</h1>
+      <ul class="nav nav-pills">
+        <li><a class="btn btn-info active" routerLink="/admin/profile">Profile</a></li>
+        <li><a class="btn btn-info" routerLink="/admin/flights">Flights</a></li>
+        <li><a class="btn btn-info" routerLink="/admin/hotels">Hotels</a></li>
+        <li><a class="btn btn-info" routerLink="/admin/rac">Rent a car</a></li>
+        <li><a class="btn btn-info" routerLink="/admin/admins">Admins</a></li>
+        <li><a class="btn btn-info" routerLink="/admin/bonus">Bonuses</a></li>
+      </ul>
+      <br/>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <form #adminEditForm="ngForm" (ngSubmit)="update(adminEditForm.value)">
+              <div class="form-content">
+                <div class="form-group">
+                  <label for="firstName">First name</label>
+                  <input type="text" [(ngModel)]="admin.firstName" required class="form-control" name="firstName" placeholder="Enter first name">
+                  <small id="roomMsg" class="form-text text-muted" hidden>Invalid</small>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" [(ngModel)]="admin.lastName" required class="form-control" name="lastName" placeholder="Enter last name">
+                <small id="floorMsg" class="form-text text-muted" hidden>Invalid</small>
+              </div>
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" [(ngModel)]="admin.email" required class="form-control" name="email" placeholder="Enter email" disabled>
+                <small id="emailMsg" class="form-text text-muted" hidden>Invalid</small>
+              </div>
+              <div class="float-right">
+                <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!adminEditForm.form.valid">Update</button>
+              </div>
+            </div>
+            </form>
+            <br/>
+              <form #pForm="ngForm" (ngSubmit)="changeP(pForm.value)">
+                <div class="form-group">
+                <label for="pass">Password</label>
+                  <input type="text" [(ngModel)]="admin.password" class="form-control" name="passwordOld" placeholder="Old password" disabled>
+                  <small id="pMsg" class="form-text text-muted msg" *ngIf="pm">Entered password not valid</small> <br />
+                  <input type="text" [(ngModel)]="passwordNew1" required class="form-control" name="passwordNew1" placeholder="New password" (focus)="focusn()">
+                  <input type="text" [(ngModel)]="passwordNew2" required class="form-control" name="passwordNew2" placeholder="Confirm new password" (focus)="focusn()">
+                  <small id="p2Msg" class="form-text text-muted msg" *ngIf="pm2">Please enter and confirm new password</small>
+                </div>
+
+                <div class="float-right">
+                  <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!pForm.form.valid">Change password</button>
+                </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      

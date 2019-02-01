@@ -1,25 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Hotel } from 'src/app/hotel';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService } from 'src/services/hotel.service';
 import { TokenStorageService } from 'src/services/auth/token-storage.service';
 import { AdminsService } from 'src/services/admins.service';
+import { HotelService } from 'src/services/hotel.service';
 import { ROLE_H } from 'src/app/globals';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-hotel-chart',
-  templateUrl: './hotel-chart.component.html',
-  styleUrls: ['./hotel-chart.component.scss']
+  selector: 'app-admin-hotel-profile',
+  templateUrl: './admin-hotel-profile.component.html',
+  styleUrls: ['./admin-hotel-profile.component.scss']
 })
-export class HotelChartComponent implements OnInit {
+export class AdminHotelProfileComponent implements OnInit {
 
   hotel: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private adminService: AdminsService, private ts: TokenStorageService, private hotelservice : HotelService) { }
-
+  constructor(private ts: TokenStorageService, private adminService: AdminsService,
+    private hService: HotelService, private router: Router) { }
 
   ngOnInit() {
-    
     if (!this.ts.getAuthorities().includes(ROLE_H)) {
       alert("Unauthorized");
       this.router.navigate(['/home']);
@@ -28,6 +27,11 @@ export class HotelChartComponent implements OnInit {
     this.adminService.getAdmin(this.ts.getUser()).subscribe( r => {
       this.hotel = r.hotel;
     }, error => console.error(error));
+
+  }
+
+  update() {
+
   }
 
 }

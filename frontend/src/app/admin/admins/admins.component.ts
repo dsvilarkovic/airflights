@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminsService } from 'src/services/admins.service';
+import { ROLE_SYS } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-admins',
@@ -11,9 +13,13 @@ export class AdminsComponent implements OnInit {
 
   admins: Array<any>;
 
-  constructor(private route: ActivatedRoute, private router: Router, private adminservice : AdminsService ) { }
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private adminservice : AdminsService ) { }
 
   ngOnInit() {
+    if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
     this.adminservice.getAll().subscribe(data =>{
       this.admins = data;
       this.admins.forEach(element => {

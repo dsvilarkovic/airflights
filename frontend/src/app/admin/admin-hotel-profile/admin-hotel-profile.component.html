@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1>Hotel admin profile</h1>
+    <ul class="nav nav-pills">
+      <li><a class="btn btn-info active">Profile</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/edit/">General</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/edit/rooms/list">Rooms</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/edit/extras/list">Extras</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/charts">Charts</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/revenues">Revenues</a></li>
+    </ul>
+    <form #ProfileEditForm="ngForm" (ngSubmit)="update()">
+      
+    </form>
+  </div>  
+</div>  
