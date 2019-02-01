@@ -167,8 +167,10 @@ public class AirlineController {
 		
 		private AirlineDTO convertToDTO(Airline airline) {
 			AirlineDTO airlineDTO = modelMapper.map(airline, AirlineDTO.class);
-			airlineDTO.setLongitude(airline.getLocation().getLongitude());
-			airlineDTO.setLatitude(airline.getLocation().getLatitude());
+			if(airline.getLocation() != null) {
+				airlineDTO.setLongitude(airline.getLocation().getLongitude());
+				airlineDTO.setLatitude(airline.getLocation().getLatitude());
+			}
 			return airlineDTO;
 		}
 	
