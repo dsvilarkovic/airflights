@@ -86,7 +86,7 @@ public class AdminController {
     	return new ResponseEntity<AbstractUserDTO>(ret, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/{id}", method = RequestMethod.PUT, 
+    @RequestMapping(value="/passUpdate", method = RequestMethod.PUT, 
     		consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractUserDTO> updatePass(@RequestBody AbstractUserDTO user) {
