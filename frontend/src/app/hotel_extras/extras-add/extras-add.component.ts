@@ -5,6 +5,8 @@ import { HotelService } from 'src/services/hotel.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { extractDirectiveDef } from '@angular/core/src/render3/definition';
+import { ROLE_H } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-extras-add',
@@ -16,10 +18,16 @@ export class ExtrasAddComponent implements OnInit {
   hotel : any;
   extra : HotelExtra = new HotelExtra();
 
-  constructor(private extrasService : HotelExtrasService, private hotelService : HotelService, private router : Router, private ar : ActivatedRoute) { }
+  constructor(private extrasService : HotelExtrasService, private ts: TokenStorageService, private hotelService : HotelService, private router : Router, private ar : ActivatedRoute) { }
 
 
   ngOnInit() {
+    
+    if (!this.ts.getAuthorities().includes(ROLE_H)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
+
     const hotelId : number = this.ar.snapshot.params['id'];
     this.hotelService.get(hotelId).subscribe(data =>{
       this.hotel = data;
@@ -28,7 +36,7 @@ export class ExtrasAddComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['hotel/edit/'+ this.hotel.id + '/extras']);
+    this.router.navigate(['hotel/edit/extras/list']);
   }
 
   save(form : NgForm) {

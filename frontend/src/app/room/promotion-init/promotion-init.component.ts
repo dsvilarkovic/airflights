@@ -5,6 +5,8 @@ import { HotelExtrasService } from 'src/services/hotel-extras.service';
 import { HotelService } from 'src/services/hotel.service';
 import { RoomService } from 'src/services/room.service';
 import { PromoRoom } from 'src/app/PromoRoom';
+import { ROLE_H } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-promotion-init',
@@ -21,10 +23,16 @@ export class PromotionInitComponent implements OnInit {
   dropdownSettings = {};
   
   constructor(private route: ActivatedRoute, private router: Router, 
-    private extraService: HotelExtrasService, private hotelService: HotelService, private roomService: RoomService) { }
+    private extraService: HotelExtrasService, private ts: TokenStorageService, private hotelService: HotelService, private roomService: RoomService) { }
 
 
   ngOnInit() {
+
+    if (!this.ts.getAuthorities().includes(ROLE_H)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
+    
     const hotelId : number = this.route.snapshot.params['idh'];
     this.hotelService.get(hotelId).subscribe(data =>{
       this.hotel = data;
@@ -67,7 +75,7 @@ export class PromotionInitComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['/hotel/edit/' + this.hotel.id + '/rooms']);
+    this.router.navigate(['/hotel/edit/rooms/list']);
   }
 
   save(form: NgForm) {

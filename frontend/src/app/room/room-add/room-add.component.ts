@@ -4,6 +4,8 @@ import { RoomService } from 'src/services/room.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/services/hotel.service';
 import { NgForm } from '@angular/forms';
+import { ROLE_H } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-room-add',
@@ -15,9 +17,15 @@ export class RoomAddComponent implements OnInit {
   hotel : any;
   room : Room = new Room();
 
-  constructor(private roomService : RoomService, private hotelService : HotelService, private router : Router, private ar : ActivatedRoute) { }
+  constructor(private roomService : RoomService, private ts: TokenStorageService, private hotelService : HotelService, private router : Router, private ar : ActivatedRoute) { }
 
   ngOnInit() {
+    
+    if (!this.ts.getAuthorities().includes(ROLE_H)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
+
     const hotelId : number = this.ar.snapshot.params['id'];
     this.hotelService.get(hotelId).subscribe(data =>{
       this.hotel = data;
@@ -27,7 +35,7 @@ export class RoomAddComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['hotel/edit/'+ this.hotel.id + '/rooms']);
+    this.router.navigate(['hotel/edit/rooms/list']);
   }
 
   save(form : NgForm) {

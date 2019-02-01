@@ -2,11 +2,12 @@
   <div class="col-md-8 offset-md-2">
     <h1>Hotel "{{hotelName}}"</h1>
     <ul class="nav nav-pills">
+      <li><a class="btn btn-info" routerLink="/admin/hotel/profile">Profile</a></li>
       <li><a class="btn btn-info active">General</a></li>
-      <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/rooms">Rooms</a></li>
-      <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/extras">Extras</a></li>
-      <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/charts">Charts</a></li>
-      <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/revenues">Revenues</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/edit/rooms/list">Rooms</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/edit/extras/list">Extras</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/charts">Charts</a></li>
+      <li><a class="btn btn-info" routerLink="/hotel/revenues">Revenues</a></li>
     </ul>
     <form #hotelEditForm="ngForm" (ngSubmit)="update()">
       <div class="form-content">

@@ -3,24 +3,25 @@
       <div class="col-md-8 offset-md-2">
         <h1>Hotel "{{hotel.name}}"</h1>
         <ul class="nav nav-pills">
-          <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}">General</a></li>
-          <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/rooms">Rooms</a></li>
+          <li><a class="btn btn-info" routerLink="/admin/hotel/profile">Profile</a></li>
+          <li><a class="btn btn-info" routerLink="/hotel/edit">General</a></li>
+          <li><a class="btn btn-info" routerLink="/hotel/edit/rooms/list">Rooms</a></li>
           <li><a class="btn btn-info active">Extras</a></li>
-          <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/charts">Charts</a></li>
-          <li><a class="btn btn-info" routerLink="/hotel/edit/{{hotel.id}}/revenues">Revenues</a></li>
+          <li><a class="btn btn-info" routerLink="/hotel/charts">Charts</a></li>
+          <li><a class="btn btn-info" routerLink="/hotel/revenues">Revenues</a></li>
         </ul>
         <table class="table table-hover">
           <thead>
               <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Price unit</th>
+                <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+                <th scope="col" sortable="price" (sort)="onSort($event)">Price($)</th>
+                <th scope="col" sortable="priceUnit" (sort)="onSort($event)">Price unit</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let extra of extras">
+              <tr *ngFor="let extra of extras; index as i">
                 <th scope="row">{{extra.name}}</th>
-                <td>{{extra.price}}</td>
+                <td>{{extra.price | number}}</td>
                 <td>{{extra.unit}}</td>
                 <td><a class="btn btn-success" routerLink="/hotel/edit/{{hotel.id}}/extras/{{extra.id}}/edit">Edit</a></td>
                 <td><button class="btn btn-danger" (click)="delete(extra.id)">Delete</button></td>

@@ -58,12 +58,17 @@ import { AdminsService } from 'src/services/admins.service';
 import { AdminAddComponent } from './admin/admin-add/admin-add.component';
 import { AdminRentACarAddComponent } from './admin/admin-rent-a-car-add/admin-rent-a-car-add.component';
 import { AdminAirlineAddComponent } from './admin/admin-airline-add/admin-airline-add.component';
+
+import { AdminHotelProfileComponent } from './admin/admin-hotel-profile/admin-hotel-profile.component';
+import { HotelRoomsComponent } from './hotel/hotel-rooms/hotel-rooms.component';
+
 import { RentACarDiscountComponent } from './rent-acar-discount/rent-acar-discount.component';
 import { AuthhomepageComponent } from './authhomepage/authhomepage.component';
 import { ListAirflightsComponent } from './list-airflights/list-airflights.component';
 import { ListHotelsComponent } from './list-hotels/list-hotels.component';
 import { ListRentacarsComponent } from './list-rentacars/list-rentacars.component';
 import { ListFriendsComponent } from './list-friends/list-friends.component';
+
 
 
 const appRoutes: Routes = [
@@ -77,17 +82,19 @@ const appRoutes: Routes = [
 
   {path: 'hotel/list', component: HotelListComponent },
   {path: 'admin/hotel/add', component: HotelAddComponent },
+  {path: 'admin/hotel/profile', component: AdminHotelProfileComponent},
   {path: 'admin/rac/add', component: AdminRentACarAddComponent },
   {path: 'admin/airline/add', component: AdminAirlineAddComponent },
   {path: 'hotel/edit/:id', component: HotelEditComponent },
-  {path: 'hotel/edit/:id/rooms', component: RoomListComponent },
+  {path: 'hotel/edit/rooms/list', component: RoomListComponent },
+  {path: 'hotel/edit', component: HotelEditComponent },
   {path: 'hotel/edit/:id/addRoom', component: RoomAddComponent },
   {path: 'hotel/edit/:idh/rooms/:id/edit', component: RoomEditComponent },
-  {path: 'hotel/edit/:id/extras', component: ExtrasListComponent },
+  {path: 'hotel/edit/extras/list', component: ExtrasListComponent },
   {path: 'hotel/edit/:id/addExtra', component: ExtrasAddComponent },
   {path: 'hotel/edit/:idh/extras/:id/edit', component: ExtrasEditComponent },
-  {path: 'hotel/edit/:id/charts', component: HotelChartComponent },
-  {path: 'hotel/edit/:id/revenues', component: HotelRevenuesComponent },
+  {path: 'hotel/charts', component: HotelChartComponent },
+  {path: 'hotel/revenues', component: HotelRevenuesComponent },
   {path: 'hotel/edit/:idh/:id/promo', component: PromotionInitComponent },
   {path: 'admin/profile', component: AdminProfileComponent},
   {path: 'admin/flights', component: AdminFlightsComponent},
@@ -101,6 +108,11 @@ const appRoutes: Routes = [
   {path: 'rentacarPreview', component: RentacarPreviewComponent},
   {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
   {path: 'seatConfig', component : ConfigSeatsComponent},
+
+
+  {path: 'rooms/list', component : HotelRoomsComponent},
+  {path: ':id/rooms/list', component : HotelRoomsComponent},
+
   {path: 'rentacarDiscount/:id/:date1/:date2', component: RentACarDiscountComponent},
   {path: 'authHomePage/:id',component: AuthhomepageComponent},
   {path: 'listAirflights', component: ListAirflightsComponent},
@@ -152,6 +164,10 @@ const appRoutes: Routes = [
     AdminAddComponent,
     AdminRentACarAddComponent,
     AdminAirlineAddComponent,
+
+    AdminHotelProfileComponent,
+    HotelRoomsComponent,
+
     RentACarDiscountComponent,
     AuthhomepageComponent,
     ListAirflightsComponent,

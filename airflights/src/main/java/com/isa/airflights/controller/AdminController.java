@@ -77,14 +77,30 @@ public class AdminController {
     	return new ResponseEntity<AbstractUserDTO>(au,HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE, 
+    @RequestMapping(value="/{id}", method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> removeAdmin(@PathVariable Long id) {
+    public ResponseEntity<AbstractUserDTO> getAdmin(@PathVariable Long id) {
 		
-    	service.remove(id);
+    	AbstractUserDTO ret = new AbstractUserDTO(service.findOne(id));
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.CREATED);
+    	return new ResponseEntity<AbstractUserDTO>(ret, HttpStatus.CREATED);
     }
+    
+    @RequestMapping(value="/passUpdate", method = RequestMethod.PUT, 
+    		consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AbstractUserDTO> updatePass(@RequestBody AbstractUserDTO user) {
+		
+    	AbstractUser u = service.findOne(user.getId());
+    	u.setPassword(encoder.encode(user.getNewPassword()));
+    	
+    	service.save(u);
+    	
+    	return new ResponseEntity<AbstractUserDTO>(new AbstractUserDTO(u), HttpStatus.CREATED);
+    }
+    
+    
+
     
     
 }

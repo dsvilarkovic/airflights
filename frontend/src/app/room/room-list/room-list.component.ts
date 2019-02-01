@@ -4,6 +4,9 @@ import { RoomService } from 'src/services/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from 'src/services/hotel.service';
 import { Room } from 'src/app/room';
+import { ROLE_H } from 'src/app/globals';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
+import { AdminsService } from 'src/services/admins.service';
 
 @Component({
   selector: 'app-room-list',
@@ -16,18 +19,22 @@ export class RoomListComponent implements OnInit {
   hotel: any;
   temp: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, 
-    private roomService: RoomService, private hotelService: HotelService) { }
+  constructor(private ts: TokenStorageService, private route: ActivatedRoute, private router: Router, 
+    private adminService: AdminsService, private roomService: RoomService, private hotelService: HotelService) { }
 
   ngOnInit() {
-    this.temp = true;
-    const hotelId : number = this.route.snapshot.params['id'];
-    this.hotelService.get(hotelId).subscribe(data =>{
-      this.hotel = data;
-    });
-    this.roomService.getRoomsInHotel(hotelId).subscribe(data => {
-      this.rooms = data;
-    });
+    
+    if (!this.ts.getAuthorities().includes(ROLE_H)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+    }
+
+    this.adminService.getAdmin(this.ts.getUser()).subscribe( r => {
+      this.hotel = r.hotel;
+      this.roomService.getRoomsInHotel(this.hotel.id).subscribe(data => {
+        this.rooms = data;
+      });
+    }, error => console.error(error));
   }
 
   delete(id : number) {
