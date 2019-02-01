@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
+import com.isa.airflights.model.Role;
 import com.isa.airflights.service.AdminService;
 
 @RestController
@@ -55,7 +56,23 @@ public class AdminController {
 		
     	abstractUser.setPassword(encoder.encode(abstractUser.getPassword()));
     	
+    	Role role = abstractUser.getRole();
+    	abstractUser.getRoles().add(role);
+    	
+    	/*if (abstractUser.getAirline()!=null) {
+    		
+    	} else if (abstractUser.getIdCompany()!=null) {
+    		
+    	} else if (abstractUser.getHotel()!=null) {
+    		
+    	} else {
+    		// System admin
+    		
+    	}*/
+    	
     	AbstractUserDTO au = new AbstractUserDTO(service.save(abstractUser));
+    	
+    	
     	
     	return new ResponseEntity<AbstractUserDTO>(au,HttpStatus.CREATED);
     }

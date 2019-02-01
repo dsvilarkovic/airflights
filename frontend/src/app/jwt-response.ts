@@ -3,6 +3,6 @@ export class JwtResponse {
     type: string;
     username: string;
     authorities: string[];
-    idCompany: number;
+    //idCompany: number;
     user_id: number;
 }

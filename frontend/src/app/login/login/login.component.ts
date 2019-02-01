@@ -50,14 +50,16 @@ export class LoginComponent implements OnInit {
         this.roles = this.tokenStorage.getAuthorities();
         localStorage["sent"] = false;
 
+        alert(this.roles);
+
         if(this.roles.includes('ROLE_USER')) {
           this.router.navigate(['/home']);
         } else if(this.roles.includes('ROLE_SYSTEMADMIN')) {
           
         } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
-          this.router.navigate(['/rentacar/' + data.idCompany]);
+          this.router.navigate(['/rentacar/']);
         } else if(this.roles.includes(ROLE_H)) {
-          this.router.navigate(['/admin/profile/' + data.user_id]);
+          this.router.navigate(['/admin/profile']);
         }
       }
 
