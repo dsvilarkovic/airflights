@@ -131,4 +131,24 @@ public class VehicleReservationController {
 		
 	}
 	
+	
+	@RequestMapping(value="/getAllByDate/{date1}/{date2}/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<VehicleReservationDTO>> getAllByDate(@PathVariable String date1,@PathVariable String date2,@PathVariable Long id) throws ParseException {
+		System.out.println("Jel sam usao ?");
+		RentACar r = rs.getOne(id);
+			
+		Date pickup = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
+		Date dropoff = new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+		List<VehicleReservation> listaRez = vss.getAllByDate(r, pickup, dropoff);
+		List<VehicleReservationDTO> dto = new ArrayList<>();
+		
+		for (VehicleReservation v : listaRez) {
+			dto.add(new VehicleReservationDTO(v));
+		}
+		
+		
+		return new ResponseEntity<List<VehicleReservationDTO>>(dto,HttpStatus.OK);
+		
+	}
+	
 }

@@ -47,9 +47,17 @@ INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserve
 VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', '1', '3', '30', false,'2', '4',0);
 INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
 VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','3', '5', '40', false,'3', '5',0);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
+VALUES (5,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '2' , '20', false,'1', '1',0.3);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
+VALUES (6,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '2' , '20', false,'1', '1',0.3);
 
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
-VALUES ('2019-1-31', '2019-2-14', 333, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
+VALUES ('2019-1-1', '2019-2-14', 560, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
+VALUES ('2019-2-14', '2019-2-25', 320, '2019-2-14', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '4','1','1');
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
+VALUES ('2019-2-26', '2019-3-14', 200, '2019-2-26', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
 
 
 

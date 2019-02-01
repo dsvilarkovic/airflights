@@ -80,7 +80,8 @@ public class VehicleController {
 		vdto.setRentACarId(vehicle.getRentacar().getId());
 		vdto.setBranchOffice_id(vehicle.getBranch_locations().getId());
 		vdto.setRating(0);
-		vdto.setReserved(false);
+		vdto.setReserved(true);
+		vdto.setDiscount(0);
 		/*
 		Vehicle v = new Vehicle();
 		v.setId((long) 4);

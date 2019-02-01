@@ -1,5 +1,7 @@
 package com.isa.airflights.dto;
 
+import java.util.List;
+
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleType;
 
@@ -30,6 +32,7 @@ public class VehicleDTO {
 	
 	private double discount;
 	
+
 	
 
 	public VehicleDTO() {
@@ -57,7 +60,18 @@ public class VehicleDTO {
 
 	
 	public VehicleDTO(Vehicle v) {
-		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount());
+		//this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount());
+		this.id = v.getId();
+		this.name = v.getName();
+		this.brand = v.getBrand();
+		this.model = v.getModel();
+		this.year = v.getYear();
+		this.seats = v.getSeats();
+		this.type = v.getType();
+		this.rating = v.getRating();
+		this.price = v.getPrice();
+		this.reserved = v.getReserved();
+		this.discount = v.getDiscount();
 		this.branchLocationId = v.getBranch_locations().getId();
 		this.rentACarId = v.getRentacar().getId();
 	}

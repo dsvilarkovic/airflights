@@ -107,3 +107,7 @@ body {
     border-color: transparent;
     box-shadow: 0 0 0 3px  #31acd8;
   }
+
+  .custom-day.range {
+    background-color: rgb(2, 117, 216);
+  }

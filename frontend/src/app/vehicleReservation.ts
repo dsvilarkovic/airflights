@@ -9,5 +9,5 @@ export class VehicleReservation {
     dropoffdate:string;
     pickuplocation:String;
     dropofflocation:String;
-    price:Number;
+    price:number;
 }

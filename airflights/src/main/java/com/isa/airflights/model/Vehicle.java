@@ -17,7 +17,7 @@ import javax.persistence.SequenceGenerator;
 
 
 @Entity
-@SequenceGenerator(name="seq3", initialValue=4)
+@SequenceGenerator(name="seq3", initialValue=7)
 public class Vehicle {
 	
 	@Id
@@ -49,7 +49,7 @@ public class Vehicle {
 	private double price;
 	
 	@Column(name = "reserved", nullable = true)
-	private Boolean reserved;
+	private boolean reserved;
 	
 	//vrednosti ce biti od (0-1], ukoliko je vrednost polja null, vozilo nije na popustu
 	@Column(name = "discount", nullable = true)
@@ -71,7 +71,7 @@ public class Vehicle {
 
 
 
-	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, int rating, double price, Boolean r,double discount) {
+	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, int rating, double price, boolean r,double discount) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -109,13 +109,13 @@ public class Vehicle {
 
 
 
-	public Boolean getReserved() {
+	public boolean getReserved() {
 		return reserved;
 	}
 
 
 
-	public void setReserved(Boolean reserved) {
+	public void setReserved(boolean reserved) {
 		this.reserved = reserved;
 	}
 

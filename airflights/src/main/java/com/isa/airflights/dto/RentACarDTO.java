@@ -37,6 +37,7 @@ public class RentACarDTO {
 		
 		branches =new ArrayList<>();
 		for(BranchLocations branch : rent.getBranch_locations()){
+			System.out.println("Lista filijala: " + branch.getAddress());
 			this.branches.add(new BranchLocationsDTO(branch));
 		}
 		

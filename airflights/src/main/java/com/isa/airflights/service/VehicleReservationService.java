@@ -31,4 +31,8 @@ public class VehicleReservationService {
 	public List<VehicleReservation> findAllReserved(RentACar r, Date pickupdate, Date dropoffdate) {
 		return vr.findAllReserved(r, pickupdate, dropoffdate);
 	}
+	
+	public List<VehicleReservation> getAllByDate(RentACar r, Date pickupdate, Date dropoffdate) {
+		return vr.getAllByDate(r,pickupdate,dropoffdate);
+	}
 }

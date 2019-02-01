@@ -1,3 +1,4 @@
+import { VehicleReservation } from './../vehicleReservation';
 import { TokenStorageService } from './../../services/auth/token-storage.service';
 import { ModalService } from './../../services/modal.service';
 import { rentacar } from './../rentacar';
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../vehicle';
 import { Branch } from '../branch';
 import { FormControl } from '@angular/forms';
+import { ReservationServiceService } from 'src/services/reservation-service.service';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-racprofile',
@@ -58,9 +61,27 @@ niz : Array<any>;
   //promena 30.12.2018
   nizBranches : Array<any>;
 
-  constructor(private racService : RentacarService, private route : ActivatedRoute, private modalService: ModalService, private router: Router, private token: TokenStorageService) { }
+  //lista rez
+  reservations: Array<VehicleReservation>;
+  reservations2:VehicleReservation[] = [];
+
+  incomeFlag: boolean = false;
+
+  branchPom = new FormControl("");
+
+  constructor(private racService : RentacarService, 
+    private route : ActivatedRoute, 
+    private modalService: ModalService, 
+    private router: Router, 
+    private token: TokenStorageService,
+    private resService: ReservationServiceService,
+    private calendar: NgbCalendar) {
+      this.fromDate = calendar.getToday();
+      this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+     }
 
   ngOnInit() {
+    this.incomeFlag = false;
     this.niz = this.token.getAuthorities();
     this.pom = JSON.stringify(this.niz);
     if(this.pom == "[\"ROLE_SYSTEMADMIN\"]" || this.pom == "[\"ROLE_RENTACARADMIN\"]") {
@@ -79,6 +100,14 @@ niz : Array<any>;
         this.compareBranches();
       })
 
+      //prikaz rezervacija u konkretnom rac servisu
+      this.resService.getAllById(this.id).subscribe(data=> {
+        this.reservations = data;
+        for(let r of this.reservations) {
+          this.reservations2.push(r);
+        }
+      })
+
 
     })
     } else {
@@ -87,6 +116,11 @@ niz : Array<any>;
     }
     
 
+  }
+
+  income23() {
+    alert("Odsdaf");
+    this.incomeFlag = true;
   }
 
   compareVehicle() {
@@ -108,7 +142,10 @@ niz : Array<any>;
 
   addVehicle() {
     this.newVehicle.rentACarId = this.rac.id;
-    this.newVehicle.branchOffice_id = 4;
+    alert(this.newVehicle.branchOffice_id);
+    alert(this.branchPom.value);
+    this.newVehicle.branchOffice_id = this.branchPom.value;
+    alert(this.newVehicle.branchOffice_id);
    // this.newVehicle.branch_locations = this.newVehicle.branch_locations;
     //alert("Filijala: " + this.newVehicle.branch_locations.id);
     this.racService.addVehicle(this.newVehicle,this.newVehicle.rentACarId,this.newVehicle.branchOffice_id).subscribe(data => {
@@ -245,6 +282,59 @@ niz : Array<any>;
 
   }
 
+  hoveredDate: NgbDate;
+
+  fromDate: NgbDate;
+  toDate: NgbDate;
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+  sum: number = 0;
+  pickupdate:string;
+    dropoffdate:string;
+
+  calculate() {
+    this.sum = 0;
+    //alert("SUma? " + this.sum);
+    this.sum = 0;
+    this.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+    this.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+   // alert("SUma? " + this.pickupdate + " " + this.dropoffdate);
+    var pom : Array<VehicleReservation> = new Array<VehicleReservation>();
+    this.resService.getAllByDate(this.pickupdate,this.dropoffdate,this.id).subscribe(data => {
+      pom = data;
+      for(let r of pom) {
+       
+        this.sum += r.price;
+      
+      }
+     // alert("SUma? " + this.sum);
+    })
+
+  }
+
+ 
 
   logout() {
     this.token.signOut();

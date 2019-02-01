@@ -30,7 +30,7 @@ public class BranchLocationsDTO {
 		vehicles = new ArrayList<>();
 		
 		for(Vehicle v :  b.getVehicles()) {
-			this.vehicles.add((new VehicleDTO(v)));
+			this.vehicles.add(new VehicleDTO(v));
 		}
 	}
 
