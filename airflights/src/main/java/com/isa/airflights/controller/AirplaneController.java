@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AirplaneDTO;
+import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Airplane;
+import com.isa.airflights.service.AirlineService;
 import com.isa.airflights.service.AirplaneService;
 import com.isa.airflights.utils.StringJSON;
 
@@ -43,6 +45,8 @@ public class AirplaneController {
 	@Autowired 
 	AirplaneService airplaneService;
 	
+	@Autowired
+	AirlineService airlineService;
 		
 //	@Bean
 //	public ModelMapper getModelMapper() {
@@ -82,8 +86,11 @@ public class AirplaneController {
 	public ResponseEntity<?> createAirplane(@RequestBody AirplaneDTO airplaneDTO) {
 		Airplane airplane = convertToEntity(airplaneDTO);
 		
-		//TODO: po trenutno ulogovanom adminu aviokompanije proveriti id aviokompanije u avionu, mozda nisu isti
+		//podesi aviokompaniju
+		System.out.println("Id je: " + airplaneDTO.getAirline_id());
+		Airline airline = airlineService.getAirline(airplaneDTO.getAirline_id());
 		
+		airplane.setAirline(airline);
 		
 		airplaneService.createAirplane(airplane);
 		
@@ -148,7 +155,7 @@ public class AirplaneController {
 			AirplaneDTO airplaneDTO = convertToDTO(airplane);
 			airplaneDTOs.add(airplaneDTO);
 		}
-		return new ResponseEntity<List<Airplane>>(airplanes, HttpStatus.OK);
+		return new ResponseEntity<>(airplaneDTOs, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/find/page/",
@@ -170,13 +177,17 @@ public class AirplaneController {
 	
 	private AirplaneDTO convertToDTO(Airplane airplane) {
 		AirplaneDTO airplaneDTO = modelMapper.map(airplane, AirplaneDTO.class);
-		airplaneDTO.setAirline_id(airplane.getAirline().getId());
-		airplaneDTO.setConfiguration(airplane.getSegmentConfig().getId());
+		
+		if(airplane.getAirline() != null)
+			airplaneDTO.setAirline_id(airplane.getAirline().getId());
+
+		
 		return airplaneDTO;
 	}
 	
 	private Airplane convertToEntity(AirplaneDTO airplaneDTO) {
 		Airplane airplane = modelMapper.map(airplaneDTO, Airplane.class);
+		
 		return airplane;
 	}
 
