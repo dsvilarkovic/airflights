@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -57,8 +58,17 @@ import { AdminsService } from 'src/services/admins.service';
 import { AdminAddComponent } from './admin/admin-add/admin-add.component';
 import { AdminRentACarAddComponent } from './admin/admin-rent-a-car-add/admin-rent-a-car-add.component';
 import { AdminAirlineAddComponent } from './admin/admin-airline-add/admin-airline-add.component';
+
 import { AdminHotelProfileComponent } from './admin/admin-hotel-profile/admin-hotel-profile.component';
 import { HotelRoomsComponent } from './hotel/hotel-rooms/hotel-rooms.component';
+
+import { RentACarDiscountComponent } from './rent-acar-discount/rent-acar-discount.component';
+import { AuthhomepageComponent } from './authhomepage/authhomepage.component';
+import { ListAirflightsComponent } from './list-airflights/list-airflights.component';
+import { ListHotelsComponent } from './list-hotels/list-hotels.component';
+import { ListRentacarsComponent } from './list-rentacars/list-rentacars.component';
+import { ListFriendsComponent } from './list-friends/list-friends.component';
+
 
 
 const appRoutes: Routes = [
@@ -99,8 +109,16 @@ const appRoutes: Routes = [
   {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
   {path: 'seatConfig', component : ConfigSeatsComponent},
 
+
   {path: 'rooms/list', component : HotelRoomsComponent},
-  {path: ':id/rooms/list', component : HotelRoomsComponent}
+  {path: ':id/rooms/list', component : HotelRoomsComponent},
+
+  {path: 'rentacarDiscount/:id/:date1/:date2', component: RentACarDiscountComponent},
+  {path: 'authHomePage/:id',component: AuthhomepageComponent},
+  {path: 'listAirflights', component: ListAirflightsComponent},
+  {path: 'listHotels', component: ListHotelsComponent},
+  {path: 'listRentacars', component: ListRentacarsComponent},
+  {path: 'listFriends/:id', component: ListFriendsComponent}
 
 ];
 
@@ -146,8 +164,16 @@ const appRoutes: Routes = [
     AdminAddComponent,
     AdminRentACarAddComponent,
     AdminAirlineAddComponent,
+
     AdminHotelProfileComponent,
     HotelRoomsComponent,
+
+    RentACarDiscountComponent,
+    AuthhomepageComponent,
+    ListAirflightsComponent,
+    ListHotelsComponent,
+    ListRentacarsComponent,
+    ListFriendsComponent,
   ],
   imports: [
     ReactiveFormsModule,
