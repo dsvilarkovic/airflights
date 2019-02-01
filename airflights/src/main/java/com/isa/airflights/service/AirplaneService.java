@@ -37,12 +37,12 @@ public class AirplaneService {
 			Airplane foundAirplane = airplaneRepository.getOne(airplane.getId());
 			//podesi mu potrebne parametre 
 			airplane.setAirline(foundAirplane.getAirline());
-			//sacuvaj ga
-			airplaneRepository.save(airplane);
 		}
 		catch(EntityNotFoundException exception) {
 			return false;
 		}
+		//sacuvaj ga
+		airplaneRepository.save(airplane);
 		return true;
 	}
 
