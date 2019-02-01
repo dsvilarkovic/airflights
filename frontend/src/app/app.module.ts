@@ -82,7 +82,7 @@ const appRoutes: Routes = [
   {path: 'hotel/edit/:id/charts', component: HotelChartComponent },
   {path: 'hotel/edit/:id/revenues', component: HotelRevenuesComponent },
   {path: 'hotel/edit/:idh/:id/promo', component: PromotionInitComponent },
-  {path: 'admin/profile/:id', component: AdminProfileComponent},
+  {path: 'admin/profile', component: AdminProfileComponent},
   {path: 'admin/flights', component: AdminFlightsComponent},
   {path: 'admin/hotels', component: AdminHotelsComponent},
   {path: 'admin/rac', component: AdminRentACarComponent},

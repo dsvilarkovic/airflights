@@ -24,7 +24,7 @@ public class AdminService {
 	}
 
 	public void remove(Long id) {
-		repository.deleteById(id);;
+		repository.deleteById(id);
 	}
 
 }
