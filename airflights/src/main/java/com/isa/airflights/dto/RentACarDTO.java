@@ -14,13 +14,14 @@ public class RentACarDTO {
 	private String address;
 	private String city;
 	private String description;
-	private int rating;
+	private double rating;
 	private List<BranchLocationsDTO> branches;
+
 	
 	
 	
 	
-	public RentACarDTO(Long id, String name,String address, String city, String description, int rating) {
+	public RentACarDTO(Long id, String name,String address, String city, String description, double rating) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,6 +29,7 @@ public class RentACarDTO {
 		this.city = city;
 		this.description = description;
 		this.rating = rating;
+
 		
 	}
 	
@@ -43,6 +45,9 @@ public class RentACarDTO {
 		
 	}
 	
+	
+	
+
 	public String getAddress() {
 		return address;
 	}
@@ -75,10 +80,10 @@ public class RentACarDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 	public List<BranchLocationsDTO> getBranches() {

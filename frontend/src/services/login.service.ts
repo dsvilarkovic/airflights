@@ -18,4 +18,8 @@ export class LoginService {
     return this.http.get("//localhost:8080/api/abstractUsers/logged",username);
   }
 
+  getLoggedById(id): Observable<any> {
+    return this.http.get("//localhost:8080/api/abstractUsers/loggedById/"+id);
+  }
+
 }

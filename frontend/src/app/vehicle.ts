@@ -10,7 +10,7 @@ export class Vehicle {
     year: Number;
     seats: Number;
     price: number;
-    rating: Number;
+    rating: number;
     type: VehicleType;
     reserved: String;
     rentACarId: Number;

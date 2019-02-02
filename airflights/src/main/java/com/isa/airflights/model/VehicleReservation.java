@@ -2,14 +2,19 @@ package com.isa.airflights.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class VehicleReservation {
@@ -19,10 +24,12 @@ public class VehicleReservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Vehicle vehicle;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private RentACar rentacar;
 	
 	@Column
@@ -46,13 +53,31 @@ public class VehicleReservation {
 	@Column
 	private double price;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AbstractUser abstractUser;
+	
+	@Column
+	private boolean cancel;
 	
 	public VehicleReservation() {
 		
 		
 	}
+
+	
+	
+	public boolean isCancel() {
+		return cancel;
+	}
+
+
+
+	public void setCancel(boolean cancel) {
+		this.cancel = cancel;
+	}
+
+
 
 	public Long getId() {
 		return id;

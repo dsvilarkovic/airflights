@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import com.isa.airflights.dto.VehicleReservationDTO;
 import com.isa.airflights.model.RentACar;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleReservation;
+import com.isa.airflights.repository.VehicleReservationRepository;
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.service.RentACarService;
 import com.isa.airflights.service.VehicleReservationService;
@@ -41,8 +43,39 @@ public class VehicleReservationController {
 	private VehicleReservationService vss;
 	
 	@Autowired
+	private VehicleReservationRepository rep;
+	
+	@Autowired
 	private AbstractUserService aus;
 	
+	
+	@RequestMapping(value="/getAllByUserId/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<VehicleReservationDTO>> getAllByUserId(@PathVariable Long id) {
+		List<VehicleReservation> lista = vss.findAll();
+		List<VehicleReservationDTO> dto = new ArrayList<>();
+		for (VehicleReservation v : lista) {
+			if(v.getUser().getId().equals(id) && v.isCancel() == false) {
+				System.out.println("Ima jedna, dve...");
+				dto.add(new VehicleReservationDTO(v));
+			}
+		}
+		
+		
+		return new ResponseEntity<List<VehicleReservationDTO>>(dto,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/cancel/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> cancel(@PathVariable Long id) {
+	//	vss.delete(id);
+		VehicleReservation r = rep.getOne(id);
+
+		r.setCancel(true); //obrisano
+		
+		rep.save(r);
+		
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	//vraca listu rezervisanih vozila u datom rent a car servisu (id)
 	@RequestMapping(value="/getAll/{id}", method = RequestMethod.GET)

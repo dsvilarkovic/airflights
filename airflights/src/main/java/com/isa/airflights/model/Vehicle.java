@@ -43,7 +43,8 @@ public class Vehicle {
 	private VehicleType type;
 	
 	@Column(name = "rating", nullable = false)
-	private int rating;
+	private double rating;
+	
 	
 	@Column(name = "price", nullable = false)
 	private double price;
@@ -71,7 +72,7 @@ public class Vehicle {
 
 
 
-	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, int rating, double price, boolean r,double discount) {
+	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, double rating, double price, boolean r,double discount) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -84,6 +85,7 @@ public class Vehicle {
 		this.price = price;
 		this.reserved = r;
 		this.discount = discount;
+
 	}
 	
 	public Vehicle(Vehicle v) {
@@ -95,6 +97,9 @@ public class Vehicle {
 	
 	
 
+
+
+	
 
 
 	public double getDiscount() {
@@ -121,13 +126,13 @@ public class Vehicle {
 
 
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
 
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 

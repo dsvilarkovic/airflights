@@ -27,6 +27,10 @@ public class VehicleReservationDTO {
 	
 	private double price;
 	
+	private RentACarDTO rentacar;
+	
+	private boolean cancel;
+	
 	public VehicleReservationDTO() {
 		
 	}
@@ -35,7 +39,7 @@ public class VehicleReservationDTO {
 
 
 	public VehicleReservationDTO(Long id, String reservationdate, String pickupdate,
-			String dropoffdate, String pickuplocation, String dropofflocation, double price) {
+			String dropoffdate, String pickuplocation, String dropofflocation, double price,boolean cancel) {
 		super();
 		this.id = id;
 		this.reservationdate = reservationdate;
@@ -44,13 +48,47 @@ public class VehicleReservationDTO {
 		this.pickuplocation = pickuplocation;
 		this.dropofflocation = dropofflocation;
 		this.price = price;
+		this.cancel = cancel;
 	}
 	
 	public VehicleReservationDTO(VehicleReservation v) {
 		this(v.getId(),v.getReservationdate().toString(),v.getPickupdate().toString(),v.getDropoffdate().toString(),v.getPickUpLocation(),
-				v.getDropOffLocation(),v.getPrice());
+				v.getDropOffLocation(),v.getPrice(),v.isCancel());
 		this.vehicle = new VehicleDTO(v.getVehicle());
 		this.user_id = v.getUser().getId();
+		this.rentacar = new RentACarDTO(v.getRentacar());
+	}
+
+
+
+
+	
+
+
+
+	public boolean isCancel() {
+		return cancel;
+	}
+
+
+
+
+	public void setCancel(boolean cancel) {
+		this.cancel = cancel;
+	}
+
+
+
+
+	public RentACarDTO getRentacar() {
+		return rentacar;
+	}
+
+
+
+
+	public void setRentacar(RentACarDTO rentacar) {
+		this.rentacar = rentacar;
 	}
 
 

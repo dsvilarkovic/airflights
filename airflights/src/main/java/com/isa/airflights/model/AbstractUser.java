@@ -76,6 +76,10 @@ public class AbstractUser {
 	@Column(name = "id_company", nullable = true)
 	private Integer idCompany;
 	
+	// @Djuka - Boolean polje da ne bi korisnik vise puta ocenio
+	@Column(name = "marked")
+	private Boolean marked;
+	
 	//@Column(name = "id_company", nullable = true)
 	//private RentACar idCompany;
 	
@@ -111,7 +115,7 @@ public class AbstractUser {
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password, Boolean v, int idCompany) {
+			String password, Boolean v, int idCompany, Boolean m) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -122,15 +126,24 @@ public class AbstractUser {
 		this.password = password;
 		this.verify = v;
 		this.idCompany = idCompany;
+		this.marked = m;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar(),user.getMarked());
 	}
 
 
 	
+
+	public Boolean getMarked() {
+		return marked;
+	}
+
+	public void setMarked(Boolean marked) {
+		this.marked = marked;
+	}
 
 	public int getIdRentACar() {
 		return idCompany;

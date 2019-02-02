@@ -21,7 +21,7 @@ public class VehicleDTO {
 	private VehicleType type;
 	
 	private double rating;
-
+	
 	private double price;
 	
 	private boolean reserved;
@@ -33,6 +33,7 @@ public class VehicleDTO {
 	private double discount;
 	
 
+
 	
 
 	public VehicleDTO() {
@@ -43,7 +44,7 @@ public class VehicleDTO {
 
 
 	public VehicleDTO(Long id, String name, String brand, String model, int year, int seats, VehicleType type, double rating,
-			double price, boolean reserved, double discount) {
+			double price, boolean reserved) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,7 +56,7 @@ public class VehicleDTO {
 		this.rating = rating;
 		this.price = price;
 		this.reserved = reserved;
-		this.discount = discount;
+
 	}
 
 	
@@ -79,6 +80,9 @@ public class VehicleDTO {
 	
 	
 	
+
+
+
 	public double getDiscount() {
 		return discount;
 	}

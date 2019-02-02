@@ -1,3 +1,22 @@
 <p>
   list-rentacars works!
 </p>
+
+
+<h2>List of vehicles</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let v of vehicles2">
+          <td>{{v.id}}</td>
+          <td>{{v.name}}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>

@@ -41,7 +41,8 @@ public class RentACar {
 	
 	//prosecna ocena servisa
 	@Column(name = "rating", nullable = false)
-	private int rating;
+	private double rating;
+	
 	
 	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<BranchLocations> vehicles = new HashSet<BranchLocations>();
@@ -59,7 +60,7 @@ public class RentACar {
 		super();
 	}
 	
-	public RentACar(Long id, String name, String address, String city, String description, int r) {
+	public RentACar(Long id, String name, String address, String city, String description, double r) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -75,6 +76,16 @@ public class RentACar {
 	
 	
 	
+	public double getRating() {
+		return rating;
+	}
+
+	
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
 	public Set<BranchLocations> getVehicles() {
 		return vehicles;
 	}
@@ -91,13 +102,7 @@ public class RentACar {
 		this.city = city;
 	}
 
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
+	
 
 	public Long getId() {
 		return id;

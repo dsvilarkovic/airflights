@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleChartsModule } from "angular-google-charts";
+/*import { DataTableModule} from "angular-4-data-table";*/
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
