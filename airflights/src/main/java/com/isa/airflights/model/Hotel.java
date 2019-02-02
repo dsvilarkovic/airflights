@@ -22,11 +22,17 @@ public class Hotel {
 	@Column(name = "address", nullable = true)
 	private String address;	
 	
-	@Column(name = "description", nullable = true)
+	@Column(name = "description", nullable = true, length = 2048)
 	private String description;
 	
 	@Column(name = "city", nullable = false)
 	private String city;
+	
+	@Column(name = "rating_count", nullable = false)
+	private Long ratingsCount = 0L;
+	
+	@Column(name = "rating_sum", nullable = false)
+	private Long ratingsSum = 0L;
 	
 	
 	//@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -95,6 +101,22 @@ public class Hotel {
 		this.extras = extras;
 	}*/
 	
+	public Long getRatingsCount() {
+		return ratingsCount;
+	}
+
+	public void setRatingsCount(Long ratingsCount) {
+		this.ratingsCount = ratingsCount;
+	}
+
+	public Long getRatingsSum() {
+		return ratingsSum;
+	}
+
+	public void setRatingsSum(Long ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) {

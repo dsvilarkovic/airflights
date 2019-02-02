@@ -66,5 +66,11 @@ VALUES (0,0,0,2);
 INSERT INTO rentacar_rating(rating, last_rating, sum_for_rating, rentacar)
 VALUES (0,0,0,3);
 
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0);
 
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'Garni', 42,13);
 
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0);

@@ -88,7 +88,8 @@ const appRoutes: Routes = [
   {path: 'error45', component: ErrorComponent},
   {path: 'home', component: HomeComponent},
 
-  {path: 'hotel/list', component: HotelListComponent },
+  {path: 'hotel/list', redirectTo: '/hotels', pathMatch: 'full' },
+  {path: 'hotels', component: HotelListComponent },
   {path: 'admin/hotel/add', component: HotelAddComponent },
   {path: 'admin/hotel/profile', component: AdminHotelProfileComponent},
   {path: 'admin/rac/add', component: AdminRentACarAddComponent },
