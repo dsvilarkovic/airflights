@@ -9,7 +9,7 @@ import { NgModule, Component } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { GoogleChartsModule } from "angular-google-charts";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,6 +69,12 @@ import { ListAirflightsComponent } from './list-airflights/list-airflights.compo
 import { ListHotelsComponent } from './list-hotels/list-hotels.component';
 import { ListRentacarsComponent } from './list-rentacars/list-rentacars.component';
 import { ListFriendsComponent } from './list-friends/list-friends.component';
+import { AddFlightsComponent } from './add-flights/add-flights.component';
+import { AirlineInfoComponent } from './airline-info/airline-info.component';
+import { FriendsComponent } from './friends/friends.component';
+import { SearchComponent } from './search/search.component';
+import { FlightAdministrationComponent } from './flight-administration/flight-administration.component';
+import { FlightTableComponent } from './flight-table/flight-table.component';
 
 
 
@@ -109,6 +115,14 @@ const appRoutes: Routes = [
   {path: 'rentacarPreview', component: RentacarPreviewComponent},
   {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
   {path: 'seatConfig', component : ConfigSeatsComponent},
+
+  
+  { path: "addflight", component: AddFlightsComponent },
+  { path: "addplane", component: AddPlaneComponent },
+  { path: "seatconfig", component: ConfigSeatsComponent },
+  { path: "findflight", component: SearchComponent },
+  { path: "friends", component: FriendsComponent },
+  { path: "flight-administration", component: FlightAdministrationComponent},
 
 
   {path: 'rooms/list', component : HotelRoomsComponent},
@@ -174,6 +188,12 @@ const appRoutes: Routes = [
     ListHotelsComponent,
     ListRentacarsComponent,
     ListFriendsComponent,
+    AddFlightsComponent,
+    AirlineInfoComponent,
+    FriendsComponent,
+    SearchComponent,
+    FlightAdministrationComponent,
+    FlightTableComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -189,6 +209,7 @@ const appRoutes: Routes = [
         enableTracing: true
       }
     ),
+    GoogleChartsModule.forRoot()
   ],
   providers: [LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

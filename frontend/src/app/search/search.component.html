@@ -1,0 +1,365 @@
+<div class="container" style="margin-top: 50px">
+  <div class="row">
+    <div class="col-md-12">
+      <p style="color:red; text-align:center">{{ errorMsg }}</p>
+      <div class="input-group" id="adv-search">
+        <input
+          id="typeahead-focus"
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchModel.cityFrom"
+          [ngbTypeahead]="search1"
+          (focus)="focus1$.next($event.target.value)"
+          (click)="click1$.next($event.target.value)"
+          #instanceFrom="ngbTypeahead"
+          placeholder="From"
+        />
+        <input
+          id="typeahead-focus"
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchModel.cityTo"
+          [ngbTypeahead]="search2"
+          (focus)="focus2$.next($event.target.value)"
+          (click)="click2$.next($event.target.value)"
+          #instanceTo="ngbTypeahead"
+          placeholder="To"
+        />
+
+        <select
+          #flightType
+          name="selectType"
+          class="form-control"
+          (change)="flightTypeChanged()"
+        >
+          <option *ngFor="let type of flightTypes" [ngValue]="type">{{
+            type
+          }}</option>
+        </select>
+
+        <div class="input-group-btn">
+          <div class="btn-group" role="group">
+            <div class="dropdown dropdown-lg">
+              <button
+                type="button"
+                class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span class="caret"></span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" role="menu">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="contain">Flight Class</label>
+                    <select
+                      #flightClass
+                      name="selectClass"
+                      class="form-control"
+                    >
+                      <option selected>All Classes</option>
+                      <option
+                        *ngFor="let cls of flightClasses"
+                        [ngValue]="cls"
+                        >{{ cls }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="contain">No. of persons</label>
+                    <select #personNo class="form-control">
+                      <option
+                        *ngFor="let j of Arr(16).fill(1); let i = index"
+                        >{{ i + 1 }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group" style="text-align:center">
+                    <input
+                      name="multiCityCheck"
+                      class="form-check-input"
+                      type="checkbox"
+                      id="gridCheck"
+                      [checked]="searchModel.multiCity"
+                      (change)="searchModel.multiCity = !searchModel.multiCity"
+                    />
+                    <label class="form-check-label" for="gridCheck">
+                      Multi-City
+                    </label>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <button
+              (click)="onSearch()"
+              type="button"
+              class="btn btn-info srchBtn"
+            >
+              Search for flights <i class="fa fa-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin: 10px">
+        <ngb-datepicker
+          *ngIf="oneWay"
+          style="display:inline-block"
+          [(ngModel)]="dateFrom"
+          [displayMonths]="2"
+          [navigation]="navigation"
+          outsideDays="hidden"
+        >
+        </ngb-datepicker>
+        <ngb-datepicker
+          #dp
+          style="display:inline-block"
+          *ngIf="!oneWay"
+          (select)="onDateSelection($event)"
+          [displayMonths]="2"
+          [dayTemplate]="t"
+          outsideDays="hidden"
+        >
+        </ngb-datepicker>
+        <ng-template #t let-date let-focused="focused">
+          <span
+            class="custom-day"
+            [class.focused]="focused"
+            [class.range]="isRange(date)"
+            [class.faded]="isHovered(date) || isInside(date)"
+            (mouseenter)="hoveredDate = date"
+            (mouseleave)="hoveredDate = null"
+          >
+            {{ date.day }}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="searchResults"
+  class="col-md-6 col-sm-12"
+  style="margin: 0 auto; margin-top:50px"
+>
+  <h5>
+    Search Results:
+    <i>
+      Flights from {{ dateFromCopy.day }}/{{ dateFromCopy.month }}/{{
+        dateFromCopy.year
+      }}<span *ngIf="dateToCopy != null">
+        to {{ dateToCopy.day }}/{{ dateToCopy.month }}/{{
+          dateToCopy.year
+        }}</span
+      ></i
+    >
+  </h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">From</th>
+        <th scope="col">To</th>
+        <th scope="col">Flight Type</th>
+        <th scope="col">Departure</th>
+        <th scope="col">Airline</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flight of flightsMock; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ flight.flightLegs[0].fullName }}</td>
+        <td>{{ flight.flightLegs[flight.flightLegs.length - 1].fullName }}</td>
+        <td>
+          <span *ngIf="flight.flightLegs.length - 2 == 0">Direct</span
+          ><span *ngIf="flight.flightLegs.length - 2 == 1"
+            >{{ flight.flightLegs.length - 2 }} Stop</span
+          ><span *ngIf="flight.flightLegs.length - 2 > 1"
+            >{{ flight.flightLegs.length - 2 }} Stops</span
+          >
+        </td>
+        <td>{{ flight.departureDateTime }}</td>
+        <td>{{ flight.airline.fullName }}</td>
+        <td>
+          <button
+            class="btn btn-secondary"
+            data-toggle="modal"
+            data-target="#flightDetailsModal"
+            (click)="flightClicked(flight.id)"
+          >
+            More Details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
+  <h6 style="display:inline;margin-right: 10px">Airline:</h6>
+  <select
+    #airlineFilter
+    name="airlineSelect"
+    class="form-control"
+    style="width:25%; display: inline"
+  >
+    <option [ngValue]="null">All Airlines</option>
+    <option *ngFor="let airline of airlinesMock" [ngValue]="airline">{{
+      airline.fullName
+    }}</option>
+  </select>
+  <h6 style="display:inline;margin-right: 10px; margin-left: 30px">
+    Max. Travel Time (hours):
+  </h6>
+  <select
+    #travelTimeFilter
+    class="form-control"
+    style="width:10%; display: inline"
+  >
+    <option [ngValue]="null">Any</option>
+    <option *ngFor="let j of Arr(7).fill(1); let i = index">{{
+      (i + 2) * i + 1
+    }}</option>
+  </select>
+  <button (click)="onFilter()" style="float:right" class="btn btn-info">
+    Filter results
+  </button>
+  <hr />
+  <ngb-pagination
+    [(collectionSize)]="collectionSize"
+    [(page)]="pageNo"
+    [maxSize]="5"
+    [boundaryLinks]="true"
+    style="float:right"
+  ></ngb-pagination>
+</div>
+
+<div class="modal" id="flightDetailsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Price & Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <p>
+          <b>Travel Plan:</b>
+          <span *ngFor="let city of clickedFlight.flightLegs">
+            {{ city.fullName
+            }}<span
+              *ngIf="
+                clickedFlight.flightLegs[clickedFlight.flightLegs.length - 1]
+                  .fullName != city.fullName
+              "
+              >,
+            </span>
+          </span>
+        </p>
+        <p><b>Departure:</b> {{ clickedFlight.departureDateTime }}</p>
+        <p><b>Arrival:</b> {{ clickedFlight.arrivalDateTime }}</p>
+        <p><b>Travel time:</b> {{ clickedFlight.travelTime }} min</p>
+        <p><b>Travel distance:</b> {{ clickedFlight.travelDistance }} km</p>
+        <p *ngIf="clickedFlight.flightDiscount > 0">
+          <b>Flight discount:</b> {{ clickedFlight.flightDiscount }}%
+        </p>
+        <br />
+        <br />
+        <p><b>PRICES:</b></p>
+        <span *ngFor="let classPrice of clickedFlight.flightClassPrices">
+          <p>
+            <i>{{ classPrice.airlineClassType }} Class:</i>
+            {{ classPrice.price }}&euro;
+            <b *ngIf="clickedFlight.flightDiscount > 0">
+              - discount:
+              {{
+                classPrice.price -
+                  (classPrice.price / 100) * clickedFlight.flightDiscount
+              }}&euro;</b
+            >
+          </p>
+        </span>
+        <br />
+        <p><b>Airline: </b>{{ clickedFlight.airline.fullName }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          routerLink="/"
+        >
+          Reserve flight
+        </button>
+        <button
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#luggageInfo"
+        >
+          Luggage Info
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="luggageInfo" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:150%">
+      <div class="modal-header">
+        <h5 class="modal-title">Luggage Price & Info</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Length</th>
+              <th scope="col">Width</th>
+              <th scope="col">Height</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Price</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let luggage of clickedFlight.airline.luggageClassPriceList
+                  .luggageClassPrices;
+                let i = index
+              "
+            >
+              <td>{{ luggage.length }} cm</td>
+              <td>{{ luggage.width }} cm</td>
+              <td>{{ luggage.height }} cm</td>
+              <td>{{ luggage.weight }} kg</td>
+              <td>{{ luggage.price }}&euro;</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

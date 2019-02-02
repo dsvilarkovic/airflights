@@ -1,0 +1,499 @@
+<hr />
+<button
+  style="float:right; margin: 5px"
+  class="btn btn-info"
+  data-toggle="modal"
+  data-target="#addFlightModal"
+  (click)="addFlightBtnClicked()"
+>
+  Add New Flight
+</button>
+<button
+  style="float:right; margin: 5px"
+  class="btn btn-info"
+  data-toggle="modal"
+  data-target="#destinationsModal"
+>
+  Add/Remove Destinations
+</button>
+<h5 style="margin-left:10px">Flight configuration:</h5>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">From</th>
+      <th scope="col">To</th>
+      <th scope="col">Flight Type</th>
+      <th scope="col">Departure</th>
+      <th scope="col">Arrival</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let flight of flightsMock; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ flight.flightLegs[0].fullName }}</td>
+      <td>{{ flight.flightLegs[flight.flightLegs.length - 1].fullName }}</td>
+      <td>
+        <span *ngIf="flight.flightLegs.length - 2 == 0">Direct</span
+        ><span *ngIf="flight.flightLegs.length - 2 == 1"
+          >{{ flight.flightLegs.length - 2 }} Stop</span
+        ><span *ngIf="flight.flightLegs.length - 2 > 1"
+          >{{ flight.flightLegs.length - 2 }} Stops</span
+        >
+      </td>
+      <td>{{ flight.departureDateTime }}</td>
+      <td>{{ flight.arrivalDateTime }}</td>
+      <td>
+        <button
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#flightDetailsModal"
+          (click)="flightClicked(flight.id)"
+        >
+          Price & Details
+        </button>
+      </td>
+      <td>
+        <button
+          class="btn btn-danger"
+          data-toggle="modal"
+          data-target="#removeFlightModal"
+          (click)="flightClicked(flight.id)"
+        >
+          Remove Flight
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination
+  [(collectionSize)]="collectionSize"
+  [(page)]="pageNo"
+  [maxSize]="5"
+  [boundaryLinks]="true"
+  style="float:right"
+></ngb-pagination>
+
+<div class="modal" id="flightDetailsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Price & Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <p>
+          <b>Travel Plan:</b>
+          <span *ngFor="let city of clickedFlight.flightLegs">
+            {{ city.fullName
+            }}<span
+              *ngIf="
+                clickedFlight.flightLegs[clickedFlight.flightLegs.length - 1]
+                  .fullName != city.fullName
+              "
+              >,
+            </span>
+          </span>
+        </p>
+        <p><b>Travel time:</b> {{ clickedFlight.travelTime }} min</p>
+        <p><b>Travel distance:</b> {{ clickedFlight.travelDistance }} km</p>
+        <p *ngIf="clickedFlight.flightDiscount > 0">
+          <b>Flight discount:</b> {{ clickedFlight.flightDiscount }}%
+        </p>
+        <br />
+        <br />
+        <p><b>PRICES:</b></p>
+        <span *ngFor="let classPrice of clickedFlight.flightClassPrices">
+          <p>
+            <i>{{ classPrice.airlineClassType }} Class:</i>
+            {{ classPrice.price }}&euro;
+            <b *ngIf="clickedFlight.flightDiscount > 0">
+              - discount:
+              {{
+                classPrice.price -
+                  (classPrice.price / 100) * clickedFlight.flightDiscount
+              }}&euro;</b
+            >
+          </p>
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="flightClicked(clickedFlight.id)"
+          data-toggle="modal"
+          data-target="#editFlightModal"
+          data-dismiss="modal"
+        >
+          Edit Flight
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="editFlightModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Flight</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngTemplateOutlet="flightInputs"></ng-container>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="editFlight(clickedFlight)"
+          data-dismiss="modal"
+        >
+          Save Changes
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addFlightModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Flight</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngTemplateOutlet="flightInputs"></ng-container>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="addFlight(clickedFlight)"
+          data-dismiss="modal"
+        >
+          Save Changes
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="removeFlightModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Remove flight</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure that you want to delete this flight?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="removeFlight(clickedFlightId)"
+          data-dismiss="modal"
+        >
+          Delete
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="destinationsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:150%">
+      <div class="modal-header">
+        <h5 class="modal-title">Add/Remove Airline Destinations</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Location</th>
+
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dest of destinationsMock; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ dest.fullName }}</td>
+              <td></td>
+              <td>
+                <button
+                  class="btn btn-danger"
+                  data-toggle="modal"
+                  data-target="#removeDestinationModal"
+                  (click)="destinationClicked(dest.id)"
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          data-toggle="modal"
+          data-target="#addDestinationModal"
+        >
+          Add New Destination
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="removeDestinationModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Remove Destination</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure that you want to delete this destination from system?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="removeDestination(clickedDestinationId)"
+          data-dismiss="modal"
+        >
+          Delete
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addDestinationModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Destination</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter City Name"
+          [(ngModel)]="newDestination"
+          style="margin-left: 30px;width:50%"
+        />
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="addDestination()"
+          data-dismiss="modal"
+        >
+          Add
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #flightInputs>
+  <div style="width: 90%">
+    <label style="margin-left: 30px;margin-top: 30px"
+      >Departure Date & Time</label
+    >
+    <input
+      type="datetime-local"
+      class="form-control"
+      placeholder="Departure Date & Time"
+      [(ngModel)]="clickedFlight.departureDateTime"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px"
+      >Arrival Date & Time</label
+    >
+    <input
+      type="datetime-local"
+      class="form-control"
+      placeholder="Arrival Date & Time"
+      [(ngModel)]="clickedFlight.arrivalDateTime"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px">Travel Time</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Travel Time"
+      [(ngModel)]="clickedFlight.travelTime"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px">Travel Distance</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Travel Distance"
+      [(ngModel)]="clickedFlight.travelDistance"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px">Flight Discount</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Flight Discount"
+      [(ngModel)]="clickedFlight.flightDiscount"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px"
+      >No. of stops (Leave 0 for direct flight)</label
+    >
+    <input
+      type="number"
+      class="form-control"
+      placeholder="No. of flight legs"
+      [(ngModel)]="clickedFlight.legCount"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px">Flight Legs</label>
+
+    <span
+      *ngFor="let n of Arr(clickedFlight.legCount + 2).fill(1); let i = index"
+    >
+      <select
+        class="form-control"
+        style="margin-left: 30px"
+        [(ngModel)]="clickedFlight.flightLegs[i]"
+        ><option selected disabled>Choose city...</option>
+        <option *ngFor="let c of destinationsMock" [ngValue]="c">{{
+          c.fullName
+        }}</option>
+      </select>
+    </span>
+
+    <label style="margin-left: 30px;margin-top: 30px"
+      >Economy Class Price</label
+    >
+    <input
+      type="number"
+      class="form-control"
+      placeholder="Enter price"
+      [(ngModel)]="clickedFlight.flightClassPrices[0].price"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px"
+      >Business Class Price</label
+    >
+    <input
+      type="number"
+      class="form-control"
+      placeholder="Enter price"
+      [(ngModel)]="clickedFlight.flightClassPrices[1].price"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px">First Class Price</label>
+    <input
+      type="number"
+      class="form-control"
+      placeholder="Enter price"
+      [(ngModel)]="clickedFlight.flightClassPrices[2].price"
+      style="margin-left: 30px"
+    />
+    <label style="margin-left: 30px;margin-top: 30px"
+      >Premium Class Price</label
+    >
+    <input
+      type="number"
+      class="form-control"
+      placeholder="Enter price"
+      [(ngModel)]="clickedFlight.flightClassPrices[3].price"
+      style="margin-left: 30px"
+    />
+  </div>
+</ng-template>

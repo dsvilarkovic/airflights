@@ -1,0 +1,23 @@
+<h1 style="margin-top:30px;text-align: center">
+  Airline Administrator Dashboard
+</h1>
+
+<div class="col-md-4 col-sm-12" style="float:left; padding-right: 50px;">
+  <h5 style="margin:30px;">Airline Info:</h5>
+  <app-airline-info [airlineMock]="airlineMock"></app-airline-info>
+</div>
+<div class="col-md-7 col-sm-12" style="float:right;margin-top:30px; ">
+  <app-airplane-table></app-airplane-table>
+</div>
+<div class="col-md-7 col-sm-12" style="float:right; margin-top: 50px; ">
+  <app-flight-table [airlineMock]="airlineMock"></app-flight-table>
+</div>
+<div class="col-md-6 col-sm-12" style="float:right; margin-top: 50px;">
+  <google-chart
+    [title]="chart.title"
+    [type]="chart.type"
+    [data]="chart.data"
+    style="width:820px; height: 500px;"
+  >
+  </google-chart>
+</div>

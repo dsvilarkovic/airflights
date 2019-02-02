@@ -1,0 +1,52 @@
+.divTable {
+    display: table;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    padding-top: 120px;
+    padding-bottom: 40px;
+    border-spacing: 5px;
+    background-color: rgb(251, 251, 251);
+  }
+  
+  .divTableRow {
+    display: table-row;
+  }
+  
+  .divTableCell {
+    border: 1px solid #a1a1a1;
+    border-radius: 8px;
+    display: table-cell;
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    background-color: white;
+    font-size: 9pt;
+    text-align: center;
+  }
+  .divEmptySpace {
+    opacity: 0;
+    font-size: 6pt;
+    display: table-cell;
+    padding: 3px 10px;
+  }
+  
+  .divTableBody {
+    display: table-row-group;
+  }
+  
+  .firstClass {
+    background-color: rgb(226, 183, 255);
+  }
+  
+  .economyClass {
+    background-color: rgb(254, 255, 206);
+  }
+  
+  .businessClass {
+    background-color: rgb(160, 193, 255);
+  }
+  
+  .premiumClass {
+    background-color: rgb(235, 186, 62);
+  }
+  
