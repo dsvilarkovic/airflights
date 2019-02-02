@@ -18,8 +18,8 @@ import io.jsonwebtoken.lang.Objects;
  *
  */
 @Entity
-@Table(name = "luggageClassPrice")
-public class LuggageClassPrice {
+@Table(name = "luggagePrice")
+public class LuggagePrice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class LuggageClassPrice {
 	 */
 	@ManyToOne
 	@JoinColumn
-	private LuggageClassPriceList luggageClassPriceList;
+	private LuggagePriceList luggagePriceList;
 	
 	
 	@Column(name = "length")
@@ -45,8 +45,6 @@ public class LuggageClassPrice {
 	@Column(name = "weight")
 	private Integer weight;
 	
-	@Column(name = "class", nullable = false)
-	private AirlineClassType airlineClassType;
 	
 	@Column(name = "price")
 	private Double price;
@@ -59,12 +57,12 @@ public class LuggageClassPrice {
 		this.id = id;
 	}
 
-	public LuggageClassPriceList getLuggageClassPriceList() {
-		return luggageClassPriceList;
+	public LuggagePriceList getLuggagePriceList() {
+		return luggagePriceList;
 	}
 
-	public void setLuggageClassPriceList(LuggageClassPriceList luggageClassPriceList) {
-		this.luggageClassPriceList = luggageClassPriceList;
+	public void setLuggagePriceList(LuggagePriceList LuggagePriceList) {
+		this.luggagePriceList = LuggagePriceList;
 	}
 
 	public Integer getLength() {
@@ -99,13 +97,6 @@ public class LuggageClassPrice {
 		this.weight = weight;
 	}
 
-	public AirlineClassType getAirlineClassType() {
-		return airlineClassType;
-	}
-
-	public void setAirlineClassType(AirlineClassType airlineClassType) {
-		this.airlineClassType = airlineClassType;
-	}
 
 	public Double getPrice() {
 		return price;
@@ -128,11 +119,11 @@ public class LuggageClassPrice {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        LuggageClassPrice luggageClassPrice= (LuggageClassPrice) obj;
-        if (luggageClassPrice.getId() == null || getId() == null) {
+        LuggagePrice LuggagePrice= (LuggagePrice) obj;
+        if (LuggagePrice.getId() == null || getId() == null) {
             return false;
         }
-        return luggageClassPrice.getId().equals(getId());
+        return LuggagePrice.getId().equals(getId());
 	}
 	
 	

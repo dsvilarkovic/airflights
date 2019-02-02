@@ -1,6 +1,6 @@
 package com.isa.airflights.dto;
 
-import com.isa.airflights.model.AirlineClassType;
+import com.isa.airflights.model.enumtypes.AirlineClassType;
 
 public class SeatDTO {
 	private Long id;

@@ -19,7 +19,7 @@ public class SegmentConfigService {
 	SegmentConfigRepository segmentConfigRepository;
 	
 	@Autowired 
-	public SeatRepository seatRepository;
+	SeatRepository seatRepository;
 	
 	public SegmentConfig getConfig(Long id) throws EntityNotFoundException{
 		return segmentConfigRepository.getOne(id);
@@ -34,8 +34,8 @@ public class SegmentConfigService {
 	public Boolean deleteConfig(Long id) {
 		try {
 			segmentConfigRepository.deleteById(id);
-			SegmentConfig segmentConfig =  segmentConfigRepository.getOne(id);
-			System.out.println("SegmentConfig je : " + segmentConfig.getId());
+//			SegmentConfig segmentConfig =  segmentConfigRepository.getOne(id);
+//			System.out.println("SegmentConfig je : " + segmentConfig.getId());
 		}
 		catch(IllegalArgumentException exception) {
 			return false;
@@ -44,18 +44,22 @@ public class SegmentConfigService {
 	}
 	
 	public Boolean updateConfig(SegmentConfig segmentConfig) {
+		SegmentConfig foundConfig;
 		try {
-			SegmentConfig foundConfig = segmentConfigRepository.getOne(segmentConfig.getId());
+			foundConfig = segmentConfigRepository.getOne(segmentConfig.getId());
 			//obrati paznju na cuvanje seats i airplane pri azuriranju
 			//segmentConfig.setSeats(seats);
-			segmentConfig.setSeats(foundConfig.getSeats());
-			segmentConfig.setAirplane(foundConfig.getAirplane());			
+			//segmentConfig.setSeats(foundConfig.getSeats());
+			//segmentConfig.setAirplane(foundConfig.getAirplane());		
+			
+			foundConfig.setSegmentNum(segmentConfig.getSegmentNum());
+			segmentConfigRepository.save(foundConfig);
 		}
 		catch(EntityNotFoundException exception) {
 			return false;
 		}
 		//snimi konfiguraciju
-		segmentConfigRepository.save(segmentConfig);
+		
 		//updateSeats(segmentConfig);
 		return true;
 	}

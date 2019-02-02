@@ -10,37 +10,51 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.LuggagePriceList;
 import com.isa.airflights.repository.AirlineRepository;
+import com.isa.airflights.repository.LuggagePriceListRepository;
 
 @Service
 public class AirlineService {
 	@Autowired
 	AirlineRepository airlineRepository;
 	
+	@Autowired
+	LuggagePriceListRepository luggagePriceListRepository;
+	
 	
 	
 	public void addAirline(Airline airline) {
+		
 		airlineRepository.save(airline);		
+		
+		//TODO: napravi novi LuggageInfo
+		LuggagePriceList luggagePriceList = new LuggagePriceList();
+		//podesi sa obe strane
+		airline.setLuggagePriceList(luggagePriceList);
+		luggagePriceList.setAirline(airline);
+		
+		//snimi prtljag
+		luggagePriceListRepository.save(luggagePriceList);
 	}
 	
-	public boolean updateAirline(Airline airline) {
+	public Boolean updateAirline(Airline airline) {
+		Airline foundAirline;
 		try {
-			Airline foundAirline = airlineRepository.getOne(airline.getId());
+			foundAirline = airlineRepository.getOne(airline.getId());
 			
-			airline.setAirplanes(foundAirline.getAirplanes());
-			airline.setDestinations(foundAirline.getDestinations());
-			airline.setFastDiscountedTickets(foundAirline.getFastDiscountedTickets());
-			airline.setFlights(foundAirline.getFlights());
-			airline.setLuggageClassPriceList(foundAirline.getLuggageClassPriceList());
+			foundAirline.setFullName(airline.getFullName());
+			foundAirline.setPromoInfo(airline.getPromoInfo());
+			airlineRepository.save(foundAirline);		
 		}
 		catch(EntityNotFoundException exception) {
 			return false;
 		}
-		airlineRepository.save(airline);		
+		
 		return true;
 	}
 	
-	public boolean deleteAirline(Long id) {
+	public Boolean deleteAirline(Long id) {
 		try {
 			airlineRepository.deleteById(id);
 		}

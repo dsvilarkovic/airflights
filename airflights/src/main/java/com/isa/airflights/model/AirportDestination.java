@@ -38,6 +38,9 @@ public class AirportDestination {
 	@ManyToMany(mappedBy = "destinations")
 	private Set<Airline> airlines = new HashSet<>();
 	
+	@ManyToMany(mappedBy = "flightsLegs")
+	private Set<Flight> flights= new HashSet<>();
+	
 	
 	public Long getId() {
 		return id;

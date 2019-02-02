@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
 
+import com.isa.airflights.model.enumtypes.AirlineClassType;
+
 import io.jsonwebtoken.lang.Objects;
 
 @Entity

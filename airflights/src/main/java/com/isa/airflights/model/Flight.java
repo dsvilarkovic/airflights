@@ -1,7 +1,9 @@
 package com.isa.airflights.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,9 +17,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.isa.airflights.model.enumtypes.FlightType;
 
 import io.jsonwebtoken.lang.Objects;
 
@@ -33,25 +39,34 @@ public class Flight {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date departureDatetime;
 	
-	@Column(name = "arrivalDateTime")
+	@Column(name = "arrivalDatetime")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date arrivalDateTime;
+	private Date arrivalDatetime;
+	
+	@Column(name = "flightType")
+	private FlightType flightType;
 	
 	@ManyToOne
 	@JoinColumn
 	private Airline airline;
 	
 	
+	@Column(name = "departureDestination")
+	private Long departureDestination;
+	
+	@Column(name = "arrivalDestination")
+	private Long arrivalDestination;
+	
 	@ManyToMany
 	@JoinTable(name = "flight_flight_legs",
 		joinColumns = { @JoinColumn(name = "flight_id") },
 		inverseJoinColumns = { @JoinColumn(name = "airport_id") })
-	private Set<AirportDestination> flightsLegs;
+	private List<AirportDestination> flightsLegs = new ArrayList<AirportDestination>();
 	
 	/**
 	 * Svaki let ima vise cena karata za razlicite klase
 	 */
-	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.REFRESH)
 	private Set<FlightClassPrice> flightClassPrices = new HashSet<>();
 	
 	@Column(name = "travelTime")	
@@ -84,12 +99,12 @@ public class Flight {
 		this.departureDatetime = departureDatetime;
 	}
 
-	public Date getArrivalDateTime() {
-		return arrivalDateTime;
+	public Date getArrivalDatetime() {
+		return arrivalDatetime;
 	}
 
-	public void setArrivalDateTime(Date arrivalDateTime) {
-		this.arrivalDateTime = arrivalDateTime;
+	public void setArrivalDatetime(Date arrivalDatetime) {
+		this.arrivalDatetime = arrivalDatetime;
 	}
 
 	public Airline getAirline() {
@@ -100,11 +115,11 @@ public class Flight {
 		this.airline = airline;
 	}
 
-	public Set<AirportDestination> getFlightsLegs() {
+	public List<AirportDestination> getFlightsLegs() {
 		return flightsLegs;
 	}
 
-	public void setFlightsLegs(Set<AirportDestination> flightsLegs) {
+	public void setFlightsLegs(List<AirportDestination> flightsLegs) {
 		this.flightsLegs = flightsLegs;
 	}
 
@@ -146,6 +161,34 @@ public class Flight {
 
 	public void setFlightClassPrices(Set<FlightClassPrice> flightClassPrices) {
 		this.flightClassPrices = flightClassPrices;
+	}
+	
+	
+
+	public FlightType getFlightType() {
+		return flightType;
+	}
+
+	public void setFlightType(FlightType flightType) {
+		this.flightType = flightType;
+	}
+
+	
+
+	public Long getDepartureDestination() {
+		return departureDestination;
+	}
+
+	public void setDepartureDestination(Long departureDestination) {
+		this.departureDestination = departureDestination;
+	}
+
+	public Long getArrivalDestination() {
+		return arrivalDestination;
+	}
+
+	public void setArrivalDestination(Long arrivalDestination) {
+		this.arrivalDestination = arrivalDestination;
 	}
 
 	@Override

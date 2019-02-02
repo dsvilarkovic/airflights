@@ -32,17 +32,18 @@ public class AirplaneService {
 
 	
 	public Boolean updateAirplane(Airplane airplane) {
+		Airplane foundAirplane;
 		try {
 			//nadji avion
-			Airplane foundAirplane = airplaneRepository.getOne(airplane.getId());
+			foundAirplane = airplaneRepository.getOne(airplane.getId());
 			//podesi mu potrebne parametre 
-			airplane.setAirline(foundAirplane.getAirline());
+			foundAirplane.setFullName(airplane.getFullName());
+			//sacuvaj ga
+			airplaneRepository.save(foundAirplane);			
 		}
 		catch(EntityNotFoundException exception) {
 			return false;
-		}
-		//sacuvaj ga
-		airplaneRepository.save(airplane);
+		}		
 		return true;
 	}
 
