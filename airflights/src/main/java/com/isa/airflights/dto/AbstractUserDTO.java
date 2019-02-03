@@ -24,6 +24,8 @@ public class AbstractUserDTO{
 	private Hotel hotel;
 	private Airline airline;
 	private Boolean marked;
+	private String password;
+	private String newPassword;
 	
 	public AbstractUserDTO() {
 	
@@ -48,8 +50,6 @@ public class AbstractUserDTO{
 
 
 
-	private String password;
-	private String newPassword;
 	public Long getId() {
 		return id;
 	}

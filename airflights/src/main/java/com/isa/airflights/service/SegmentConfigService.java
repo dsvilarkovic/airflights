@@ -16,10 +16,10 @@ import com.isa.airflights.repository.SegmentConfigRepository;
 public class SegmentConfigService {
 
 	@Autowired
-	SegmentConfigRepository segmentConfigRepository;
+	private SegmentConfigRepository segmentConfigRepository;
 	
 	@Autowired 
-	SeatRepository seatRepository;
+	private SeatRepository seatRepository;
 	
 	public SegmentConfig getConfig(Long id) throws EntityNotFoundException{
 		return segmentConfigRepository.getOne(id);

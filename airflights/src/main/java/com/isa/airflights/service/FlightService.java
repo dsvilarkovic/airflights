@@ -29,16 +29,16 @@ import com.isa.airflights.repository.FlightRepository;
 public class FlightService {
 	
 	@Autowired
-	FlightRepository flightRepository;
+	private FlightRepository flightRepository;
 	
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	AirlineService airlineService;
+	private AirlineService airlineService;
 	
 	@Autowired
-	AirportDestinationService airportDestinationService;
+	private AirportDestinationService airportDestinationService;
 	
 	public Flight getFlight(Long id) {
 		return flightRepository.getOne(id);
@@ -114,7 +114,6 @@ public class FlightService {
 //	public List<Flight> find(){
 //		flightRepository.findBy
 //	}
-	
 	
 	public FlightDTO convertToDTO(Flight flight) {
 		FlightDTO flightDTO = modelMapper.map(flight, FlightDTO.class);

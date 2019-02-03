@@ -16,7 +16,7 @@ import com.isa.airflights.repository.AirplaneRepository;
 public class AirplaneService {
 
 	@Autowired
-	AirplaneRepository airplaneRepository;
+	private AirplaneRepository airplaneRepository;
 	
 	
 	public Airplane findOne(Long id) {

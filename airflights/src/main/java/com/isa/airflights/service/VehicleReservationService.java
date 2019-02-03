@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.RentACar;
-import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleReservation;
 import com.isa.airflights.repository.VehicleReservationRepository;
 

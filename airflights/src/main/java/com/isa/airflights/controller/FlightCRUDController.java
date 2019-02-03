@@ -36,13 +36,13 @@ import com.isa.airflights.utils.StringJSON;
 public class FlightCRUDController {
 
 	@Autowired
-	FlightService flightService;
+	private FlightService flightService;
 	
 	@Autowired
-	AirlineService airlineService;
+	private AirlineService airlineService;
 	
 	@Autowired
-	AirportDestinationService airportDestinationService;
+	private AirportDestinationService airportDestinationService;
 	
 	
 	

@@ -35,13 +35,13 @@ import com.isa.airflights.utils.StringJSON;
 public class LuggageController {
 
 	@Autowired
-	LuggageService luggageService;
+	private LuggageService luggageService;
 	
 	@Autowired 
-	LuggagePriceListService luggagePriceListService;
+	private LuggagePriceListService luggagePriceListService;
 	
 	@Autowired 
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 		
 	@RequestMapping(value = "/add",
 			method = RequestMethod.POST,

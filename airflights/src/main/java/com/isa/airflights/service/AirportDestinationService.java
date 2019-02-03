@@ -14,10 +14,10 @@ import com.isa.airflights.repository.AirportDestinationRepository;
 public class AirportDestinationService {
 	
 	@Autowired
-	AirportDestinationRepository airportDestinationRepository;
+	private AirportDestinationRepository airportDestinationRepository;
 	
 	@Autowired
-	AirlineRepository airlineRepository;
+	private AirlineRepository airlineRepository;
 	
 	public AirportDestination getAirportDestination(Long id) {
 		return airportDestinationRepository.getOne(id);

@@ -8,7 +8,7 @@ import com.isa.airflights.repository.SeatRepository;
 public class SeatService {
 	
 	@Autowired
-	SeatRepository seatRepository;
+	private SeatRepository seatRepository;
 	
 	public void saveSeat(Seat seat) {
 		seatRepository.save(seat);

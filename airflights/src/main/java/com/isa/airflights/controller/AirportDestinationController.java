@@ -25,10 +25,10 @@ import com.isa.airflights.utils.StringJSON;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AirportDestinationController {
 	@Autowired
-	AirportDestinationService airportDestinationService;
+	private AirportDestinationService airportDestinationService;
 	
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	
 	
 	/**

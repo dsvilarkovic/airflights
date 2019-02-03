@@ -10,7 +10,7 @@ import com.isa.airflights.repository.LuggagePriceListRepository;
 public class LuggagePriceListService {
 
 	@Autowired
-	LuggagePriceListRepository luggagePriceListRepository;
+	private LuggagePriceListRepository luggagePriceListRepository;
 	
 	
 	public LuggagePriceList getLuggagePriceList(Long id) {

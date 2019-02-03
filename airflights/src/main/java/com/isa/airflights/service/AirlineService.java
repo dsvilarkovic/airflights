@@ -17,10 +17,10 @@ import com.isa.airflights.repository.LuggagePriceListRepository;
 @Service
 public class AirlineService {
 	@Autowired
-	AirlineRepository airlineRepository;
+	private AirlineRepository airlineRepository;
 	
 	@Autowired
-	LuggagePriceListRepository luggagePriceListRepository;
+	private LuggagePriceListRepository luggagePriceListRepository;
 	
 	
 	
@@ -28,7 +28,6 @@ public class AirlineService {
 		
 		airlineRepository.save(airline);		
 		
-		//TODO: napravi novi LuggageInfo
 		LuggagePriceList luggagePriceList = new LuggagePriceList();
 		//podesi sa obe strane
 		airline.setLuggagePriceList(luggagePriceList);

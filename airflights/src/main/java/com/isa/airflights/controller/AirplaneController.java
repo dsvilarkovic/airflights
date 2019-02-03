@@ -40,13 +40,13 @@ public class AirplaneController {
 	
 	
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	
 	@Autowired 
-	AirplaneService airplaneService;
+	private AirplaneService airplaneService;
 	
 	@Autowired
-	AirlineService airlineService;
+	private AirlineService airlineService;
 		
 //	@Bean
 //	public ModelMapper getModelMapper() {

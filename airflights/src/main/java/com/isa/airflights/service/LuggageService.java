@@ -21,10 +21,10 @@ import com.isa.airflights.repository.LuggagePriceRepository;
 public class LuggageService {
 
 	@Autowired
-	LuggagePriceRepository luggagePriceRepository;  
+	private LuggagePriceRepository luggagePriceRepository;  
 	
 	@Autowired 
-	LuggagePriceListRepository luggagePriceListRepository;
+	private LuggagePriceListRepository luggagePriceListRepository;
 	
 	public void addLuggagePrice(LuggagePrice luggagePrice, Long luggagePriceListId) {
 		LuggagePriceList luggagePriceList = luggagePriceListRepository.getOne(luggagePriceListId);

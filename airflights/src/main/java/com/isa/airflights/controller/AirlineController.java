@@ -31,10 +31,10 @@ import com.isa.airflights.utils.StringJSON;
 public class AirlineController {
 
 		@Autowired
-		AirlineService airlineService;
+		private AirlineService airlineService;
 		
 		@Autowired
-		ModelMapper modelMapper;
+		private ModelMapper modelMapper;
 		
 		
 		
