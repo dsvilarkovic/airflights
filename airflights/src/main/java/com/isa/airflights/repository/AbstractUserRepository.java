@@ -1,8 +1,11 @@
 package com.isa.airflights.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
@@ -20,4 +23,8 @@ public interface AbstractUserRepository extends JpaRepository<AbstractUser, Long
 
 
     Boolean existsByEmail(String email);
+    
+    List<AbstractUser> findAllByFirstNameAndLastName(String firstName, String lastName);
+    
+    Page<AbstractUser> findAllByFirstNameAndLastName(String firstName, String lastName, Pageable pageRequest);
 }

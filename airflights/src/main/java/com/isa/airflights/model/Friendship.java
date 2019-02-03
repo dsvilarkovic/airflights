@@ -7,11 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Check;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "friendship")
+@Table(name = "friendship", uniqueConstraints = {@UniqueConstraint(columnNames = {"sender_id","receiver_id"})})
+@Check(constraints = "sender_id != receiver_id")
 public class Friendship {
 
 	@Id

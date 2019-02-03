@@ -12,7 +12,7 @@ import { MessageService } from 'src/services/message.service';
 export class UserProfileComponent implements OnInit {
   loggedUser: UserToUpdate;
   confirmPassword: string;
-
+  imagePath = "../../assets/snoo_flight.png";
   constructor(private userProfileService: UserProfileService, private messageService: MessageService) {
 
    }
