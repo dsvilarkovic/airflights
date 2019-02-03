@@ -39,10 +39,11 @@ public class RentACar {
 	private String description;
 	
 	
-	//prosecna ocena servisa
-	@Column(name = "rating", nullable = false)
-	private double rating;
+	@Column(name = "rating_count", nullable = false)
+	private double ratingsCount;
 	
+	@Column(name = "rating_sum", nullable = false)
+	private double ratingsSum;
 	
 	@OneToMany(mappedBy = "rentacar", fetch = FetchType.EAGER) 
 	private Set<BranchLocations> vehicles = new HashSet<BranchLocations>();
@@ -60,31 +61,41 @@ public class RentACar {
 		super();
 	}
 	
-	public RentACar(Long id, String name, String address, String city, String description, double r) {
+	public RentACar(Long id, String name, String address, String city, String description,double count, double sum) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
-		this.rating = r;
 		this.city = city;
+		this.ratingsCount = count;
+		this.ratingsSum = sum;
 	}
 	
 	public RentACar(RentACar r) {
-		this(r.getId(),r.getName(),r.getAddress(),r.getCity(),r.getDescription(),r.getRating());
+		this(r.getId(),r.getName(),r.getAddress(),r.getCity(),r.getDescription(),r.getRatingsCount(),r.getRatingsSum());
 	}
 	
 	
 	
-	public double getRating() {
-		return rating;
+	
+	
+	public double getRatingsCount() {
+		return ratingsCount;
 	}
 
-	
-
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setRatingsCount(double ratingsCount) {
+		this.ratingsCount = ratingsCount;
 	}
+
+	public double getRatingsSum() {
+		return ratingsSum;
+	}
+
+	public void setRatingsSum(double ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
+
 
 	public Set<BranchLocations> getVehicles() {
 		return vehicles;

@@ -47,6 +47,7 @@ export class RentacarPreviewComponent implements OnInit {
       }
     })
 
+
   }
 
   search() {

@@ -1,5 +1,7 @@
 package com.isa.airflights.dto;
 
+import javax.persistence.Column;
+
 import com.isa.airflights.model.VehicleReservation;
 
 public class VehicleReservationDTO {
@@ -31,6 +33,10 @@ public class VehicleReservationDTO {
 	
 	private boolean cancel;
 	
+	private boolean rateVehicle;
+
+	private boolean rateRentacar;
+	
 	public VehicleReservationDTO() {
 		
 	}
@@ -39,7 +45,7 @@ public class VehicleReservationDTO {
 
 
 	public VehicleReservationDTO(Long id, String reservationdate, String pickupdate,
-			String dropoffdate, String pickuplocation, String dropofflocation, double price,boolean cancel) {
+			String dropoffdate, String pickuplocation, String dropofflocation, double price,boolean cancel,boolean rv,boolean rr) {
 		super();
 		this.id = id;
 		this.reservationdate = reservationdate;
@@ -49,20 +55,44 @@ public class VehicleReservationDTO {
 		this.dropofflocation = dropofflocation;
 		this.price = price;
 		this.cancel = cancel;
+		this.rateVehicle = rv;
+		this.rateRentacar = rr;
 	}
 	
 	public VehicleReservationDTO(VehicleReservation v) {
 		this(v.getId(),v.getReservationdate().toString(),v.getPickupdate().toString(),v.getDropoffdate().toString(),v.getPickUpLocation(),
-				v.getDropOffLocation(),v.getPrice(),v.isCancel());
+				v.getDropOffLocation(),v.getPrice(),v.isCancel(),v.isRateVehicle(),v.isRateRentacar());
 		this.vehicle = new VehicleDTO(v.getVehicle());
 		this.user_id = v.getUser().getId();
 		this.rentacar = new RentACarDTO(v.getRentacar());
 	}
 
 
+	public boolean isRateVehicle() {
+		return rateVehicle;
+	}
 
 
-	
+
+
+	public void setRateVehicle(boolean rateVehicle) {
+		this.rateVehicle = rateVehicle;
+	}
+
+
+
+
+	public boolean isRateRentacar() {
+		return rateRentacar;
+	}
+
+
+
+
+	public void setRateRentacar(boolean rateRentacar) {
+		this.rateRentacar = rateRentacar;
+	}
+
 
 
 

@@ -5,6 +5,8 @@ export class rentacar {
     address: string;
     city: string;
     description: string;
-    rating: number;
     branches : Array<Branch>;
+    lastRating: number;
+    ratingsCount: number;
+    ratingsSum: number;
 }

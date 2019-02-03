@@ -16,5 +16,7 @@ export class Vehicle {
     rentACarId: Number;
     branchOffice_id: Number;
     discount: number;
+    ratingsCount: number;
+	ratingsSum:number;
 }
 

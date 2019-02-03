@@ -13,4 +13,6 @@ export class VehicleReservation {
     price:number;
     rentacar: rentacar;
     cancel: boolean;//sluzi za logicko brisanje
+    rateVehicle: boolean; //da li je ocenjeno vozilo
+    rateRentacar: boolean; //da li je ocenjen rentacar
 }
