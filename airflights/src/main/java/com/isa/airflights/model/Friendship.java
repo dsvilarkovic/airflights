@@ -1,11 +1,17 @@
 package com.isa.airflights.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
+@Entity
+@Table(name = "friendship")
 public class Friendship {
 
 	@Id
@@ -14,10 +20,12 @@ public class Friendship {
 	
 	//TODO: dodati kad @Djuka sredi svoje
 	@ManyToOne(optional = false)
+	@NonNull
 	private AbstractUser sender;
 	
 	//TODO: dodati kad @Djuka sredi svoje
 	@ManyToOne(optional = false)
+	@NonNull
 	private AbstractUser receiver;
 	
 	@Column(name = "accepted")

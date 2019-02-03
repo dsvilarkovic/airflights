@@ -3,6 +3,7 @@ package com.isa.airflights.model;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -66,6 +67,15 @@ public class AbstractUser {
 	
 	@Column(name = "verify", nullable = true)
 	private Boolean verify;
+	
+	
+	@OneToMany(mappedBy = "sender")
+	@JsonIgnore
+	private Set<Friendship> senders = new HashSet<>();
+	
+	@OneToMany(mappedBy = "receiver")
+	@JsonIgnore
+	private Set<Friendship> receiver = new HashSet<>();
 	
 
 	/**
@@ -315,6 +325,42 @@ public class AbstractUser {
 		this.hotel = hotel;
 	}
 
+	public Set<Friendship> getSenders() {
+		return senders;
+	}
+
+	public void setSenders(Set<Friendship> senders) {
+		this.senders = senders;
+	}
+
+	public Set<Friendship> getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(Set<Friendship> receiver) {
+		this.receiver = receiver;
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AbstractUser abstractUser = (AbstractUser) o;
+        if(abstractUser.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, abstractUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+	
 	
 	
 	

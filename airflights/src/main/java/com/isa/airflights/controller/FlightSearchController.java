@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,8 +36,6 @@ public class FlightSearchController {
 	@Autowired
 	private FlightService flightService;
 	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	
 	@RequestMapping(value = "/",
@@ -102,7 +99,7 @@ public class FlightSearchController {
 	private List<FlightDTO> filterFlights(List<Flight> flights, FlightType flightType,Integer persons_num, AirlineClassType airlineClassType, Integer luggageCount) {
 		
 		if(flightType != null)
-			flights.removeIf(flight -> flight.getFlightType().equals(flightType) == false);
+			flights.removeIf(flight -> !flight.getFlightType().equals(flightType));
 		
 		if(airlineClassType != null)
 			flights.removeIf(flight -> ifFlightNotContainsClass(flight, airlineClassType));

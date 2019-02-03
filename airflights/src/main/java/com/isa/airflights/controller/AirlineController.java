@@ -38,10 +38,7 @@ public class AirlineController {
 		
 		
 		
-		@Bean
-		public ModelMapper modelMapper() {
-			return new ModelMapper();
-		}
+		
 		
 		/**
 		 * Metoda za dodavanje aviokompanije		

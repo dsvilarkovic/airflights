@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.FlightDTO;
 import com.isa.airflights.model.Flight;
-import com.isa.airflights.service.AirlineService;
-import com.isa.airflights.service.AirportDestinationService;
 import com.isa.airflights.service.FlightService;
 import com.isa.airflights.utils.StringJSON;
 
@@ -38,12 +36,7 @@ public class FlightCRUDController {
 	@Autowired
 	private FlightService flightService;
 	
-	@Autowired
-	private AirlineService airlineService;
-	
-	@Autowired
-	private AirportDestinationService airportDestinationService;
-	
+
 	
 	
 	

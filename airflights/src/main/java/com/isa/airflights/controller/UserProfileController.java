@@ -39,8 +39,6 @@ public class UserProfileController {
 	 @Autowired
 	 private  PasswordEncoder encoder;
 	 
-	 @Autowired
-	 private AuthenticationManager authenticationManager;
 	
 
 	/**
