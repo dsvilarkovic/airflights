@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.RentACarDTO;
-import com.isa.airflights.dto.rating.RentACarRatingDTO;
+import com.isa.airflights.dto.VehicleReservationDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.RentACar;
-import com.isa.airflights.model.rating.RentACarRating;
-import com.isa.airflights.repository.RentACarRatingRepository;
+import com.isa.airflights.model.Vehicle;
+import com.isa.airflights.model.VehicleReservation;
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.service.RentACarService;
+import com.isa.airflights.service.VehicleReservationService;
+import com.isa.airflights.service.VehicleService;
 
 
 
@@ -31,59 +33,92 @@ public class RatingController {
 	private RentACarService racService;
 	
 	@Autowired
-	private AbstractUserService abs;
+	private VehicleService vs;
 	
 	@Autowired
-	private RentACarRatingRepository rep;
+	private VehicleReservationService vss;
 	
+	
+	/**
+	 * Metoda koja ocenjuje rent a car servis
+	 * tri parametra, prvi je ocena, drugi id rent acar servisa koji je ocenjen, a treci id rezervacije
+	 * */
 	@RequestMapping("/rate/{rate}/{id}/{user}")
-	public ResponseEntity<RentACarDTO> setRate(@PathVariable String rate,@PathVariable Long id,@PathVariable Long user) {
+	public ResponseEntity<VehicleReservationDTO> setRateRentACar(@PathVariable String rate,@PathVariable Long id,@PathVariable Long user) {
 		RentACar rac = racService.getOne(id);
-		AbstractUser u = abs.getOne(user);
-		List<RentACarRating> rr = rep.findAll();
-		RentACarRating temp = new RentACarRating(); // za izmenu u bazi
-		RentACarRatingDTO dto = new RentACarRatingDTO();
+		VehicleReservation vr = vss.getOne(user);
 		
-		for (RentACarRating r : rr) {
-			if(r.getRentacar().equals(id)) {
-				temp = r;
-				dto = new RentACarRatingDTO(r);
-				break;
-			}
-		}
+
+		vr.setRateRentacar(true); // setovali smo na rezervaciji da je ocenjen rent a car servis
 		
-		
-		
-		u.setMarked(true);//kod usera setujemo da je ocenio
+		VehicleReservationDTO dto2 = new VehicleReservationDTO(vr);
 		
 		System.out.println("Usao ?");
 		
 		int r = Integer.parseInt(rate); //trenutno ocenjen - ocena korisnika
-		int suma = temp.getSum(); //uzimamo iz baze sumu
-		suma++;
-		double last = r;
-		
-		double rat = temp.getLastRating(); //ovde cemo sabrati sve do sad
 
-		rat += last;
+		//rac.setRating(rating); //stavimo u tabelu rent a car-a
+		double pomdfs = rac.getRatingsCount();
+		System.out.println("Count " + pomdfs);
+		pomdfs++;
+		rac.setRatingsCount(pomdfs);
 		
-		double rating = rat/suma; //racunamo trenutni prosek
-		
-		System.out.println("Rating: " + rating);
-		
-		rac.setRating(rating); //stavimo u tabelu rent a car-a
-		temp.setRating(rating); //satvimo u pomocnu tabelu gde racunamo
-		temp.setSum(suma);
-		temp.setLastRating(rat); //svaki put uvecavamo sumu na osnovu koje racunamo prosek
-		
-		abs.save(u);
+		double pom2 = rac.getRatingsSum();
+		System.out.println("Sum " + pom2);
+		pom2 += r;
+		rac.setRatingsSum(pom2);
+
 		racService.save(rac);
-		rep.save(temp);
-		
-		RentACarDTO dto2 = new RentACarDTO(rac);
+
 
 				
-		return new ResponseEntity<RentACarDTO>(dto2,HttpStatus.OK);
+		return new ResponseEntity<VehicleReservationDTO>(dto2,HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * Metoda koja ocenjuje rent a car servis
+	 * tri parametra, prvi je ocena, drugi id rent acar servisa koji je ocenjen, a treci id rezervacije
+	 * user- id rezervacije
+	 * */
+	@RequestMapping("/rate/vehicle/{rate}/{id}/{user}")
+	public ResponseEntity<VehicleReservationDTO> setRateVehicle(@PathVariable String rate,@PathVariable Long id,@PathVariable Long user) {
+		Vehicle veh = vs.getOne(id);
+		VehicleReservation vr = vss.getOne(user);
+		
+
+		vr.setRateVehicle(true); // setovali smo na rezervaciji da je ocenjen rent a car servis
+		
+		
+		
+		System.out.println("Usao ? " + rate);
+		
+		int r = Integer.parseInt(rate); //trenutno ocenjen - ocena korisnika
+
+		//rac.setRating(rating); //stavimo u tabelu rent a car-a
+		double pomdfs = veh.getRatingsCount();
+		System.out.println("Count " + pomdfs);
+		pomdfs++;
+		veh.setRatingsCount(pomdfs);
+		
+		double pom2 = veh.getRatingsSum();
+		System.out.println("Sum " + pom2);
+		pom2 += r;
+		veh.setRatingsSum(pom2);
+		
+		double res = pom2/pomdfs;
+		
+		veh.setRating(res);
+
+		vs.save(veh);
+
+		VehicleReservationDTO dto2 = new VehicleReservationDTO(vr);
+				
+		return new ResponseEntity<VehicleReservationDTO>(dto2,HttpStatus.OK);
+	}
+	
+	
+	
+	
 
 }

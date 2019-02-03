@@ -60,6 +60,13 @@ public class VehicleReservation {
 	@Column
 	private boolean cancel;
 	
+	@Column
+	private boolean rateVehicle;
+	
+	@Column
+	private boolean rateRentacar;
+	
+	
 	public VehicleReservation() {
 		
 		
@@ -67,6 +74,30 @@ public class VehicleReservation {
 
 	
 	
+	public boolean isRateVehicle() {
+		return rateVehicle;
+	}
+
+
+
+	public void setRateVehicle(boolean rateVehicle) {
+		this.rateVehicle = rateVehicle;
+	}
+
+
+
+	public boolean isRateRentacar() {
+		return rateRentacar;
+	}
+
+
+
+	public void setRateRentacar(boolean rateRentacar) {
+		this.rateRentacar = rateRentacar;
+	}
+
+
+
 	public boolean isCancel() {
 		return cancel;
 	}

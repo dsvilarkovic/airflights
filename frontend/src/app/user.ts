@@ -9,5 +9,4 @@ export class User {
     role: number;
     city : string;
     username: string;
-    marked: boolean;
 }

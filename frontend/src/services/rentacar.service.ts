@@ -95,4 +95,7 @@ export class RentacarService {
     return this.http.get("//localhost:8080/api/rating/rate/"+rate+"/"+id+"/"+user);
   }
 
+  rateVehicle(rate,id,user): Observable<any> {
+    return this.http.get("//localhost:8080/api/rating/rate/vehicle/"+rate+"/"+id+"/"+user);
+  }
 }

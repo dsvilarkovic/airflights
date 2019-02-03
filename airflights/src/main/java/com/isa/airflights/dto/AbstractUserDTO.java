@@ -23,7 +23,6 @@ public class AbstractUserDTO{
 	private Role role;
 	private Hotel hotel;
 	private Airline airline;
-	private Boolean marked;
 	private String password;
 	private String newPassword;
 	
@@ -36,16 +35,6 @@ public class AbstractUserDTO{
 	}
 	public void setRole(Role role) {
 		this.role = role;
-	}
-
-	
-
-	public Boolean getMarked() {
-		return marked;
-	}
-
-	public void setMarked(Boolean marked) {
-		this.marked = marked;
 	}
 
 
@@ -145,7 +134,6 @@ public class AbstractUserDTO{
 		this.hotel = user.getHotel();
 		this.airline = user.getAirline();
 		this.password = getPassword();
-		this.marked = user.getMarked();
 	}
 	
 

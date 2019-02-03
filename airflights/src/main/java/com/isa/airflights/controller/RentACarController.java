@@ -39,7 +39,12 @@ public class RentACarController {
 		
 		for (RentACar rentACar : rac) {
 			r.add(new RentACarDTO(rentACar));
-			
+						
+		}
+		
+		for (RentACarDTO rentACarDTO : r) {
+			System.out.println("sum: " + rentACarDTO.getRatingsSum());
+			System.out.println("count: " + rentACarDTO.getRatingsCount());
 		}
 				
 		return new ResponseEntity<List<RentACarDTO>>(r,HttpStatus.OK);
