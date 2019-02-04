@@ -33,13 +33,13 @@ public class Seat {
 	private AirlineClassType airline_class;
 	
 	@Column(name = "seat_row")
-	private Integer seat_row;
+	private Integer seatRow;
 	
 	@Column(name = "seat_column")
-	private Integer seat_column;
+	private Integer seatColumn;
 	
 	@Column(name = "segment_num")
-	private Integer segment_num;
+	private Integer segmentNum;
 	
 	
 	@ManyToOne
@@ -48,10 +48,12 @@ public class Seat {
 	private SegmentConfig segmentConfig;
 	
 	
+	/**
+	 * Sediste postoji na vise karata, tj vise razlicitih flightTicket
+	 * 
+	 */
 	@OneToMany(mappedBy = "seat")
-	private Set<ReservedSeat> reservedSeats = new HashSet<>();
-	
-	
+	private Set<FlightTicket> flightTickets = new HashSet<>();
 	
 
 
@@ -68,35 +70,35 @@ public class Seat {
 	
 
 
-	public Integer getSeat_row() {
-		return seat_row;
+	public Integer getSeatRow() {
+		return seatRow;
 	}
 
 
-	public void setSeat_row(Integer seat_row) {
-		this.seat_row = seat_row;
+	public void setSeatRow(Integer seatRow) {
+		this.seatRow = seatRow;
 	}
 
 
-	public Integer getSeat_column() {
-		return seat_column;
+	public Integer getSeatColumn() {
+		return seatColumn;
 	}
 
 
-	public void setSeat_column(Integer seat_column) {
-		this.seat_column = seat_column;
+	public void setSeatColumn(Integer seatColumn) {
+		this.seatColumn = seatColumn;
 	}
 
 
 
 
-	public Integer getSegment_num() {
-		return segment_num;
+	public Integer getSegmentNum() {
+		return segmentNum;
 	}
 
 
-	public void setSegment_num(Integer segment_num) {
-		this.segment_num = segment_num;
+	public void setSegmentNum(Integer segmentNum) {
+		this.segmentNum = segmentNum;
 	}
 
 
@@ -109,15 +111,6 @@ public class Seat {
 		this.segmentConfig = segmentConfig;
 	}
 
-
-	public Set<ReservedSeat> getReservedSeats() {
-		return reservedSeats;
-	}
-
-
-	public void setReservedSeats(Set<ReservedSeat> reservedSeats) {
-		this.reservedSeats = reservedSeats;
-	}
 
 
 	

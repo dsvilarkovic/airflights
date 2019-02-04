@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.LuggagePriceDTO;
 import com.isa.airflights.model.LuggagePrice;
-import com.isa.airflights.model.LuggagePriceList;
-import com.isa.airflights.service.LuggagePriceListService;
 import com.isa.airflights.service.LuggageService;
 import com.isa.airflights.utils.StringJSON;
 
@@ -37,23 +34,28 @@ public class LuggageController {
 	@Autowired
 	private LuggageService luggageService;
 	
-	@Autowired 
-	private LuggagePriceListService luggagePriceListService;
 	
-	@Autowired 
-	private ModelMapper modelMapper;
-		
+	
+	/**
+	 * Dodavanje prtljaga
+	 * @param luggagePriceDTO
+	 * @return
+	 */
 	@RequestMapping(value = "/add",
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addLuggage(@RequestBody LuggagePriceDTO luggagePriceDTO){
-		LuggagePrice luggagePrice = convertToEntity(luggagePriceDTO);
-		luggageService.addLuggagePrice(luggagePrice, luggagePriceDTO.getLuggagePriceList_id());
+		LuggagePrice luggagePrice = luggageService.convertToEntity(luggagePriceDTO);
+		luggageService.addLuggagePrice(luggagePrice, luggagePriceDTO.getLuggagePriceListId());
 		
 		return new ResponseEntity<>(new StringJSON("Successfully created new luggage!"), HttpStatus.OK);
 	}
-	
+	/**
+	 * Preuzimanje konkretnog prtljaga
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,7 +67,7 @@ public class LuggageController {
 		catch(EntityNotFoundException e) {
 			return new ResponseEntity<>(new StringJSON("No such luggage found!"), HttpStatus.NOT_FOUND);
 		}
-		LuggagePriceDTO luggagePriceDTO = convertToDTO(luggagePrice);
+		LuggagePriceDTO luggagePriceDTO = luggageService.convertToDTO(luggagePrice);
 		return new ResponseEntity<LuggagePriceDTO>(luggagePriceDTO, HttpStatus.OK);
 	}
 	
@@ -88,7 +90,11 @@ public class LuggageController {
 		return new ResponseEntity<>(new StringJSON("No luggage found to be deleted"), HttpStatus.NOT_FOUND);
 	}
 	
-	
+	/**
+	 * Azuriranje konkretnog prtljaga
+	 * @param luggagePriceDTO
+	 * @return
+	 */
 	@RequestMapping(
 			value = "/update",
 			method = RequestMethod.PUT,
@@ -96,7 +102,7 @@ public class LuggageController {
 			produces = MediaType.APPLICATION_JSON_VALUE
 		)
 	public ResponseEntity<?> updateLuggage(@RequestBody LuggagePriceDTO luggagePriceDTO){
-		LuggagePrice luggagePrice= convertToEntity(luggagePriceDTO);
+		LuggagePrice luggagePrice= luggageService.convertToEntity(luggagePriceDTO);
 		
 		Boolean success = luggageService.updateLuggagePrice(luggagePrice);
 		if(success) {
@@ -120,22 +126,11 @@ public class LuggageController {
 		
 		List<LuggagePriceDTO> luggagePriceDTOs = new ArrayList<>();
 		for (LuggagePrice luggagePrice: luggagePrices) {
-			LuggagePriceDTO luggagePriceDTO = convertToDTO(luggagePrice);
+			LuggagePriceDTO luggagePriceDTO = luggageService.convertToDTO(luggagePrice);
 			luggagePriceDTOs.add(luggagePriceDTO);
 		}
 		
 		return new ResponseEntity<>(luggagePriceDTOs, HttpStatus.OK);
 	}
-	public LuggagePrice convertToEntity(LuggagePriceDTO luggagePriceDTO) {
-		LuggagePrice luggagePrice = modelMapper.map(luggagePriceDTO, LuggagePrice.class);
-		LuggagePriceList luggagePriceList = luggagePriceListService.getLuggagePriceList(luggagePriceDTO.getLuggagePriceList_id());
-		luggagePrice.setLuggagePriceList(luggagePriceList);
-		return luggagePrice;
-	}
 	
-	public LuggagePriceDTO convertToDTO(LuggagePrice luggagePrice) {
-		LuggagePriceDTO luggagePriceDTO = modelMapper.map(luggagePrice, LuggagePriceDTO.class);
-		luggagePriceDTO.setLuggagePriceList_id(luggagePrice.getLuggagePriceList().getId());
-		return luggagePriceDTO;
-	}
 }

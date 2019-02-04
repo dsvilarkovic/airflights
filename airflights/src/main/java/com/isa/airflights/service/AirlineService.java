@@ -4,15 +4,25 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AirlineDTO;
 import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.Airplane;
+import com.isa.airflights.model.AirportDestination;
+import com.isa.airflights.model.Flight;
+import com.isa.airflights.model.LuggagePrice;
 import com.isa.airflights.model.LuggagePriceList;
 import com.isa.airflights.repository.AirlineRepository;
+import com.isa.airflights.repository.AirplaneRepository;
+import com.isa.airflights.repository.AirportDestinationRepository;
+import com.isa.airflights.repository.FlightRepository;
 import com.isa.airflights.repository.LuggagePriceListRepository;
+import com.isa.airflights.repository.LuggagePriceRepository;
 
 @Service
 public class AirlineService {
@@ -20,8 +30,25 @@ public class AirlineService {
 	private AirlineRepository airlineRepository;
 	
 	@Autowired
+	private AirplaneRepository airplaneRepository;
+	
+	@Autowired
+	private LuggagePriceRepository luggagePriceRepository;
+	
+	@Autowired
+	private FlightRepository flightRepository;
+	
+	@Autowired
 	private LuggagePriceListRepository luggagePriceListRepository;
 	
+	@Autowired
+	private AirportDestinationRepository airportDestinationRepostory;
+	
+	
+	
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	public void addAirline(Airline airline) {
@@ -73,6 +100,36 @@ public class AirlineService {
 	
 	public Page<Airline> findAirlinesByPage(Pageable pageRequest){
 		return airlineRepository.findAll(pageRequest);
+	}
+	
+	public AirlineDTO convertToDTO(Airline airline) {
+		AirlineDTO airlineDTO = modelMapper.map(airline, AirlineDTO.class);
+		if(airline.getLocation() != null) {
+			airlineDTO.setLongitude(airline.getLocation().getLongitude());
+			airlineDTO.setLatitude(airline.getLocation().getLatitude());
+		}
+		return airlineDTO;
+	}
+
+	public Airline convertToEntity(AirlineDTO airlineDTO) {
+		Airline airline = modelMapper.map(airlineDTO, Airline.class);
+		return airline;
+	}
+
+	public Page<Airplane> findAirplanes(Pageable pageRequest, Long airline_id) {
+		return airplaneRepository.findAllByAirlineId(airline_id, pageRequest);
+	}
+
+	public Page<LuggagePrice> findLuggagePrices(Pageable pageRequest, Long airline_id) {
+		return luggagePriceRepository.findAllByLuggagePriceList_Airline_Id(airline_id, pageRequest);
+	}
+
+	public Page<Flight> findFlights(Pageable pageRequest, Long airline_id) {
+		return flightRepository.findAllByAirlineId(airline_id, pageRequest);
+	}
+
+	public Page<AirportDestination> findAirportDestinations(Pageable pageRequest, Long airline_id) {
+		return airportDestinationRepostory.findAllByAirlines_Id(airline_id, pageRequest);
 	}
 
 }

@@ -36,38 +36,8 @@ public class FlightSearchController {
 	@Autowired
 	private FlightService flightService;
 	
-	
-	
-	@RequestMapping(value = "/",
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> searchAllFlights(
-				@RequestParam(value = "arrival_id", required = true) Long arrival_id,
-				@RequestParam(value = "departure_id", required = true) Long departure_id,
-				@RequestParam(value = "departure_date_time", required = true) Date departureDatetime,
-				@RequestParam(value = "arrival_date_time", required = true) Date arrivalDatetime,
-				@RequestParam(value = "flight_type", required = false) FlightType flightType,
-				@RequestParam(value = "persons_num", required = false) Integer persons_num,
-				@RequestParam(value = "class_type", required = false) AirlineClassType airlineClassType,
-				@RequestParam(value = "luggage_count", required = false) Integer luggageCount			
-			){
 		
-		
-				
-		List<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
-				(arrival_id, departure_id, departureDatetime, arrivalDatetime);
-		
-		
-		List<FlightDTO> flightDTOs = filterFlights(flights, flightType, persons_num, airlineClassType, luggageCount);
-		
-		
-		
-		return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
-	}
-	
-	
-	@RequestMapping(value = "/page/",
+	@RequestMapping(value = "/find/all",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -83,7 +53,8 @@ public class FlightSearchController {
 			Pageable pageRequest){
 		
 		
-		Page<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime(arrival_id, departure_id, departureDatetime, arrivalDatetime, pageRequest);
+		Page<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
+				(arrival_id, departure_id, departureDatetime, arrivalDatetime, pageRequest);
 		
 		List<Flight> flightList = new ArrayList<>();
 		for (Flight flight : flights) {

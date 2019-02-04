@@ -45,6 +45,7 @@ public class FlightService {
 	}
 	
 	public void addFlight(Flight flight) {
+		//pre ovoga, podesi i cene karata
 		flightRepository.save(flight);
 	}
 	
@@ -117,7 +118,7 @@ public class FlightService {
 	
 	public FlightDTO convertToDTO(Flight flight) {
 		FlightDTO flightDTO = modelMapper.map(flight, FlightDTO.class);
-		flightDTO.setAirline_id(flight.getAirline().getId());
+		flightDTO.setAirlineId(flight.getAirline().getId());
 		
 		//namesti legove koji su po idjevima
 		List<AirportDestination> flightLegs = flight.getFlightsLegs();
@@ -126,7 +127,7 @@ public class FlightService {
 			Long airport_id = airportDestination.getId();
 			flightLegs_id.add(airport_id);
 		}
-		flightDTO.setFlightLegs_id(flightLegs_id);
+		flightDTO.setFlightLegsId(flightLegs_id);
 		
 		//podesi cene letova
 		Map<AirlineClassType, Double> flightClassPricesMap = new TreeMap<AirlineClassType, Double>();
@@ -147,11 +148,11 @@ public class FlightService {
 	
 	public Flight convertToEntity(FlightDTO flightDTO) {
 		Flight flight = modelMapper.map(flightDTO, Flight.class);
-		Airline airline = airlineService.getAirline(flightDTO.getAirline_id());
+		Airline airline = airlineService.getAirline(flightDTO.getAirlineId());
 		
 		flight.setAirline(airline);
 		List<AirportDestination> flightLegs = new ArrayList<>();
-		List<Long> flightLegs_id = flightDTO.getFlightLegs_id();
+		List<Long> flightLegs_id = flightDTO.getFlightLegsId();
 		
 		for (Long id : flightLegs_id) {
 			AirportDestination airportDestination = airportDestinationService.getAirportDestination(id);

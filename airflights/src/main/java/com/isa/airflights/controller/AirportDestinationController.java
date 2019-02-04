@@ -2,7 +2,6 @@ package com.isa.airflights.controller;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,8 +26,7 @@ public class AirportDestinationController {
 	@Autowired
 	private AirportDestinationService airportDestinationService;
 	
-	@Autowired
-	private ModelMapper modelMapper;
+	
 	
 	
 	/**
@@ -48,7 +46,7 @@ public class AirportDestinationController {
 		catch(EntityNotFoundException exception) {
 			return new ResponseEntity<>(new StringJSON("No such airport found"), HttpStatus.NOT_FOUND);
 		}
-		airportDestinationDTO = convertToDTO(airportDestination);
+		airportDestinationDTO = airportDestinationService.convertToDTO(airportDestination);
 		return new ResponseEntity<AirportDestinationDTO>(airportDestinationDTO, HttpStatus.NOT_FOUND);
 		
 	}
@@ -58,7 +56,7 @@ public class AirportDestinationController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addAirportDestination(@RequestBody AirportDestinationDTO airportDestinationDTO, @PathVariable Long airline_id) {
-		AirportDestination airportDestination = convertToEntity(airportDestinationDTO);
+		AirportDestination airportDestination = airportDestinationService.convertToEntity(airportDestinationDTO);
 		airportDestinationService.addAirportDestination(airportDestination, airline_id);
 		
 		return new ResponseEntity<>(new StringJSON("Successfully created new destination!"), HttpStatus.OK);
@@ -83,7 +81,7 @@ public class AirportDestinationController {
 			produces = MediaType.APPLICATION_JSON_VALUE
 		)
 	public ResponseEntity<?> updateAirport(@RequestBody AirportDestinationDTO airportDestinationDTO){
-		AirportDestination airportDestination = convertToEntity(airportDestinationDTO);
+		AirportDestination airportDestination = airportDestinationService.convertToEntity(airportDestinationDTO);
 		Boolean success = airportDestinationService.updateAirportDestination(airportDestination);
 		
 		
@@ -93,14 +91,7 @@ public class AirportDestinationController {
 		return new ResponseEntity<>(new StringJSON("Error, no such airport found!"), HttpStatus.NOT_FOUND);
 	}
 	
-	public  AirportDestinationDTO convertToDTO(AirportDestination airportDestination) {
-		AirportDestinationDTO airportDestinationDTO = modelMapper.map(airportDestination, AirportDestinationDTO.class);
-		return airportDestinationDTO;
-	}
-	public AirportDestination convertToEntity(AirportDestinationDTO airportDestinationDTO) {
-		AirportDestination airportDestination = modelMapper.map(airportDestinationDTO, AirportDestination.class);
-		return airportDestination;
-	}
+	
 	
 	
 }

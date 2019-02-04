@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.LuggagePriceDTO;
 import com.isa.airflights.model.LuggagePrice;
 import com.isa.airflights.model.LuggagePriceList;
 import com.isa.airflights.repository.LuggagePriceListRepository;
@@ -20,6 +22,12 @@ import com.isa.airflights.repository.LuggagePriceRepository;
 @Service
 public class LuggageService {
 
+	@Autowired 
+	private ModelMapper modelMapper;
+	
+	@Autowired 
+	private LuggagePriceListService luggagePriceListService;
+	
 	@Autowired
 	private LuggagePriceRepository luggagePriceRepository;  
 	
@@ -72,4 +80,19 @@ public class LuggageService {
 	public List<LuggagePrice> findAll(){
 		return luggagePriceRepository.findAll();
 	}
+	
+	public LuggagePrice convertToEntity(LuggagePriceDTO luggagePriceDTO) {
+		LuggagePrice luggagePrice = modelMapper.map(luggagePriceDTO, LuggagePrice.class);
+		LuggagePriceList luggagePriceList = luggagePriceListService.getLuggagePriceList(luggagePriceDTO.getLuggagePriceListId());
+		luggagePrice.setLuggagePriceList(luggagePriceList);
+		return luggagePrice;
+	}
+	
+	public LuggagePriceDTO convertToDTO(LuggagePrice luggagePrice) {
+		LuggagePriceDTO luggagePriceDTO = modelMapper.map(luggagePrice, LuggagePriceDTO.class);
+		luggagePriceDTO.setLuggagePriceListId(luggagePrice.getLuggagePriceList().getId());
+		return luggagePriceDTO;
+	}
+
+
 }

@@ -7,7 +7,7 @@ public class LuggagePriceDTO {
 	/**
 	 * Svaka cena odredjenog prtljaga pripada jednom cenovniku
 	 */
-	private Long luggagePriceList_id;	
+	private Long luggagePriceListId;	
 	private Integer length;
 	private Integer width;
 	private Integer height;	
@@ -19,11 +19,11 @@ public class LuggagePriceDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getLuggagePriceList_id() {
-		return luggagePriceList_id;
+	public Long getLuggagePriceListId() {
+		return luggagePriceListId;
 	}
-	public void setLuggagePriceList_id(Long luggagePriceList_id) {
-		this.luggagePriceList_id = luggagePriceList_id;
+	public void setLuggagePriceListId(Long luggagePriceListId) {
+		this.luggagePriceListId = luggagePriceListId;
 	}
 	public Integer getLength() {
 		return length;

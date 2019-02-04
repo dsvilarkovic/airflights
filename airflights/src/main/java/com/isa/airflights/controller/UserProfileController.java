@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,7 +97,7 @@ public class UserProfileController {
 			//prvo proveri da li su sifra logovanog i klijentskog korisnika iste
 			String passwordHash = encoder.encode(updatedUserDTO.getPassword());
 			
-			if(authenticateUser(updatedUserDTO.getPassword(), loggedUser.getPassword()) == false) {
+			if(!authenticateUser(updatedUserDTO.getPassword(), loggedUser.getPassword())) {
 				//ako nisu, vrati error
 				System.out.println("Nisu isti password-i");
 				System.out.println(updatedUserDTO.getPassword());

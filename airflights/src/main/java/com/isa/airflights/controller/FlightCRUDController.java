@@ -65,7 +65,12 @@ public class FlightCRUDController {
 	
 	
 	
-	@RequestMapping(value = "/add}",
+	/**
+	 * Dodavanje leta
+	 * @param flightDTO
+	 * @return
+	 */
+	@RequestMapping(value = "/add",
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,6 +81,11 @@ public class FlightCRUDController {
 		return new ResponseEntity<>(new StringJSON("Successfully created new flight!"), HttpStatus.OK);
 	}
 	
+	/**
+	 * Brisanje konkretnog leta
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/delete/{id}",
 					method = RequestMethod.DELETE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,12 +93,16 @@ public class FlightCRUDController {
 		Boolean success = flightService.deleteFlight(id);
 		
 		if(success) {
-			return new ResponseEntity<>(new StringJSON("FLight successfully deleted!"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new StringJSON("FLight successfully deleted!"), HttpStatus.OK);
 		}
-		return new ResponseEntity<>(new StringJSON("Flight successfully deleted!"), HttpStatus.OK);
+		return new ResponseEntity<>(new StringJSON("Flight not found!"), HttpStatus.NOT_FOUND);
 	}
 	
-	
+	/**
+	 * Azuriranje konkretnog leta
+	 * @param flightDTO
+	 * @return
+	 */
 	@RequestMapping(value = "/update",
 					method = RequestMethod.PUT,
 					produces = MediaType.APPLICATION_JSON_VALUE,
@@ -99,26 +113,20 @@ public class FlightCRUDController {
 		Boolean success = flightService.updateFlight(flight);
 		
 		if(success) {
-			return new ResponseEntity<>(new StringJSON("Error, no such flight found"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new StringJSON("Flight successfully deleted!"), HttpStatus.OK);		
+			
 		}
-		return new ResponseEntity<>(new StringJSON("Flight successfully deleted!"), HttpStatus.OK);		
-	}
-	
-	@RequestMapping(value = "/find/all",
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getAllFlights(){
-		List<Flight> flights = flightService.findAll();
+		return new ResponseEntity<>(new StringJSON("Error, no such flight found"), HttpStatus.NOT_FOUND);
 		
-		List<FlightDTO> flightDTOs = new ArrayList<>();
-		for (Flight flight : flights) {
-			FlightDTO flightDTO = flightService.convertToDTO(flight);
-			flightDTOs.add(flightDTO);
-		}
-		return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/find/page/",
+
+	/**
+	 * Ispis svih letova koji postoje	
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping(value = "/find/all",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAllFlights(Pageable pageRequest){

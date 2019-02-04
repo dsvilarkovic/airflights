@@ -39,8 +39,10 @@ public class AbstractUser {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 	private Long id;
 	
+
+	
 	@Column(name = "indexNumber", nullable = true)
-	String index;
+	private String index;
 	
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
@@ -116,6 +118,12 @@ public class AbstractUser {
 	@OneToMany(mappedBy = "abstractUser")
 	private Set<VehicleReservation> vehicleReservation = new HashSet<VehicleReservation>();
 	
+	
+	/**
+	 * Jedan korisnik moze imati vise karata za let, a jednu kartu moze imati samo jedan korisnik
+	 */
+	@OneToMany(mappedBy = "abstractUser", cascade = CascadeType.REFRESH)
+	private Set<FlightTicket> flightTickets = new HashSet<>();
 	
 	public AbstractUser() {
 		
@@ -246,6 +254,14 @@ public class AbstractUser {
 
 	
 
+	public Set<FlightTicket> getFlightTickets() {
+		return flightTickets;
+	}
+
+	public void setFlightTickets(Set<FlightTicket> flightTickets) {
+		this.flightTickets = flightTickets;
+	}
+
 	public String getIndex() {
 		return index;
 	}
@@ -266,13 +282,7 @@ public class AbstractUser {
 		this.roles = roles;
 	}
 
-	@Override
-	public String toString() {
-		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
-				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
-				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
-	}
+	
 
 	public Integer getIdCompany() {
 		return idCompany;
@@ -328,6 +338,14 @@ public class AbstractUser {
 
 	public void setReceiver(Set<Friendship> receiver) {
 		this.receiver = receiver;
+	}
+	
+	@Override
+	public String toString() {
+		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
+				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
+				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
 	}
 
 	@Override

@@ -67,6 +67,12 @@ public class AirportDestination {
 		this.airlines = airlines;
 	}
 	
+	public Set<Flight> getFlights() {
+		return flights;
+	}
+	public void setFlights(Set<Flight> flights) {
+		this.flights = flights;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(getId());

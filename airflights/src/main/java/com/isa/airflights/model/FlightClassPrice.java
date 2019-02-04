@@ -28,7 +28,7 @@ public class FlightClassPrice {
 	
 	
 	/**
-	 * Svaka cena klase pripada jednom letu
+	 * Svaka cena klase pripada jednom letu, tj tamo je definisana, a let definise vise cena
 	 */
 	@ManyToOne
 	@JoinColumn

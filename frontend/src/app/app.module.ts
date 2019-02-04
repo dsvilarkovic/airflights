@@ -76,6 +76,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { FlightAdministrationComponent } from './flight-administration/flight-administration.component';
 import { FlightTableComponent } from './flight-table/flight-table.component';
+import { PassengerFormComponent } from './passenger-form/passenger-form.component';
 
 
 
@@ -196,6 +197,7 @@ const appRoutes: Routes = [
     SearchComponent,
     FlightAdministrationComponent,
     FlightTableComponent,
+    PassengerFormComponent,
   ],
   imports: [
     ReactiveFormsModule,

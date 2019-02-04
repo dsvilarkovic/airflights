@@ -4,10 +4,10 @@ import com.isa.airflights.model.enumtypes.AirlineClassType;
 
 public class SeatDTO {
 	private Long id;
-	private AirlineClassType airline_class;
-	private Integer seat_row;
-	private Integer seat_column;
-	private Integer segment_num;
+	private AirlineClassType airlineClass;
+	private Integer seatRow;
+	private Integer seatColumn;
+	private Integer segmentNum;
 	
 	private Long configuration;
 
@@ -21,29 +21,29 @@ public class SeatDTO {
 
 
   
-	public Integer getSeat_row() {
-		return seat_row;
+	public Integer getSeatRow() {
+		return seatRow;
 	}
 
-	public void setSeat_row(Integer seat_row) {
-		this.seat_row = seat_row;
+	public void setSeatRow(Integer seatRow) {
+		this.seatRow = seatRow;
 	}
 
-	public Integer getSeat_column() {
-		return seat_column;
+	public Integer getSeatColumn() {
+		return seatColumn;
 	}
 
-	public void setSeat_column(Integer seat_column) {
-		this.seat_column = seat_column;
+	public void setSeatColumn(Integer seatColumn) {
+		this.seatColumn = seatColumn;
 	}
 
 
-	public Integer getSegment_num() {
-		return segment_num;
+	public Integer getSegmentNum() {
+		return segmentNum;
 	}
 
-	public void setSegment_num(Integer segment_num) {
-		this.segment_num = segment_num;
+	public void setSegmentNum(Integer segmentNum) {
+		this.segmentNum = segmentNum;
 	}
 
 	public Long getConfiguration() {
@@ -54,12 +54,12 @@ public class SeatDTO {
 		this.configuration = configuration;
 	}
 
-	public AirlineClassType getAirline_class() {
-		return airline_class;
+	public AirlineClassType getAirlineClass() {
+		return airlineClass;
 	}
 
-	public void setAirline_class(AirlineClassType airline_class) {
-		this.airline_class = airline_class;
+	public void setAirlineClass(AirlineClassType airlineClass) {
+		this.airlineClass = airlineClass;
 	}
 	
 		

@@ -21,12 +21,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Check;
+
 import com.isa.airflights.model.enumtypes.FlightType;
 
 import io.jsonwebtoken.lang.Objects;
 
 @Entity
 @Table(name = "flight")
+//TODO: privremeno dropovan, @Check(constraints = "departure_datetime < arrival_datetime")
 public class Flight {
 	
 	@Id
@@ -44,9 +47,14 @@ public class Flight {
 	@Column(name = "flightType")
 	private FlightType flightType;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn
 	private Airline airline;
+	
+	/*svaki let je podrzan jednim avionom, a jedan avion moze podrzati vise letova*/
+	@ManyToOne(optional = true)
+	@JoinColumn
+	private Airplane airplane;
 	
 	
 	@Column(name = "departureDestination")
@@ -55,6 +63,9 @@ public class Flight {
 	@Column(name = "arrivalDestination")
 	private Long arrivalDestination;
 	
+	/**
+	 * Broj destinacija u letu
+	 */
 	@ManyToMany
 	@JoinTable(name = "flight_flight_legs",
 		joinColumns = { @JoinColumn(name = "flight_id") },
@@ -66,6 +77,15 @@ public class Flight {
 	 */
 	@OneToMany(mappedBy = "flight", cascade = CascadeType.REFRESH)
 	private Set<FlightClassPrice> flightClassPrices = new HashSet<>();
+	
+	/**
+	 * Svaki let ima vise karata za let
+	 */
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.REFRESH)
+	private Set<FlightTicket> flightTickets;
+	
+	
+	
 	
 	@Column(name = "travelTime")	
 	private Integer travelTime;
@@ -187,6 +207,15 @@ public class Flight {
 
 	public void setArrivalDestination(Long arrivalDestination) {
 		this.arrivalDestination = arrivalDestination;
+	}
+	
+
+	public Set<FlightTicket> getFlightTickets() {
+		return flightTickets;
+	}
+
+	public void setFlightTickets(Set<FlightTicket> flightTickets) {
+		this.flightTickets = flightTickets;
 	}
 
 	@Override

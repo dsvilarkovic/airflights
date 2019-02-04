@@ -4,9 +4,12 @@ import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.SeatDTO;
+import com.isa.airflights.dto.SegmentConfigDTO;
 import com.isa.airflights.model.Seat;
 import com.isa.airflights.model.SegmentConfig;
 import com.isa.airflights.repository.SeatRepository;
@@ -20,6 +23,12 @@ public class SegmentConfigService {
 	
 	@Autowired 
 	private SeatRepository seatRepository;
+	
+	@Autowired
+	private SeatService seatService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public SegmentConfig getConfig(Long id) throws EntityNotFoundException{
 		return segmentConfigRepository.getOne(id);
@@ -74,5 +83,43 @@ public class SegmentConfigService {
 		for (Seat seat : seats) {
 			seatRepository.save(seat);
 		}
+	}
+	
+	
+	public SegmentConfigDTO convertToDTO(SegmentConfig segmentConfig) {
+		SegmentConfigDTO segmentConfigDTO = modelMapper.map(segmentConfig, SegmentConfigDTO.class);
+		segmentConfigDTO.setAirplaneId(segmentConfig.getAirplane().getId());
+		
+		Set<Seat> seats = segmentConfig.getSeats();
+		for (Seat seat : seats) {
+			SeatDTO seatDTO = modelMapper.map(seat, SeatDTO.class);
+			seat.setSegmentConfig(segmentConfig);
+			
+			seatDTO.setConfiguration(segmentConfig.getId());
+			segmentConfigDTO.getSeatDTOs().add(seatDTO);
+		}
+		return segmentConfigDTO;
+	}
+	
+	public SegmentConfig convertToEntity(SegmentConfigDTO segmentConfigDTO) {
+		SegmentConfig segmentConfig = modelMapper.map(segmentConfigDTO, SegmentConfig.class);
+		
+		
+		Set<SeatDTO> seatDTOs = segmentConfigDTO.getSeatDTOs();
+		for (SeatDTO seatDTO : seatDTOs) {
+			Seat seat = new Seat();
+			seat = modelMapper.map(seatDTO, Seat.class);
+			System.out.println("Segment num je: " + seatDTO.getSegmentNum() + " | " + seat.getSegmentNum());
+			
+			seatService.saveSeat(seat);			
+			//System.out.println("Id od seat je "  + seat.getId());
+			//OVDE ubaciti seatService da radi ono sto je u segmentConfigService radjeno
+			
+			
+			seat.setSegmentConfig(segmentConfig);			
+			segmentConfig.getSeats().add(seat);
+		}
+		
+		return segmentConfig;
 	}
 }

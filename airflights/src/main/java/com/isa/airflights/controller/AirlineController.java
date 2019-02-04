@@ -5,9 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,8 +19,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AirlineDTO;
+import com.isa.airflights.dto.AirplaneDTO;
+import com.isa.airflights.dto.AirportDestinationDTO;
+import com.isa.airflights.dto.FlightDTO;
+import com.isa.airflights.dto.LuggagePriceDTO;
 import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.Airplane;
+import com.isa.airflights.model.AirportDestination;
+import com.isa.airflights.model.Flight;
+import com.isa.airflights.model.LuggagePrice;
 import com.isa.airflights.service.AirlineService;
+import com.isa.airflights.service.AirplaneService;
+import com.isa.airflights.service.AirportDestinationService;
+import com.isa.airflights.service.FlightService;
+import com.isa.airflights.service.LuggageService;
 import com.isa.airflights.utils.StringJSON;
 
 @RestController
@@ -34,7 +44,18 @@ public class AirlineController {
 		private AirlineService airlineService;
 		
 		@Autowired
-		private ModelMapper modelMapper;
+		private AirplaneService airplaneService;
+		
+		
+		@Autowired
+		private AirportDestinationService airportDestinationService;
+		
+		
+		@Autowired 
+		private LuggageService luggageService;
+		
+		@Autowired
+		private FlightService flightService;
 		
 		
 		
@@ -50,7 +71,7 @@ public class AirlineController {
 						produces = MediaType.APPLICATION_JSON_VALUE,
 						consumes = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<?> addAirline(@RequestBody AirlineDTO airlineDTO){
-			Airline airline = convertToEntity(airlineDTO);
+			Airline airline = airlineService.convertToEntity(airlineDTO);
 			airlineService.addAirline(airline);
 			
 			return new ResponseEntity<>(new StringJSON("Successfully created new airline!"), HttpStatus.OK);
@@ -74,7 +95,7 @@ public class AirlineController {
 				return new ResponseEntity<>(new StringJSON("No such airline found"), HttpStatus.NOT_FOUND);
 			}
 			
-			AirlineDTO airlineDTO = convertToDTO(airline);
+			AirlineDTO airlineDTO = airlineService.convertToDTO(airline);
 			return new ResponseEntity<>(airlineDTO, HttpStatus.OK);
 		}
 		
@@ -98,7 +119,11 @@ public class AirlineController {
 		}
 		
 		
-		
+		/**
+		 * Azuriranje aviokompanije
+		 * @param airlineDTO
+		 * @return
+		 */
 		@RequestMapping(
 					value = "/update",
 					method = RequestMethod.PUT,
@@ -106,7 +131,7 @@ public class AirlineController {
 					produces = MediaType.APPLICATION_JSON_VALUE
 				)
 		public ResponseEntity<?> updateAirline(@RequestBody AirlineDTO airlineDTO){
-			Airline airline = convertToEntity(airlineDTO);
+			Airline airline = airlineService.convertToEntity(airlineDTO);
 			
 			Boolean success = airlineService.updateAirline(airline);
 			if(success) {
@@ -117,34 +142,12 @@ public class AirlineController {
 		
 		
 		/**
-		 * Metoda za listanje svih aviokompanije
-		 * @return
-		 */
-		@RequestMapping(
-					value = "/find/all",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE
-				)		
-		public ResponseEntity<?> findAllAirlines(){
-			List<Airline> airlines = airlineService.findAllAirlines();
-			
-			List<AirlineDTO> airlineDTOs = new ArrayList<>();
-			for (Airline airline : airlines) {
-				AirlineDTO airlineDTO = convertToDTO(airline);
-				airlineDTOs.add(airlineDTO);
-			}
-			
-			return new ResponseEntity<>(airlineDTOs, HttpStatus.OK);
-		}
-		
-		
-		/**
-		 * Metoda za vracanje strane 
+		 * Metoda za vracanje svih aviokompanija
 		 * @param pageRequest
 		 * @return
 		 */
 		@RequestMapping(
-					value = "/find/page",
+					value = "/find/all",
 					method = RequestMethod.GET,
 					produces = MediaType.APPLICATION_JSON_VALUE
 				)
@@ -154,25 +157,109 @@ public class AirlineController {
 			List<AirlineDTO> airlineDTOs = new ArrayList<>();
 			
 			for(Airline airline: airlines) {
-				AirlineDTO airlineDTO = convertToDTO(airline);
+				AirlineDTO airlineDTO = airlineService.convertToDTO(airline);
 				airlineDTOs.add(airlineDTO);
 			}
 			
 			return new ResponseEntity<>(airlineDTOs, HttpStatus.OK);
 		}
 		
-		
-		private AirlineDTO convertToDTO(Airline airline) {
-			AirlineDTO airlineDTO = modelMapper.map(airline, AirlineDTO.class);
-			if(airline.getLocation() != null) {
-				airlineDTO.setLongitude(airline.getLocation().getLongitude());
-				airlineDTO.setLatitude(airline.getLocation().getLatitude());
+		/**
+		 * Nalazi sve avione aviokompanije
+		 * @param pageRequest
+		 * @return
+		 */
+		@RequestMapping(
+				value = "/find/airplanes/{airline_id}",
+				method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE
+			)
+		public ResponseEntity<?> findAirplanes(Pageable pageRequest, @PathVariable Long airline_id){
+			List<Airplane> airplanes = airlineService.findAirplanes(pageRequest, airline_id).getContent();
+			
+			List<AirplaneDTO> airplaneDTOs = new ArrayList<>();
+			
+			for(Airplane airplane: airplanes) {
+				AirplaneDTO airplaneDTO = airplaneService.convertToDTO(airplane);
+				airplaneDTOs.add(airplaneDTO);
 			}
-			return airlineDTO;
+			
+			return new ResponseEntity<>(airplaneDTOs, HttpStatus.OK);
 		}
-	
-		private Airline convertToEntity(AirlineDTO airlineDTO) {
-			Airline airline = modelMapper.map(airlineDTO, Airline.class);
-			return airline;
+		
+		//TODO: nadji sve letove aviokompanije
+		/**
+		 * Nalazi sve letove aviokompanije
+		 * @param pageRequest
+		 * @return
+		 */
+		@RequestMapping(
+				value = "/find/flights/{airline_id}",
+				method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE
+			)
+		public ResponseEntity<?> findFlights(Pageable pageRequest, @PathVariable Long airline_id){
+			List<Flight> flights = airlineService.findFlights(pageRequest, airline_id).getContent();
+			
+			List<FlightDTO> flightDTOs = new ArrayList<>();
+			
+			for(Flight flight: flights) {
+				FlightDTO flightDTO = flightService.convertToDTO(flight);
+				flightDTOs.add(flightDTO);
+			}
+			
+			return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
 		}
+		
+		/**
+		 * Nadji sve prtljage aviokompanije
+		 * @param pageRequest
+		 * @param airline_id
+		 * @return
+		 */
+		//TODO: nadji sve prtljage aviokopmanije
+		@RequestMapping(
+				value = "/find/luggage/{airline_id}",
+				method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE
+			)
+		public ResponseEntity<?> findLuggagePrices(Pageable pageRequest, @PathVariable Long airline_id){
+			List<LuggagePrice> luggagePrices= airlineService.findLuggagePrices(pageRequest, airline_id).getContent();
+			
+			List<LuggagePriceDTO> luggagePriceDTOs = new ArrayList<>();
+			
+			for(LuggagePrice luggage: luggagePrices) {
+				LuggagePriceDTO luggagePriceDTO = luggageService.convertToDTO(luggage);
+				luggagePriceDTOs.add(luggagePriceDTO);
+			}
+			
+			return new ResponseEntity<>(luggagePriceDTOs, HttpStatus.OK);
+		}
+		
+		//TODO: nadji sve destinacije aviokopmanije
+		/**
+		 * Nadji sve destinacije aviokompanije
+		 * @param pageRequest
+		 * @param airline_id
+		 * @return
+		 */
+		@RequestMapping(
+				value = "/find/airport/{airline_id}",
+				method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE
+			)
+		public ResponseEntity<?> getAirportDestinations(Pageable pageRequest, @PathVariable Long airline_id){
+			List<AirportDestination> airportDestinations= airlineService.findAirportDestinations(pageRequest, airline_id).getContent();
+			
+			List<AirportDestinationDTO> airportDestinationDTOs = new ArrayList<>();
+			
+			for(AirportDestination airportDestination: airportDestinations) {
+				AirportDestinationDTO airportDestinationDTO = airportDestinationService.convertToDTO(airportDestination);
+				airportDestinationDTOs.add(airportDestinationDTO);
+			}
+			
+			return new ResponseEntity<>(airportDestinationDTOs, HttpStatus.OK);
+		}
+		
+		
 }

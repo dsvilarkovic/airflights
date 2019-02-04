@@ -37,7 +37,11 @@ public class FriendshipController {
 	@Autowired
 	private FriendshipService friendshipService;
 	
-	//send request
+	/**
+	 * Slanje zahteva na prijateljstvo
+	 * @param friendshipDTO
+	 * @return
+	 */
 	@RequestMapping(value = "/send",
 					method = RequestMethod.POST,
 					consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -96,7 +100,11 @@ public class FriendshipController {
 	}
 	
 	
-	//accept
+	/**
+	 * Prihvatanje prijateljstva
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/accept/{id}",
 					method = RequestMethod.POST,
 					produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,27 +117,12 @@ public class FriendshipController {
 		return new ResponseEntity<>(new StringJSON("Friendship started, congratulations"), HttpStatus.NOT_FOUND);
 	}
 	
-	//get all accepted friends of user 
-	@RequestMapping(value = "/all",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getAllApprovedFriends(){
-		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("Ulogovani je : " + loggedInUser.getName());
-		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
-		
-		Set<AbstractUser> friends = friendshipService.findAllFriends(loggedUser.getId(), null);
-		Set<AbstractUserDTO> friendDTOs = new HashSet<>();
-		for (AbstractUser abstractUser : friends) {
-			AbstractUserDTO abstractUserDTO = abstractUserService.convertToDTO(abstractUser);
-			friendDTOs.add(abstractUserDTO);
-		}
-		
-		return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
-	}
-	
-	//get all friends pageable of user by page
-	@RequestMapping(value = "/page",
+	/**
+	 *  Vrati mi sve prihvacene prijatelje, tj sve moje prave prijatelje
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping(value = "/find/all",
 			method = RequestMethod.GET,	
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAllApprovedFriendsByPage(Pageable pageRequest){
@@ -148,7 +141,11 @@ public class FriendshipController {
 	}
 	
 
-	//get all friend requests,pageable
+	/**
+	 * Vrati mi sve korisnike koji me traze za prijatelja
+	 * @param pageRequest
+	 * @return
+	 */
 	@RequestMapping(value = "/requests",
 			method = RequestMethod.GET,	
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -168,7 +165,11 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
 	}
 	
-	//get all friends pending
+	/**
+	 * Vrati mi sve prijatelje od kojih cekam prijateljstvo
+	 * @param pageRequest
+	 * @return
+	 */
 	@RequestMapping(value = "/pending",
 			method = RequestMethod.GET,	
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -210,7 +211,7 @@ public class FriendshipController {
 	 * @param pageRequest - paginacija
 	 * @return - listu prijatelja po zadovoljenom kriterijumu
 	 */
-	@RequestMapping(value = "/find",
+	@RequestMapping(value = "/search",
 			method = RequestMethod.GET,	
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getFriendshipByCriteria(

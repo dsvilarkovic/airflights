@@ -71,13 +71,6 @@ public class FriendshipService {
 		return true;
 	}
 	
-	/**
-	 * Nema podrske za ovo
-	 * @param friendship
-	 */
-	public void updateFriendship(Friendship friendship) {
-		return; //nema 
-	}
 	
 	
 	public Friendship convertToEntity(FriendshipDTO friendshipDTO) {
@@ -297,9 +290,7 @@ public class FriendshipService {
 		Friendship oneside = friendshipRepository.findByReceiverIdAndSenderId(receiverId, senderId);
 		Friendship otherside = friendshipRepository.findBySenderIdAndReceiverId(senderId, receiverId);
 		
-		if(oneside != null || otherside != null) {
-			return true;
-		}
-		return false;
+		
+		return (oneside != null || otherside != null);
  	}
 }

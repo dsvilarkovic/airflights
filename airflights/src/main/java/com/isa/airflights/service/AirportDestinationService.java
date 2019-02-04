@@ -2,9 +2,11 @@ package com.isa.airflights.service;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AirportDestinationDTO;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.AirportDestination;
 import com.isa.airflights.repository.AirlineRepository;
@@ -18,6 +20,9 @@ public class AirportDestinationService {
 	
 	@Autowired
 	private AirlineRepository airlineRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public AirportDestination getAirportDestination(Long id) {
 		return airportDestinationRepository.getOne(id);
@@ -81,5 +86,13 @@ public class AirportDestinationService {
 	}
 	
 	
+	public  AirportDestinationDTO convertToDTO(AirportDestination airportDestination) {
+		AirportDestinationDTO airportDestinationDTO = modelMapper.map(airportDestination, AirportDestinationDTO.class);
+		return airportDestinationDTO;
+	}
+	public AirportDestination convertToEntity(AirportDestinationDTO airportDestinationDTO) {
+		AirportDestination airportDestination = modelMapper.map(airportDestinationDTO, AirportDestination.class);
+		return airportDestination;
+	}
 
 }

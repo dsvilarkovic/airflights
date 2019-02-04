@@ -14,15 +14,22 @@ public class FlightDTO {
 	private Long id;
 	private Date departureDatetime;
 	private Date arrivalDatetime;
-	private Long airline_id;
-	
-	private Long arrivalDestination;
-	private Long departureDestination;
 	
 	private FlightType flightType;
+	
+	
+	private Long airlineId;
+	
+	
+	private Long departureDestination;
+	private Long arrivalDestination;
+	
+	
+	
 	//na osnovu id-jeva koji postoje u podrzanim combobox-ovima na frontu mozes da izvuces id-jeve letova
-	private List<Long> flightLegs_id = new ArrayList<>();
+	private List<Long> flightLegsId = new ArrayList<>();
 	private Map<AirlineClassType, Double> flightClassPricesMap = new TreeMap<>();
+	
 	private Integer travelTime;
 
 	private Integer travelDistance;
@@ -47,17 +54,17 @@ public class FlightDTO {
 	public void setArrivalDatetime(Date arrivalDatetime) {
 		this.arrivalDatetime = arrivalDatetime;
 	}
-	public Long getAirline_id() {
-		return airline_id;
+	public Long getAirlineId() {
+		return airlineId;
 	}
-	public void setAirline_id(Long airline_id) {
-		this.airline_id = airline_id;
+	public void setAirlineId(Long airlineId) {
+		this.airlineId = airlineId;
 	}
-	public List<Long> getFlightLegs_id() {
-		return flightLegs_id;
+	public List<Long> getFlightLegsId() {
+		return flightLegsId;
 	}
-	public void setFlightLegs_id(List<Long> flightLegs_id) {
-		this.flightLegs_id = flightLegs_id;
+	public void setFlightLegsId(List<Long> flightLegsId) {
+		this.flightLegsId = flightLegsId;
 	}
 	public Map<AirlineClassType, Double> getFlightClassPricesMap() {
 		return flightClassPricesMap;

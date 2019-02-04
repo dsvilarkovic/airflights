@@ -20,5 +20,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long>{
 	(Long arrival_id, Long departure_id, Date departureDatetime, Date ArrivalDatetime, Pageable pageRequest);
 	
 	public Page<Flight> findAll(Pageable pageRequest);
+
+	public Page<Flight> findAllByAirlineId(Long airline_id, Pageable pageRequest);
 	
 }

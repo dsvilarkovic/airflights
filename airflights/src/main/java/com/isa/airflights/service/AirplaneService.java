@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.model.Airplane;
 import com.isa.airflights.repository.AirplaneRepository;
 
@@ -18,6 +20,8 @@ public class AirplaneService {
 	@Autowired
 	private AirplaneRepository airplaneRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public Airplane findOne(Long id) {
 		return airplaneRepository.getOne(id);
@@ -72,6 +76,23 @@ public class AirplaneService {
 	public Page<Airplane> findByPageNumber(Pageable pageRequest) {
 		
 		return airplaneRepository.findAll(pageRequest);
+	}
+	
+	
+	public AirplaneDTO convertToDTO(Airplane airplane) {
+		AirplaneDTO airplaneDTO = modelMapper.map(airplane, AirplaneDTO.class);
+		
+		if(airplane.getAirline() != null)
+			airplaneDTO.setAirline_id(airplane.getAirline().getId());
+
+		
+		return airplaneDTO;
+	}
+	
+	public Airplane convertToEntity(AirplaneDTO airplaneDTO) {
+		Airplane airplane = modelMapper.map(airplaneDTO, Airplane.class);
+		
+		return airplane;
 	}
 
 }
