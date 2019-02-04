@@ -1,6 +1,11 @@
 package com.isa.airflights.controller;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,7 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.model.Hotel;
+import com.isa.airflights.model.Room;
+import com.isa.airflights.model.RoomReservation;
+import com.isa.airflights.model.SearchObject;
 import com.isa.airflights.service.HotelService;
+import com.isa.airflights.service.RoomReservationService;
+import com.isa.airflights.service.RoomService;
 
 @RestController
 @RequestMapping(value="/api/hotel")
@@ -25,8 +35,14 @@ import com.isa.airflights.service.HotelService;
 public class HotelController {
 	
 	@Autowired
-	HotelService service;
+	private HotelService service;
 
+	@Autowired
+	private RoomService rService;
+	
+	@Autowired
+	private RoomReservationService rrService;
+	
     @GetMapping("/list")
     public Collection<Hotel> hotels() {
     	//System.out.println("Pokupio");
@@ -87,8 +103,40 @@ public class HotelController {
     	Hotel h = service.getOne(id);
     	System.out.println(h.getName());
     	System.out.println(h.getAddress());
-    	service.getRooms(id);
+    	//service.getRooms(id);
     	
     	return new ResponseEntity<Hotel>(HttpStatus.OK);
     }
+    
+    @RequestMapping(value="/search", method = RequestMethod.POST,
+    		consumes = MediaType.APPLICATION_JSON_VALUE,
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Set<Hotel>> search(@RequestBody SearchObject obj) {
+		
+    	List<Hotel> hotels = service.getFiltered(obj);
+    	//List<Room> rooms = rService.getAll();
+    	
+    	Date from = new GregorianCalendar(obj.getStartY(), obj.getStartM()-1, obj.getStartD()).getTime();
+    	Date to = new GregorianCalendar(obj.getEndY(), obj.getEndM()-1, obj.getEndD()).getTime();
+    	  
+    	Set<Hotel> set = new HashSet<>();
+    	
+    	for (Hotel hotel : hotels) {
+    		List<Room> rooms = rService.getRoomByHotel(hotel.getId());
+    		ROOM_LOOP:
+    		for (Room room : rooms) {
+    			List<RoomReservation> reservations = rrService.getByRoom(room.getId());
+    			for (RoomReservation reservation : reservations) {
+    				Date exf = reservation.getStartDate();
+    				Date ext = reservation.getEndDate();
+    				
+					if (!(exf.after(to) && ext.before(from)))  {
+						break ROOM_LOOP;	
+					}
+    			}
+    			set.add(hotel);
+    		}
+    	}
+		return new ResponseEntity<Set<Hotel>>(set, HttpStatus.OK);
+	}
 }

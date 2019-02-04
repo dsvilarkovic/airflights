@@ -49,6 +49,28 @@ public class Room {
     @Column(name = "discount", nullable = true)
     private Double discount;
     
+	@Column(name = "rating_count", nullable = false)
+	private Long ratingsCount = 0L;
+	
+	@Column(name = "rating_sum", nullable = false)
+	private Long ratingsSum = 0L;
+    
+	public Long getRatingsCount() {
+		return ratingsCount;
+	}
+
+	public void setRatingsCount(Long ratingsCount) {
+		this.ratingsCount = ratingsCount;
+	}
+
+	public Long getRatingsSum() {
+		return ratingsSum;
+	}
+
+	public void setRatingsSum(Long ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -43,6 +43,10 @@ export class HotelService {
     return result;
   }
 
+  search(obj: any) : Observable<any> {
+    return this.http.post(HOTEL_API + 'search', obj, {headers: this.headers});
+  }
+
   /*getAllRooms(id: number) {
     let result: Observable<any>;
     result = this.http.get(HOTEL_API + id + '/rooms');

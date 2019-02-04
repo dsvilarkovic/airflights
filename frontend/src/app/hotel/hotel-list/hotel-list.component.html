@@ -29,24 +29,23 @@
       </nav>
       <div class="collapse col-md-10 offset-md-1" id="collapseExample">
           <div class="card card-body">
-              <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
-                </ngb-datepicker>
-                 <ng-template #t let-date let-focused="focused">
-                  <span class="custom-day"
-                        [class.focused]="focused"
-                        [class.range]="isRange(date)"
-                        [class.faded]="isHovered(date) || isInside(date)"
-                        (mouseenter)="hoveredDate = date"
-                        (mouseleave)="hoveredDate = null">
-                    {{ date.day }}
-                  </span>
-                </ng-template>
             <form #SearchForm="ngForm" (ngSubmit)="search()">
-              
-                <input type="text" [(ngModel)]="hs.name" class="form-control" name="name" id="name" placeholder="Hotel name">
-                <input type="text" [(ngModel)]="hs.city" class="form-control" name="loc" id="loc" placeholder="Location">
-                
-              <button class="btn btn-primary" type="submit">Search</button>
+                <input type="text" [(ngModel)]="sObj.name" name="name" id="name" placeholder="Hotel name">
+                &nbsp;
+                <input type="text" [(ngModel)]="sObj.location" name="loc" id="loc" placeholder="Location">
+                &nbsp;<button class="btn btn-primary" type="submit">Search</button><br/>
+                <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+                  </ngb-datepicker>
+                   <ng-template #t let-date let-focused="focused">
+                    <span class="custom-day"
+                          [class.focused]="focused"
+                          [class.range]="isRange(date)"
+                          [class.faded]="isHovered(date) || isInside(date)"
+                          (mouseenter)="hoveredDate = date"
+                          (mouseleave)="hoveredDate = null">
+                      {{ date.day }}
+                    </span>
+                  </ng-template>
             </form>
           </div>
         </div>
@@ -57,9 +56,9 @@
         <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
             <img src="assets/hotel-icon.png" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title"><b>{{hotel.name}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.rating | number: '1.0-2'}}</span></h5>
+                <h5 class="card-title"><b>{{hotel.name}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
                 <p class="card-text">{{hotel.address}}, {{hotel.city}}</p>
-                <button  (click)="btnVisit(rent.id)" class="btn btn-primary mt-4 mb-4">Details</button>
+                <button  (click)="details(hotel.id)" class="btn btn-primary mt-4 mb-4">Details</button>
             </div>
   </div>
   </div>
