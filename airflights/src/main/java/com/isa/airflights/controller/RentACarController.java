@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.RentACarDTO;
+import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.RentACar;
+import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.service.RentACarService;
 
 @RestController
@@ -27,6 +29,9 @@ public class RentACarController {
 	@Autowired
 	private RentACarService racService;
 	
+	@Autowired
+	private AbstractUserService abs;
+	
 	@RequestMapping("/test")
 	public ResponseEntity<List<RentACarDTO>> getAll() {
 		List<RentACar> rac = racService.findAll();
@@ -34,7 +39,12 @@ public class RentACarController {
 		
 		for (RentACar rentACar : rac) {
 			r.add(new RentACarDTO(rentACar));
-			
+						
+		}
+		
+		for (RentACarDTO rentACarDTO : r) {
+			System.out.println("sum: " + rentACarDTO.getRatingsSum());
+			System.out.println("count: " + rentACarDTO.getRatingsCount());
 		}
 				
 		return new ResponseEntity<List<RentACarDTO>>(r,HttpStatus.OK);
@@ -87,6 +97,8 @@ public class RentACarController {
         return new ResponseEntity<List<RentACarDTO>>(r,HttpStatus.OK);
     }
     
+    
+
 	
 	
 }

@@ -7,14 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import io.jsonwebtoken.lang.Objects;
 
 
 @Entity
-@Table(name = "flightTicket")
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"flight_id", "seat_id"})}, name = "flightTicket")
 public class FlightTicket {
 	
 	@Id
@@ -22,15 +22,30 @@ public class FlightTicket {
 	private Long id;
 	
 	/**
-	 * Svaka karta pripada jednoj kompaniji
+	 * Kome je namenjena karta, kartu moze imati jedan korisnik, a korisnik moze imati vise karata
+	 */
+	@ManyToOne(optional = false)
+	@JoinColumn
+	private AbstractUser abstractUser;
+	
+	
+	/**
+	 * Svaka brza karta pripada jednoj kompaniji, a aviokompanija ima vise brzih karata rezervisanih
 	 */
 	@ManyToOne
 	@JoinColumn
 	private Airline airline;
 	
 	
-	@Column(name = "isFast")	
-	private boolean isFast = false;
+	@Column(name = "isFastReservation")	
+	private boolean isFastReservation = false;
+	
+	/**
+	 * Svaka karta pripada  samo jednom letu, a let ima vise karata
+	 */	
+	@ManyToOne
+	@JoinColumn
+	private Flight flight;
 	
 	/**
 	 * Svaka karta ima jednu i samo jednu klasu i cenu kojoj pripada na letu
@@ -39,15 +54,29 @@ public class FlightTicket {
 	@JoinColumn
 	private FlightClassPrice flightClassPrice;
 	
-	/**
-	 * Svaka karta pripada jednom i samo jednom sedistu
-	 */
-	@OneToOne
-	@JoinColumn(unique = true)
-	private ReservedSeat reservedSeat;
 	
 
-
+	/**
+	 * Svaka karta moze biti za jedno i samo jedno sediste na letu, a svako sediste moze biti rezervisano za vise karata na razlicitim letovima <br>
+	 * Dakle, isto sediste ne sme biti ponavljano (unique) za jedan let: unique(seat_id,flight_id)
+	 * @return
+	 */
+	@ManyToOne
+	@JoinColumn
+	private Seat seat;
+	
+	/**
+	 * Mora postojati i stanje karte, tj da li je otvorena ili rezervisana
+	 */
+	private boolean isReserved = false;
+	
+	
+	/**
+	 * Mnozitelj cene karte
+	 */
+	private Double priceReduction = 1.0;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -67,14 +96,15 @@ public class FlightTicket {
 		this.airline = airline;
 	}
 
+	
 
-	public boolean isFast() {
-		return isFast;
+	public boolean isFastReservation() {
+		return isFastReservation;
 	}
 
 
-	public void setFast(boolean isFast) {
-		this.isFast = isFast;
+	public void setFastReservation(boolean isFastReservation) {
+		this.isFastReservation = isFastReservation;
 	}
 
 
@@ -88,13 +118,56 @@ public class FlightTicket {
 	}
 
 
-	public ReservedSeat getReservedSeat() {
-		return reservedSeat;
+
+	
+
+	public Flight getFlight() {
+		return flight;
 	}
 
 
-	public void setReservedSeat(ReservedSeat reservedSeat) {
-		this.reservedSeat = reservedSeat;
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+
+	public Seat getSeat() {
+		return seat;
+	}
+
+
+	public void setSeat(Seat seat) {
+		this.seat = seat;
+	}
+
+
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
+	}
+
+
+	public Double getPriceReduction() {
+		return priceReduction;
+	}
+
+
+	public void setPriceReduction(Double priceReduction) {
+		this.priceReduction = priceReduction;
+	}
+
+
+	public AbstractUser getAbstractUser() {
+		return abstractUser;
+	}
+
+
+	public void setAbstractUser(AbstractUser abstractUser) {
+		this.abstractUser = abstractUser;
 	}
 
 

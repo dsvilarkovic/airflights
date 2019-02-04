@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.model.Airplane;
 import com.isa.airflights.repository.AirplaneRepository;
 
@@ -16,8 +18,10 @@ import com.isa.airflights.repository.AirplaneRepository;
 public class AirplaneService {
 
 	@Autowired
-	AirplaneRepository airplaneRepository;
+	private AirplaneRepository airplaneRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public Airplane findOne(Long id) {
 		return airplaneRepository.getOne(id);
@@ -32,17 +36,18 @@ public class AirplaneService {
 
 	
 	public Boolean updateAirplane(Airplane airplane) {
+		Airplane foundAirplane;
 		try {
 			//nadji avion
-			Airplane foundAirplane = airplaneRepository.getOne(airplane.getId());
+			foundAirplane = airplaneRepository.getOne(airplane.getId());
 			//podesi mu potrebne parametre 
-			airplane.setAirline(foundAirplane.getAirline());
+			foundAirplane.setFullName(airplane.getFullName());
+			//sacuvaj ga
+			airplaneRepository.save(foundAirplane);			
 		}
 		catch(EntityNotFoundException exception) {
 			return false;
-		}
-		//sacuvaj ga
-		airplaneRepository.save(airplane);
+		}		
 		return true;
 	}
 
@@ -71,6 +76,23 @@ public class AirplaneService {
 	public Page<Airplane> findByPageNumber(Pageable pageRequest) {
 		
 		return airplaneRepository.findAll(pageRequest);
+	}
+	
+	
+	public AirplaneDTO convertToDTO(Airplane airplane) {
+		AirplaneDTO airplaneDTO = modelMapper.map(airplane, AirplaneDTO.class);
+		
+		if(airplane.getAirline() != null)
+			airplaneDTO.setAirline_id(airplane.getAirline().getId());
+
+		
+		return airplaneDTO;
+	}
+	
+	public Airplane convertToEntity(AirplaneDTO airplaneDTO) {
+		Airplane airplane = modelMapper.map(airplaneDTO, Airplane.class);
+		
+		return airplane;
 	}
 
 }

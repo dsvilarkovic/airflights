@@ -65,7 +65,7 @@
                     <td>{{rentacar.name}}</td>
                     <td>{{rentacar.address}}</td>
                     <td>{{rentacar.description}}</td>
-                    <td>{{rentacar.rating}}</td>
+                    <td>{{rentacar.ratingSum / rentacar.ratingCount}}</td>
                     <td><a [routerLink]="[rentacar.id]">Uredi</a></td>
                  </tr>
               </tbody>

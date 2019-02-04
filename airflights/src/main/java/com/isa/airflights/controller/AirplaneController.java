@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,14 +38,13 @@ import com.isa.airflights.utils.StringJSON;
 public class AirplaneController {
 	
 	
-	@Autowired
-	ModelMapper modelMapper;
+	
 	
 	@Autowired 
-	AirplaneService airplaneService;
+	private AirplaneService airplaneService;
 	
 	@Autowired
-	AirlineService airlineService;
+	private AirlineService airlineService;
 		
 //	@Bean
 //	public ModelMapper getModelMapper() {
@@ -71,7 +69,7 @@ public class AirplaneController {
 			return new ResponseEntity<StringJSON>(new StringJSON("Airplane not found"), HttpStatus.NOT_FOUND);
 		}
 		
-		AirplaneDTO airplaneDTO = convertToDTO(airplane);
+		AirplaneDTO airplaneDTO = airplaneService.convertToDTO(airplane);
 		return new ResponseEntity<AirplaneDTO>(airplaneDTO, HttpStatus.OK);
 	}
 	
@@ -84,7 +82,7 @@ public class AirplaneController {
 					value = "/create",
 					method = RequestMethod.POST)
 	public ResponseEntity<?> createAirplane(@RequestBody AirplaneDTO airplaneDTO) {
-		Airplane airplane = convertToEntity(airplaneDTO);
+		Airplane airplane = airplaneService.convertToEntity(airplaneDTO);
 		
 		//podesi aviokompaniju
 		System.out.println("Id je: " + airplaneDTO.getAirline_id());
@@ -108,15 +106,14 @@ public class AirplaneController {
 					consumes = MediaType.APPLICATION_JSON_VALUE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateAirplane(@RequestBody AirplaneDTO airplaneDTO){
-		Airplane airplane = convertToEntity(airplaneDTO);
+		Airplane airplane = airplaneService.convertToEntity(airplaneDTO);
 		
 		//prvo proveriti postoji li ovakav avion u bazi
 		Boolean success = airplaneService.updateAirplane(airplane);
-		if(success == false) {
-			return new ResponseEntity<StringJSON>(new StringJSON("Error, no such airplane found"), HttpStatus.NOT_FOUND);
+		if(success) {
+			return new ResponseEntity<StringJSON>(new StringJSON("Successfully updated airplane!"), HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<StringJSON>(new StringJSON("Successfully updated airplane!"), HttpStatus.OK);
+		return new ResponseEntity<StringJSON>(new StringJSON("Error, no such airplane found"), HttpStatus.NOT_FOUND);	
 	}
 	
 	
@@ -144,21 +141,9 @@ public class AirplaneController {
 		return new ResponseEntity<StringJSON>(new StringJSON("Error, wrong delete parameter has been sent "), HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value = "/find/all",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getAllAirplanes(){
-		List<Airplane> airplanes =  airplaneService.findAll();		
-		
-		List<AirplaneDTO> airplaneDTOs = new ArrayList<>();
-		for(Airplane airplane : airplanes) {
-			AirplaneDTO airplaneDTO = convertToDTO(airplane);
-			airplaneDTOs.add(airplaneDTO);
-		}
-		return new ResponseEntity<>(airplaneDTOs, HttpStatus.OK);
-	}
+
 	
-	@RequestMapping(value = "/find/page/",
+	@RequestMapping(value = "/find/all",
 					method = RequestMethod.GET,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAirplanesByPageNumber(Pageable pageRequest){
@@ -167,7 +152,7 @@ public class AirplaneController {
 		List<AirplaneDTO> airplaneDTOs = new ArrayList<>();
 		
 		for (Airplane airplane : page) {
-			AirplaneDTO airplaneDTO = convertToDTO(airplane);
+			AirplaneDTO airplaneDTO = airplaneService.convertToDTO(airplane);
 			airplaneDTOs.add(airplaneDTO);
 		}
 		
@@ -175,20 +160,6 @@ public class AirplaneController {
 	}
 	
 	
-	private AirplaneDTO convertToDTO(Airplane airplane) {
-		AirplaneDTO airplaneDTO = modelMapper.map(airplane, AirplaneDTO.class);
-		
-		if(airplane.getAirline() != null)
-			airplaneDTO.setAirline_id(airplane.getAirline().getId());
-
-		
-		return airplaneDTO;
-	}
 	
-	private Airplane convertToEntity(AirplaneDTO airplaneDTO) {
-		Airplane airplane = modelMapper.map(airplaneDTO, Airplane.class);
-		
-		return airplane;
-	}
 
 }

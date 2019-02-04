@@ -23,6 +23,8 @@ public class AbstractUserDTO{
 	private Role role;
 	private Hotel hotel;
 	private Airline airline;
+	private String password;
+	private String newPassword;
 	
 	public AbstractUserDTO() {
 	
@@ -36,8 +38,7 @@ public class AbstractUserDTO{
 	}
 
 
-	private String password;
-	private String newPassword;
+
 	public Long getId() {
 		return id;
 	}

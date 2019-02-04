@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.repository.AbstractUserRepository;
 
@@ -30,6 +31,9 @@ public class AbstractUserService {
 
 	@Autowired
 	private JavaMailSender sender;
+	
+	@Autowired
+    private ModelMapper modelMapper;
 
 	@Autowired
 	private Environment env;
@@ -172,6 +176,40 @@ public class AbstractUserService {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Za koriscenje u komunikaciji za klijentom
+	 * @param abstractUser - entitet
+	 * @return - DTO objekat
+	 */
+	public AbstractUserDTO convertToDTO(AbstractUser abstractUser) {
+		System.out.println("da li je null?"  + abstractUser);
+		//TODO: @Dusan : konverzije DTO u obicne objekte i obrnuto
+		System.out.println(modelMapper);
+		AbstractUserDTO abstractUserDTO = modelMapper.map(abstractUser, AbstractUserDTO.class);
+		abstractUserDTO.setPassword("");
+
+		
+		return abstractUserDTO;
+	}
+	
+	/**
+	 * Za koriscenje u komunikaciji sa skladistem podataka
+	 * @param abstractUserDTO - DTO 
+	 * @return - entitet
+	 */
+	public AbstractUser convertToEntity(AbstractUserDTO abstractUserDTO) {
+		//TODO: @Dusan : konverzije DTO u obicne objekte i obrnuto
+		AbstractUser abstractUser = modelMapper.map(abstractUserDTO, AbstractUser.class);
+		return abstractUser;		
+	}
 	
 	
 	

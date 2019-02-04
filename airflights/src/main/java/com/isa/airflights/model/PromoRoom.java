@@ -26,9 +26,9 @@ public class PromoRoom {
 	@OnDelete(action = OnDeleteAction.CASCADE)
     private HotelExtras extra;
     
-    public PromoRoom() {
+    /*public PromoRoom() {
 		// Default
-	}
+	}*/
     
 	public Long getId() {
 		return id;

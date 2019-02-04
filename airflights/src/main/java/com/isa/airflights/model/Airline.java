@@ -62,27 +62,27 @@ public class Airline {
 	/**
 	 * Letove
 	 */
-	@OneToMany(mappedBy= "airline", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "airline", cascade = CascadeType.REFRESH)
 	private Set<Flight> flights = new HashSet<>();
 	
 	/**
 	 * Konfiguraciju segmenata i mesta u avionima
 	 */
-	@OneToMany(mappedBy= "airline", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "airline", cascade = CascadeType.REFRESH)
 	private Set<Airplane> airplanes = new HashSet<>();
 	
 	/**
 	 * Spisak karata sa popustima za brzu rezervaciju 
 	 */
-	@OneToMany(mappedBy = "airline", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "airline", cascade = CascadeType.REFRESH)
 	private Set<FlightTicket> fastDiscountedTickets = new HashSet<>();
 	
 	
 	/**
 	 * Cenovnik i informacije o prtljagu 
 	 */
-	@OneToOne(mappedBy = "airline", cascade = CascadeType.ALL)
-	private LuggageClassPriceList luggageClassPriceList;
+	@OneToOne(mappedBy = "airline", cascade = CascadeType.REFRESH)
+	private LuggagePriceList luggagePriceList;
 
 
 	@OneToMany(mappedBy = "airline")
@@ -168,13 +168,13 @@ public class Airline {
 	}
 
 
-	public LuggageClassPriceList getLuggageClassPriceList() {
-		return luggageClassPriceList;
+	public LuggagePriceList getLuggagePriceList() {
+		return luggagePriceList;
 	}
 
 
-	public void setLuggageClassPriceList(LuggageClassPriceList luggageClassPriceList) {
-		this.luggageClassPriceList = luggageClassPriceList;
+	public void setLuggagePriceList(LuggagePriceList luggagePriceList) {
+		this.luggagePriceList = luggagePriceList;
 	}
 
 

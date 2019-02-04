@@ -12,4 +12,6 @@ public interface AirplaneRepository extends JpaRepository<Airplane, Long>{
 	
 	Page<Airplane> findAll(Pageable pageRequest);
 
+	Page<Airplane> findAllByAirlineId(Long airline_id, Pageable pageRequest);
+
 }

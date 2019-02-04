@@ -21,12 +21,12 @@ INSERT INTO user_roles(user_id, role_id) VALUES(2,4);
 INSERT INTO user_roles(user_id, role_id) VALUES(3,3);
 INSERT INTO user_roles(user_id, role_id) VALUES(5,5);
 
-INSERT INTO rentacar(id, address, city, description, name, rating)
-VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 2);
-INSERT INTO rentacar(id, address, city, description, name, rating)
-VALUES (2, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',3);
-INSERT INTO rentacar(id, address, city, description, name, rating)
-VALUES (3, 'Puškinova',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',4);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
+VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 1,5);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
+VALUES (2, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',1,5);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
+VALUES (3, 'Puškinova',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',2,7);
 
 INSERT INTO branch_locations(id, address, city, rentacar_id)
 VALUES (1, 'Bulevar oslobođenja 13/1', 'Novi Sad', '1');
@@ -39,25 +39,26 @@ VALUES (4, 'Seljackih buna 13', 'Novi Sad', '2');
 INSERT INTO branch_locations(id, address, city, rentacar_id)
 VALUES (5, 'Bulevar Despota Stefana 66', 'Novi Sad', '3');
 
-INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '2' , '20', false,'1', '1',0.3);
-INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (4,'vozilo4', 'RENAULT', 'Clio',  '2005', '5','2', '4' , '20', false,'1', '2',0.1);
-INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', '1', '3', '30', false,'2', '4',0);
-INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','3', '5', '40', false,'3', '5',0);
-INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (5,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '2' , '20', false,'1', '1',0.3);
-INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount) 
-VALUES (6,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '2' , '20', false,'1', '1',0.3);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (1,'vozilo1', 'RENAULT', 'Megane',  '2005', '5','2', '0' , '20', false,'1', '1',0.3, 0,0);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (4,'vozilo4', 'RENAULT', 'Clio',  '2005', '5','2', '0' , '20', false,'1', '2',0.1, 0,0);
+INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (2, 'vozilo2', 'RENAULT', 'Clio',  '2005', '5', '1', '0', '30', false,'2', '4',0, 0,0);
+INSERT INTO vehicle (id,name, brand,model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (3, 'vozilo3', 'SKODA', 'Fabia',  '2008', '5','3', '0', '40', false,'3', '5',0, 0,0);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (5,'vozilo1', 'RENAULT', 'Laguna',  '2000', '5','2', '0' , '15', false,'1', '1',0.3, 0,0);
+INSERT INTO vehicle (id,name, brand, model, year,seats,type, rating,price,reserved,rentacar_id,branch_locations_id,discount, rating_count,rating_sum) 
+VALUES (6,'vozilo1', 'RENAULT', 'Capture',  '2010', '5','2', '0' , '50', false,'1', '1',0.3, 0,0);
 
-INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
-VALUES ('2019-1-1', '2019-2-14', 560, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
-INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
-VALUES ('2019-2-14', '2019-2-25', 320, '2019-2-14', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '4','1','1');
-INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id) 
-VALUES ('2019-2-26', '2019-3-14', 200, '2019-2-26', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1');
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
+VALUES ('2019-1-1', '2019-2-14', 560, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1',false,false,false);
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
+VALUES ('2019-2-14', '2019-2-25', 320, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '4','5','1',false,false,false);
+INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
+VALUES ('2019-2-4', '2019-2-14', 200, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','5','1',false,false,false);
+
 
 INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
 VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0);

@@ -2,6 +2,8 @@ package com.isa.airflights.dto;
 
 import java.util.List;
 
+import javax.persistence.Column;
+
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleType;
 
@@ -21,7 +23,7 @@ public class VehicleDTO {
 	private VehicleType type;
 	
 	private double rating;
-
+	
 	private double price;
 	
 	private boolean reserved;
@@ -31,7 +33,10 @@ public class VehicleDTO {
 	private Long rentACarId;
 	
 	private double discount;
-	
+	private double ratingsCount;
+
+	private double ratingsSum;
+
 
 	
 
@@ -43,7 +48,7 @@ public class VehicleDTO {
 
 
 	public VehicleDTO(Long id, String name, String brand, String model, int year, int seats, VehicleType type, double rating,
-			double price, boolean reserved, double discount) {
+			double price, boolean reserved) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,7 +60,7 @@ public class VehicleDTO {
 		this.rating = rating;
 		this.price = price;
 		this.reserved = reserved;
-		this.discount = discount;
+
 	}
 
 	
@@ -74,11 +79,40 @@ public class VehicleDTO {
 		this.discount = v.getDiscount();
 		this.branchLocationId = v.getBranch_locations().getId();
 		this.rentACarId = v.getRentacar().getId();
+		this.ratingsCount = v.getRatingsCount();
+		this.ratingsSum = v.getRatingsSum();
 	}
 
 	
 	
 	
+
+
+
+	public double getRatingsCount() {
+		return ratingsCount;
+	}
+
+
+
+	public void setRatingsCount(double ratingsCount) {
+		this.ratingsCount = ratingsCount;
+	}
+
+
+
+	public double getRatingsSum() {
+		return ratingsSum;
+	}
+
+
+
+	public void setRatingsSum(double ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
+
+
+
 	public double getDiscount() {
 		return discount;
 	}

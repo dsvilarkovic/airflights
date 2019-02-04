@@ -32,6 +32,9 @@ public class Location {
 	@OneToOne(optional = true)
 	private Airline airline;
 	
+	@OneToOne(optional = true)
+	private AirportDestination airportDestination;
+	
 	public Long getId() {
 		return id;
 	}
@@ -50,8 +53,7 @@ public class Location {
 	public void setAirportDestination(AirportDestination airportDestination) {
 		this.airportDestination = airportDestination;
 	}
-	@OneToOne(optional = true)
-	private AirportDestination airportDestination;
+	
 	
 	
 	public Double getLatitude() {

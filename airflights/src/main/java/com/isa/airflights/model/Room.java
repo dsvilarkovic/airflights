@@ -179,7 +179,7 @@ public class Room {
         return Objects.hashCode(id);
     }
 	
-    public Room() {
+    /*public Room() {
 		// Default 
-	}
+	}*/
 }

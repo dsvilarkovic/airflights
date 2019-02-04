@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.service.AbstractUserService;
+import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.*;
 
 import java.security.Principal;
@@ -69,6 +70,16 @@ public class AbstractUserController {
 		System.out.println("a uloge -> "+uuser.getRoles().size());
 		
 		return new ResponseEntity<AbstractUser>(uuser, HttpStatus.OK);
+	}
+	
+	@RequestMapping("/loggedById/{id}")
+	public ResponseEntity<AbstractUserDTO> getabstractUser(@PathVariable Long id) {
+		
+		AbstractUser a = abstractUserService.getOne(id);
+		AbstractUserDTO dto = new AbstractUserDTO(a);
+		
+		
+		return new ResponseEntity<AbstractUserDTO>(dto , HttpStatus.OK);
 	}
 	
 	

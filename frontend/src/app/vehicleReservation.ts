@@ -1,3 +1,4 @@
+import { rentacar } from './rentacar';
 import { Vehicle } from "./vehicle";
 
 export class VehicleReservation {
@@ -10,4 +11,8 @@ export class VehicleReservation {
     pickuplocation:String;
     dropofflocation:String;
     price:number;
+    rentacar: rentacar;
+    cancel: boolean;//sluzi za logicko brisanje
+    rateVehicle: boolean; //da li je ocenjeno vozilo
+    rateRentacar: boolean; //da li je ocenjen rentacar
 }

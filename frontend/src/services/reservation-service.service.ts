@@ -14,6 +14,14 @@ export class ReservationServiceService {
     return this.http.get("//localhost:8080/api/reservation/getAll/"+id);
   }
 
+  getAllByUserId(id): Observable<any> {
+    return this.http.get("//localhost:8080/api/reservation/getAllByUserId/"+id);
+  }
+
+  cancel(id): Observable<any> {
+    return this.http.delete("//localhost:8080/api/reservation/cancel/"+id);
+  }
+
   checkDate(date1,date2,id): Observable<any> {
     return this.http.get("//localhost:8080/api/reservation/checkDate/"+date1+"/"+date2+"/"+id);//rent a car id je id
   }

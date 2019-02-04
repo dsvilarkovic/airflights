@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.isa.airflights.model.enumtypes.AirlineClassType;
+
 import io.jsonwebtoken.lang.Objects;
 
 
@@ -26,7 +28,7 @@ public class FlightClassPrice {
 	
 	
 	/**
-	 * Svaka cena klase pripada jednom letu
+	 * Svaka cena klase pripada jednom letu, tj tamo je definisana, a let definise vise cena
 	 */
 	@ManyToOne
 	@JoinColumn

@@ -8,7 +8,7 @@ import com.isa.airflights.dto.SeatDTO;
 public class SegmentConfigDTO {
 
 	private Long id;
-	private Long airplane_id;
+	private Long airplaneId;
 	private Integer segmentNum;
 	private Set<SeatDTO> seatDTOs = new HashSet<>();
 	
@@ -18,11 +18,11 @@ public class SegmentConfigDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getAirplane_id() {
-		return airplane_id;
+	public Long getAirplaneId() {
+		return airplaneId;
 	}
-	public void setAirplane_id(Long airplane_id) {
-		this.airplane_id = airplane_id;
+	public void setAirplaneId(Long airplaneId) {
+		this.airplaneId = airplaneId;
 	}
 	public Integer getSegmentNum() {
 		return segmentNum;

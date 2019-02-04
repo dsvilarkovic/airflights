@@ -35,4 +35,12 @@ public class VehicleReservationService {
 	public List<VehicleReservation> getAllByDate(RentACar r, Date pickupdate, Date dropoffdate) {
 		return vr.getAllByDate(r,pickupdate,dropoffdate);
 	}
+	
+	
+	public void delete(Long id) {
+			System.out.println("U delete: " + id);
+			vr.deleteById(id);
+
+	}
+	
 }

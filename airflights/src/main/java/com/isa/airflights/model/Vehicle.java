@@ -43,7 +43,8 @@ public class Vehicle {
 	private VehicleType type;
 	
 	@Column(name = "rating", nullable = false)
-	private int rating;
+	private double rating;
+	
 	
 	@Column(name = "price", nullable = false)
 	private double price;
@@ -54,6 +55,12 @@ public class Vehicle {
 	//vrednosti ce biti od (0-1], ukoliko je vrednost polja null, vozilo nije na popustu
 	@Column(name = "discount", nullable = true)
 	private double discount;
+	
+	@Column(name = "rating_count", nullable = false)
+	private double ratingsCount;
+	
+	@Column(name = "rating_sum", nullable = false)
+	private double ratingsSum;
 
 	@ManyToOne 
 	private RentACar rentACar;
@@ -71,7 +78,8 @@ public class Vehicle {
 
 
 
-	public Vehicle(Long id, String name, String brand, String model, int year, int seats, VehicleType type, int rating, double price, boolean r,double discount) {
+	public Vehicle(Long id, String name, String brand, String model, int year, int seats, 
+			VehicleType type, double rating, double price, boolean r,double discount,double count,double sum) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -84,16 +92,47 @@ public class Vehicle {
 		this.price = price;
 		this.reserved = r;
 		this.discount = discount;
+		this.ratingsCount = count;
+		this.ratingsSum = sum;
+
 	}
 	
 	public Vehicle(Vehicle v) {
-		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount());
+		this(v.getId(),v.getName(),v.getBrand(),v.getModel(),v.getYear(),v.getSeats(),v.getType(),
+				v.getRating(),v.getPrice(),v.getReserved(),v.getDiscount(),v.getRatingsCount(),v.getRatingsSum());
 	}
 
 
 
 	
 	
+
+
+
+	
+
+
+	public double getRatingsCount() {
+		return ratingsCount;
+	}
+
+
+
+	public void setRatingsCount(double ratingsCount) {
+		this.ratingsCount = ratingsCount;
+	}
+
+
+
+	public double getRatingsSum() {
+		return ratingsSum;
+	}
+
+
+
+	public void setRatingsSum(double ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
 
 
 
@@ -121,13 +160,13 @@ public class Vehicle {
 
 
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
 
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 

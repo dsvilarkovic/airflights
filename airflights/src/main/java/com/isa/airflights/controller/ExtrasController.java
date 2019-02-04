@@ -22,7 +22,7 @@ import com.isa.airflights.service.ExtrasService;
 public class ExtrasController {
 	
 	@Autowired
-	ExtrasService service;
+	private ExtrasService service;
 	
 	/**
 	 * Uzima dodatne pogodnosti koje postoje u hotelu

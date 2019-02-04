@@ -24,8 +24,8 @@ import io.jsonwebtoken.lang.Objects;
  *
  */
 @Entity
-@Table(name = "luggageClassPriceList")
-public class LuggageClassPriceList {
+@Table(name = "luggagePriceList")
+public class LuggagePriceList {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +41,8 @@ public class LuggageClassPriceList {
 	private Airline airline;
 	
 	
-	@OneToMany(mappedBy = "luggageClassPriceList", cascade = CascadeType.ALL)
-	private Set<LuggageClassPrice> luggageClassPrices = new HashSet<>();
+	@OneToMany(mappedBy = "luggagePriceList", cascade = CascadeType.ALL)
+	private Set<LuggagePrice> luggagePrices = new HashSet<>();
 
 
 	public Long getId() {
@@ -65,13 +65,13 @@ public class LuggageClassPriceList {
 	}
 
 
-	public Set<LuggageClassPrice> getLuggageClassPrices() {
-		return luggageClassPrices;
+	public Set<LuggagePrice> getLuggagePrices() {
+		return luggagePrices;
 	}
 
 
-	public void setLuggageClassPrices(Set<LuggageClassPrice> luggageClassPrices) {
-		this.luggageClassPrices = luggageClassPrices;
+	public void setLuggagePrices(Set<LuggagePrice> luggagePrices) {
+		this.luggagePrices = luggagePrices;
 	}
 
 
@@ -89,11 +89,11 @@ public class LuggageClassPriceList {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        LuggageClassPriceList luggageClassPriceList = (LuggageClassPriceList) obj;
-        if (luggageClassPriceList.getId() == null || getId() == null) {
+        LuggagePriceList luggagePriceList = (LuggagePriceList) obj;
+        if (luggagePriceList.getId() == null || getId() == null) {
             return false;
         }
-        return luggageClassPriceList.getId().equals(getId());
+        return luggagePriceList.getId().equals(getId());
 	}
 	
 	

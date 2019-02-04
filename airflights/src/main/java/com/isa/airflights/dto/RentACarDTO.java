@@ -14,26 +14,30 @@ public class RentACarDTO {
 	private String address;
 	private String city;
 	private String description;
-	private int rating;
 	private List<BranchLocationsDTO> branches;
+	private double ratingsCount;
+	private double ratingsSum;
+
 	
 	
 	
 	
-	public RentACarDTO(Long id, String name,String address, String city, String description, int rating) {
+	public RentACarDTO(Long id, String name,String address, String city, String description, double rating,double sum) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.city = city;
 		this.description = description;
-		this.rating = rating;
+		this.ratingsCount = rating;
+		this.ratingsSum = sum;
+
 		
 	}
 	
 	public RentACarDTO(RentACar rent) {
 		
-		this(rent.getId(),rent.getName(), rent.getAddress(), rent.getCity(), rent.getDescription(),rent.getRating());
+		this(rent.getId(),rent.getName(), rent.getAddress(), rent.getCity(), rent.getDescription(),rent.getRatingsCount(),rent.getRatingsSum());
 		
 		branches =new ArrayList<>();
 		for(BranchLocations branch : rent.getBranch_locations()){
@@ -43,6 +47,25 @@ public class RentACarDTO {
 		
 	}
 	
+	
+	
+
+	public double getRatingsCount() {
+		return ratingsCount;
+	}
+
+	public void setRatingsCount(double ratingsCount) {
+		this.ratingsCount = ratingsCount;
+	}
+
+	public double getRatingsSum() {
+		return ratingsSum;
+	}
+
+	public void setRatingsSum(double ratingsSum) {
+		this.ratingsSum = ratingsSum;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -74,12 +97,6 @@ public class RentACarDTO {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public int getRating() {
-		return rating;
-	}
-	public void setRating(int rating) {
-		this.rating = rating;
 	}
 	public List<BranchLocationsDTO> getBranches() {
 		return branches;

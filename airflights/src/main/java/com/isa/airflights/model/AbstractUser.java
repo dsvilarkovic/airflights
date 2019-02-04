@@ -3,6 +3,7 @@ package com.isa.airflights.model;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,8 +39,10 @@ public class AbstractUser {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 	private Long id;
 	
+
+	
 	@Column(name = "indexNumber", nullable = true)
-	String index;
+	private String index;
 	
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
@@ -67,6 +70,15 @@ public class AbstractUser {
 	@Column(name = "verify", nullable = true)
 	private Boolean verify;
 	
+	
+	@OneToMany(mappedBy = "sender")
+	@JsonIgnore
+	private Set<Friendship> senders = new HashSet<>();
+	
+	@OneToMany(mappedBy = "receiver")
+	@JsonIgnore
+	private Set<Friendship> receiver = new HashSet<>();
+	
 
 	/**
 	 * Polje koje oznacava kojeg servisa je admin ovaj korisnik
@@ -75,6 +87,7 @@ public class AbstractUser {
 	// @Djuka - Predlog da umesto broja bude referenca na RentACar
 	@Column(name = "id_company", nullable = true)
 	private Integer idCompany;
+	
 	
 	//@Column(name = "id_company", nullable = true)
 	//private RentACar idCompany;
@@ -106,6 +119,12 @@ public class AbstractUser {
 	private Set<VehicleReservation> vehicleReservation = new HashSet<VehicleReservation>();
 	
 	
+	/**
+	 * Jedan korisnik moze imati vise karata za let, a jednu kartu moze imati samo jedan korisnik
+	 */
+	@OneToMany(mappedBy = "abstractUser", cascade = CascadeType.REFRESH)
+	private Set<FlightTicket> flightTickets = new HashSet<>();
+	
 	public AbstractUser() {
 		
 	}
@@ -131,6 +150,7 @@ public class AbstractUser {
 
 
 	
+
 
 	public int getIdRentACar() {
 		return idCompany;
@@ -234,6 +254,14 @@ public class AbstractUser {
 
 	
 
+	public Set<FlightTicket> getFlightTickets() {
+		return flightTickets;
+	}
+
+	public void setFlightTickets(Set<FlightTicket> flightTickets) {
+		this.flightTickets = flightTickets;
+	}
+
 	public String getIndex() {
 		return index;
 	}
@@ -254,13 +282,7 @@ public class AbstractUser {
 		this.roles = roles;
 	}
 
-	@Override
-	public String toString() {
-		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
-				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
-				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
-	}
+	
 
 	public Integer getIdCompany() {
 		return idCompany;
@@ -302,6 +324,50 @@ public class AbstractUser {
 		this.hotel = hotel;
 	}
 
+	public Set<Friendship> getSenders() {
+		return senders;
+	}
+
+	public void setSenders(Set<Friendship> senders) {
+		this.senders = senders;
+	}
+
+	public Set<Friendship> getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(Set<Friendship> receiver) {
+		this.receiver = receiver;
+	}
+	
+	@Override
+	public String toString() {
+		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
+				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
+				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AbstractUser abstractUser = (AbstractUser) o;
+        if(abstractUser.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, abstractUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+	
 	
 	
 	

@@ -142,8 +142,8 @@ public class Hotel {
 		return this.name;
 	}
 
-	public Hotel() {
+	/*public Hotel() {
 		// Default
-	}
+	}*/
 	
 }

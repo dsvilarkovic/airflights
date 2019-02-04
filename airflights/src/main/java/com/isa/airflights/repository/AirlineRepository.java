@@ -11,4 +11,5 @@ import com.isa.airflights.model.Airline;
 public interface AirlineRepository  extends JpaRepository<Airline, Long>{
 	
 	Page<Airline> findAll(Pageable pageRequest);
+
 }

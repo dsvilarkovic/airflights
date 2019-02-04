@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleChartsModule } from "angular-google-charts";
+/*import { DataTableModule} from "angular-4-data-table";*/
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -75,6 +76,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { FlightAdministrationComponent } from './flight-administration/flight-administration.component';
 import { FlightTableComponent } from './flight-table/flight-table.component';
+import { PassengerFormComponent } from './passenger-form/passenger-form.component';
 
 
 
@@ -195,6 +197,7 @@ const appRoutes: Routes = [
     SearchComponent,
     FlightAdministrationComponent,
     FlightTableComponent,
+    PassengerFormComponent,
   ],
   imports: [
     ReactiveFormsModule,

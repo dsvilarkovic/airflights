@@ -1,11 +1,9 @@
 package com.isa.airflights.controller;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +21,7 @@ import com.isa.airflights.utils.StringJSON;
 
 
 /**
- * Klasa za potvrdu izmene korisnika, ukljucuje i dodavanje prijatelja 
+ * Klasa za potvrdu izmene korisnika
  * @author Dusan
  *
  */
@@ -32,26 +30,15 @@ import com.isa.airflights.utils.StringJSON;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserProfileController {
 	
-	@Autowired
-    private ModelMapper modelMapper;
+	
 	@Autowired
 	private AbstractUserService abstractUserService;
 	
-//	@Autowired
-//	private JwtSecurityConfig jwtSecurityConfig;
 	
 	 @Autowired
-	 PasswordEncoder encoder;
+	 private  PasswordEncoder encoder;
+	 
 	
-	
-//	@Bean
-//	public ModelMapper modelMapper() {
-//		return new ModelMapper();
-//	}
-	
-	
-//	@Autowired
-//    private ModelMapper modelMapper;
 
 	/**
 	 * @return - {@code AbstractUser} koji treba da se koristi za izmenu podataka
@@ -67,7 +54,7 @@ public class UserProfileController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		
 		//pretvori ga u DTO
-		AbstractUserDTO loggedUserDTO = convertToDTO(loggedUser);
+		AbstractUserDTO loggedUserDTO = abstractUserService.convertToDTO(loggedUser);
 		
 		if(loggedUserDTO == null) {
 			return new ResponseEntity<AbstractUserDTO>(HttpStatus.NOT_FOUND);
@@ -110,7 +97,7 @@ public class UserProfileController {
 			//prvo proveri da li su sifra logovanog i klijentskog korisnika iste
 			String passwordHash = encoder.encode(updatedUserDTO.getPassword());
 			
-			if(authenticateUser(updatedUserDTO.getPassword(), loggedUser.getPassword()) == false) {
+			if(!authenticateUser(updatedUserDTO.getPassword(), loggedUser.getPassword())) {
 				//ako nisu, vrati error
 				System.out.println("Nisu isti password-i");
 				System.out.println(updatedUserDTO.getPassword());
@@ -131,7 +118,7 @@ public class UserProfileController {
 		
 		
 		//prebaci DTO u entitet
-		AbstractUser updatedUser = convertToEntity(updatedUserDTO);
+		AbstractUser updatedUser = abstractUserService.convertToEntity(updatedUserDTO);
 		
 		
 		//proveri da li je isti kao ovaj sto ce se sad menjati
@@ -143,7 +130,7 @@ public class UserProfileController {
 		AbstractUser savedAbstractUser = abstractUserService.updateAbstractUser(updatedUser);
 		
 		//vrati ga u oblik za klijenta
-		AbstractUserDTO savedAbstractUserDTO = convertToDTO(savedAbstractUser);
+		AbstractUserDTO savedAbstractUserDTO = abstractUserService.convertToDTO(savedAbstractUser);
 		
 		if(savedAbstractUser == null) {
 			System.out.println("Greska pri updateovanju se desila");
@@ -154,35 +141,9 @@ public class UserProfileController {
 	}
 	
 	
-	/**
-	 * Za koriscenje u komunikaciji za klijentom
-	 * @param abstractUser - entitet
-	 * @return - DTO objekat
-	 */
-	private AbstractUserDTO convertToDTO(AbstractUser abstractUser) {
-		System.out.println("da li je null?"  + abstractUser);
-		//TODO: @Dusan : konverzije DTO u obicne objekte i obrnuto
-		System.out.println(modelMapper);
-		AbstractUserDTO abstractUserDTO = modelMapper.map(abstractUser, AbstractUserDTO.class);
-		abstractUserDTO.setPassword("");
-
-		
-		return abstractUserDTO;
-	}
 	
-	/**
-	 * Za koriscenje u komunikaciji sa skladistem podataka
-	 * @param abstractUserDTO - DTO 
-	 * @return - entitet
-	 */
-	private AbstractUser convertToEntity(AbstractUserDTO abstractUserDTO) {
-		//TODO: @Dusan : konverzije DTO u obicne objekte i obrnuto
-		AbstractUser abstractUser = modelMapper.map(abstractUserDTO, AbstractUser.class);
-		return abstractUser;		
-	}
 	
-	@Autowired
-	AuthenticationManager authenticationManager;
+	
 	
 	private boolean authenticateUser(String passwordCompare, String hashPassword) {
 		return encoder.matches(passwordCompare, hashPassword);		

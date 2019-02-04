@@ -23,12 +23,178 @@
   </nav>
   <!-- END nav -->
 
-  <div class="hero-wrap js-fullheight" style="background-color: gray">
-    <div class="overlay"></div>
+  <div  style="background-color: gray">
+    
     <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
         <div class="col-md-9 " data-scrollax=" properties: { translateY: '70%' }">
         
+          <div style="text-align: center" class="head-naslov">
+            <h1>List of vehicles reservations</h1>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Reservation Date</th>
+                    <th>Pickup Date</th>
+                    <th>Dropoff Date</th>
+                    <th>Price</th>
+                    <th>
+                      Vehicle
+                    </th>
+                    <th>
+                      Rent a car
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of vehicleRes">
+                    <td>{{r.id}}</td>
+                    <td>{{r.reservationdate}}</td>
+                    <td>{{r.pickupdate}}</td>
+                    <td>{{r.dropoffdate}}</td>
+                    <td>{{r.price}}</td>
+                    <td>{{r.vehicle.brand}} {{r.vehicle.model}}
+                      <div *ngIf="!r.rateVehicle">
+                          <ngb-rating [(rate)]="r.vehicle.rating" (hover)="hovered=$event" (leave)="hovered=0" max="5">      
+                            </ngb-rating>
+                            <button class="list-group-item list-group-item-action" (click)="pobediVehicle(r.vehicle.id,r.vehicle.rating,r.id)">
+                                Oceni
+                            </button>
+                      </div>          
+                    </td>      
+                    <td>{{r.rentacar.name}}
+                      <div *ngIf="!r.rateRentacar">
+                          <ngb-rating [(rate)]="r.rentacar.lastRating" (hover)="hovered=$event" (leave)="hovered=0" max="5">                     
+                            </ngb-rating>
+                            <button class="list-group-item list-group-item-action" (click)="pobediRentacar(r.rentacar.id,r.rentacar.lastRating,r.id)">
+                              Oceni
+                          </button>
+                      </div>
+                      
+                        
+                    </td>
+                    <th>
+                      <div *ngIf = "cancelFlag">
+                          <button class="list-group-item list-group-item-action" (click)="cancel(r.id,r.pickupdate)">Cancel reservation</button>
+                      </div>
+                    </th>                 
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+          </div>
+
+
+
+          <div style="text-align: center" class="head-naslov">
+            <h1>List of hotels reservations</h1>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Reservation Date</th>
+                    <th>Pickup Date</th>
+                    <th>Dropoff Date</th>
+                    <th>Price</th>
+                    <th>
+                      Room
+                    </th>
+                    <th>
+                      Hotel
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of vehicleRes">
+                    <td>{{r.id}}</td>
+                    <td>{{r.reservationdate}}</td>
+                    <td>{{r.pickupdate}}</td>
+                    <td>{{r.dropoffdate}}</td>
+                    <td>{{r.price}}</td>
+                    <td>{{r.vehicle.brand}} {{r.vehicle.model}}
+                        <ngb-rating [(rate)]="r.vehicle.lastRating" (hover)="hovered=$event" (leave)="hovered=0" max="5">
+                            
+                        </ngb-rating>
+                        <pre>Model: <b>{{ r.vehicle.lastRating }}</b></pre>
+                    </td>      
+                    <td>{{r.rentacar.name}}
+                      <div *ngIf="markedFlag">
+                          <ngb-rating [(rate)]="r.rentacar.lastRating" (hover)="hovered=$event" (leave)="hovered=0" max="5">                     
+                            </ngb-rating>
+                            <button class="list-group-item list-group-item-action" (click)="pobedi(r.rentacar.id,r.rentacar.lastRating)">
+                              Oceni
+                          </button>
+                      </div>
+                      
+                        
+                    </td>
+                    <th><button class="list-group-item list-group-item-action" (click)="cancel(r.id)">Cancel reservation</button></th>                 
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+          </div>
+
+
+          <div style="text-align: center" class="head-naslov">
+            <h1>List of airflights reservations</h1>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Reservation Date</th>
+                    <th>Pickup Date</th>
+                    <th>Dropoff Date</th>
+                    <th>Price</th>
+                    <th>
+                      Airline
+                    </th>
+                    <th>
+                      Airflight
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of vehicleRes">
+                    <td>{{r.id}}</td>
+                    <td>{{r.reservationdate}}</td>
+                    <td>{{r.pickupdate}}</td>
+                    <td>{{r.dropoffdate}}</td>
+                    <td>{{r.price}}</td>
+                    <td>{{r.vehicle.brand}} {{r.vehicle.model}}
+                        <ngb-rating [(rate)]="r.vehicle.lastRating" (hover)="hovered=$event" (leave)="hovered=0" max="5">
+                            
+                        </ngb-rating>
+                        <pre>Model: <b>{{ r.vehicle.lastRating }}</b></pre>
+                    </td>      
+                    <td>{{r.rentacar.name}}
+                      <div *ngIf="markedFlag">
+                          <ngb-rating [(rate)]="r.rentacar.lastRating" (hover)="hovered=$event" (leave)="hovered=0" max="5">                     
+                            </ngb-rating>
+                            <button class="list-group-item list-group-item-action" (click)="pobedi(r.rentacar.id,r.rentacar.lastRating)">
+                              Oceni
+                          </button>
+                      </div>
+                      
+                        
+                    </td>
+                    <th><button class="list-group-item list-group-item-action" (click)="cancel(r.id)">Cancel reservation</button></th>                 
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+          </div>
+          
 
           <a routerLink="/listAirflights" class="nav-link" style="color: white">Link za aviokompanije</a><br>
           <a routerLink="/listHotels" class="nav-link" style="color: white">Link za Hotele</a><br>
@@ -42,68 +208,7 @@
     </div>
 
 
-  <footer class="ftco-footer ftco-bg-dark ftco-section">
-    <div class="container">
-      <div class="row mb-5">
-        <div class="col-md">
-          <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2">dirEngine</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-              <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md">
-          <div class="ftco-footer-widget mb-4 ml-md-5">
-            <h2 class="ftco-heading-2">Information</h2>
-            <ul class="list-unstyled">
-              <li><a href="#" class="py-2 d-block">About</a></li>
-              <li><a href="#" class="py-2 d-block">Service</a></li>
-              <li><a href="#" class="py-2 d-block">Terms and Conditions</a></li>
-              <li><a href="#" class="py-2 d-block">Become a partner</a></li>
-              <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
-              <li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md">
-           <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2">Customer Support</h2>
-            <ul class="list-unstyled">
-              <li><a href="#" class="py-2 d-block">FAQ</a></li>
-              <li><a href="#" class="py-2 d-block">Payment Option</a></li>
-              <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
-              <li><a href="#" class="py-2 d-block">How it works</a></li>
-              <li><a href="#" class="py-2 d-block">Contact Us</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md">
-          <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2">Have a Questions?</h2>
-            <div class="block-23 mb-3">
-              <ul>
-                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 text-center">
 
-          <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-        </div>
-      </div>
-    </div>
-  </footer>
   
 
 
