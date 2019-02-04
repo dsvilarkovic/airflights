@@ -28,7 +28,6 @@ public class AirlineControllerTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
 	}
 
 }
