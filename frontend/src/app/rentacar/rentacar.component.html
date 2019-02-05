@@ -1,6 +1,6 @@
 
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Rent a car</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/home">Home</a>
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" style="color: aliceblue" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -65,7 +65,7 @@
                     <td>{{rentacar.name}}</td>
                     <td>{{rentacar.address}}</td>
                     <td>{{rentacar.description}}</td>
-                    <td>{{rentacar.ratingSum / rentacar.ratingCount}}</td>
+                    <td>{{rentacar.ratingsSum / rentacar.ratingsCount}}</td>
                     <td><a [routerLink]="[rentacar.id]">Uredi</a></td>
                  </tr>
               </tbody>
