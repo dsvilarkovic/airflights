@@ -78,8 +78,22 @@ public class AbstractUserController {
 		AbstractUser a = abstractUserService.getOne(id);
 		AbstractUserDTO dto = new AbstractUserDTO(a);
 		
+		System.out.println("STO: " + dto.getRentacar());
+		
 		
 		return new ResponseEntity<AbstractUserDTO>(dto , HttpStatus.OK);
+	}
+	
+	@RequestMapping("/loggedByIdCompany/{id}")
+	public ResponseEntity<Integer> getUser(@PathVariable Long id) {
+		
+		AbstractUser a = abstractUserService.getOne(id);
+		AbstractUserDTO dto = new AbstractUserDTO(a);
+		
+		System.out.println("STO: " + dto.getRentacar());
+		int pom = dto.getRentacar();
+		
+		return new ResponseEntity<Integer>(pom , HttpStatus.OK);
 	}
 	
 	

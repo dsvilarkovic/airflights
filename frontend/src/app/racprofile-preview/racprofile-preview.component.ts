@@ -40,6 +40,7 @@ export class RacprofilePreviewComponent implements OnInit {
   pickuploc = new FormControl("");
   dropoffloc = new FormControl("");
   filterFlag: boolean = false;
+  searchPush: boolean = true;
 
 
   //stringovi
@@ -113,7 +114,38 @@ export class RacprofilePreviewComponent implements OnInit {
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
      }
 
+  //date picker
+  hoveredDate: NgbDate;
+
+  fromDate: NgbDate;
+  toDate: NgbDate;
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+
   ngOnInit() {
+    this.searchPush = true;
     this.vehicles2 = [];
     this.branches2 = [];
     this.loggedFlag = false;
@@ -134,13 +166,29 @@ export class RacprofilePreviewComponent implements OnInit {
     }
     })
 
+    //od trenutnog datuma pa za narednih 10 dana prikazuje slobodna vozila, za vise informacija, neka se obrati search
+
+    this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+    this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+
+    alert("dslkfj " + this.reserv.pickupdate )
+    alert("dslkfj " + this.reserv.dropoffdate )
+
+
+    this.resServise.checkDate(this.reserv.pickupdate,this.reserv.dropoffdate,this.id).subscribe(data => {
+      this.vehicles = data;
+      for(let ve of this.vehicles) {
+          this.vehicles2.push(ve);
+      }
+    })
+
   
-    this.racService.getAllById(this.id).subscribe(data => {
+    /*this.racService.getAllById(this.id).subscribe(data => {
       this.vehicles=data;
       for(let v of this.vehicles) {
           this.vehicles2.push(v);
       }
-    })
+    })*/
 
     this.racService.getAllBranches().subscribe(data3 => {
       this.branches = data3;
@@ -184,36 +232,10 @@ export class RacprofilePreviewComponent implements OnInit {
   
 
 
-//date picker
-  hoveredDate: NgbDate;
 
-  fromDate: NgbDate;
-  toDate: NgbDate;
-
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-  }
-
-  isHovered(date: NgbDate) {
-    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
-  }
-
-  isInside(date: NgbDate) {
-    return date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
-  }
 
   search() {
+    this.searchPush = false;
     this.vehicles2 = [];
     this.vehicles3 = [];
     alert("Type? " + this.types);
@@ -246,7 +268,20 @@ export class RacprofilePreviewComponent implements OnInit {
     this.ngOnInit();
   }
 
+  convert() {
 
+    for(let b of this.branches2) {
+      if(b.id == this.pickuploc.value) {
+        this.reserv.pickuplocation = b.address + " " + b.city;
+      }
+      if(b.id == this.dropoffloc.value) {
+        this.reserv.dropofflocation = b.address + " " + b.city;
+      }
+    }
+
+    this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
+    this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
+  }
   //parametar id je id vozila koje korisnik bukira
   btnBook(ve) {
     
@@ -291,9 +326,17 @@ export class RacprofilePreviewComponent implements OnInit {
     this.reserv.price = this.days * this.selectedVehicle.price;
     alert("Cena:  " + this.reserv.price);
 
-    this.resServise.book(this.id,this.reserv).subscribe(data => {
-      alert("Rezervisano! ");
-    })
+
+    if(this.pickuploc == null || this.dropoffloc == null || this.reserv.pickupdate == null || this.reserv.dropoffdate == null) {
+      alert("Niste uneli sve parametre za rezervaciju")
+    } else {
+      this.resServise.book(this.id,this.reserv).subscribe(data => {
+        alert("Rezervisano! ");
+      })
+    }
+
+
+   
     
 
   }
