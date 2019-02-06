@@ -10,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -115,17 +116,15 @@ public class FriendshipService {
 	 * @param pageRequest - da li zelimo stranicu ili null ako sve
 	 * @return - skup prijatelja korisnika
 	 */
-	public Set<AbstractUser> findAllFriends(Long userId, Pageable pageRequest){
-		List<Friendship> approvedFriendships = new ArrayList<>();
-		if(pageRequest == null) {
-			approvedFriendships = friendshipRepository.findAllByAcceptedIsTrueAndSenderIdOrAcceptedIsTrueAndReceiverId(userId, userId);
-		}
-		else {
-			approvedFriendships = friendshipRepository.findAllByAcceptedIsTrueAndSenderIdOrAcceptedIsTrueAndReceiverId(userId, userId, pageRequest).getContent();
-		}
+	//public Set<AbstractUser> findAllFriends(Long userId, Pageable pageRequest){
+	public Page<Friendship> findAllFriends(Long userId, Pageable pageRequest){
+		
+		
+		Page<Friendship> approvedFriendships = friendshipRepository.findAllByAcceptedIsTrueAndSenderIdOrAcceptedIsTrueAndReceiverId(userId, userId, pageRequest);
 			
-		Set<AbstractUser> friends = extractUsersDifferentThanUserId(userId, approvedFriendships);		
-		return friends;
+		//Set<AbstractUser> friends = extractUsersDifferentThanUserId(userId, approvedFriendships);		
+		//return friends;
+		return approvedFriendships;
 	}
 	
 	/**
@@ -134,24 +133,11 @@ public class FriendshipService {
 	 * @param pageRequest - stranica koja ako se prosledi null trazi sve, ako ne, onda po kriterijumu poslatom po REST-u
 	 * @return - skup korisnika koji cekaju na moje prijateljstvo
 	 */
-	public Set<AbstractUser> findMyFriendRequests(Long receiverId, Pageable pageRequest){
-		Set<AbstractUser> friendRequests = new HashSet<>();
-		List<Friendship> friendshipsPending = new ArrayList<>();
-		if(pageRequest == null) {
-			friendshipsPending = friendshipRepository.findAllByAcceptedIsFalseAndReceiverId(receiverId);
-		}
-		else {
-			//ako je pageable
-			Page<Friendship> pageRequests = friendshipRepository.findAllByAcceptedIsFalseAndReceiverId(receiverId, pageRequest);
-			friendshipsPending = pageRequests.getContent();
-		}
+	public Page<Friendship> findMyFriendRequests(Long receiverId, Pageable pageRequest){
 		
-		for (Friendship friendship : friendshipsPending) {
-			AbstractUser friend = friendship.getSender();
-			friendRequests.add(friend);
-		}
+		Page<Friendship> friendshipsPending = friendshipRepository.findAllByAcceptedIsFalseAndReceiverId(receiverId, pageRequest);
 		
-		return friendRequests;		
+		return friendshipsPending;
 	}
 	
 	/**
@@ -160,25 +146,21 @@ public class FriendshipService {
 	 * @param pageRequest - ako se ostavi null trazi sve prijatelje
 	 * @return
 	 */
-	public Set<AbstractUser> findFriendsPending(Long senderId, Pageable pageRequest){
+	public Page<Friendship> findFriendsPending(Long senderId, Pageable pageRequest){
 		Set<AbstractUser> friendsPending = new HashSet<>();
 		List<Friendship> friendshipsPending = new ArrayList<>();
 		
-		if(pageRequest == null) {
-			friendshipsPending = friendshipRepository.findAllByAcceptedIsFalseAndSenderId(senderId);
-		}
-		else {
-			friendshipsPending = friendshipRepository.findAllByAcceptedIsFalseAndSenderId(senderId, pageRequest).getContent();
-		}
 		
+		Page<Friendship> friendshipsPage = friendshipRepository.findAllByAcceptedIsFalseAndSenderId(senderId, pageRequest);
 		for (Friendship friendship : friendshipsPending) {
 			AbstractUser friend = friendship.getReceiver();
 			friendsPending.add(friend);
 		}
 		
-		return friendsPending;	
+		return friendshipsPage;
 	}
 	
+	/**Ne koristi se trenutno*/
 	/**
 	 * Trazi prijatelje ili sve ucesnike potencijalnih prijateljstava po kljucnoj reci
 	 * @param userId - korisnik za kojeg se kopa po prijateljstvima
@@ -216,18 +198,18 @@ public class FriendshipService {
 	 * @param pageRequest
 	 * @return
 	 */
-	public Set<AbstractUser> getFriendsByCriteria(Long userId,Boolean accepted, Boolean sender, Boolean receiver, String keyword,Pageable pageRequest){
+	public Page<AbstractUser> getFriendsByCriteria(Long userId,Boolean accepted, Boolean sender, Boolean receiver, String keyword,Pageable pageRequest){
 		List<Friendship> receiverFriendships = new ArrayList<>();
 		List<Friendship> senderFriendships = new ArrayList<>();
 		System.out.println("UserId je: " + userId);
 		if(sender) {
 			
-			senderFriendships = friendshipRepository.findAllByAcceptedAndSenderId(accepted, userId, pageRequest).getContent();
+			senderFriendships = friendshipRepository.findAllByAcceptedAndSenderId(accepted, userId);
 			System.out.println("Velicina senderFriendships: " + senderFriendships.size());
 		}
 		if(receiver) {
-			receiverFriendships = friendshipRepository.findAllByAcceptedAndReceiverId(accepted, userId, pageRequest).getContent();
-			System.out.println("Velicina senderFriendships: " + receiverFriendships.size());
+			receiverFriendships = friendshipRepository.findAllByAcceptedAndReceiverId(accepted, userId);
+			System.out.println("Velicina receiverFriendships: " + receiverFriendships.size());
 
 		}
 		
@@ -240,16 +222,16 @@ public class FriendshipService {
 		
 		//proveri sta je obelezeno
 		if(receiver && !sender) {
-			return receiverFriends;
+			totalFriends = receiverFriends;
 		}
-		if(!receiver && sender) {
-			return senderFriends;
+		else if(!receiver && sender) {
+			totalFriends = senderFriends;
 		}
-		if(!receiver && !sender) {			
+		else if(!receiver && !sender) {			
 			totalFriends.addAll(senderFriends);
 			totalFriends.addAll(receiverFriends);
 		}
-		if(receiver && sender) {
+		else if(receiver && sender) {
 			totalFriends.addAll(senderFriends);
 			totalFriends.addAll(receiverFriends);
 		}		
@@ -259,7 +241,10 @@ public class FriendshipService {
 		//proveri keyword
 		totalFriends.removeIf(user -> !user.getFirstName().contains(keyword) && !user.getLastName().contains(keyword));
 		
-		return totalFriends;		
+		
+		Page<AbstractUser> ret = new PageImpl<>(new ArrayList<>(totalFriends), pageRequest, totalFriends.size());
+		//return totalFriends;		
+		return ret;
 	}
 	
 	/**

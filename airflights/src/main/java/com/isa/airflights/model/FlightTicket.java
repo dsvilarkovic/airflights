@@ -26,19 +26,11 @@ public class FlightTicket {
 	 */
 	@ManyToOne(optional = false)
 	@JoinColumn
-	private AbstractUser abstractUser;
+	private AbstractUser abstractUser = new AbstractUser();
 	
 	
-	/**
-	 * Svaka brza karta pripada jednoj kompaniji, a aviokompanija ima vise brzih karata rezervisanih
-	 */
-	@ManyToOne
-	@JoinColumn
-	private Airline airline;
 	
 	
-	@Column(name = "isFastReservation")	
-	private boolean isFastReservation = false;
 	
 	/**
 	 * Svaka karta pripada  samo jednom letu, a let ima vise karata
@@ -65,15 +57,22 @@ public class FlightTicket {
 	@JoinColumn
 	private Seat seat;
 	
-	/**
-	 * Mora postojati i stanje karte, tj da li je otvorena ili rezervisana
-	 */
-	private boolean isReserved = false;
+	/**Ocene rezervacija, ako je 0.0 nije ocenjeno */
+	@Column(name = "flightGrade")
+	private Integer flightGrade = 0;
+	@Column(name = "airlineGrade")
+	private Integer airlineGrade = 0;
 	
+	/**Stanja  rezervacije*/	
+	@Column(name = "isFastReservation", nullable = false)	
+	private Boolean isFastReservation = false;
 	
+	@Column(name = "isAccepted", nullable = false)
+	private Boolean isAccepted = false;
 	/**
 	 * Mnozitelj cene karte
 	 */
+	@Column(name = "priceReduction", nullable = false)
 	private Double priceReduction = 1.0;
 	
 	
@@ -86,15 +85,6 @@ public class FlightTicket {
 		this.id = id;
 	}
 
-
-	public Airline getAirline() {
-		return airline;
-	}
-
-
-	public void setAirline(Airline airline) {
-		this.airline = airline;
-	}
 
 	
 
@@ -141,16 +131,6 @@ public class FlightTicket {
 	}
 
 
-	public boolean isReserved() {
-		return isReserved;
-	}
-
-
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
-	}
-
-
 	public Double getPriceReduction() {
 		return priceReduction;
 	}
@@ -168,6 +148,50 @@ public class FlightTicket {
 
 	public void setAbstractUser(AbstractUser abstractUser) {
 		this.abstractUser = abstractUser;
+	}
+
+
+
+
+	public Boolean getIsFastReservation() {
+		return isFastReservation;
+	}
+
+
+	public void setIsFastReservation(Boolean isFastReservation) {
+		this.isFastReservation = isFastReservation;
+	}
+
+
+	public Boolean getIsAccepted() {
+		return isAccepted;
+	}
+
+
+	public void setIsAccepted(Boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
+
+
+
+	public Integer getFlightGrade() {
+		return flightGrade;
+	}
+
+
+	public void setFlightGrade(Integer flightGrade) {
+		this.flightGrade = flightGrade;
+	}
+
+
+	public Integer getAirlineGrade() {
+		return airlineGrade;
+	}
+
+
+	public void setAirlineGrade(Integer airlineGrade) {
+		this.airlineGrade = airlineGrade;
 	}
 
 

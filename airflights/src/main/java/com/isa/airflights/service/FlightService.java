@@ -23,6 +23,7 @@ import com.isa.airflights.model.AirportDestination;
 import com.isa.airflights.model.Flight;
 import com.isa.airflights.model.FlightClassPrice;
 import com.isa.airflights.model.enumtypes.AirlineClassType;
+import com.isa.airflights.repository.FlightClassPriceRepository;
 import com.isa.airflights.repository.FlightRepository;
 
 @Service
@@ -40,13 +41,26 @@ public class FlightService {
 	@Autowired
 	private AirportDestinationService airportDestinationService;
 	
+	@Autowired
+	private FlightClassPriceRepository flightClassPriceRepository;
+	
 	public Flight getFlight(Long id) {
 		return flightRepository.getOne(id);
 	}
+	public void saveFlight(Flight flight) {
+		flightRepository.save(flight);		
+	}
 	
 	public void addFlight(Flight flight) {
-		//pre ovoga, podesi i cene karata
+		
 		flightRepository.save(flight);
+		
+		//podesi i cene karata
+		Set<FlightClassPrice> flightClassPrices = flight.getFlightClassPrices();
+		
+		for (FlightClassPrice flightClassPrice : flightClassPrices) {
+			flightClassPriceRepository.save(flightClassPrice);
+		}
 	}
 	
 	public Boolean updateFlight(Flight flight) {
@@ -167,4 +181,6 @@ public class FlightService {
 		
 		return flight;
 	}
+
+	
 }

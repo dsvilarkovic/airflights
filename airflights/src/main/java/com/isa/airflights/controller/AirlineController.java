@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -161,7 +162,9 @@ public class AirlineController {
 				airlineDTOs.add(airlineDTO);
 			}
 			
-			return new ResponseEntity<>(airlineDTOs, HttpStatus.OK);
+			Page<AirlineDTO> ret = new PageImpl<>(airlineDTOs, pageRequest, airlines.getTotalElements());
+			return ResponseEntity.ok(ret);
+			//return new ResponseEntity<>(airlineDTOs, HttpStatus.OK);
 		}
 		
 		/**

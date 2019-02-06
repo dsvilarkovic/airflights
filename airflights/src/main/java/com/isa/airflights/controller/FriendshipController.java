@@ -1,9 +1,13 @@
 package com.isa.airflights.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -130,14 +134,19 @@ public class FriendshipController {
 		System.out.println("Ulogovani je : " + loggedInUser.getName());
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		
-		Set<AbstractUser> friends = friendshipService.findAllFriends(loggedUser.getId(), pageRequest);
+		//Set<AbstractUser> friends = friendshipService.findAllFriends(loggedUser.getId(), pageRequest);
+		
+		Page<Friendship> friendships = friendshipService.findAllFriends(loggedUser.getId(), pageRequest);
+		Set<AbstractUser> friends = friendshipService.extractUsersDifferentThanUserId(loggedUser.getId(), friendships.getContent());
 		Set<AbstractUserDTO> friendDTOs = new HashSet<>();
 		for (AbstractUser abstractUser : friends) {
 			AbstractUserDTO abstractUserDTO = abstractUserService.convertToDTO(abstractUser);
 			friendDTOs.add(abstractUserDTO);
 		}
 		
-		return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
+		Page<AbstractUserDTO> ret = new PageImpl<>(new ArrayList<>(friendDTOs), friendships.getPageable(), friendships.getTotalElements());
+		return ResponseEntity.ok(ret);
+		//return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
 	}
 	
 
@@ -155,14 +164,18 @@ public class FriendshipController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		Long userId = loggedUser.getId();
 		
-		Set<AbstractUser> friends = friendshipService.findMyFriendRequests(userId, pageRequest);
+		
+		Page<Friendship> friendshipRequests = friendshipService.findMyFriendRequests(userId, pageRequest);
 		Set<AbstractUserDTO> friendDTOs = new HashSet<>();
-		for (AbstractUser abstractUser : friends) {
+		for (Friendship friendship : friendshipRequests) {
+			AbstractUser abstractUser = friendship.getSender();
 			AbstractUserDTO abstractUserDTO = abstractUserService.convertToDTO(abstractUser);
 			friendDTOs.add(abstractUserDTO);
 		}
 		
-		return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
+		Page<AbstractUserDTO> ret = new PageImpl<>(new ArrayList<>(friendDTOs), friendshipRequests.getPageable(), friendshipRequests.getTotalElements()); 
+
+		return ResponseEntity.ok(ret);
 	}
 	
 	/**
@@ -179,14 +192,17 @@ public class FriendshipController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		Long userId = loggedUser.getId();
 		
-		Set<AbstractUser> friends = friendshipService.findFriendsPending(userId, pageRequest);
+		Page<Friendship> friendships = friendshipService.findFriendsPending(userId, pageRequest);
+	
 		Set<AbstractUserDTO> friendDTOs = new HashSet<>();
-		for (AbstractUser abstractUser : friends) {
+		for (Friendship friendship : friendships) {
+			AbstractUser abstractUser = friendship.getReceiver();
 			AbstractUserDTO abstractUserDTO = abstractUserService.convertToDTO(abstractUser);
 			friendDTOs.add(abstractUserDTO);
 		}
 		
-		return new ResponseEntity<>(friendDTOs, HttpStatus.OK);
+		Page<AbstractUserDTO> ret = new PageImpl<>(new ArrayList<>(friendDTOs), friendships.getPageable(), friendships.getTotalElements()); 
+		return ResponseEntity.ok(ret);
 	}
 	
 	
@@ -226,17 +242,27 @@ public class FriendshipController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		Long userId = loggedUser.getId();
 		
-		Set<AbstractUser> foundUsers = new HashSet<>();
-		foundUsers = friendshipService.getFriendsByCriteria(userId, accepted, sender, receiver, keyword, pageRequest);
+		Page<AbstractUser> foundUsers = friendshipService.getFriendsByCriteria(userId, accepted, sender, receiver, keyword, pageRequest);
 		
 	
 		Set<AbstractUserDTO> foundUsersDTOs = new HashSet<>();
-		for (AbstractUser abstractUser : foundUsers) {
+		
+		int size = ((PageRequest) pageRequest).getPageSize();
+		int offset = (int) ((PageRequest) pageRequest).getOffset();
+		for (int i = offset; i <  offset + size; i++) {
+			try {
+			AbstractUser abstractUser = foundUsers.getContent().get(i);
 			AbstractUserDTO abstractUserDTO = abstractUserService.convertToDTO(abstractUser);
 			foundUsersDTOs.add(abstractUserDTO);
+			}
+			catch(IndexOutOfBoundsException e) {
+				break; 
+			}
 		}
 		
-		return new ResponseEntity<>(foundUsersDTOs, HttpStatus.OK);
+		Page<AbstractUserDTO> ret = new PageImpl<>(new ArrayList<>(foundUsersDTOs), foundUsers.getPageable(), foundUsers.getTotalElements());
+		return ResponseEntity.ok(ret);
+		//return new ResponseEntity<>(foundUsersDTOs, HttpStatus.OK);
 	}
 	
 	

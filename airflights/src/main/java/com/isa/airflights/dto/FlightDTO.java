@@ -36,6 +36,10 @@ public class FlightDTO {
 	private Integer legCount;
 	private Double flightDiscount;
 	
+	/**Ocene korisnika*/
+	private Double gradeSum = 0.0;
+	private Integer gradeCount = 0;
+	
 	public Long getId() {
 		return id;
 	}
@@ -113,6 +117,18 @@ public class FlightDTO {
 	}
 	public void setDepartureDestination(Long departureDestination) {
 		this.departureDestination = departureDestination;
+	}
+	public Double getGradeSum() {
+		return gradeSum;
+	}
+	public void setGradeSum(Double gradeSum) {
+		this.gradeSum = gradeSum;
+	}
+	public Integer getGradeCount() {
+		return gradeCount;
+	}
+	public void setGradeCount(Integer gradeCount) {
+		this.gradeCount = gradeCount;
 	}
 	
 	

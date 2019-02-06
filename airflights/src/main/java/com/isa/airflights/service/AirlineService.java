@@ -50,6 +50,9 @@ public class AirlineService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	public void saveAirline(Airline airline) {
+		airlineRepository.save(airline);	
+	}
 	
 	public void addAirline(Airline airline) {
 		

@@ -25,6 +25,10 @@ public class AbstractUserDTO{
 	private Airline airline;
 	private String password;
 	private String newPassword;
+	/**
+	 * @author dusan
+	 */
+	private Boolean isUnregistered = false;
 	
 	public AbstractUserDTO() {
 	
@@ -107,6 +111,16 @@ public class AbstractUserDTO{
 	}
 	
 	
+	
+
+	public Boolean getIsUnregistered() {
+		return isUnregistered;
+	}
+
+	public void setIsUnregistered(Boolean isUnregistered) {
+		this.isUnregistered = isUnregistered;
+	}
+
 	public Hotel getHotel() {
 		return hotel;
 	}

@@ -100,6 +100,13 @@ public class Flight {
 	
 	@Column(name = "flightDiscount")
 	private Double flightDiscount;
+	
+	
+	/**Ocene korisnika*/
+	@Column(name = "gradeSum")
+	private Double gradeSum = 0.0;
+	@Column(name = "gradeCount")
+	private Integer gradeCount = 0;
 
 	public Long getId() {
 		return id;
@@ -216,6 +223,34 @@ public class Flight {
 
 	public void setFlightTickets(Set<FlightTicket> flightTickets) {
 		this.flightTickets = flightTickets;
+	}
+	
+	
+
+	public Airplane getAirplane() {
+		return airplane;
+	}
+
+	public void setAirplane(Airplane airplane) {
+		this.airplane = airplane;
+	}
+
+	public Double getGradeSum() {
+		return gradeSum;
+	}
+
+	public void setGradeSum(Double gradeSum) {
+		this.gradeSum = gradeSum;
+	}
+
+	
+
+	public Integer getGradeCount() {
+		return gradeCount;
+	}
+
+	public void setGradeCount(Integer gradeCount) {
+		this.gradeCount = gradeCount;
 	}
 
 	@Override

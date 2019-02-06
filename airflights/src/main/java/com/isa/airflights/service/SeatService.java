@@ -13,7 +13,7 @@ public class SeatService {
 	private SeatRepository seatRepository;
 	
 	public void saveSeat(Seat seat) {
-		seatRepository.save(seat);
+		seatRepository.saveAndFlush(seat);
 	}
 
 }

@@ -125,6 +125,12 @@ public class AbstractUser {
 	@OneToMany(mappedBy = "abstractUser", cascade = CascadeType.REFRESH)
 	private Set<FlightTicket> flightTickets = new HashSet<>();
 	
+	/**
+	 * Sluzi za rezervaciju karata putnicima koji ne postoje u sistemu
+	 * @author dusan
+	 */
+	private Boolean isUnregistered = false;
+	
 	public AbstractUser() {
 		
 	}
@@ -340,6 +346,16 @@ public class AbstractUser {
 		this.receiver = receiver;
 	}
 	
+	
+	
+	public Boolean getIsUnregistered() {
+		return isUnregistered;
+	}
+
+	public void setIsUnregistered(Boolean isUnregistered) {
+		this.isUnregistered = isUnregistered;
+	}
+
 	@Override
 	public String toString() {
 		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName

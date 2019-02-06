@@ -68,3 +68,58 @@ VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed
 
 INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
 VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0);
+
+
+--unosenje Dusanovog dela
+
+--aviokompanije
+INSERT INTO public.airline
+(id, full_name, grade_count, grade_sum, promo_info, location_id)
+VALUES(1, 'Jat Airway', 0, 0, 'Jugoslovenski avio transport', NULL);
+INSERT INTO public.airline
+(id, full_name, grade_count, grade_sum, promo_info, location_id)
+VALUES(2, 'Air Serbia', 0, 0, 'Opterecenje za budzet', NULL);
+INSERT INTO public.airline
+(id, full_name, grade_count, grade_sum, promo_info, location_id)
+VALUES(3, 'Dusan Galactic', 0, 0, 'Ponos kapitalizma', NULL);
+
+
+--avioni i njegovi segment i sedista
+INSERT INTO public.airplane
+(id, full_name, airline_id)
+VALUES(1, 'Boing', 1);
+INSERT INTO public.airplane
+(id, full_name, airline_id)
+VALUES(2, 'Boing 2', 2);
+INSERT INTO public.airplane
+(id, full_name, airline_id)
+VALUES(3, 'Boing 3', 3);
+
+
+--destinacije
+--let
+
+
+--cena leta po klasi
+
+
+--pravljenje karte 
+
+
+
+--prijateljstva
+INSERT INTO public.friendship
+(accepted, receiver_id, sender_id)
+VALUES(true, 1, 3);
+INSERT INTO public.friendship
+(accepted, receiver_id, sender_id)
+VALUES(true, 2, 3);
+INSERT INTO public.friendship
+(accepted, receiver_id, sender_id)
+VALUES(true, 3, 2);
+INSERT INTO public.friendship
+(accepted, receiver_id, sender_id)
+VALUES(true, 4, 3);
+INSERT INTO public.friendship
+(accepted, receiver_id, sender_id)
+VALUES(true, 5, 3);

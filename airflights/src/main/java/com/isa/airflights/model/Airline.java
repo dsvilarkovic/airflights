@@ -71,12 +71,7 @@ public class Airline {
 	@OneToMany(mappedBy= "airline", cascade = CascadeType.REFRESH)
 	private Set<Airplane> airplanes = new HashSet<>();
 	
-	/**
-	 * Spisak karata sa popustima za brzu rezervaciju 
-	 */
-	@OneToMany(mappedBy = "airline", cascade = CascadeType.REFRESH)
-	private Set<FlightTicket> fastDiscountedTickets = new HashSet<>();
-	
+
 	
 	/**
 	 * Cenovnik i informacije o prtljagu 
@@ -87,6 +82,13 @@ public class Airline {
 
 	@OneToMany(mappedBy = "airline")
 	private Set<AbstractUser> admins;
+	
+	/**Ocene aviokompanije*/
+	@Column(name = "gradeSum")
+	private Double gradeSum = 0.0;
+	
+	@Column(name = "gradeCount")
+	private Integer gradeCount = 0;
 	
 	public Long getId() {
 		return id;
@@ -128,6 +130,37 @@ public class Airline {
 	}
 
 
+	
+	public Set<AbstractUser> getAdmins() {
+		return admins;
+	}
+
+
+	public void setAdmins(Set<AbstractUser> admins) {
+		this.admins = admins;
+	}
+
+
+	public Double getGradeSum() {
+		return gradeSum;
+	}
+
+
+	public void setGradeSum(Double gradeSum) {
+		this.gradeSum = gradeSum;
+	}
+
+
+	public Integer getGradeCount() {
+		return gradeCount;
+	}
+
+
+	public void setGradeCount(Integer gradeCount) {
+		this.gradeCount = gradeCount;
+	}
+
+
 	public Set<AirportDestination> getDestinations() {
 		return destinations;
 	}
@@ -158,14 +191,6 @@ public class Airline {
 	}
 
 
-	public Set<FlightTicket> getFastDiscountedTickets() {
-		return fastDiscountedTickets;
-	}
-
-
-	public void setFastDiscountedTickets(Set<FlightTicket> fastDiscountedTickets) {
-		this.fastDiscountedTickets = fastDiscountedTickets;
-	}
 
 
 	public LuggagePriceList getLuggagePriceList() {
