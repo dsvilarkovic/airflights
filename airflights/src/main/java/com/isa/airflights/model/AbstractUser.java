@@ -113,6 +113,7 @@ public class AbstractUser {
     @JoinTable(name = "user_roles", 
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@OnDelete(action = OnDeleteAction.CASCADE) 
     private Set<Role> roles = new HashSet<>();
 	
 	@OneToMany(mappedBy = "abstractUser")

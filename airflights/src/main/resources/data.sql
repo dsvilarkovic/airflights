@@ -1,20 +1,55 @@
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify,id_company)
-VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4535',true,0);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_company)
-VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','43537', true,3);
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_SYSTEMADMIN');
+INSERT INTO roles(name) VALUES('ROLE_AIRFLIGHTADMIN');
+INSERT INTO roles(name) VALUES('ROLE_HOTELADMIN');
+INSERT INTO roles(name) VALUES('ROLE_RENTACARADMIN');
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0);
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'Garni', 42,13);
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0);
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1004, 'Svetogorska 10', 'Beograd', '', 'Sava', 0,0);
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1005, 'Bulevar Arsenija Carnojevica', 'Beograd', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'In', 90,22);
+
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
+VALUES (1006, 'Nikole Pasica', 'Nis', 'Sjajna lokacija, uopšteno, za obilaske znamenitosti, rekreaciju i prevoz u lokalu', 'Eter', 10,2);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1001, 101, true, 2, null, 1, 30, false, 20, 83, 1, 1002);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1002, 102, false, 4, null, 1, 60, false, 15, 50, 2, 1002);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1003, 201, true, 3, null, 2, 40, false, 10, 44, 2, 1002);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1004, 301, true, 2, null, 3, 100, false, 20, 83, 1, 1002);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1005, 303, true, 2, null, 3, 30, false, 20, 83, 1, 1002);
+
+INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
+VALUES (1006, 310, true, 2, null, 3, 30, false, 20, 83, 1, 1002);
+
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify,id_company, role_id)
+VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4535',true,0,2);
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_company, role_id, hotel_id)
+VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','43537', true,3, 4, 1002);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_company)
 VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,1);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_company)
 VALUES (4, 'Subotica', 'pero@gmail.com', 'Pera', '867867','Peric','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', false, 0);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_company)
 VALUES (5, 'Beocin', 'viktor@gmail.com', 'Viktor', '65986','Djuka','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','66566', true,2);
-
-
-INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_SYSTEMADMIN');
-INSERT INTO roles(name) VALUES('ROLE_AIRFLIGHTADMIN');
-INSERT INTO roles(name) VALUES('ROLE_HOTELADMIN');
-INSERT INTO roles(name) VALUES('ROLE_RENTACARADMIN');
 
 INSERT INTO user_roles(user_id, role_id) VALUES(1,2);
 INSERT INTO user_roles(user_id, role_id) VALUES(2,4);
@@ -60,11 +95,3 @@ INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,dr
 VALUES ('2019-2-4', '2019-2-14', 200, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','5','1',false,false,false);
 
 
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0);
-
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'Garni', 42,13);
-
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0);

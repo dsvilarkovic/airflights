@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RentacarService } from 'src/services/rentacar.service';
 import { ROLE_SYS } from 'src/app/globals';
 import { TokenStorageService } from 'src/services/auth/token-storage.service';
+import { AdminsService } from 'src/services/admins.service';
 
 @Component({
   selector: 'app-admin-rent-a-car',
@@ -14,7 +15,7 @@ export class AdminRentACarComponent implements OnInit {
   racs: Array<any>;
   readonly type: string = "R";
 
-  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private racService: RentacarService) { }
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private racService: RentacarService, private aSrv: AdminsService) { }
 
 
   ngOnInit() {
@@ -30,7 +31,7 @@ export class AdminRentACarComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.racService.remove(id).subscribe( r => {
+    this.aSrv.removeRac(id).subscribe( r => {
       window.location.reload();
     }, error => console.error(error));
   }

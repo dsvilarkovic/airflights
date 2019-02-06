@@ -39,4 +39,8 @@ export class AdminsService {
     return this.http.put(ADMIN_API + "updatePass", admin, {headers: this.headers});
   }
 
+  removeRac(id: number) : Observable<any> {
+    return this.http.delete(ADMIN_API + "rac/" + id);
+  }
+
 }

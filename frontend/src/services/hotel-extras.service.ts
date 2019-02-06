@@ -39,4 +39,9 @@ export class HotelExtrasService {
     return this.http.put(EXTRAS_API, extra, {headers: this.headers});
   }
 
+  convert(unit: string) {
+    let r = unit.toLowerCase()
+    r = r.replace("_", ' ')
+    return r
+  }
 }

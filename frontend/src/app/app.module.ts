@@ -77,6 +77,9 @@ import { SearchComponent } from './search/search.component';
 import { FlightAdministrationComponent } from './flight-administration/flight-administration.component';
 import { FlightTableComponent } from './flight-table/flight-table.component';
 import { PassengerFormComponent } from './passenger-form/passenger-form.component';
+import { HotelProfileComponent } from './hotel/hotel-profile/hotel-profile.component';
+
+import { Ng5SliderModule } from 'ng5-slider';
 
 
 
@@ -106,6 +109,7 @@ const appRoutes: Routes = [
   {path: 'hotel/charts', component: HotelChartComponent },
   {path: 'hotel/revenues', component: HotelRevenuesComponent },
   {path: 'hotel/edit/:idh/:id/promo', component: PromotionInitComponent },
+  {path: 'hotel/:id/profile', component: HotelProfileComponent},
   {path: 'admin/profile', component: AdminProfileComponent},
   {path: 'admin/flights', component: AdminFlightsComponent},
   {path: 'admin/hotels', component: AdminHotelsComponent},
@@ -198,6 +202,7 @@ const appRoutes: Routes = [
     FlightAdministrationComponent,
     FlightTableComponent,
     PassengerFormComponent,
+    HotelProfileComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -206,6 +211,7 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     HttpModule,
+    Ng5SliderModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(

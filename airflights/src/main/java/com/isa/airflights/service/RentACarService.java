@@ -30,4 +30,13 @@ public class RentACarService {
 		return racRepository.findByCity(city);
 	}
 	
+	/**
+	 * Brisanje rent a car-a
+	 * @param id
+	 * @author Sveta
+	 */
+	public void deleteRac(Long id) {
+		racRepository.deleteById(id);
+	}
+	
 }

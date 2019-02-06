@@ -22,6 +22,7 @@ import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Role;
 import com.isa.airflights.service.AdminService;
+import com.isa.airflights.service.RentACarService;
 
 @RestController
 @RequestMapping(value="/api/admin")
@@ -30,6 +31,10 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService service;
+	
+	@Autowired
+	private RentACarService racService;
+	
 	
     @Autowired
     private PasswordEncoder encoder;
@@ -48,6 +53,8 @@ public class AdminController {
     	
     	return usersDTO;
     }
+    
+    
     
     @RequestMapping(value="/add", method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
@@ -99,7 +106,23 @@ public class AdminController {
     	return new ResponseEntity<AbstractUserDTO>(new AbstractUserDTO(u), HttpStatus.CREATED);
     }
     
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AbstractUserDTO> delAdmin(@PathVariable Long id) {
+		
+    	service.remove(id);
+    	
+    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    }
     
+    @RequestMapping(value="/rac/{id}", method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AbstractUserDTO> delRac(@PathVariable Long id) {
+		
+    	racService.deleteRac(id);
+    	
+    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    }
 
     
     

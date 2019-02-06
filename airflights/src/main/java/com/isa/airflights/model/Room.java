@@ -95,20 +95,12 @@ public class Room {
 		this.number = number;
 	}
 
-	public int getBeds() {
+	public Integer getBeds() {
 		return beds;
 	}
 
-	public void setBeds(int beds) {
-		this.beds = beds;
-	}
-
-	public int getRooms() {
+	public Integer getRooms() {
 		return rooms;
-	}
-
-	public void setRooms(int rooms) {
-		this.rooms = rooms;
 	}
 
 	public Hotel getHotel() {

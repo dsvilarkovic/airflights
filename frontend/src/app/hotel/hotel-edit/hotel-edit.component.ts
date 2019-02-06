@@ -28,6 +28,7 @@ export class HotelEditComponent implements OnInit {
     this.adminService.getAdmin(this.ts.getUser()).subscribe( r => {
       this.hotel = r.hotel;
       this.hotelName = this.hotel.name;
+      //alert(this.hotel)
     }, error => console.error(error));
 
   }

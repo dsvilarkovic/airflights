@@ -113,6 +113,6 @@ export class HotelListComponent implements OnInit {
   }
 
   details(id: number) {
-    alert(id);
+    this.router.navigate(['/hotel/' + id + '/profile'])
   }
 }
