@@ -10,12 +10,19 @@ import { TokenStorageService } from 'src/services/auth/token-storage.service';
 export class HomeComponent implements OnInit {
 
   id;
+  loggedFlag: boolean = false;
 
   constructor(private router: Router, private token: TokenStorageService) { }
 
   ngOnInit() {
     
     this.id = this.token.getUser();
+    if(this.id == null) {
+      this.loggedFlag = false;
+    } else {
+      this.loggedFlag = true;
+      this.router.navigate(['/authHomePage/' + this.id])
+    }
   }
 
   logout() {

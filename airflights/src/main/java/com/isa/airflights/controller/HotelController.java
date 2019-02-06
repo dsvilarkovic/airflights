@@ -25,6 +25,7 @@ import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.Room;
 import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.SearchObject;
+import com.isa.airflights.service.AdminService;
 import com.isa.airflights.service.HotelService;
 import com.isa.airflights.service.RoomReservationService;
 import com.isa.airflights.service.RoomService;
@@ -36,6 +37,9 @@ public class HotelController {
 	
 	@Autowired
 	private HotelService service;
+	
+	//@Autowired
+	//private AdminService as;
 
 	@Autowired
 	private RoomService rService;
@@ -85,7 +89,6 @@ public class HotelController {
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Hotel> deleteHotel(@PathVariable("id") Long id) {
-		
     	service.delete(id);
     	
     	return new ResponseEntity<Hotel>(HttpStatus.OK);
@@ -130,7 +133,7 @@ public class HotelController {
     				Date exf = reservation.getStartDate();
     				Date ext = reservation.getEndDate();
     				
-					if (!(exf.after(to) && ext.before(from)))  {
+					if (!(exf.after(to) || ext.before(from)))  {
 						break ROOM_LOOP;	
 					}
     			}

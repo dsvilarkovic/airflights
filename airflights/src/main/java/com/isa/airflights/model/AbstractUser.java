@@ -84,9 +84,9 @@ public class AbstractUser {
 	 * Polje koje oznacava kojeg servisa je admin ovaj korisnik
 	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
 	 * */
-	// @Djuka - Predlog da umesto broja bude referenca na RentACar
-	@Column(name = "id_company", nullable = true)
-	private Integer idCompany;
+	// @Djuka - idCompany je polje id rentacar servisa
+	@Column(name = "id_rentacar", nullable = true)
+	private int idCompany;
 	
 	
 	//@Column(name = "id_company", nullable = true)
@@ -113,6 +113,7 @@ public class AbstractUser {
     @JoinTable(name = "user_roles", 
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@OnDelete(action = OnDeleteAction.CASCADE) 
     private Set<Role> roles = new HashSet<>();
 	
 	@OneToMany(mappedBy = "abstractUser")
@@ -290,11 +291,11 @@ public class AbstractUser {
 
 	
 
-	public Integer getIdCompany() {
+	public int getIdCompany() {
 		return idCompany;
 	}
 
-	public void setIdCompany(Integer idCompany) {
+	public void setIdCompany(int idCompany) {
 		this.idCompany = idCompany;
 	}
 

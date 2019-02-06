@@ -38,7 +38,7 @@ export class AdminProfileComponent implements OnInit {
   }
 
   update(form: NgForm) {
-    this.adminService.update(this.admin).subscribe(r => {
+    this.adminService.updateAdminProfile(this.admin).subscribe(r => {
       window.location.reload();
     }, e => console.error(e));
   }
@@ -65,6 +65,11 @@ export class AdminProfileComponent implements OnInit {
   focusn() {
     this.pm = false;
     this.pm2 = false;
+  }
+
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

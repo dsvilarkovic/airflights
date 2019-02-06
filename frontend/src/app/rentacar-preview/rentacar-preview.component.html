@@ -11,7 +11,7 @@
           <li class="nav-item"><a routerLink="/home"class="nav-link">Home</a></li>
           <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
           <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
-          <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
+          <li class="nav-item"><a href="/hotels" class="nav-link">Hotels</a></li>
           <li class="nav-item active"><a routerLink="/rentacarPreview" class="nav-link">Rent a cars</a></li>
           <li class="nav-item"><a href="contact.html" class="nav-link" a>Contact</a></li>
           <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
@@ -43,7 +43,9 @@
       <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
           <img src="https://image.flaticon.com/icons/png/512/75/75702.png" class="card-img-top" alt="...">
           <div class="card-body">
-              <h5 class="card-title">{{rent.name}} <span class="ml-1">{{rent.ratingsSum / rent.ratingsCount}}</span><span style="color:gold"><i class="fas fa-star"></i></span></h5>
+              <h5 class="card-title">{{rent.name}} <span class="ml-1">{{rent.ratingsSum / rent.ratingsCount}}</span><span style="color:gold">
+                <ngb-rating [rate]="rent.ratingsSum/rent.ratingsCount" max ="5" [readonly]="true" [starTemplate]="t"></ngb-rating>
+              </span></h5>
               <div *ngFor="let b of rent.branches">          
                     <p style="color: black"><i class="fas fa-city"></i> {{b.address}} {{b.city}}</p>                  
               </div>

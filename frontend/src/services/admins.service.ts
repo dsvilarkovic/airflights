@@ -3,6 +3,8 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ADMIN_API, API } from 'src/app/globals';
 import { Admin } from 'src/app/admin';
+import { ArrayType } from '@angular/compiler';
+import { Misc } from 'src/app/misc';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,10 @@ export class AdminsService {
 
   getAll(): Observable<any> {
     return this.http.get(ADMIN_API + 'all');
+  }
+
+  getAllA(): Observable<any> {
+    return this.http.get(ADMIN_API + 'allA');
   }
 
   save(admin: Admin) { 
@@ -36,7 +42,27 @@ export class AdminsService {
   }
 
   updatePass(admin: any) {
-    return this.http.put(ADMIN_API + "updatePass", admin, {headers: this.headers});
+    return this.http.put(ADMIN_API + "passUpdate", admin, {headers: this.headers});
+  }
+
+  updateAdminProfile(admin: any) {
+    return this.http.put(ADMIN_API + "updateAdmin", admin, {headers: this.headers})
+  }
+
+  removeRac(id: number) : Observable<any> {
+    return this.http.delete(ADMIN_API + "rac/" + id);
+  }
+
+  removeAir(id: number) : Observable<any> {
+    return this.http.delete(ADMIN_API + "air/" + id);
+  }
+
+  getMisc(): any {
+    return this.http.get(ADMIN_API + "misc");
+  }
+
+  upMisc(m: Misc) {
+    return this.http.post(ADMIN_API + "misc", m, {headers: this.headers});
   }
 
 }

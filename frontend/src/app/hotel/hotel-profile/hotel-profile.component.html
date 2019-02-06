@@ -1,0 +1,181 @@
+<div class="image">
+  <nav class="navbar-default navbar-fixed-top navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand">Airflights</a>
+        <ul class="flow-right navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/listAirflights">Flights</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link active">Hotels</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" routerLink="/rentacarPreview">Rent a car</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a id="sb" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button">
+                <i class="fa fa-search"></i>
+            </a>
+            <div *ngIf="logged;else other_content">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+            </div>
+            
+            <ng-template #other_content><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button></ng-template>
+        </form>
+      </div>
+    </nav>
+    <div class="collapse col-md-10 offset-md-1" id="collapseExample">
+      <div class="card card-body">
+        <form #SearchForm="ngForm" (ngSubmit)="search()">
+          <div>Arrival</div>
+          <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+            </ngb-datepicker>
+              <ng-template #t let-date let-focused="focused">
+              <span class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+          
+          &nbsp;<input type="number" multiple="1.0" step="1" min="0" [(ngModel)]="days" name="days" id="days" placeholder="Days">
+          &nbsp;
+          <input type="number" [(ngModel)]="sObj.persons" name="persons" id="persons" placeholder="Persons">
+          <br /> <br />
+          <span>Price filter <input type="checkbox" [(ngModel)]="pf" name="ran" id="ran"></span>
+          <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
+          &nbsp;
+          <div>
+            Room conditions:
+            <ul class="list-group" *ngFor="let c of cons">
+              <li class="list-group-item">{{c.nr}} room(s) - {{c.nb}} bed(s)</li>
+            </ul>
+            <br /><span>I need <input type="number" [(ngModel)]="noR" name="numOfRooms" placeholder="No. of rooms" [(pattern)]="[0-9]*$">&nbsp;with 
+              <input type="number" [(ngModel)]="noB" name="numOfBeds" placeholder="No. of beds"> beds
+              &nbsp;&nbsp;<a class="btn btn-primary" (click)="addCon()"><b>+</b></a><br/> </span>
+          </div>
+          
+          <div class="float-right">
+            <button class="btn btn-primary" type="submit" [disabled]="!SearchForm.form.valid">Search</button><br/>
+          </div>     
+        </form>
+      </div>
+    </div>
+    <div class="collapse col-md-10 offset-md-1" id="collapseExample2">
+      <div class="card card-body">
+        <form #SearchForm="ngForm" (ngSubmit)="promos()">
+          <div>Arrival</div>
+          <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+            </ngb-datepicker>
+              <ng-template #t let-date let-focused="focused">
+              <span class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+          
+          
+          
+          <div class="">
+            &nbsp;<input type="number" [(ngModel)]="daysP" name="daysP" id="daysP" placeholder="Days">
+
+            <button class="btn btn-primary" type="submit">Search</button><br/>
+          </div>     
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <br />
+        <div class="float-right">
+            <a id="sb" class="btn btn-warning" data-toggle="collapse" href="#collapseExample2" role="button">
+              Promo rooms
+            </a>
+        </div>
+        <h1 id="title">Hotel "{{hotel.name}}"</h1>
+
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a data-toggle="collapse" href="#collapse2">Details</a></h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <p>{{hotel.description}}</p>
+              <br />
+              <span>Rating: <span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></span>                  <br />
+              <br />
+              <span>Address: {{hotel.address}}, {{hotel.city}}</span>
+              <br />
+              <br />
+              <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" [src]='sanitizer.bypassSecurityTrustResourceUrl(_finalAddress)' frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.pureblack.de/webdesign-bremen/">webdesigner bremen</a></div><style>.mapouter{text-align:right;height:500px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div>
+            </div>
+          </div>
+          <hr />
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"> <a data-toggle="collapse" href="#collapse1">Extras</a></h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+              <ul class="list-group" *ngFor="let extra of extras">
+                <li class="list-group-item">{{extra.name}} - {{extra.price}}€ {{extra.unit}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <div  class="theelements" *ngFor="let room of rooms" style="background-blend-mode: inherit">
+              <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
+                <img src="assets/room_icon.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
+                  <p class="card-text">Floor : {{room.floor}}</p>
+                  <p class="card-text">Beds : {{room.beds}}</p>
+                  <p class="card-text">Total price : {{room.price}}€</p>
+                  <div *ngIf="logged">
+                      <button [disabled]=!logged  (click)="book(room.id)" class="btn btn-primary mt-4 mb-4">Book</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+              <div  class="theelements" *ngFor="let room of pRooms" style="background-blend-mode: inherit">
+                <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
+                  <img src="assets/room_icon.png" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
+                    <p class="card-text">Floor : {{room.floor}}</p>
+                    <p class="card-text">Beds : {{room.beds}}</p>
+                    <p class="card-text">Total price : {{room.price}}€</p>
+                    <p class="card-text">Discount : {{room.price}}€</p>
+                    <div *ngIf="logged">
+                        <button [disabled]=!logged  (click)="book(room.id)" class="btn btn-primary mt-4 mb-4">Book</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+</div>

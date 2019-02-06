@@ -16,6 +16,9 @@ public class HotelService {
 
 	@Autowired
 	private HotelRepository repository;
+	
+	//@Autowired
+	//private AbstractUserRepository rs;
 
 	public Collection<Hotel> getAll() {
 		return repository.findAll().stream().collect(Collectors.toList());

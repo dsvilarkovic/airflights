@@ -90,6 +90,45 @@ public class Airline {
 	@Column(name = "gradeCount")
 	private Integer gradeCount = 0;
 	
+	@Column(name="active", nullable=true)
+	Boolean active = true;
+	
+	@Column(name="address", nullable=true)
+	String address;
+	
+	@Column(name="city", nullable=true)
+	String city;
+	
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public Boolean getActive() {
+		return active;
+	}
+
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+
 	public Long getId() {
 		return id;
 	}

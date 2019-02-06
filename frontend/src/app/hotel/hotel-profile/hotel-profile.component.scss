@@ -1,6 +1,6 @@
 
 @import "../../racprofile-preview/styles.css";
-
+@import url('https://fonts.googleapis.com/css?family=Lobster');
 
 .image{
 	background: url('/assets/hotel-2.jpg') no-repeat center center fixed; 
@@ -13,10 +13,26 @@
 	  margin-right: 20px;
   }
 
+  #title{
+      color: aliceblue;
+      font-family: 'Lobster';
+  }
+
+  .panel-group {
+    background-color: white !important;
+    border-radius: 15px;
+    border: 2px solid brown;
+    padding: 5px; 
+  }
+
   .card {
     border-radius: 15px;
     border: 2px solid brown;
     padding: 5px; 
   }
 
+  hr {
+      border-color: brown;
+      
+  }
 

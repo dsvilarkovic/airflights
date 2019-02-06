@@ -67,7 +67,7 @@ export class PromotionInitComponent implements OnInit {
   onItemDeselect(item: any) {
     let ind = this.selectedItems.indexOf(item);
     this.selectedItems.splice(ind, 1);
-    alert(this.selectedItems);
+    //alert(this.selectedItems);
   }
 
   onDeselectAll(items: any) {

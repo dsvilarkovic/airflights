@@ -52,4 +52,12 @@ export class RoomService {
     return this.http.put(ROOM_API + 'cleanPR/' + id, {headers: this.headers});
   }
 
+  getPromoRooms(idh: number, sObj: any) : Observable<any> {
+    return this.http.post(ROOM_API + idh + '/searchPromos', sObj, {headers: this.headers})
+  }
+
+  getSearchRooms(idh: number, sObj: any) : Observable<any> {
+    return this.http.post(ROOM_API + idh + '/searchRooms', sObj, {headers: this.headers})
+  }
+
 }

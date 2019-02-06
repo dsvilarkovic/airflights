@@ -30,4 +30,15 @@ public class RentACarService {
 		return racRepository.findByCity(city);
 	}
 	
+	/**
+	 * Logicko Brisanje rent a car-a
+	 * @param id
+	 * @author Sveta
+	 */
+	public void deleteRac(Long id) {
+		RentACar rac = racRepository.getOne(id);
+		rac.setActive(false);
+		racRepository.save(rac);
+	}
+	
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AirlineService } from 'src/services/airline.service';
 import { ROLE_SYS } from 'src/app/globals';
 import { TokenStorageService } from 'src/services/auth/token-storage.service';
+import { AdminsService } from 'src/services/admins.service';
 
 @Component({
   selector: 'app-admin-flights',
@@ -11,9 +12,9 @@ import { TokenStorageService } from 'src/services/auth/token-storage.service';
 })
 export class AdminFlightsComponent implements OnInit {
 
-  airlines: Array<any>;
+  airlines: Array<any> = new Array();
 
-  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private aService: AirlineService) { }
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private aService: AirlineService, private aaService: AdminsService) { }
 
   ngOnInit() {
     if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
@@ -21,14 +22,24 @@ export class AdminFlightsComponent implements OnInit {
       this.router.navigate(['/home']);
     }
     this.aService.getAllAirlines().subscribe(data => {
-      this.airlines = data;
+      data.forEach(element => {
+        if (element.active) {
+          this.airlines = data;
+        }
+      });
+
     }, error => console.error(error));
   }
 
   delete(id: number) {
-    this.aService.remove(id).subscribe( r => {
+    this.aaService.removeAir(id).subscribe( r => {
       window.location.reload();
     }, error => console.error(error));
+  }
+
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

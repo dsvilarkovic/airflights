@@ -1,5 +1,7 @@
 package com.isa.airflights.model;
 
+import java.util.List;
+
 public class SearchObject {
 	
 	public SearchObject() {
@@ -15,6 +17,28 @@ public class SearchObject {
 	private Integer endM;
 	
 	private Integer startY;
+	
+	private Integer endY;
+	
+	private String name;
+	
+	private String location;
+	
+	private Integer persons;
+	
+	private Double pf;
+	
+	private Double pt;
+	
+	private List<Condition> conditions;
+
+	public List<Condition> getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(List<Condition> conditions) {
+		this.conditions = conditions;
+	}
 
 	public Integer getStartD() {
 		return startD;
@@ -64,12 +88,6 @@ public class SearchObject {
 		this.endY = endY;
 	}
 
-	private Integer endY;
-	
-	private String name;
-	
-	private String location;
-
 	public String getName() {
 		return name;
 	}
@@ -84,6 +102,30 @@ public class SearchObject {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Integer getPersons() {
+		return persons;
+	}
+
+	public void setPersons(Integer persons) {
+		this.persons = persons;
+	}
+
+	public Double getPf() {
+		return pf;
+	}
+
+	public void setPf(Double pf) {
+		this.pf = pf;
+	}
+
+	public Double getPt() {
+		return pt;
+	}
+
+	public void setPt(Double pt) {
+		this.pt = pt;
 	}
 	
 	

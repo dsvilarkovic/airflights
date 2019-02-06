@@ -9,6 +9,7 @@ import { RentacarService } from 'src/services/rentacar.service';
 import { rentacar } from '../rentacar';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,6 +20,8 @@ import * as moment from 'moment';
 export class AuthhomepageComponent implements OnInit {
 
   id;
+  role;
+  idCompany;
   vehicleRes: VehicleReservation[] = [];
   tempRes: VehicleReservation = new VehicleReservation();
   selected = 0;
@@ -32,25 +35,68 @@ export class AuthhomepageComponent implements OnInit {
   today: string;
   compareDate: string;
 
+  activeFlag: boolean = true;
+  outOfDateFlag: boolean = true;
+  listActiveRes: VehicleReservation[] = [];
+  listOutOfDateRes: VehicleReservation[] = [];
+
+  adminFlag: boolean = false;
+
 
   constructor(private resServise: ReservationServiceService,
     private tokenService: TokenStorageService,
     private racService: RentacarService,
     private datePipe: DatePipe,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private router: Router) { }
 
   ngOnInit() {
+    this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.id = this.tokenService.getUser();
-    alert("Id? " + this.id);
+    //alert("Id? " + this.id);
+    this.role = this.tokenService.getAuthorities();
+    //alert("Role? " + this.role)
+
+   
 
     this.resServise.getAllByUserId(this.id).subscribe(data => {
       this.vehicleRes = data;
+
+      for(let v of this.vehicleRes) {
+        var now = moment(this.today); 
+        var end = moment(v.dropoffdate); 
+        var duration = moment.duration(end.diff(now));
+        this.days = duration.asDays();
+        //mozemo samo proveravati da li je pozitivan ili negativan broj
+        if(this.days < 0) {
+          this.listOutOfDateRes.push(v);
+        } else {
+          this.listActiveRes.push(v);
+          
+        }
+
+
+      }
+
     })
 
+    
     this.loginService.getLoggedById(this.id).subscribe(data => {
       this.user = data;
-
+      
     })
+
+    if(this.role == 'ROLE_RENTACARADMIN') {
+      this.loginService.getLoggedByIdCompany(this.id).subscribe(data => {
+        this.idCompany = data;
+        this.adminFlag = true;
+      })
+
+    }
+    
+
+    
+
 
   }
 
@@ -113,5 +159,10 @@ export class AuthhomepageComponent implements OnInit {
       alert("Vracamo ocenjeni: " + this.tempRent.rating);
     })
   }*/
+
+  logout() {
+    this.tokenService.signOut();
+    this.router.navigate(['/login']);
+  }
 
 }
