@@ -1,7 +1,7 @@
 package com.isa.airflights.model;
 
 
-import javax.persistence.Entity;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +13,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *  @author Viktor
@@ -21,14 +32,17 @@ import javax.persistence.OneToMany;
  * */
 
 @Entity
+@SequenceGenerator(name="seq", initialValue=6)
 public class AbstractUser {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 	private Long id;
 	
-	@Column(name = "indexNumber", nullable = false)
-	String index;
+
+	
+	@Column(name = "indexNumber", nullable = true)
+	private String index;
 	
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
@@ -53,12 +67,77 @@ public class AbstractUser {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
+	@Column(name = "verify", nullable = true)
+	private Boolean verify;
+	
+	
+	@OneToMany(mappedBy = "sender")
+	@JsonIgnore
+	private Set<Friendship> senders = new HashSet<>();
+	
+	@OneToMany(mappedBy = "receiver")
+	@JsonIgnore
+	private Set<Friendship> receiver = new HashSet<>();
+	
+
+	/**
+	 * Polje koje oznacava kojeg servisa je admin ovaj korisnik
+	 * 0 - nije nijednog, imace svaki korisnik koji se registruje
+	 * */
+	// @Djuka - idCompany je polje id rentacar servisa
+	@Column(name = "id_rentacar", nullable = true)
+	private int idCompany;
+	
+	
+	//@Column(name = "id_company", nullable = true)
+	//private RentACar idCompany;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "id_airline", referencedColumnName = "id")
+	private Airline airline;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    private Role role;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    private Hotel hotel;
+	
+	@Column(name = "last_password_reset_date")
+	@JsonIgnore
+    private Timestamp lastPasswordResetDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles", 
+    	joinColumns = @JoinColumn(name = "user_id"), 
+    	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@OnDelete(action = OnDeleteAction.CASCADE) 
+    private Set<Role> roles = new HashSet<>();
+	
+	@OneToMany(mappedBy = "abstractUser")
+	private Set<VehicleReservation> vehicleReservation = new HashSet<VehicleReservation>();
+	
+	
+	/**
+	 * Jedan korisnik moze imati vise karata za let, a jednu kartu moze imati samo jedan korisnik
+	 */
+	@OneToMany(mappedBy = "abstractUser", cascade = CascadeType.REFRESH)
+	private Set<FlightTicket> flightTickets = new HashSet<>();
+	
+	/**
+	 * Sluzi za rezervaciju karata putnicima koji ne postoje u sistemu
+	 * @author dusan
+	 */
+	private Boolean isUnregistered = false;
+	
 	public AbstractUser() {
-		super();
+		
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password) {
+			String password, Boolean v, int idCompany) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -67,11 +146,34 @@ public class AbstractUser {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.password = password;
+		this.verify = v;
+		this.idCompany = idCompany;
+	}
+
+
+	public AbstractUser(AbstractUser user) {
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar());
 	}
 
 
 	
 
+
+	public int getIdRentACar() {
+		return idCompany;
+	}
+
+	public void setIdRentACar(int idRentACar) {
+		this.idCompany = idRentACar;
+	}
+
+	public Boolean getVerify() {
+		return verify;
+	}
+
+	public void setVerify(Boolean verify) {
+		this.verify = verify;
+	}
 
 	public Long getId() {
 		return id;
@@ -141,40 +243,147 @@ public class AbstractUser {
 
 
 	public void setPassword(String password) {
-		this.password = password;
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate( now );
+        this.password = password;
 	}
 
+	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+	
+	public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
 
 
 
 
-	@Override
-	public boolean equals(Object arg0) {
-		// TODO Auto-generated method stub
-		return super.equals(arg0);
+	
+
+	public Set<FlightTicket> getFlightTickets() {
+		return flightTickets;
 	}
 
-
-
-
-
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+	public void setFlightTickets(Set<FlightTicket> flightTickets) {
+		this.flightTickets = flightTickets;
 	}
 
+	public String getIndex() {
+		return index;
+	}
 
+	public void setIndex(String index) {
+		this.index = index;
+	}
 
+	
 
+	
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	
+
+	public int getIdCompany() {
+		return idCompany;
+	}
+
+	public void setIdCompany(int idCompany) {
+		this.idCompany = idCompany;
+	}
+
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
+	public Set<VehicleReservation> getVehicleReservation() {
+		return vehicleReservation;
+	}
+
+	public void setVehicleReservation(Set<VehicleReservation> vehicleReservation) {
+		this.vehicleReservation = vehicleReservation;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public Set<Friendship> getSenders() {
+		return senders;
+	}
+
+	public void setSenders(Set<Friendship> senders) {
+		this.senders = senders;
+	}
+
+	public Set<Friendship> getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(Set<Friendship> receiver) {
+		this.receiver = receiver;
+	}
+	
+	
+	
+	public Boolean getIsUnregistered() {
+		return isUnregistered;
+	}
+
+	public void setIsUnregistered(Boolean isUnregistered) {
+		this.isUnregistered = isUnregistered;
+	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "AbstractUser [id=" + id + ", index=" + index + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password="
+				+ password + ", verify=" + verify + ", idCompany=" + idCompany + ", airline=" + airline
+				+ ", lastPasswordResetDate=" + lastPasswordResetDate + ", roles=" + roles + "]";
 	}
-	
-	
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AbstractUser abstractUser = (AbstractUser) o;
+        if(abstractUser.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, abstractUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 	
 	
 	

@@ -1,32 +1,65 @@
 package com.isa.airflights.dto;
 
-public class AbstractUserDTO {
-	
+import java.util.ArrayList;
+
+import org.hibernate.mapping.Array;
+
+import com.isa.airflights.model.AbstractUser;
+import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.Hotel;
+import com.isa.airflights.model.RentACar;
+import com.isa.airflights.model.Role;
+
+/**
+ * DTO sluzi da sakrije sifru pri slanju ka korisniku
+ * @author Dusan
+ *
+ */
+public class AbstractUserDTO{
+	private Long id;
+	private String index;
 	private String firstName;
-	/** @pdOid e0db3c3a-50d2-402c-b71c-973cbf62c53b */
 	private String lastName;
-	/** @pdOid 4b5cfa10-6719-4561-919b-67a40409a869 */
 	private String email;
-	/** @pdOid 961d918c-800c-4d13-9583-739c96511640 */
-	private String phoneNumber;
-	/** @pdOid 4b1f425a-b666-46ed-8696-e88f32341055 */
+	private String phoneNumber; 
 	private String address;
-	/** @pdOid efe39867-d211-48b9-9944-f39eb66d7b4e */
+	private int idCompany;
+	private boolean verify;
+	private Role role;
+	private Hotel hotel;
+	private Airline airline;
 	private String password;
+	private String newPassword;
+	/**
+	 * @author dusan
+	 */
+	private Boolean isUnregistered = false;
 	
+	public AbstractUserDTO() {
 	
-	
-	public AbstractUserDTO(String firstName, String lastName, String email, String phoneNumber, String address,
-			String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.address = address;
-		this.password = password;
 	}
 	
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getIndex() {
+		return index;
+	}
+	public void setIndex(String index) {
+		this.index = index;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -45,6 +78,12 @@ public class AbstractUserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -57,13 +96,72 @@ public class AbstractUserDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getPassword() {
-		return password;
+	
+	
+	
+	
+	public int getRentacar() {
+		return idCompany;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setRentacar(int rentacar) {
+		this.idCompany = rentacar;
+	}
+
+	public boolean isVerify() {
+		return verify;
+	}
+	public void setVerify(boolean verify) {
+		this.verify = verify;
+	}
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 	
 	
 	
+
+	public Boolean getIsUnregistered() {
+		return isUnregistered;
+	}
+
+	public void setIsUnregistered(Boolean isUnregistered) {
+		this.isUnregistered = isUnregistered;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+	public Airline getAirline() {
+		return airline;
+	}
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+	
+	public AbstractUserDTO(AbstractUser user) {
+		this.id = user.getId();
+		this.index = user.getIndex();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.phoneNumber = user.getPhoneNumber();
+		this.address = user.getAddress();
+		
+		this.verify = user.getVerify();
+		this.role = user.getRole();
+		this.hotel = user.getHotel();
+		this.airline = user.getAirline();
+		this.password = getPassword();
+		
+		this.idCompany = user.getIdCompany();
+	}
+	
+
 }

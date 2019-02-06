@@ -3,8 +3,13 @@ jdk:
   - oraclejdk8
   
 install:
-  - cd airflights/
   - chmod +x ./mvnw
-  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - ./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
 script:
   - ./mvnw clean compile
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: airflights-isa
+

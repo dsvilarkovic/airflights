@@ -1,0 +1,13 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "cd frontend && npm start",
+    "build": "cd frontend && npm build",
+    "test": "cd frontend && npm test",
+    "lint": "cd frontend && npm lint",
+    "install": "cd frontend && npm install",
+    "e2e": "ng e2e"
+  }
+}
