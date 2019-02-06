@@ -121,10 +121,11 @@ public class VehicleReservationController {
 	 * Metoda koja bi trebalo da vrati sva vozila koja su slobodna za dat vremenski period
 	 * @param date1 od
 	 * @param date2 do
+	 * @param id - id rent a cara za koji se trazi
 	 * */
 	@RequestMapping(value="/checkDate/{date1}/{date2}/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<VehicleDTO>> checkDate(@PathVariable String date1,@PathVariable String date2,@PathVariable Long id) throws ParseException {
-		System.out.println("Jel sam usao ?");
+		System.out.println("Jel sam usao + id " + id);
 		RentACar r = rs.getOne(id);
 		
 		
@@ -145,7 +146,8 @@ public class VehicleReservationController {
 		
 		
 		for (Vehicle v : listaAll) {
-			dto.add(new VehicleDTO(v));
+			if(v.getRentacar().getId().equals(id))
+				dto.add(new VehicleDTO(v));
 		}
 		
 	/*	Vehicle vozilo = vs.getOne(id);

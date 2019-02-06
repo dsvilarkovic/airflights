@@ -6,7 +6,9 @@ export class User {
     lastName: string;
     address: string;
     phoneNumber: string;
+    idCompany: number;
     role: number;
     city : string;
     username: string;
+
 }

@@ -1,8 +1,13 @@
 package com.isa.airflights.dto;
 
+import java.util.ArrayList;
+
+import org.hibernate.mapping.Array;
+
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Hotel;
+import com.isa.airflights.model.RentACar;
 import com.isa.airflights.model.Role;
 
 /**
@@ -18,7 +23,7 @@ public class AbstractUserDTO{
 	private String email;
 	private String phoneNumber; 
 	private String address;
-	private Integer idCompany;
+	private int idCompany;
 	private boolean verify;
 	private Role role;
 	private Hotel hotel;
@@ -87,12 +92,18 @@ public class AbstractUserDTO{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Integer getIdCompany() {
+	
+	
+	
+	
+	public int getRentacar() {
 		return idCompany;
 	}
-	public void setIdCompany(Integer idCompany) {
-		this.idCompany = idCompany;
+
+	public void setRentacar(int rentacar) {
+		this.idCompany = rentacar;
 	}
+
 	public boolean isVerify() {
 		return verify;
 	}
@@ -128,12 +139,14 @@ public class AbstractUserDTO{
 		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
-		this.idCompany = user.getIdCompany();
+		
 		this.verify = user.getVerify();
 		this.role = user.getRole();
 		this.hotel = user.getHotel();
 		this.airline = user.getAirline();
 		this.password = getPassword();
+		
+		this.idCompany = user.getIdCompany();
 	}
 	
 

@@ -20,6 +20,8 @@ import { Router } from '@angular/router';
 export class AuthhomepageComponent implements OnInit {
 
   id;
+  role;
+  idCompany;
   vehicleRes: VehicleReservation[] = [];
   tempRes: VehicleReservation = new VehicleReservation();
   selected = 0;
@@ -38,6 +40,8 @@ export class AuthhomepageComponent implements OnInit {
   listActiveRes: VehicleReservation[] = [];
   listOutOfDateRes: VehicleReservation[] = [];
 
+  adminFlag: boolean = false;
+
 
   constructor(private resServise: ReservationServiceService,
     private tokenService: TokenStorageService,
@@ -49,7 +53,11 @@ export class AuthhomepageComponent implements OnInit {
   ngOnInit() {
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.id = this.tokenService.getUser();
-    alert("Id? " + this.id);
+    //alert("Id? " + this.id);
+    this.role = this.tokenService.getAuthorities();
+    //alert("Role? " + this.role)
+
+   
 
     this.resServise.getAllByUserId(this.id).subscribe(data => {
       this.vehicleRes = data;
@@ -72,10 +80,23 @@ export class AuthhomepageComponent implements OnInit {
 
     })
 
+    
     this.loginService.getLoggedById(this.id).subscribe(data => {
       this.user = data;
-
+      
     })
+
+    if(this.role == 'ROLE_RENTACARADMIN') {
+      this.loginService.getLoggedByIdCompany(this.id).subscribe(data => {
+        this.idCompany = data;
+        this.adminFlag = true;
+      })
+
+    }
+    
+
+    
+
 
   }
 
