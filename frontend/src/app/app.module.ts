@@ -204,7 +204,7 @@ const appRoutes: Routes = [
     FlightTableComponent,
     PassengerFormComponent,
     ReserveSeatsComponent,
-    HotelProfileComponent
+    HotelProfileComponent,
   ],
   imports: [
     ReactiveFormsModule,

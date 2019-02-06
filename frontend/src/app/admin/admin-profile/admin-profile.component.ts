@@ -26,6 +26,7 @@ export class AdminProfileComponent implements OnInit {
 
   ngOnInit() {
     this.pm = false;
+    // TODO - autentifikacija
     if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
       alert("Unauthorized");
       this.router.navigate(['/home']);
