@@ -86,7 +86,7 @@ public class AbstractUser {
 	 * */
 	// @Djuka - idCompany je polje id rentacar servisa
 	@Column(name = "id_rentacar", nullable = true)
-	private int idCompany;
+	private Integer idCompany;
 	
 	
 	//@Column(name = "id_company", nullable = true)
@@ -291,11 +291,11 @@ public class AbstractUser {
 
 	
 
-	public int getIdCompany() {
+	public Integer getIdCompany() {
 		return idCompany;
 	}
 
-	public void setIdCompany(int idCompany) {
+	public void setIdCompany(Integer idCompany) {
 		this.idCompany = idCompany;
 	}
 
