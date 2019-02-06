@@ -57,6 +57,9 @@ public class RentACar {
 	@JoinColumn(name = "rentacar_id", referencedColumnName = "id")
 	private Set<VehicleReservation> reservations = new HashSet<VehicleReservation>();
 	
+	@Column(name="active", nullable=true)
+	private Boolean active = true;
+	
 	public RentACar() {
 		super();
 	}
@@ -70,6 +73,15 @@ public class RentACar {
 		this.city = city;
 		this.ratingsCount = count;
 		this.ratingsSum = sum;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 	public RentACar(RentACar r) {

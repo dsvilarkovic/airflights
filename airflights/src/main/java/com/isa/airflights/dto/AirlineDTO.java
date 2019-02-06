@@ -6,7 +6,28 @@ public class AirlineDTO {
 	private String promoInfo;
 	private Double longitude;
 	private Double latitude;
+	private Boolean active = true;
+	private String address;
+	private String city;
 	
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
 	public Long getId() {
 		return id;
 	}

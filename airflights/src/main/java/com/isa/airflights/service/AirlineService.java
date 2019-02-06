@@ -131,5 +131,14 @@ public class AirlineService {
 	public Page<AirportDestination> findAirportDestinations(Pageable pageRequest, Long airline_id) {
 		return airportDestinationRepostory.findAllByAirlines_Id(airline_id, pageRequest);
 	}
+	
+	/**
+	 * Logicko brisanje
+	 */
+	public void deleteAir(Long id) {
+		Airline a = airlineRepository.getOne(id);
+		a.setActive(false);
+		airlineRepository.save(a);
+	}
 
 }

@@ -12,7 +12,7 @@ import { AdminsService } from 'src/services/admins.service';
 })
 export class AdminRentACarComponent implements OnInit {
 
-  racs: Array<any>;
+  racs: Array<any> = new Array();
   readonly type: string = "R";
 
   constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private racService: RentacarService, private aSrv: AdminsService) { }
@@ -26,7 +26,11 @@ export class AdminRentACarComponent implements OnInit {
     }
     
     this.racService.getAllRacs().subscribe(data => {
-      this.racs = data;
+      data.forEach(element => {
+        if (element.active == true) {
+          this.racs.push(element)
+        }
+      });
     }, error => console.error(error));
   }
 
@@ -34,6 +38,11 @@ export class AdminRentACarComponent implements OnInit {
     this.aSrv.removeRac(id).subscribe( r => {
       window.location.reload();
     }, error => console.error(error));
+  }
+
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

@@ -56,12 +56,12 @@ INSERT INTO user_roles(user_id, role_id) VALUES(2,4);
 INSERT INTO user_roles(user_id, role_id) VALUES(3,3);
 INSERT INTO user_roles(user_id, role_id) VALUES(5,5);
 
-INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
-VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 1,5);
-INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
-VALUES (2, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',1,5);
-INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
-VALUES (3, 'Puškinova',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',2,7);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum,active)
+VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 1,5, true);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum,active)
+VALUES (2, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',1,5, true);
+INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum,active)
+VALUES (3, 'Puškinova',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',2,7, true);
 
 INSERT INTO branch_locations(id, address, city, rentacar_id)
 VALUES (1, 'Bulevar oslobođenja 13/1', 'Novi Sad', '1');
@@ -94,4 +94,4 @@ VALUES ('2019-1-14', '2019-1-25', 320, '2019-1-1', 'Bulevar oslobođenja 13/1', 
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
 VALUES ('2019-2-4', '2019-2-14', 200, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','5','1',false,false,false);
 
-
+INSERT INTO misc(b, b2, b3) VALUES (1, 2, 3)

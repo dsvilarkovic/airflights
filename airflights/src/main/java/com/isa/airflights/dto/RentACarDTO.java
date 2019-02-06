@@ -17,12 +17,13 @@ public class RentACarDTO {
 	private List<BranchLocationsDTO> branches;
 	private double ratingsCount;
 	private double ratingsSum;
+	private Boolean active;
 
 	
 	
 	
 	
-	public RentACarDTO(Long id, String name,String address, String city, String description, double rating,double sum) {
+	public RentACarDTO(Long id, String name,String address, String city, String description, double rating,double sum, Boolean active) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -31,13 +32,13 @@ public class RentACarDTO {
 		this.description = description;
 		this.ratingsCount = rating;
 		this.ratingsSum = sum;
-
+		this.active = active;
 		
 	}
 	
 	public RentACarDTO(RentACar rent) {
 		
-		this(rent.getId(),rent.getName(), rent.getAddress(), rent.getCity(), rent.getDescription(),rent.getRatingsCount(),rent.getRatingsSum());
+		this(rent.getId(),rent.getName(), rent.getAddress(), rent.getCity(), rent.getDescription(),rent.getRatingsCount(),rent.getRatingsSum(), rent.getActive());
 		
 		branches =new ArrayList<>();
 		for(BranchLocations branch : rent.getBranch_locations()){
@@ -49,6 +50,14 @@ public class RentACarDTO {
 	
 	
 	
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
 	public double getRatingsCount() {
 		return ratingsCount;

@@ -31,12 +31,14 @@ public class RentACarService {
 	}
 	
 	/**
-	 * Brisanje rent a car-a
+	 * Logicko Brisanje rent a car-a
 	 * @param id
 	 * @author Sveta
 	 */
 	public void deleteRac(Long id) {
-		racRepository.deleteById(id);
+		RentACar rac = racRepository.getOne(id);
+		rac.setActive(false);
+		racRepository.save(rac);
 	}
 	
 }
