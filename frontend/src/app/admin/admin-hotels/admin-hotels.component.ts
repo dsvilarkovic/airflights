@@ -17,7 +17,7 @@ export class AdminHotelsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private ts: TokenStorageService, private hotelService: HotelService) { }
 
   ngOnInit() {
-
+    // TODO - autentifikacija
     if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
       alert("Unauthorized");
       this.router.navigate(['/home']);

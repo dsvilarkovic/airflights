@@ -113,7 +113,8 @@ public class LuggageController {
 	
 	
 	/**
-	 * Metoda za listanje svih prtljaga
+	 * Metoda za listanje svih prtljaga.
+	 * U Airline Controller-u postoji prtljag za odredjenu aviokompaniju
 	 * @return
 	 */
 	@RequestMapping(

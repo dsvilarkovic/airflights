@@ -20,6 +20,7 @@ export class AdminRentACarComponent implements OnInit {
 
   ngOnInit() {
 
+    // TODO
     if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
       alert("Unauthorized");
       this.router.navigate(['/home']);

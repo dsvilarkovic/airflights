@@ -7,8 +7,9 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,7 +54,7 @@ public class FlightSearchController {
 			Pageable pageRequest){
 		
 		
-		Page<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
+		List<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
 				(arrival_id, departure_id, departureDatetime, arrivalDatetime, pageRequest);
 		
 		List<Flight> flightList = new ArrayList<>();
@@ -63,7 +64,26 @@ public class FlightSearchController {
 		
 		List<FlightDTO> flightDTOs = filterFlights(flightList, flightType, persons_num, airlineClassType, luggageCount);
 		
-		return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
+		
+	
+		List<FlightDTO> pageFlightDTOs = new ArrayList<>();
+
+		int size = ((PageRequest) pageRequest).getPageSize();
+		int offset = (int) ((PageRequest) pageRequest).getOffset();		
+		
+		
+		for (int i = offset; i <  offset + size; i++) {
+			try {
+				FlightDTO flightDTO = flightDTOs.get(i);
+				pageFlightDTOs.add(flightDTO);
+			}
+			catch(IndexOutOfBoundsException e) {
+				break; 
+			}
+		}
+		Page<FlightDTO> ret = new PageImpl<>(pageFlightDTOs, pageRequest,  flights.size());
+		return ResponseEntity.ok(ret);
+		//return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
 	}
 	
 	

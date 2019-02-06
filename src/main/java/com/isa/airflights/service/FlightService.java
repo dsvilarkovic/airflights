@@ -120,10 +120,10 @@ public class FlightService {
 				(arrival_id, departure_id, departureDatetime, ArrivalDatetime);
 	}
 	
-	public Page<Flight> findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
+	public List<Flight> findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
 	(Long arrival_id, Long departure_id, Date departureDatetime, Date ArrivalDatetime, Pageable pageRequest){
 		return flightRepository.findAllByArrivalDestinationAndDepartureDestinationAndDepartureDatetimeAndArrivalDatetime
-				(arrival_id, departure_id, departureDatetime, ArrivalDatetime, pageRequest);
+				(arrival_id, departure_id, departureDatetime, ArrivalDatetime);
 	}
 	
 //	public List<Flight> find(){

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -214,7 +216,7 @@ public class FlightTicketController {
 			Pageable pageRequest)
 	
 	{
-		 List<FlightTicket> flightTickets = new ArrayList<>();
+		 Page<FlightTicket> flightTickets;
 		 try {
 			 flightTickets = flightTicketService.findAllByFlight_Id(flight_id, pageRequest);
 		 }
@@ -228,9 +230,9 @@ public class FlightTicketController {
 			flightTicketDTOs.add(flightTicketDTO);
 		 }
 			 
-		 
-		 
-		 return new ResponseEntity<>(flightTicketDTOs, HttpStatus.NOT_FOUND);
+		 Page<FlightTicketDTO> ret=  new PageImpl<>(flightTicketDTOs, pageRequest, flightTickets.getTotalElements());
+		 return ResponseEntity.ok(ret);
+		 //return new ResponseEntity<>(flightTicketDTOs, HttpStatus.NOT_FOUND);
 	}
 	
 	/**
