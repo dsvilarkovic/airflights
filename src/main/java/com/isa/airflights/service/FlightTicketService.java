@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -168,8 +169,8 @@ public class FlightTicketService {
 		//deleteFlightTicket(flightTicketId) ce obrisati kartu 
 	}
 
-	public List<FlightTicket> findAllByFlight_Id(Long flight_id, Pageable pageRequest) {
-		return flightTicketRepository.findAllByFlight_Id(flight_id, pageRequest).getContent();
+	public Page<FlightTicket> findAllByFlight_Id(Long flight_id, Pageable pageRequest) {
+		return flightTicketRepository.findAllByFlight_Id(flight_id, pageRequest);
 	}
 
 	

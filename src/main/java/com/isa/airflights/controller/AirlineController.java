@@ -178,7 +178,7 @@ public class AirlineController {
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
 		public ResponseEntity<?> findAirplanes(Pageable pageRequest, @PathVariable Long airline_id){
-			List<Airplane> airplanes = airlineService.findAirplanes(pageRequest, airline_id).getContent();
+			Page<Airplane> airplanes = airlineService.findAirplanes(pageRequest, airline_id);
 			
 			List<AirplaneDTO> airplaneDTOs = new ArrayList<>();
 			
@@ -187,7 +187,9 @@ public class AirlineController {
 				airplaneDTOs.add(airplaneDTO);
 			}
 			
-			return new ResponseEntity<>(airplaneDTOs, HttpStatus.OK);
+			Page<AirplaneDTO> ret = new PageImpl<>(airplaneDTOs, pageRequest, airplanes.getTotalElements());
+			return ResponseEntity.ok(ret);
+			//return new ResponseEntity<>(airplaneDTOs, HttpStatus.OK);
 		}
 		
 		//TODO: nadji sve letove aviokompanije
@@ -202,7 +204,7 @@ public class AirlineController {
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
 		public ResponseEntity<?> findFlights(Pageable pageRequest, @PathVariable Long airline_id){
-			List<Flight> flights = airlineService.findFlights(pageRequest, airline_id).getContent();
+			Page<Flight> flights = airlineService.findFlights(pageRequest, airline_id);
 			
 			List<FlightDTO> flightDTOs = new ArrayList<>();
 			
@@ -210,8 +212,10 @@ public class AirlineController {
 				FlightDTO flightDTO = flightService.convertToDTO(flight);
 				flightDTOs.add(flightDTO);
 			}
+			Page<FlightDTO> ret = new PageImpl<>(flightDTOs, pageRequest, flights.getTotalElements());
 			
-			return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
+			return ResponseEntity.ok(ret);
+			//return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
 		}
 		
 		/**
@@ -227,7 +231,7 @@ public class AirlineController {
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
 		public ResponseEntity<?> findLuggagePrices(Pageable pageRequest, @PathVariable Long airline_id){
-			List<LuggagePrice> luggagePrices= airlineService.findLuggagePrices(pageRequest, airline_id).getContent();
+			Page<LuggagePrice> luggagePrices= airlineService.findLuggagePrices(pageRequest, airline_id);
 			
 			List<LuggagePriceDTO> luggagePriceDTOs = new ArrayList<>();
 			
@@ -235,8 +239,9 @@ public class AirlineController {
 				LuggagePriceDTO luggagePriceDTO = luggageService.convertToDTO(luggage);
 				luggagePriceDTOs.add(luggagePriceDTO);
 			}
-			
-			return new ResponseEntity<>(luggagePriceDTOs, HttpStatus.OK);
+			Page<LuggagePriceDTO> ret = new PageImpl<>(luggagePriceDTOs, pageRequest, luggagePrices.getTotalElements());
+			return ResponseEntity.ok(ret);
+			//return new ResponseEntity<>(luggagePriceDTOs, HttpStatus.OK);
 		}
 		
 		//TODO: nadji sve destinacije aviokopmanije
@@ -252,7 +257,7 @@ public class AirlineController {
 				produces = MediaType.APPLICATION_JSON_VALUE
 			)
 		public ResponseEntity<?> getAirportDestinations(Pageable pageRequest, @PathVariable Long airline_id){
-			List<AirportDestination> airportDestinations= airlineService.findAirportDestinations(pageRequest, airline_id).getContent();
+			Page<AirportDestination> airportDestinations= airlineService.findAirportDestinations(pageRequest, airline_id);
 			
 			List<AirportDestinationDTO> airportDestinationDTOs = new ArrayList<>();
 			
@@ -261,7 +266,9 @@ public class AirlineController {
 				airportDestinationDTOs.add(airportDestinationDTO);
 			}
 			
-			return new ResponseEntity<>(airportDestinationDTOs, HttpStatus.OK);
+			Page<AirportDestinationDTO> ret = new PageImpl<>(airportDestinationDTOs, pageRequest, airportDestinations.getTotalElements());
+			return ResponseEntity.ok(ret);
+			//return new ResponseEntity<>(airportDestinationDTOs, HttpStatus.OK);
 		}
 		
 		
