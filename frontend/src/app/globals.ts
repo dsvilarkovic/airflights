@@ -7,6 +7,11 @@ export const EXTRAS_API=API + "extras/";
 export const ADMIN_API=API + "admin/";
 export const RENT_A_CAR_API=API + "rentacar/";
 export const AIRLINE_API=API + "airline/";
+export const VEHICLE_API = API + "vehicle/";
+export const BRANCH_API = API + "branch/";
+export const USER_API = API + "abstractUsers/";
+export const RATING_API = API + "rating/"
+export const RESERVATION_API = API + "reservation/";
 
 // Roles
 export const ROLE_USER = "ROLE_USER"

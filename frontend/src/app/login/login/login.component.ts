@@ -19,6 +19,7 @@ import { allSettled } from 'q';
 })
 export class LoginComponent implements OnInit {
 
+  idCompany;
   user: User = new User();
   @Input() verified : boolean;
   private loginInfo : AuthLoginInfo;
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   token: Token = new Token();
-  constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorageService, private loginService:LoginService) { }
 
   ngOnInit() {
   }
@@ -51,17 +52,24 @@ export class LoginComponent implements OnInit {
         this.roles = this.tokenStorage.getAuthorities();
         localStorage["sent"] = false;
 
+
+        this.loginService.getLoggedByIdCompany(data.user_id).subscribe(data => {
+          this.idCompany = data;
+          if(this.roles.includes('ROLE_USER')) {
+            this.router.navigate(['/home']);
+          } else if(this.roles.includes(ROLE_SYS)) {
+            this.router.navigate(['/admin/profile']);
+          } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
+            this.router.navigate(['/rentacar/'+ this.idCompany]);
+          } else if(this.roles.includes(ROLE_H)) {
+            this.router.navigate(['/admin/hotel/profile']);
+          }
+        })
+        
+      
         //alert(this.roles);
 
-        if(this.roles.includes('ROLE_USER')) {
-          this.router.navigate(['/home']);
-        } else if(this.roles.includes(ROLE_SYS)) {
-          this.router.navigate(['/admin/profile']);
-        } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
-          this.router.navigate(['/rentacar/']);
-        } else if(this.roles.includes(ROLE_H)) {
-          this.router.navigate(['/admin/hotel/profile']);
-        }
+        
       }
 
 
@@ -71,7 +79,7 @@ export class LoginComponent implements OnInit {
       this.isLoginFailed = true;
       
     });
-    this.user = new User();
+    
   }
 
     /*his.loginService.login(this.user).subscribe(data => {

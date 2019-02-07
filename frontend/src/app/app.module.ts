@@ -81,6 +81,7 @@ import { ReserveSeatsComponent } from './reserve-seats/reserve-seats.component';
 import { HotelProfileComponent } from './hotel/hotel-profile/hotel-profile.component';
 
 import { Ng5SliderModule } from 'ng5-slider';
+import { InvitationListComponent } from './invitation-list/invitation-list.component';
 
 
 
@@ -141,8 +142,8 @@ const appRoutes: Routes = [
   {path: 'listAirflights', component: ListAirflightsComponent},
   {path: 'listHotels', component: ListHotelsComponent},
   {path: 'listRentacars', component: ListRentacarsComponent},
-  {path: 'listFriends/:id', component: ListFriendsComponent}
-
+  {path: 'listFriends/:id', component: ListFriendsComponent},
+  {path: 'invitationList', component: InvitationListComponent}
 ];
 
 @NgModule({
@@ -205,6 +206,7 @@ const appRoutes: Routes = [
     PassengerFormComponent,
     ReserveSeatsComponent,
     HotelProfileComponent,
+    InvitationListComponent,
   ],
   imports: [
     ReactiveFormsModule,

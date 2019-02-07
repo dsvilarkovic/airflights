@@ -81,7 +81,7 @@ public class VehicleControllerTest {
 		.andExpect(jsonPath("$.[*].price").value(hasItem(VehicleConstants.DB_PRICE)));
 	}
 	
-	@Test
+	/*@Test
 	@Transactional
 	@Rollback(true)
 	public void testAddVehicle() throws Exception {
@@ -103,7 +103,7 @@ public class VehicleControllerTest {
 
 		String json = TestUtil.json(v);
 		this.mockMvc.perform(put(URL_PREFIX+"/addVehicle/"+VehicleConstants.DB_RENTACAR_ID+"/"+VehicleConstants.DB_BRANCH_LOCATION_ID).contentType(contentType).content(json)).andExpect(status().isCreated());
-	}
+	}*/
 	
 	@Test
 	@Transactional

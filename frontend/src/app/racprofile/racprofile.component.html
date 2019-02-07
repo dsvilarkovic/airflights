@@ -296,7 +296,7 @@
                   <div class="modal-body">
                       <div class="form-group">
                           <label for="recipient-name" class="col-form-label">Branches: </label>
-                            <select  [(ngModel)]="currentVehicle.branch_locations" name="branch_locations">
+                            <select  [(ngModel)]="currentVehicle.branchOffice_id" name="branch_locations">
                               <option *ngFor="let b of branches2"  [ngValue]="b">{{b.id}}:{{b.address}}</option>
                             </select>
                         </div>

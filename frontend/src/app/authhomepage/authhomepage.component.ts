@@ -40,7 +40,7 @@ export class AuthhomepageComponent implements OnInit {
   listActiveRes: VehicleReservation[] = [];
   listOutOfDateRes: VehicleReservation[] = [];
 
-  adminFlag: boolean = false;
+  
 
 
   constructor(private resServise: ReservationServiceService,
@@ -85,17 +85,6 @@ export class AuthhomepageComponent implements OnInit {
       this.user = data;
       
     })
-
-    if(this.role == 'ROLE_RENTACARADMIN') {
-      this.loginService.getLoggedByIdCompany(this.id).subscribe(data => {
-        this.idCompany = data;
-        this.adminFlag = true;
-      })
-
-    }
-    
-
-    
 
 
   }
