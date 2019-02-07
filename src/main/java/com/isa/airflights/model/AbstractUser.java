@@ -31,6 +31,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *  Model abstract user-a
  * */
 
+/**
+ * @author Viktor
+ *
+ */
 @Entity
 @SequenceGenerator(name="seq", initialValue=6)
 public class AbstractUser {
@@ -132,12 +136,20 @@ public class AbstractUser {
 	 */
 	private Boolean isUnregistered = false;
 	
+	/**
+	 * Polje za verifikaciju unosa nove lozinke kada se prvi put loguje
+	 * true - promenio je lozinku kad se prvi put logovao,
+	 * false - nije promenio lozinku kad se prvi put logovao
+	 * */
+	@Column(name = "change_pass", nullable = true)
+	public boolean changePass = false;
+	
 	public AbstractUser() {
 		
 	}
 	
 	public AbstractUser(Long id, String firstName, String lastName, String email, String phoneNumber, String address,
-			String password, Boolean v, int idCompany) {
+			String password, Boolean v, int idCompany, boolean ch) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -148,16 +160,22 @@ public class AbstractUser {
 		this.password = password;
 		this.verify = v;
 		this.idCompany = idCompany;
+		this.changePass = ch;
 	}
 
 
 	public AbstractUser(AbstractUser user) {
-		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar());
+		this(user.getId(), user.getFirstName(),user.getEmail(),user.getPassword(),user.getLastName(),user.getAddress(),user.getPhoneNumber(), user.getVerify(),user.getIdRentACar(),user.isChangePass());
 	}
 
 
-	
+	public boolean isChangePass() {
+		return changePass;
+	}
 
+	public void setChangePass(boolean changePass) {
+		this.changePass = changePass;
+	}
 
 	public int getIdRentACar() {
 		return idCompany;

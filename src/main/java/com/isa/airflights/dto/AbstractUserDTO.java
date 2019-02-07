@@ -30,6 +30,7 @@ public class AbstractUserDTO{
 	private Airline airline;
 	private String password;
 	private String newPassword;
+	private boolean changePass;
 	/**
 	 * @author dusan
 	 */
@@ -47,6 +48,14 @@ public class AbstractUserDTO{
 	}
 
 
+
+	public boolean isChangePass() {
+		return changePass;
+	}
+
+	public void setChangePass(boolean changePass) {
+		this.changePass = changePass;
+	}
 
 	public Long getId() {
 		return id;
@@ -161,6 +170,7 @@ public class AbstractUserDTO{
 		this.password = getPassword();
 		
 		this.idCompany = user.getIdCompany();
+		this.changePass = user.isChangePass();
 	}
 	
 

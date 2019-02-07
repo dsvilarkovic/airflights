@@ -82,6 +82,7 @@ import { HotelProfileComponent } from './hotel/hotel-profile/hotel-profile.compo
 
 import { Ng5SliderModule } from 'ng5-slider';
 import { InvitationListComponent } from './invitation-list/invitation-list.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 
@@ -143,7 +144,8 @@ const appRoutes: Routes = [
   {path: 'listHotels', component: ListHotelsComponent},
   {path: 'listRentacars', component: ListRentacarsComponent},
   {path: 'listFriends/:id', component: ListFriendsComponent},
-  {path: 'invitationList', component: InvitationListComponent}
+  {path: 'invitationList', component: InvitationListComponent},
+  {path: 'change-password', component: ChangePasswordComponent}
 ];
 
 @NgModule({
@@ -207,6 +209,7 @@ const appRoutes: Routes = [
     ReserveSeatsComponent,
     HotelProfileComponent,
     InvitationListComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     ReactiveFormsModule,
