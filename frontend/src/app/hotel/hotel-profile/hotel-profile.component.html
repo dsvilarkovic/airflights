@@ -24,10 +24,10 @@
                 <i class="fa fa-search"></i>
             </a>
             <div *ngIf="logged;else other_content">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+              <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Sign out</button>
             </div>
             
-            <ng-template #other_content><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button></ng-template>
+            <ng-template #other_content><button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="login()">Log in</button></ng-template>
         </form>
       </div>
     </nav>
@@ -98,14 +98,52 @@
         </form>
       </div>
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Choose extras</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="ex">Extras</label>
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select extras'"
+                    [data]="extras"
+                    [(ngModel)]="selectedItems"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onItemDeselect($event)"
+                    (onDeSelectAll)="onDeselectAll($event)"
+                    >
+                  </ng-multiselect-dropdown>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"  data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="reserve()">Reserve</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-10 offset-md-1">
         <br />
         <div class="float-right">
+            <button id="reserveBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" [disabled]="selected.length==0">
+              Reserve selected
+            </button>
             <a id="sb" class="btn btn-warning" data-toggle="collapse" href="#collapseExample2" role="button">
               Promo rooms
             </a>
         </div>
+        
         <h1 id="title">Hotel "{{hotel.name}}"</h1>
 
         <div class="panel-group">
@@ -144,12 +182,17 @@
               <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
                 <img src="assets/room_icon.png" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
+                  <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{room.ratingsSum/room.ratingsCount | number: '1.0-2'}}</span></h5>
                   <p class="card-text">Floor : {{room.floor}}</p>
                   <p class="card-text">Beds : {{room.beds}}</p>
-                  <p class="card-text">Total price : {{room.price}}€</p>
+                  <p class="card-text">Total price : {{room.price*days0}}€</p>
                   <div *ngIf="logged">
-                      <button [disabled]=!logged  (click)="book(room.id)" class="btn btn-primary mt-4 mb-4">Book</button>
+                      
+                      <div *ngIf="!room.booked;else other_content2">
+                        <button [disabled]=!logged  (click)="book(room)" class="btn btn-primary mt-4 mb-4">Add</button>
+                      </div>
+                      
+                      <ng-template #other_content2><button class="btn btn-outline-secondary my-2 my-sm-0" (click)="cancel(room)">Cancel</button></ng-template>
                   </div>
                 </div>
               </div>
@@ -162,13 +205,13 @@
                 <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
                   <img src="assets/room_icon.png" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
+                    <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{room.ratingsSum/room.ratingsCount | number: '1.0-2'}}</span></h5>
                     <p class="card-text">Floor : {{room.floor}}</p>
                     <p class="card-text">Beds : {{room.beds}}</p>
-                    <p class="card-text">Total price : {{room.price}}€</p>
+                    <p class="card-text">Total pricee : {{room.price*days0}}€</p>
                     <p class="card-text">Discount : {{room.price}}€</p>
                     <div *ngIf="logged">
-                        <button [disabled]=!logged  (click)="book(room.id)" class="btn btn-primary mt-4 mb-4">Book</button>
+                        <button [disabled]=!logged  (click)="book(room)" class="btn btn-primary mt-4 mb-4">Reserve</button>
                     </div>
                   </div>
                 </div>

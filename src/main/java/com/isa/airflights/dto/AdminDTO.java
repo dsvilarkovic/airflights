@@ -1,11 +1,6 @@
-package com.isa.airflights.model;
+package com.isa.airflights.dto;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.isa.airflights.repository.AirlineRepository;
-import com.isa.airflights.repository.HotelRepository;
-import com.isa.airflights.repository.RentACarRepository;
-import com.isa.airflights.service.HotelService;
+import com.isa.airflights.model.AbstractUser;
 
 public class AdminDTO {
 	

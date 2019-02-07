@@ -18,6 +18,7 @@
               <th scope="col">Beds</th>
               <th scope="col">Rooms</th>
               <th scope="col">Balcony</th>
+              <th scope="col">Rating</th>
               <th scope="col">Price($/per night)</th>
             </tr>
           </thead>
@@ -28,6 +29,7 @@
               <td>{{room.beds}}</td>
               <td>{{room.rooms}}</td>
               <td>{{room.balcony}}</td>
+              <td>{{room.ratingsSum/room.ratingsCount | number: '1.0-2'}}</td>
               <td>{{room.price}}</td>
               <td><a class="btn btn-success" routerLink="/hotel/edit/{{hotel.id}}/rooms/{{room.id}}/edit">Edit</a></td>
               <td><button class="btn btn-danger" (click)="delete(room.id)">Delete</button></td>

@@ -31,7 +31,7 @@ export class HotelListComponent implements OnInit {
   //broj dana izmedju dva datuma
   days;
   
-  constructor(public sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private hotelService: HotelService
+  constructor(public sanitizer: DomSanitizer, private ts: TokenStorageService, private route: ActivatedRoute, private router: Router, private hotelService: HotelService
     , private datePipe: DatePipe,
     private token: TokenStorageService,
     private calendar: NgbCalendar) {
@@ -115,4 +115,14 @@ export class HotelListComponent implements OnInit {
   details(id: number) {
     this.router.navigate(['/hotel/' + id + '/profile'])
   }
+
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
+  }
+
+  login() {
+    this.router.navigate(['/login'])
+  }
+  
 }

@@ -23,7 +23,11 @@
             <a id="sb" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button">
                 <i class="fa fa-search"></i>
             </a>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+            <div *ngIf="logged;else other_content">
+              <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Sign out</button>
+            </div>
+            
+            <ng-template #other_content><button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="login()">Log in</button></ng-template>
         </form>
       </div>
     </nav>

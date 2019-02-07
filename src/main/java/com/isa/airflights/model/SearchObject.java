@@ -30,9 +30,11 @@ public class SearchObject {
 	
 	private Double pt;
 	
+	private Integer days;
+	
 	private List<Condition> conditions;
 
-	public List<Condition> getConditions() {
+	public List<Condition> getConditions() {	
 		return conditions;
 	}
 
@@ -126,6 +128,14 @@ public class SearchObject {
 
 	public void setPt(Double pt) {
 		this.pt = pt;
+	}
+
+	public Integer getDays() {
+		return days;
+	}
+
+	public void setDays(Integer days) {
+		this.days = days;
 	}
 	
 	
