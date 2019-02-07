@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.dto.VehicleDTO;
 import com.isa.airflights.dto.VehicleReservationDTO;
 import com.isa.airflights.model.RentACar;
+import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleReservation;
+import com.isa.airflights.repository.RoomReservationRepository;
 import com.isa.airflights.repository.VehicleReservationRepository;
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.service.RentACarService;
@@ -48,6 +50,9 @@ public class VehicleReservationController {
 	@Autowired
 	private AbstractUserService aus;
 	
+	@Autowired
+	private RoomReservationRepository rrr;
+	
 	
 	@RequestMapping(value="/getAllByUserId/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<VehicleReservationDTO>> getAllByUserId(@PathVariable Long id) {
@@ -64,6 +69,7 @@ public class VehicleReservationController {
 		return new ResponseEntity<List<VehicleReservationDTO>>(dto,HttpStatus.OK);
 	}
 	
+	//cancel za vozila
 	@RequestMapping(value="/cancel/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> cancel(@PathVariable Long id) {
 	//	vss.delete(id);
@@ -76,6 +82,22 @@ public class VehicleReservationController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	//cancel za hotele 
+	@RequestMapping(value="/cancelRoom/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> cancelRoom(@PathVariable Long id) {
+	//	vss.delete(id);
+		
+		RoomReservation r = rrr.getOne(id);
+
+		r.setActive(false); //obrisano
+		
+		rrr.save(r);
+		
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	
 	//vraca listu rezervisanih vozila u datom rent a car servisu (id)
 	@RequestMapping(value="/getAll/{id}", method = RequestMethod.GET)

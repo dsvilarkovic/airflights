@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ROOM_API } from 'src/app/globals';
+import { ROOM_API, RATING_API } from 'src/app/globals';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Room } from 'src/app/room';
 import { PromoRoom } from 'src/app/PromoRoom';
@@ -63,6 +63,18 @@ export class RoomService {
 
   reserve(res: RoomRes) {
     return this.http.post(ROOM_API + 'reserve', res, {headers: this.headers})
+  }
+
+  getAllByUserId(id): Observable<any> {
+    return this.http.get(ROOM_API + "allReservation/" + id);
+  }
+
+  rateRoom(rate,id,user): Observable<any> {
+    return this.http.get(RATING_API + "rate/room/"+rate+"/"+id+"/"+user);
+  }
+
+  rateHotel(rate,id,user): Observable<any> {
+    return this.http.get(RATING_API + "rate/hotel/"+rate+"/"+id+"/"+user);
   }
 
 }

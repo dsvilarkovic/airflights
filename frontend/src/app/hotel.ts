@@ -6,4 +6,7 @@ export class Hotel {
     rooms: string;
     extras: String;
     city: string;
+    ratingsSum: number;
+    ratingsCount: number;
+    tempRate: number;
 }

@@ -11,4 +11,7 @@ export class Room {
     price: number;
     promo: boolean; 
     discount: number;
+    ratingsSum: number;
+    ratingsCount: number;
+    tempRate: number;
 }

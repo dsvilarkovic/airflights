@@ -1,3 +1,4 @@
+import { HotelService } from 'src/services/hotel.service';
 import { DatePipe } from '@angular/common';
 import { LoginService } from './../../services/login.service';
 import { User } from './../user';
@@ -10,6 +11,8 @@ import { rentacar } from '../rentacar';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { RoomService } from 'src/services/room.service';
+import { RoomResMock } from '../roomResMock';
 
 
 @Component({
@@ -40,6 +43,13 @@ export class AuthhomepageComponent implements OnInit {
   listActiveRes: VehicleReservation[] = [];
   listOutOfDateRes: VehicleReservation[] = [];
 
+  //za rez hotela
+  roomRes: RoomResMock[] = [];
+  tempRoomRes: RoomResMock = new RoomResMock();
+  listActiveRoomRes: RoomResMock[] = [];
+  listOutOfDateRoomRes: RoomResMock[] = [];
+
+
   
 
 
@@ -48,7 +58,9 @@ export class AuthhomepageComponent implements OnInit {
     private racService: RentacarService,
     private datePipe: DatePipe,
     private loginService: LoginService,
-    private router: Router) { }
+    private router: Router,
+    private roomService: RoomService,
+    private hotelService: HotelService) { }
 
   ngOnInit() {
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -61,7 +73,7 @@ export class AuthhomepageComponent implements OnInit {
 
     this.resServise.getAllByUserId(this.id).subscribe(data => {
       this.vehicleRes = data;
-
+      
       for(let v of this.vehicleRes) {
         var now = moment(this.today); 
         var end = moment(v.dropoffdate); 
@@ -80,6 +92,26 @@ export class AuthhomepageComponent implements OnInit {
 
     })
 
+    this.roomService.getAllByUserId(this.id).subscribe(data => {
+      this.roomRes = data;
+      alert("Usao ovde@ " + this.roomRes.length)
+      for(let r of this.roomRes) {
+        var now = moment(this.today); 
+        var end = moment(r.endDate); 
+        var duration = moment.duration(end.diff(now));
+        this.days = duration.asDays();
+        //mozemo samo proveravati da li je pozitivan ili negativan broj
+        if(this.days < 0) {
+          this.listOutOfDateRoomRes.push(r);
+        } else {
+          this.listActiveRoomRes.push(r);
+          
+        }
+
+
+      }
+    })
+
     
     this.loginService.getLoggedById(this.id).subscribe(data => {
       this.user = data;
@@ -90,7 +122,7 @@ export class AuthhomepageComponent implements OnInit {
   }
 
   days;
-  cancel(id,date) {
+  cancelVehicle(id,date) {
 
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.compareDate = date;
@@ -104,7 +136,32 @@ export class AuthhomepageComponent implements OnInit {
     alert("Days? Ako je vece od 2, ne sme rezervacija da se izvrsi! " + this.days);
 
     if(this.days > 2) {
-      this.resServise.cancel(id).subscribe(data => {
+      this.resServise.cancelVehicle(id).subscribe(data => {
+        alert("Obrisao");
+        this.vehicleRes = data;
+      })
+    } else {
+
+    }
+
+    
+  }
+
+  cancelRoom(id,date) {
+
+    this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.compareDate = date;
+
+
+    var now = moment(this.today); 
+    var end = moment(this.compareDate); 
+    var duration = moment.duration(end.diff(now));
+    this.days = duration.asDays();
+
+    alert("Days? Ako je vece od 2, ne sme rezervacija da se izvrsi! " + this.days);
+
+    if(this.days > 2) {
+      this.resServise.cancelRoom(id).subscribe(data => {
         alert("Obrisao");
         this.vehicleRes = data;
       })
@@ -148,6 +205,27 @@ export class AuthhomepageComponent implements OnInit {
       alert("Vracamo ocenjeni: " + this.tempRent.rating);
     })
   }*/
+
+  pobediRoom(id,last,idRes) {
+    //  alert("Id " + id);
+      //alert("last " + last);
+      
+      this.roomService.rateRoom(last,id,idRes).subscribe(data => {
+        this.tempRes = data;
+       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+      })
+  }
+  pobediHotel(id,last,idRes) {
+    //  alert("Id " + id);
+      //alert("last " + last);
+      
+      this.roomService.rateHotel(last,id,idRes).subscribe(data => {
+        this.tempRes = data;
+       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+      })
+  }
+  
+  
 
   logout() {
     this.tokenService.signOut();

@@ -89,7 +89,7 @@ VALUES (6,'vozilo1', 'RENAULT', 'Capture',  '2010', '5','2', '0' , '50', false,'
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
 VALUES ('2019-1-1', '2019-1-14', 560, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','1','1',false,false,false);
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
-VALUES ('2019-1-14', '2019-1-25', 320, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '4','5','1',false,false,false);
+VALUES ('2019-1-14', '2019-1-25', 320, '2019-1-1', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '4','4','1',false,false,false);
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar) 
 VALUES ('2019-2-4', '2019-2-14', 200, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','5','1',false,false,false);
 
@@ -167,21 +167,21 @@ INSERT INTO reservation_package(id, tickets) VALUES (1003, 5);
 INSERT INTO reservation_package(id, tickets) VALUES (1004, 5);
 
 -- Rezervacije soba
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-02-28', 100.00, false, '2019-02-18', 1001, 1006);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-02-28', 100.00, false, '2019-02-18', 1001, 1006,4,1002,false,false, '2019-2-10');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-01-10', 200.00, false, '2018-12-29', 1002, 1006);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-01-10', 200.00, false, '2018-12-29', 1002, 1006,4,1002,false,false, '2018-12-22');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-02-18', 300.00, false, '2019-02-05', 1003, 1006);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-02-18', 300.00, false, '2019-02-03', 1003, 1006,4,1002,false,false, '2019-2-3');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-02-28', 50.00, false, '2019-02-18', 1001, 1003);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-02-28', 50.00, false, '2019-02-18', 1001, 1003,4,1002,false,false, '2019-2-13');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-01-10', 150.00, false, '2018-12-29', 1002, 1004);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-01-10', 150.00, false, '2018-12-29', 1002, 1004,4,1002,false,false, '2018-12-23');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id)
-VALUES (true, '2019-02-18', 123.50, false, '2019-02-05', 1004, 1003);
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
+VALUES (true, '2019-02-18', 123.50, false, '2019-02-05', 1004, 1003,4,1002,false,false, '2019-02-03');
 
