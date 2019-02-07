@@ -48,18 +48,6 @@ INSERT INTO hotel_extras(id, price, name, unit, hotel_id) VALUES (1003, 5, 'Baze
 INSERT INTO hotel_extras(id, price, name, unit, hotel_id) VALUES (1004, 15, 'Bar', 'TOTAL', 1002);
 INSERT INTO hotel_extras(id, price, name, unit, hotel_id) VALUES (1005, 3, 'Budjenje', 'TOTAL', 1002);
 
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify,id_rentacar, role_id)
-VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4535',true,0,2);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar, role_id, hotel_id)
-VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','43537', true,3, 4, 1002);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar)
-VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,1);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar, role_id)
-VALUES (4, 'Subotica', 'pero@gmail.com', 'Pera', '867867','Peric','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true, 0, 1);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar)
-VALUES (5, 'Beocin', 'viktor@gmail.com', 'Viktor', '65986','Djuka','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','66566', true,2);
-
-
 INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
 VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'Vozi vozi me ko na rolerkosteru', 'Compact', 1,5);
 INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
