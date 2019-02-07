@@ -48,7 +48,7 @@ INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name
 VALUES (5, 'Beocin', 'viktor@gmail.com', 'Viktor', '65986','Djuka','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','66566', true,2);
 
 INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
-VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Compact', 1,5);
+VALUES (1, 'Bulevar oslobođenja 13/1',' Novi Sad', 'Vozi vozi me ko na rolerkosteru', 'Compact', 1,5);
 INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)
 VALUES (2, 'Bulevar oslobođenja 13/1',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'Europcar',1,5);
 INSERT INTO rentacar(id, address, city, description, name, rating_count,rating_sum)

@@ -1,3 +1,4 @@
+import { VEHICLE_API, BRANCH_API, USER_API, RATING_API } from './../app/globals';
 import { Branch } from './../app/branch';
 import { rentacar } from './../app/rentacar';
 import { HttpClient } from '@angular/common/http';
@@ -15,64 +16,64 @@ export class RentacarService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get("//localhost:8080/api/rentacar/test");
+    return this.http.get(RENT_A_CAR_API + "test");
   }
 
   getOne(id): Observable<any> {
-    return this.http.get("//localhost:8080/api/rentacar/"+id);
+    return this.http.get(RENT_A_CAR_API +id);
   } 
 
   getAllVehicles(): Observable<any> {
     alert("OVDE SAM!!!");
-    return this.http.get("//localhost:8080/api/vehicle/test");
+    return this.http.get(VEHICLE_API + "test");
   }
 
   getAllBranches(): Observable<any> {
-    return this.http.get("//localhost:8080/api/branch/getAllBranches");
+    return this.http.get(BRANCH_API + "getAllBranches");
   }
 
   addVehicle(vehicle: Object, id1,id2): Observable<any> {
     alert("TUSAM");
-    return this.http.post("//localhost:8080/api/vehicle/addVehicle/"+id1+"/"+id2,vehicle);
+    return this.http.post(VEHICLE_API + "addVehicle/"+id1+"/"+id2,vehicle);
   }
 
   updateVehicle(vehicle: Object): Observable<any> {
     alert("Usao");
-    return this.http.put("//localhost:8080/api/vehicle/update",vehicle);
+    return this.http.put(VEHICLE_API + "update",vehicle);
   }
 
   deleteVehicle(id): Observable<any> {
     alert("Usao");
-    return this.http.delete("//localhost:8080/api/vehicle/delete/"+id);
+    return this.http.delete(VEHICLE_API + "delete/"+id);
   }
 
   addBranch(branch: Branch,id): Observable<any> {
-    return this.http.post("//localhost:8080/api/branch/addBranch/"+id,branch)
+    return this.http.post(BRANCH_API + "addBranch/"+id,branch)
   }
 
   updateBranch(branch: Branch): Observable<any> {
-    return this.http.put("//localhost:8080/api/branch/update",branch);
+    return this.http.put(BRANCH_API + "update",branch);
   }
 
   deleteBranch(id): Observable<any> {
-    return this.http.delete("//localhost:8080/api/branch/delete/"+id);
+    return this.http.delete(BRANCH_API + "delete/"+id);
   }
 
   getLogged(httOptions):Observable<any> {
-    return this.http.get("//localhost:8080/api/abstractUsers/logged",httOptions);
+    return this.http.get(USER_API + "logged",httOptions);
   }
 
   search(name): Observable<any> {
     alert("Ovde!")
-    return this.http.get("//localhost:8080/api/rentacar/search/"+name);
+    return this.http.get(RENT_A_CAR_API + "search/"+name);
   }
 
   getAllById(id): Observable<any> {
-    return this.http.get("//localhost:8080/api/vehicle/getAll/"+id);
+    return this.http.get(VEHICLE_API + "getAll/"+id);
   }
 
   searchBranch(id): Observable<any> {
-    return this.http.get("//localhost8080/api/branch/search/"+id);
+    return this.http.get(BRANCH_API + "search/"+id);
   }
 
   save(rac: Object) : Observable<any> {
@@ -88,14 +89,15 @@ export class RentacarService {
   }
 
   getAllDiscount(id,name): Observable<any> {
-    return this.http.get("//localhost:8080/api/vehicle/getAllDiscount/"+id+"/"+name);
+    return this.http.get(VEHICLE_API + "getAllDiscount/"+id+"/"+name);
   }
 
   rateRac(rate,id,user): Observable<any> {
-    return this.http.get("//localhost:8080/api/rating/rate/"+rate+"/"+id+"/"+user);
+    return this.http.get(RATING_API + "rate/"+rate+"/"+id+"/"+user);
   }
 
   rateVehicle(rate,id,user): Observable<any> {
-    return this.http.get("//localhost:8080/api/rating/rate/vehicle/"+rate+"/"+id+"/"+user);
+    return this.http.get(RATING_API + "rate/vehicle/"+rate+"/"+id+"/"+user);
   }
 }
+  

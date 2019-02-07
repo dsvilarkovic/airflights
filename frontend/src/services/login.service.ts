@@ -1,3 +1,4 @@
+import { API } from './../app/globals';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -15,15 +16,15 @@ export class LoginService {
   }
 
   getLogged(username): Observable<any> {
-    return this.http.get("//localhost:8080/api/abstractUsers/logged",username);
+    return this.http.get(API+"abstractUsers/logged",username);
   }
 
   getLoggedById(id): Observable<any> {
-    return this.http.get("//localhost:8080/api/abstractUsers/loggedById/"+id);
+    return this.http.get(API + "abstractUsers/loggedById/"+id);
   }
 
   getLoggedByIdCompany(id): Observable<any> {
-    return this.http.get("//localhost:8080/api/abstractUsers/loggedByIdCompany/"+id);
+    return this.http.get(API + "abstractUsers/loggedByIdCompany/"+id);
   }
   
 }

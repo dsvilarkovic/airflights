@@ -12,9 +12,8 @@
           <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
           <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
           <li class="nav-item"><a routerLink="/rentacarPreview" class="nav-link">Rent a cars</a></li>
-          <li *ngIf="adminFlag" class="nav-item"><a routerLink="/rentacar/{{idCompany}}" class="nav-link">Admin page</a></li>
           <li  class="nav-item"><a routerLink="/userProfile" class="nav-link">Profile</a></li>
-          <li  class="nav-item"><a class="nav-link">Friends</a></li>
+          <li  class="nav-item"><a routerLink="/friends"class="nav-link">Friends</a></li>
           <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
             <span>Sign Out</span>
         </button></li>

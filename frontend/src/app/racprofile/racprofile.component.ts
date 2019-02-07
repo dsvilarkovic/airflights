@@ -168,6 +168,7 @@ niz : Array<any>;
     this.seats.setValue(this.currentVehicle.seats);
     this.price.setValue(this.currentVehicle.price);
     this.type.setValue(this.currentVehicle.type);
+    alert("Curr branch loc: " + this.currentVehicle.branchOffice_id)
   }
 
   update() {
@@ -185,7 +186,7 @@ niz : Array<any>;
     this.racService.updateVehicle(this.updateV).subscribe(data => {
       
       this.tempVehicle = data;
-      alert("thslkjtha " + this.tempVehicle);
+      alert("Id izmenjenog vozila " + this.tempVehicle.id);
       if(this.tempVehicle == null) {
         alert("Vozilo je rezervizano i nije moguce izmena");
       } else {
