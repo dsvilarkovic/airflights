@@ -109,6 +109,7 @@ public class AuthRestAPIs {
         user.setAddress(signUpRequest.getAddress());
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
         user.setIdRentACar(0);
+        user.setChangePass(true);
         
         
         

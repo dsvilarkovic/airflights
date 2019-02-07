@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   token: Token = new Token();
+
+  checkFirst: boolean = false;
+
   constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorageService, private loginService:LoginService) { }
 
   ngOnInit() {
@@ -52,19 +55,30 @@ export class LoginComponent implements OnInit {
         this.roles = this.tokenStorage.getAuthorities();
         localStorage["sent"] = false;
 
+        this.loginService.getCheckVerify(data.user_id).subscribe(data2 => {
+            this.checkFirst = data2;
 
-        this.loginService.getLoggedByIdCompany(data.user_id).subscribe(data => {
-          this.idCompany = data;
-          if(this.roles.includes('ROLE_USER')) {
-            this.router.navigate(['/home']);
-          } else if(this.roles.includes(ROLE_SYS)) {
-            this.router.navigate(['/admin/profile']);
-          } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
-            this.router.navigate(['/rentacar/'+ this.idCompany]);
-          } else if(this.roles.includes(ROLE_H)) {
-            this.router.navigate(['/admin/hotel/profile']);
-          }
+            if(this.checkFirst) {
+              this.loginService.getLoggedByIdCompany(data.user_id).subscribe(data => {
+                this.idCompany = data;
+                if(this.roles.includes('ROLE_USER')) {
+                  this.router.navigate(['/home']);
+                } else if(this.roles.includes(ROLE_SYS)) {
+                  this.router.navigate(['/admin/profile']);
+                } else if(this.roles.includes('ROLE_RENTACARADMIN')) {
+                  this.router.navigate(['/rentacar/'+ this.idCompany]);
+                } else if(this.roles.includes(ROLE_H)) {
+                  this.router.navigate(['/admin/hotel/profile']);
+                }
+              })
+            } else {
+              this.router.navigate(['/change-password']);
+            }
+
         })
+        
+
+        
         
       
         //alert(this.roles);

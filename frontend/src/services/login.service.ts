@@ -26,5 +26,12 @@ export class LoginService {
   getLoggedByIdCompany(id): Observable<any> {
     return this.http.get(API + "abstractUsers/loggedByIdCompany/"+id);
   }
-  
+
+  getCheckVerify(id):  Observable<any> {
+    return this.http.get(API + "abstractUsers/checkFirstAttemp/"+id);
+  }
+
+  setNewPassword(pass,id): Observable<any> {
+    return this.http.get(API + "abstractUsers/setNewPassword/"+pass+"/"+id);
+  }
 }

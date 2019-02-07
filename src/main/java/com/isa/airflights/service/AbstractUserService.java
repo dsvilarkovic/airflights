@@ -211,7 +211,9 @@ public class AbstractUserService {
 		return abstractUser;		
 	}
 	
-	
+	/**
+	 * Za proveru da li je prvi put ulogovan
+	 * */
 	
 
 }

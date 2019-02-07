@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.MediaType;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.model.*;
+import com.isa.airflights.repository.AbstractUserRepository;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -45,6 +47,12 @@ public class AbstractUserController {
 	
 	@Autowired
 	private AbstractUserService abstractUserService;
+	
+	@Autowired
+	private AbstractUserRepository userrep;
+	
+	@Autowired
+    PasswordEncoder encoder;
 	
 	@RequestMapping("/test")
 	public String test() {
@@ -164,6 +172,26 @@ public class AbstractUserController {
 		retVal = abstractUserService.save(user);
 		
 		return new ResponseEntity<AbstractUser>(retVal,HttpStatus.OK);
+	}
+	@RequestMapping(value="/checkFirstAttemp/{id}")
+	public Boolean checkVerify(@PathVariable Long id) {
+		AbstractUser user = userrep.getOne(id);
+		if(user.isChangePass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@RequestMapping(value="/setNewPassword/{pass}/{id}")
+	public AbstractUserDTO setNew(@PathVariable String pass, @PathVariable Long id) {
+		 AbstractUser user = userrep.getOne(id);
+		 user.setPassword(encoder.encode(pass));
+		 user.setChangePass(true);
+		 userrep.save(user);
+		 AbstractUserDTO dto = new AbstractUserDTO(user);
+		 return dto;
+		 
 	}
 	
 }
