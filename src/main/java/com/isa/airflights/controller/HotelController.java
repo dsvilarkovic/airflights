@@ -25,7 +25,6 @@ import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.Room;
 import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.SearchObject;
-import com.isa.airflights.service.AdminService;
 import com.isa.airflights.service.HotelService;
 import com.isa.airflights.service.RoomReservationService;
 import com.isa.airflights.service.RoomService;

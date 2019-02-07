@@ -12,6 +12,7 @@ import { Condition } from 'src/app/condition';
 import { isNumeric } from "rxjs/util/isNumeric"
 import { RoomService } from 'src/services/room.service';
 import { ROLE_USER } from 'src/app/globals';
+import { RoomRes } from 'src/app/roomRes';
 
 
 @Component({
@@ -30,7 +31,6 @@ export class HotelProfileComponent implements OnInit {
 
   days: number;
   daysP: number;
-  days0: number;
   persons: number;
   cons: Array< Condition> = new Array<Condition>();
 
@@ -38,6 +38,7 @@ export class HotelProfileComponent implements OnInit {
   _finalAddress: string = "";
   date: {year: number, month: number};
   date2: {year: number, month: number};
+  days0: number;
   fromDate: NgbDate;
   fromDateP: NgbDate;
   toDate: NgbDate;
@@ -54,10 +55,16 @@ export class HotelProfileComponent implements OnInit {
   pf: boolean;
   logged: boolean;
 
+  selected: Array<any> = new Array();
+
   sObj: SearchObject = new SearchObject();
+  sObjBack: SearchObject = new SearchObject();
+
+  selectedItems = [];
+  dropdownSettings = {};
 
   constructor(public sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private hotelService: HotelService
-    , private datePipe: DatePipe, private extrasService: HotelExtrasService, private rService: RoomService,
+    , private datePipe: DatePipe, private extrasService: HotelExtrasService, private rService: RoomService, 
     private ts: TokenStorageService,
     private calendar: NgbCalendar) {
       this.fromDate = calendar.getToday();
@@ -93,6 +100,16 @@ export class HotelProfileComponent implements OnInit {
         element.unit = this.extrasService.convert(element.unit)
       });
     }, e => console.error(e))
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 5,
+      allowSearchFilter: true
+    };
 
     // this.rService.getRoomsInHotel(id).subscribe( r => {
     //   this.rooms = r;
@@ -152,6 +169,24 @@ export class HotelProfileComponent implements OnInit {
     this.ngOnInit();
   }
 
+  onItemSelect(item: any) {
+    this.selectedItems.push(item);
+  }
+
+  onSelectAll(items: any) {
+    this.selectedItems = items;
+  }
+
+  onItemDeselect(item: any) {
+    let ind = this.selectedItems.indexOf(item);
+    this.selectedItems.splice(ind, 1);
+    //alert(this.selectedItems);
+  }
+
+  onDeselectAll(items: any) {
+    this.selectedItems = [];
+  }
+
   addCon() {
     if (isNumeric(this.noR) && this.noR > 0 && isNumeric(this.noB) && this.noB > 0 ) {
       let c : Condition = new Condition()
@@ -209,24 +244,40 @@ export class HotelProfileComponent implements OnInit {
 
       this.days0 = this.days
 
-      
+      this.sObj.days = this.days
+
       if (this.pf) {
         this.sObj.pf = this.value
         this.sObj.pt = this.highValue
       }
 
+      this.sObjBack = this.sObj;
+
       this.rService.getSearchRooms(this.hotel.id, this.sObj).subscribe( r => {
         this.pRooms = null;
         this.rooms = r;
-      }, error => alert(error))
+        this.rooms.forEach(element => {
+          element.booked = false
+        });
+        this.selected = new Array()
+      }, error => alert("Sorry, we don't have rooms that you need"))
 
     } else {
       alert("Please enter number of days")
     }
   }
 
-  book() {
+  book(room) {
+    this.selected.push(room.id);
+    room.booked = true;
+  }
 
+  cancel(room) {
+    const index = this.selected.indexOf(room.id, 0);
+    if (index > -1) {
+      this.selected.splice(index, 1);
+    }
+    room.booked = false;
   }
 
   promos() {
@@ -244,10 +295,16 @@ export class HotelProfileComponent implements OnInit {
       this.sObj.endD = d2.getDate()
       this.sObj.endM = d2.getMonth() + 1
       this.sObj.endY = d2.getFullYear()
+      this.sObj.days = this.days
+
+      this.days0 = this.days
+
+      this.sObjBack = this.sObj;
 
       this.rService.getPromoRooms(this.hotel.id, this.sObj).subscribe( r => {
         this.pRooms = r;
         this.rooms = null;
+        this.selected = new Array()
       }, error => console.error(error))
 
     } else {
@@ -259,8 +316,29 @@ export class HotelProfileComponent implements OnInit {
     this.router.navigate(['/login'])
   }
 
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
+  }
+
   reserve() {
 
+    this.selected.forEach(element => {
+      let res: RoomRes = new RoomRes()
+      res.obj = this.sObjBack
+      res.extras = new Array<number>()
+      this.selectedItems.forEach(element => {
+        res.extras.push(element.id)
+      });
+      res.room_id = element
+
+      this.rService.reserve(res).subscribe(r=>{
+        alert("Proslo je")
+      }, e => console.error(e))
+
+    });
+
   }
+
 
 }

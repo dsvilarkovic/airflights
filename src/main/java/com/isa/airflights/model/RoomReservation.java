@@ -39,8 +39,15 @@ public class RoomReservation {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Room room;
     
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private ReservationPackage reservation;
+    
     @Column
     private Boolean rated = false;
+    
+	@Column(name="active", nullable=true)
+	Boolean active = true;
 
 	public Boolean getRated() {
 		return rated;
@@ -89,9 +96,21 @@ public class RoomReservation {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	public RoomReservation() {
-		// Default
+
+	public ReservationPackage getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(ReservationPackage reservation) {
+		this.reservation = reservation;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 	

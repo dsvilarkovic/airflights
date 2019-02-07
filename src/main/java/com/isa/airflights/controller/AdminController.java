@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AbstractUserDTO;
+import com.isa.airflights.dto.AdminDTO;
 import com.isa.airflights.model.AbstractUser;
-import com.isa.airflights.model.AdminDTO;
 import com.isa.airflights.model.Misc;
 import com.isa.airflights.model.Role;
 import com.isa.airflights.service.AbstractUserService;

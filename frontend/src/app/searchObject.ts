@@ -14,4 +14,5 @@ export class SearchObject {
     pf: number;
     pt: number;
     conditions: Array<Condition>;
+    days: number;
 }

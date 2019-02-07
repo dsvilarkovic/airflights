@@ -4,6 +4,7 @@ import { ROOM_API } from 'src/app/globals';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Room } from 'src/app/room';
 import { PromoRoom } from 'src/app/PromoRoom';
+import { RoomRes } from 'src/app/roomRes';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,10 @@ export class RoomService {
 
   getSearchRooms(idh: number, sObj: any) : Observable<any> {
     return this.http.post(ROOM_API + idh + '/searchRooms', sObj, {headers: this.headers})
+  }
+
+  reserve(res: RoomRes) {
+    return this.http.post(ROOM_API + 'reserve', res, {headers: this.headers})
   }
 
 }
