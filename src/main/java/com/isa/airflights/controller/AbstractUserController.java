@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.dto.AbstractUserDTO;
+import com.isa.airflights.dto.UserDTODjuka;
 import com.isa.airflights.model.*;
 import com.isa.airflights.repository.AbstractUserRepository;
 
@@ -81,25 +82,26 @@ public class AbstractUserController {
 	}
 	
 	@RequestMapping("/loggedById/{id}")
-	public ResponseEntity<AbstractUserDTO> getabstractUser(@PathVariable Long id) {
+	public ResponseEntity<UserDTODjuka> getabstractUser(@PathVariable Long id) {
 		
 		AbstractUser a = abstractUserService.getOne(id);
-		AbstractUserDTO dto = new AbstractUserDTO(a);
+		UserDTODjuka dto = new UserDTODjuka(a);
 		
 		System.out.println("STO: " + dto.getRentacar());
 		
 		
-		return new ResponseEntity<AbstractUserDTO>(dto , HttpStatus.OK);
+		return new ResponseEntity<UserDTODjuka>(dto , HttpStatus.OK);
 	}
 	
 	@RequestMapping("/loggedByIdCompany/{id}")
 	public ResponseEntity<Integer> getUser(@PathVariable Long id) {
 		
 		AbstractUser a = abstractUserService.getOne(id);
-		AbstractUserDTO dto = new AbstractUserDTO(a);
+		//AbstractUserDTO dto = new AbstractUserDTO(a);
 		
-		System.out.println("STO: " + dto.getRentacar());
-		int pom = dto.getRentacar();
+		System.out.println("STO: " + a.getIdRentACar());
+		int pom = a.getIdRentACar();
+		System.out.println("POM: " + pom);
 		
 		return new ResponseEntity<Integer>(pom , HttpStatus.OK);
 	}
@@ -184,14 +186,15 @@ public class AbstractUserController {
 	}
 	
 	@RequestMapping(value="/setNewPassword/{pass}/{id}")
-	public AbstractUserDTO setNew(@PathVariable String pass, @PathVariable Long id) {
+	public boolean setNew(@PathVariable String pass, @PathVariable Long id) {
 		 AbstractUser user = userrep.getOne(id);
 		 user.setPassword(encoder.encode(pass));
 		 user.setChangePass(true);
 		 userrep.save(user);
-		 AbstractUserDTO dto = new AbstractUserDTO(user);
-		 return dto;
+		//AbstractUserDTO dto = new AbstractUserDTO(user);
+		 return true;
 		 
 	}
+	
 	
 }
