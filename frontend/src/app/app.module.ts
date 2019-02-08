@@ -134,11 +134,11 @@ const appRoutes: Routes = [
   
   { path: "addflight", component: AddFlightsComponent },
   { path: "addplane", component: AddPlaneComponent },
-  { path: "seatconfig/:id", component: ConfigSeatsComponent },
+  { path: "seatConfig/:id", component: ConfigSeatsComponent },
   { path: "findflight", component: SearchComponent },
   { path: "friends", component: FriendsComponent },
   { path: "flight-administration", component: FlightAdministrationComponent},
-  { path: "flight-seat-reservation", component : FlightSeatReservationComponent},
+  { path: "flight-seat-reservation/:id", component : FlightSeatReservationComponent},
   { path: "passenger-form", component : PassengerFormComponent},
   { path: "flight-friend-invitation", component : FlightFriendInvitationComponent},
 

@@ -9,7 +9,8 @@ import { AirlineAdminService } from "src/services/airline-admin.service";
 })
 export class FlightSeatReservationComponent implements OnInit {
   
-  constructor(private activatedRoute: ActivatedRoute, private router : Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private router : Router,
+              private airlineAdminService : AirlineAdminService) { }
   id;
   errorMsg = "";
   Arr = Array;
@@ -27,17 +28,7 @@ export class FlightSeatReservationComponent implements OnInit {
 
 
   /**Ovo se misli na rezervisana sedista iz nekih drugih narudzbina */
-  reservedSeatsMock = [
-    {
-      seat: {
-        id: 5,
-        seatRow: 1,
-        seatColumn: 1,
-        segmentNum: 2,
-        airlineClass: "FIRST"
-      }
-    }
-  ];
+  reservedSeatsMock = [];
 
   airplaneMock = {
     fullName: null,
@@ -51,23 +42,22 @@ export class FlightSeatReservationComponent implements OnInit {
   segmentNumbersMock = [];
 
   ngOnInit() {
+    //TODO: obrisati this.id = 1
     this.id = this.activatedRoute.snapshot.params.id;
     this.id = 1;
-    // this.airlineAdminService.getPlane(this.id).subscribe(res => {
-    //   this.airplaneMock = res;
-    //   console.log(this.airplaneMock);
-    //   this.getNumberOfSeatsPerSegment();
-    //   this.rows = this.getNumberOfRows();
-    // });
-
     
-    this.airplaneMock.fullName = "Neki avion";
-    this.airplaneMock.segmentConfig = this.seatConfigMock;
-    this.getNumberOfSeatsPerSegment();
-    this.rows = this.getNumberOfRows();
+    this.airlineAdminService.getPlane(this.id).subscribe(res => {
+      this.airplaneMock = res;
+      console.log(this.airplaneMock);
+      this.getNumberOfSeatsPerSegment();
+      this.rows = this.getNumberOfRows();
+    });
 
+    //TODO: podesiti reservedSeats koja su zauzeta od strane drugih korisnika
+    
     /**
-     * ovde proveri ima li  u session storage nesto prethodno rezervisano
+     * ovde proveri ima li  u session storage nesto prethodno rezervisano 
+     * od strane istog korisnika
      */
     if(sessionStorage.getItem('userReservedSeats')){
       //podesi sedista u nasem mock airplane-u
