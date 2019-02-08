@@ -146,7 +146,7 @@ export class RentACarDiscountComponent implements OnInit {
     })
 
     if(sessionStorage.getItem("AuthUsername") == null) {
-      alert("Niko nije ulogovan!");
+     // alert("Niko nije ulogovan!");
       this.boolLog = true;
       this.boolLogOff = false;
      
@@ -178,11 +178,11 @@ export class RentACarDiscountComponent implements OnInit {
     }
 
     
-    alert("Usao " + this.selectedVehicle.branchOffice_id);
+    //alert("Usao " + this.selectedVehicle.branchOffice_id);
 
     for(let b of this.branches2) {
       if(b.id == this.selectedVehicle.branchOffice_id) {
-        alert("Usao")
+        //alert("Usao")
         this.reserv.pickuplocation = b.address + " " + b.city;
         this.reserv.dropofflocation = b.address + " " + b.city;
       }
@@ -248,6 +248,11 @@ export class RentACarDiscountComponent implements OnInit {
 
 
     logout() {
+      this.ts.signOut();
+      this.router.navigate(['/login']);
+    }
+
+    login() {
       this.ts.signOut();
       this.router.navigate(['/login']);
     }
