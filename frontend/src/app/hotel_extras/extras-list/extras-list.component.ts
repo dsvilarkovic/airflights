@@ -93,4 +93,9 @@ export class ExtrasListComponent implements OnInit {
     }
   }
 
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
+  }
+
 }

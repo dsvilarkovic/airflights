@@ -4,7 +4,7 @@
       <form #roomEditForm="ngForm" (ngSubmit)="update(roomEditForm.value)">
         <h1>Hotel "{{hotel.name}}"</h1>
         <h2>Room {{roomNumber}}</h2>
-        <div class="form-content">
+        <div class="form-content" *ngIf="!reserved">
           <div class="form-group">
               <label for="roomN">Room number</label>
               <input type="number" min="0" [(ngModel)]="room.number" required class="form-control" name="number" placeholder="Enter room number">
@@ -30,7 +30,7 @@
             <div class="input-group">
               <input type="number" min="0" [(ngModel)]="room.price" required class="form-control" name="price" placeholder="Enter price per night">
               <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2">$</span>
+                <span class="input-group-text" id="basic-addon2">€</span>
               </div>
             </div>
             <small id="priceMsg" class="form-text text-muted" hidden>Invalid</small>

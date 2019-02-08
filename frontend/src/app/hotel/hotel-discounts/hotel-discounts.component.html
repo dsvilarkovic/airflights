@@ -1,0 +1,97 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Airflights</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link"><h2>Hotel "{{hotel.name}}" administration</h2><span class="sr-only"></span></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" (ngSubmit)="logout()">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+    </form>
+  </div>
+</nav>
+<div class="room-list animate">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <ul class="nav nav-pills">
+        <li><a class="btn btn-info" routerLink="/admin/hotel/profile">Profile</a></li>
+        <li><a class="btn btn-info" routerLink="/hotel/edit/">General</a></li>
+        <li><a class="btn btn-info" routerLink="/hotel/edit/rooms/list">Rooms</a></li>
+        <li><a class="btn btn-info" routerLink="/hotel/edit/extras/list">Extras</a></li>
+        <li><a class="btn btn-info" routerLink="/hotel/charts">Charts</a></li>
+        <li><a class="btn btn-info" routerLink="/hotel/revenues">Revenues</a></li>
+        <li><a class="btn btn-info active">Discounts</a></li>
+      </ul>
+      <form #Form="ngForm" (ngSubmit)="save1()">
+          <table class="table table-hover">
+                <thead>
+                  <th scope="col">No.</th>
+                  <th scope="col">Threshold</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td><input type="number" required [(ngModel)]="m1.b" class="form-control" name="b1" id="b1" placeholder="Enter first threshold">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td><input type="number" required [(ngModel)]="m1.bb" class="form-control" name="bb1" id="bb1" placeholder="Enter second threshold">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td><input type="number" [(ngModel)]="m1.bbb" required class="form-control" name="bbb1" id="bbb1" placeholder="Enter third threshold">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+  
+                    </td>
+                    <td>
+                        <button id="btnAdd" class="btn btn-primary float-right" type="submit" [disabled]="!Form.form.valid">Update</button>  
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+          </form>
+          <form #Form2="ngForm" (ngSubmit)="save2()">
+              <table class="table table-hover">
+                    <thead>
+                      <th scope="col">Threshold</th>
+                      <th scope="col">Discount(%)</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">{{h.b}}</th>
+                        <td><input type="number" required [(ngModel)]="m2.b" class="form-control" name="b" id="b" placeholder="Enter first threshold">
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{h.bb}}</th>
+                        <td><input type="number" required [(ngModel)]="m2.bb" class="form-control" name="bb" id="bb" placeholder="Enter second threshold">
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{h.bbb}}</th>
+                        <td><input type="number" [(ngModel)]="m2.bbb" required class="form-control" name="bbb" id="bbb" placeholder="Enter third threshold">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+      
+                        </td>
+                        <td>
+                            <button id="btnAdd" class="btn btn-primary float-right" type="submit" [disabled]="!Form2.form.valid">Update</button>  
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+              </form>
+    </div>
+  </div>
+</div>

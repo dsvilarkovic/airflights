@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,6 +35,9 @@ public class Hotel {
 	@Column(name = "rating_sum", nullable = false)
 	private Long ratingsSum = 0L;
 	
+	@Version
+	@Column(name = "version")
+	private Long version;
 	
 	//@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonIgnoreProperties("hotel")

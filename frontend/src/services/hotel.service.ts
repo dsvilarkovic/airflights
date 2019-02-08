@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Hotel } from 'src/app/hotel';
 import { HOTEL_API } from '../app/globals';
+import { SearchObject } from 'src/app/searchObject';
 
 @Injectable()
 export class HotelService {
@@ -53,4 +54,19 @@ export class HotelService {
     return result;
   }*/
 
+  revenues(obj: SearchObject, id: number) {
+    return this.http.post(HOTEL_API + 'revenues/' + id, obj);
+  }
+
+  lastWeek(id: number) {
+    return this.http.get(HOTEL_API + 'chartWeek/' + id);
+  }
+
+  lastM(id: number) {
+    return this.http.get(HOTEL_API + 'lastM/' + id);
+  }
+
+  lastYear(id: number) {
+    return this.http.get(HOTEL_API + 'lastYear/' + id);
+  }
 }

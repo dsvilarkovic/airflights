@@ -4,10 +4,6 @@ import java.util.List;
 
 public class SearchObject {
 	
-	public SearchObject() {
-		// Default
-	}
-	
 	private Integer startD;
 
 	private Integer endD;

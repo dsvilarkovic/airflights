@@ -110,6 +110,19 @@
             </button>
           </div>
           <div class="modal-body">
+              <div>
+                Rooms price: {{price}}€
+              </div>
+              <div>
+                Select >= {{misc[1].b}} -> {{misc[2].b}}% total discount
+              </div>
+              <div>
+                  Select >= {{misc[1].bb}} -> {{misc[2].bb}}% total discount
+              </div>
+              <div>
+                Select >= {{misc[1].bbb}} -> {{misc[2].bbb}}% total discount
+              </div>
+              <br />
               <div class="form-group">
                   <label for="ex">Extras</label>
                   <ng-multiselect-dropdown
@@ -208,10 +221,10 @@
                     <h5 class="card-title"><b>{{room.number}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{room.ratingsSum/room.ratingsCount | number: '1.0-2'}}</span></h5>
                     <p class="card-text">Floor : {{room.floor}}</p>
                     <p class="card-text">Beds : {{room.beds}}</p>
-                    <p class="card-text">Total pricee : {{room.price*days0}}€</p>
-                    <p class="card-text">Discount : {{room.price}}€</p>
+                    <p class="card-text">Total price : {{room.price*days0}}€</p>
+                    <p class="card-text">Discount : {{room.discount}}%</p>
                     <div *ngIf="logged">
-                        <button [disabled]=!logged  (click)="book(room)" class="btn btn-primary mt-4 mb-4">Reserve</button>
+                        <button [disabled]=!logged  (click)="book(room)" class="btn btn-primary mt-4 mb-4" (click)="reservePromo(room.id)">Reserve</button>
                     </div>
                   </div>
                 </div>

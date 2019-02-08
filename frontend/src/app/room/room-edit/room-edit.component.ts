@@ -22,6 +22,8 @@ export class RoomEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private ts: TokenStorageService, private hotelservice : HotelService, private roomService: RoomService) { }
 
+  reserved: any = false;
+
   ngOnInit() {
 
     if (!this.ts.getAuthorities().includes(ROLE_H)) {
@@ -38,6 +40,10 @@ export class RoomEditComponent implements OnInit {
     const id_h = this.route.snapshot.params['idh'];
     this.hotelservice.get(id_h).subscribe(data =>{
       this.hotel = data;
+    });
+
+    this.roomService.isReserved(id).subscribe(data =>{
+      this.reserved = data;
     });
 
   }

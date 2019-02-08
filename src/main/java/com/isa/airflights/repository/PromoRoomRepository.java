@@ -17,4 +17,6 @@ public interface PromoRoomRepository extends JpaRepository<PromoRoom, Long> {
 	@Transactional
 	List<PromoRoom> deleteByRoom_id(Long room_id);
 	
+	List<PromoRoom> findByRoom_id(Long room_id);
+	
 }

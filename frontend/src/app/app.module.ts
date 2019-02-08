@@ -83,8 +83,9 @@ import { HotelProfileComponent } from './hotel/hotel-profile/hotel-profile.compo
 import { Ng5SliderModule } from 'ng5-slider';
 import { InvitationListComponent } from './invitation-list/invitation-list.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { HotelDiscountsComponent } from './hotel/hotel-discounts/hotel-discounts.component';
 
-
+import { ChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -104,6 +105,7 @@ const appRoutes: Routes = [
   {path: 'hotel/edit/:id', component: HotelEditComponent },
   {path: 'hotel/edit/rooms/list', component: RoomListComponent },
   {path: 'hotel/edit', component: HotelEditComponent },
+  {path: 'hotel/discounts', component: HotelDiscountsComponent },
   {path: 'hotel/edit/:id/addRoom', component: RoomAddComponent },
   {path: 'hotel/edit/:idh/rooms/:id/edit', component: RoomEditComponent },
   {path: 'hotel/edit/extras/list', component: ExtrasListComponent },
@@ -210,6 +212,7 @@ const appRoutes: Routes = [
     HotelProfileComponent,
     InvitationListComponent,
     ChangePasswordComponent,
+    HotelDiscountsComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -219,6 +222,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     HttpModule,
     Ng5SliderModule,
+    ChartsModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(

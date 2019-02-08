@@ -1,7 +1,23 @@
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <a class="navbar-brand" href="#">Airflights</a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link"><h2>Hotel "{{hotel.name}}" administration</h2><span class="sr-only"></span></a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" (ngSubmit)="logout()">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</button>
+          </form>
+        </div>
+      </nav>
 <div class="room-list animate">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h1>Hotel "{{hotel.name}}"</h1>
         <ul class="nav nav-pills"> 
           <li><a class="btn btn-info" routerLink="/admin/hotel/profile">Profile</a></li>
           <li><a class="btn btn-info" routerLink="/hotel/edit">General</a></li>
@@ -9,7 +25,27 @@
           <li><a class="btn btn-info" routerLink="/hotel/edit/extras/list">Extras</a></li>
           <li><a class="btn btn-info" routerLink="/hotel/charts">Charts</a></li>
           <li><a class="btn btn-info active">Revenues</a></li>
+          <li><a class="btn btn-info" routerLink="/hotel/discounts">Discounts</a></li>
         </ul>
+            <form #DateForm="ngForm" (ngSubmit)="go()">
+                <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+                  </ngb-datepicker>
+                   <ng-template #t let-date let-focused="focused">
+                    <span class="custom-day"
+                          [class.focused]="focused"
+                          [class.range]="isRange(date)"
+                          [class.faded]="isHovered(date) || isInside(date)"
+                          (mouseenter)="hoveredDate = date"
+                          (mouseleave)="hoveredDate = null">
+                      {{ date.day }}
+                    </span>
+                  </ng-template>
+                  <button class="btn btn-primary" type="submit">Search</button><br/>
+            </form>
+            <br />
+            <div *ngIf="showD">
+              <b>Revenues in selected period are {{revenues}}.</b>
+            </div>
       </div>
     </div>
   </div>

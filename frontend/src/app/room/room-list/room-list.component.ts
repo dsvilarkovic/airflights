@@ -33,14 +33,26 @@ export class RoomListComponent implements OnInit {
       this.hotel = r.hotel;
       this.roomService.getRoomsInHotel(this.hotel.id).subscribe(data => {
         this.rooms = data;
+        this.rooms.forEach(element => {
+          this.roomService.isReserved(element.id).subscribe(data =>{
+            element.reserved = data;
+          });
+        });
       });
     }, error => console.error(error));
+
+
   }
 
   delete(id : number) {
     this.roomService.remove(id).subscribe(result => {
       window.location.reload();
     }, error => console.error(error));
+  }
+
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
   }
 
 }

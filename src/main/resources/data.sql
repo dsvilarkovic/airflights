@@ -161,27 +161,27 @@ INSERT INTO misc(b, b2, b3) VALUES (1, 3, 5);
 INSERT INTO misc(b, b2, b3) VALUES (5, 10, 15);
 
 -- Rezervacije u paketu
-INSERT INTO reservation_package(id, tickets) VALUES (1001, 5);
-INSERT INTO reservation_package(id, tickets) VALUES (1002, 5);
-INSERT INTO reservation_package(id, tickets) VALUES (1003, 5);
-INSERT INTO reservation_package(id, tickets) VALUES (1004, 5);
+INSERT INTO reservation_package(id, tickets, reserved_rooms) VALUES (1001, 5, false);
+INSERT INTO reservation_package(id, tickets, reserved_rooms) VALUES (1002, 5, false);
+INSERT INTO reservation_package(id, tickets, reserved_rooms) VALUES (1003, 5, false);
+INSERT INTO reservation_package(id, tickets, reserved_rooms) VALUES (1004, 5, false);
 
 -- Rezervacije soba
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-02-28', 100.00, false, '2019-02-18', 1001, 1006,4,1002,false,false, '2019-2-10');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-02-28', 100.00, false, '2019-02-18', 1001, 1006, '2019-02-15');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-01-10', 200.00, false, '2018-12-29', 1002, 1006,4,1002,false,false, '2018-12-22');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-01-10', 200.00, false, '2018-12-29', 1002, 1006, '2018-12-15');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-02-18', 300.00, false, '2019-02-03', 1003, 1006,4,1002,false,false, '2019-2-3');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-02-18', 300.00, false, '2019-02-05', 1003, 1006, '2018-12-15');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-02-28', 50.00, false, '2019-02-18', 1001, 1003,4,1002,false,false, '2019-2-13');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-02-28', 50.00, false, '2019-02-18', 1001, 1003, '2018-12-15');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-01-10', 150.00, false, '2018-12-29', 1002, 1004,4,1002,false,false, '2018-12-23');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-01-10', 150.00, false, '2018-12-29', 1002, 1004, '2018-12-15');
 
-INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, abstract_user_id,hotel_id,rate_hotel,rate_room,reservation_date)
-VALUES (true, '2019-02-18', 123.50, false, '2019-02-05', 1004, 1003,4,1002,false,false, '2019-02-03');
+INSERT INTO room_reservation(active, end_date, price, rated, start_date, reservation_id, room_id, res_date)
+VALUES (true, '2019-02-18', 123.50, false, '2019-02-05', 1004, 1003, '2018-12-15');
 

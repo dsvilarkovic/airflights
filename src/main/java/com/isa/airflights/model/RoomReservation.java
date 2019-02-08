@@ -47,7 +47,19 @@ public class RoomReservation {
     private Boolean rated = false;
     
 	@Column(name="active", nullable=true)
-	Boolean active = true;
+	private Boolean active = true;
+	
+	public Date getResDate() {
+		return resDate;
+	}
+
+	public void setResDate(Date resDate) {
+		this.resDate = resDate;
+	}
+
+	@Column(nullable=false)
+	@Temporal(TemporalType.DATE)
+	private Date resDate;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
