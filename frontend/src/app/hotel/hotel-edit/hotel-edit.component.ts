@@ -50,4 +50,9 @@ export class HotelEditComponent implements OnInit {
     }, error => console.error(error));
   }
 
+  logout() {
+    this.ts.signOut();
+    this.router.navigate(['/login']);
+  }
+
 }

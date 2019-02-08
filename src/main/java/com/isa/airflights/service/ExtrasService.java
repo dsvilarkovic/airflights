@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.HotelExtras;
+import com.isa.airflights.model.RoomResExtras;
 import com.isa.airflights.repository.ExtrasRepository;
+import com.isa.airflights.repository.RoomResExtrasRepo;
 
 @Service
 public class ExtrasService {
 	
 	@Autowired
 	private ExtrasRepository repository;
+	
+	@Autowired
+	private RoomResExtrasRepo rrx;
 	
 	public Collection<HotelExtras> getAll() {
 		return repository.findAll().stream().collect(Collectors.toList());
@@ -38,6 +43,10 @@ public class ExtrasService {
 
 	public List<HotelExtras> getExtrasByHotel(Long id) {
 		return repository.findByHotel_id(id);
+	}
+	
+	public void saveResExtra(RoomResExtras r) {
+		rrx.save(r);
 	}
 	
 	

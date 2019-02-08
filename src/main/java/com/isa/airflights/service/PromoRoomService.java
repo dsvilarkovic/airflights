@@ -21,5 +21,9 @@ public class PromoRoomService {
 	public List<PromoRoom> deletyByRoom(Long room_id) {
 		return repository.deleteByRoom_id(room_id);
 	}
+	
+	public List<PromoRoom> getByRoom(Long room_id) {
+		return repository.findByRoom_id(room_id);
+	}
 
 }

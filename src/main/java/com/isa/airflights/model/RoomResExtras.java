@@ -20,7 +20,7 @@ public class RoomResExtras {
 	
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-    private RoomReservation room;
+    private RoomReservation room_res;
     
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -34,12 +34,12 @@ public class RoomResExtras {
 		this.id = id;
 	}
 
-	public RoomReservation getRoom() {
-		return room;
+	public RoomReservation getRoom_res() {
+		return room_res;
 	}
 
-	public void setRoom(RoomReservation room) {
-		this.room = room;
+	public void setRoom_res(RoomReservation room_res) {
+		this.room_res = room_res;
 	}
 
 	public HotelExtras getExtras() {

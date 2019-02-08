@@ -65,4 +65,12 @@ export class RoomService {
     return this.http.post(ROOM_API + 'reserve', res, {headers: this.headers})
   }
 
+  reservePromo(res: RoomRes) {
+    return this.http.post(ROOM_API + 'reservePromo/', res, {headers: this.headers})
+  }
+
+  isReserved(id: number) {
+    return this.http.get(ROOM_API + 'isReserved/' + id)
+  }
+
 }

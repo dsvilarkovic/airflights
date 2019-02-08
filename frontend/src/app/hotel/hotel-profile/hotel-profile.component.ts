@@ -13,6 +13,8 @@ import { isNumeric } from "rxjs/util/isNumeric"
 import { RoomService } from 'src/services/room.service';
 import { ROLE_USER } from 'src/app/globals';
 import { RoomRes } from 'src/app/roomRes';
+import { Misc } from 'src/app/misc';
+import { AdminsService } from 'src/services/admins.service';
 
 
 @Component({
@@ -57,15 +59,22 @@ export class HotelProfileComponent implements OnInit {
 
   selected: Array<any> = new Array();
 
+  misc: Array<Misc> = new Array();
+
   sObj: SearchObject = new SearchObject();
   sObjBack: SearchObject = new SearchObject();
 
   selectedItems = [];
   dropdownSettings = {};
 
+  price: number = 0;
+
+  aa: number = 0
+  ab: number = 0
+
   constructor(public sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private hotelService: HotelService
     , private datePipe: DatePipe, private extrasService: HotelExtrasService, private rService: RoomService, 
-    private ts: TokenStorageService,
+    private ts: TokenStorageService, private aService: AdminsService,
     private calendar: NgbCalendar) {
       this.fromDate = calendar.getToday();
       this.fromDateP = calendar.getToday();
@@ -110,6 +119,10 @@ export class HotelProfileComponent implements OnInit {
       itemsShowLimit: 5,
       allowSearchFilter: true
     };
+
+    this.aService.getMiscAll().subscribe( r => {
+      this.misc = r;
+    })
 
     // this.rService.getRoomsInHotel(id).subscribe( r => {
     //   this.rooms = r;
@@ -220,6 +233,7 @@ export class HotelProfileComponent implements OnInit {
 
         if (sum < this.sObj.persons) {
           alert("Number of beds is smaller than number of persons!")
+          return;
         }
       }
 
@@ -270,6 +284,9 @@ export class HotelProfileComponent implements OnInit {
   book(room) {
     this.selected.push(room.id);
     room.booked = true;
+
+    this.price += room.price * this.days0;
+
   }
 
   cancel(room) {
@@ -278,12 +295,14 @@ export class HotelProfileComponent implements OnInit {
       this.selected.splice(index, 1);
     }
     room.booked = false;
+
+    this.price -= room.price * this.days0;
   }
 
   promos() {
     if (isNumeric(this.daysP) && this.daysP > 0) {
       let d : Date = new Date()
-      d.setFullYear(this.fromDate.year, this.fromDate.month, this.fromDate.day)
+      d.setFullYear(this.fromDateP.year, this.fromDate.month, this.fromDate.day)
       let d2 : Date = new Date()
 
       d2.setDate( d.getDate() + this.daysP );
@@ -295,11 +314,13 @@ export class HotelProfileComponent implements OnInit {
       this.sObj.endD = d2.getDate()
       this.sObj.endM = d2.getMonth() + 1
       this.sObj.endY = d2.getFullYear()
-      this.sObj.days = this.days
+      this.sObj.days = this.daysP
 
-      this.days0 = this.days
+      this.days0 = this.daysP
 
       this.sObjBack = this.sObj;
+
+      alert(this.sObj.startM)
 
       this.rService.getPromoRooms(this.hotel.id, this.sObj).subscribe( r => {
         this.pRooms = r;
@@ -323,22 +344,39 @@ export class HotelProfileComponent implements OnInit {
 
   reserve() {
 
-    this.selected.forEach(element => {
-      let res: RoomRes = new RoomRes()
-      res.obj = this.sObjBack
-      res.extras = new Array<number>()
-      this.selectedItems.forEach(element => {
-        res.extras.push(element.id)
-      });
-      res.room_id = element
-
-      this.rService.reserve(res).subscribe(r=>{
-        alert("Proslo je")
-      }, e => console.error(e))
-
+    let res: RoomRes = new RoomRes()
+    res.obj = this.sObjBack
+    res.extras = new Array<number>()
+    this.selectedItems.forEach(element => {
+      res.extras.push(element.id)
     });
+    
+    res.room_id = new Array<number>()
+    this.selected.forEach(element => {
+      res.room_id.push(element)
+    });
+    
+
+    this.rService.reserve(res).subscribe(r=>{
+      alert("Reservation made succesfully!")
+      window.location.reload();
+    }, e => console.error(e))
 
   }
 
+  reservePromo(room) {
+    let res: RoomRes = new RoomRes()
+
+    alert(this.sObjBack.startM)
+    res.obj = this.sObjBack
+    
+    res.room_id = new Array<number>()
+    res.room_id.push(room)
+
+    this.rService.reservePromo(res).subscribe(r=>{
+      alert("Reservation made succesfully!")
+      //window.location.reload();
+    }, e => console.error(e))
+  }
 
 }

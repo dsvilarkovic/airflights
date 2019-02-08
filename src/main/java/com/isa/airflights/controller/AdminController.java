@@ -3,6 +3,7 @@ package com.isa.airflights.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +121,7 @@ public class AdminController {
     	
     	Role role = abstractUser.getRole();
     	abstractUser.getRoles().add(role);
+    	abstractUser.setChangePass(false);
     	
     	/*if (abstractUser.getAirline()!=null) {
     		
@@ -203,13 +205,13 @@ public class AdminController {
     
     @RequestMapping(value="/misc", method = RequestMethod.GET,  
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Misc> getMisc() {
+    public ResponseEntity<Optional<Misc>> getMisc() {
 		
 
-    	List<Misc> m = ms.get();
+    	Optional<Misc> m = ms.getById(1L);
     	
     	
-    	return new ResponseEntity<Misc>(m.get(0),HttpStatus.OK);
+    	return new ResponseEntity<Optional<Misc>>(m,HttpStatus.OK);
     }
 
     @RequestMapping(value="/misc", method = RequestMethod.POST,  
@@ -219,8 +221,18 @@ public class AdminController {
 
     	Misc mm = ms.up(m);
     	
-    	
     	return new ResponseEntity<Misc>(mm,HttpStatus.OK);
     }
+    
+    @RequestMapping(value="/miscAll", method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Misc>> getAllMisc() {
+    	
+    	
+    	return new ResponseEntity<List<Misc>>(ms.get(),HttpStatus.OK);
+    }
+   
+    
+    
     
 }

@@ -1,6 +1,7 @@
 package com.isa.airflights.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class MiscService {
 	
 	public Misc up(Misc m) {
 		return repo.save(m);
+	}
+	
+	public Optional<Misc> getById(Long id) {
+		return repo.findById(id);
 	}
 	
 }

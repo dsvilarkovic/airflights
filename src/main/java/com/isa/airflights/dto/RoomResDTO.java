@@ -9,7 +9,7 @@ public class RoomResDTO {
 	//private Long id;
 	private SearchObject obj;
 	private List<Long> extras;
-	private Long room_id;
+	private List<Long> room_id;
 	public SearchObject getObj() {
 		return obj;
 	}
@@ -22,10 +22,10 @@ public class RoomResDTO {
 	public void setExtras(List<Long> extras) {
 		this.extras = extras;
 	}
-	public Long getRoom_id() {
+	public List<Long> getRoom_id() {
 		return room_id;
 	}
-	public void setRoom_id(Long room_id) {
+	public void setRoom_id(List<Long> room_id) {
 		this.room_id = room_id;
 	}
 	

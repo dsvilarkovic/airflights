@@ -61,6 +61,10 @@ export class AdminsService {
     return this.http.get(ADMIN_API + "misc");
   }
 
+  getMiscAll(): Observable<any> {
+    return this.http.get(ADMIN_API + "miscAll");
+  }
+
   upMisc(m: Misc) {
     return this.http.post(ADMIN_API + "misc", m, {headers: this.headers});
   }

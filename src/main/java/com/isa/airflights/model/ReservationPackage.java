@@ -21,6 +21,9 @@ public class ReservationPackage {
 	@Column(name="tickets", nullable=false)
 	private Long tickets;
 	
+	@Column
+	private Boolean reservedRooms = false;
+	
 
 	/**
 	 * Jedan korisnik i samo jedan prolazi kroz celu putanju
@@ -34,6 +37,14 @@ public class ReservationPackage {
 	/**Nullable
 	 * Svaka rezervacija ima vise kreveta/soba za hotel
 	 */
+
+	public Boolean getReservedRooms() {
+		return reservedRooms;
+	}
+
+	public void setReservedRooms(Boolean reservedRooms) {
+		this.reservedRooms = reservedRooms;
+	}
 
 	/**Nullable
 	 * Svaka rezervacija ima vise kola za iznajmljivanje

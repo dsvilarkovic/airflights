@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -22,11 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.dto.RoomResDTO;
 import com.isa.airflights.model.Condition;
 import com.isa.airflights.model.HotelExtras;
+import com.isa.airflights.model.Misc;
 import com.isa.airflights.model.PromoRoom;
 import com.isa.airflights.model.ReservationPackage;
 import com.isa.airflights.model.Room;
+import com.isa.airflights.model.RoomResExtras;
 import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.SearchObject;
+import com.isa.airflights.service.ExtrasService;
+import com.isa.airflights.service.MiscService;
 import com.isa.airflights.service.PromoRoomService;
 import com.isa.airflights.service.RoomReservationService;
 import com.isa.airflights.service.RoomService;
@@ -44,6 +49,15 @@ public class RoomController {
 	
 	@Autowired
 	private RoomReservationService rrService;
+	
+	@Autowired 
+	private MiscService mS;
+	
+	@Autowired
+	private ExtrasService xS;
+	
+	@Autowired
+	private PromoRoomService prs;
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)     
@@ -143,10 +157,29 @@ public class RoomController {
     	return new ResponseEntity<List<Room>>(ret, HttpStatus.OK);
     }
 	
+	@RequestMapping(value="/isReserved/{id}", method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<Boolean> isResRoom(@PathVariable("id") Long id) {
+		
+		Room room = service.getOne(id);
+		
+		List<RoomReservation> rrs = rrService.getByRoom(room.getId());
+		
+		Date today = new Date();
+		
+		for (RoomReservation rr : rrs) {
+			if (today.before(rr.getEndDate())) {
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			}
+		}
+
+    	return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+    }
+	
 	@RequestMapping(value="/reserve", method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Boolean> reserveRoom(@RequestBody RoomResDTO res, HttpSession session) {
+    public ResponseEntity<String> reserveRoom(@RequestBody RoomResDTO res2, HttpSession session) {
 		
 		//Long res_id = (Long)session.getAttribute("res_id");
 		//Long res_num = (Long)session.getAttribute("res_num");
@@ -156,14 +189,144 @@ public class RoomController {
 		
 		ReservationPackage rp = rrService.getRP(res_id);
 		
+		if (rp.getReservedRooms() == true) {
+			return new ResponseEntity<String>("Rooms already reserved", HttpStatus.BAD_REQUEST);
+		}
+		
+		// Broj kreveta
+		
+		List<Long> ll = res2.getRoom_id();
+		List<Room> rr7 = new ArrayList<>();
+		int sumR7 = 0;
+		for (Long r7 : ll) {
+			Room g = service.getOne(r7);
+			rr7.add(g);
+			sumR7 += g.getBeds();
+		}
+		// Provera da li je broj kreveta veci od broja karata
+		if (rp.getTickets() < sumR7) {
+			return new ResponseEntity<String>("Too many beds", HttpStatus.BAD_REQUEST);
+		}
+		
+		//rp.setRoomsReserved
+		for (Room room : rr7) {
+			RoomReservation reservation = new RoomReservation();
+			reservation.setRated(false);
+			reservation.setActive(true);
+			reservation.setReservation(rp);
+			Date today = new Date();
+			reservation.setResDate(today);
+			
+			//Room room = service.getOne(res.getRoom_id());
+			
+			reservation.setRoom(room);
+			
+			SearchObject obj = res2.getObj();
+			Date from = new GregorianCalendar(obj.getStartY(), obj.getStartM()-1, obj.getStartD()).getTime();
+	    	Date to = new GregorianCalendar(obj.getEndY(), obj.getEndM()-1, obj.getEndD()).getTime();
+		
+	    	reservation.setStartDate(from);
+	    	reservation.setEndDate(to);
+	    	
+	    	Double price = room.getPrice() * obj.getDays();
+	    	
+	    	List<Long> extrasList = res2.getExtras().stream().distinct().collect(Collectors.toList());
+	    	//List<Long> extrasList = res.getExtras();
+	    			
+	    	List<HotelExtras> extrasRealList = new ArrayList<>();
+			for (Long l : extrasList) {
+				HotelExtras e = xS.getOne(l);
+				extrasRealList.add(e);
+				
+				switch (e.getUnit()) {
+				case PER_DAY:
+					price += e.getPrice() * obj.getDays();
+					break;
+				case PER_PERSON:
+					price += e.getPrice() * room.getBeds();
+					break;
+				case TOTAL:
+					price += e.getPrice();
+					break;
+				case PER_DAY_PER_PERSON:
+					price += e.getPrice() * room.getBeds() * obj.getDays();
+					break;
+				default:
+					throw new IllegalArgumentException();
+				}
+				
+			}
+	    	
+	    	int numOfE = extrasList.size();
+	    	
+	    	Optional<Misc> thresh = mS.getById(2L);
+	    	Optional<Misc> percent = mS.getById(3L);
+	    	
+	    	if (numOfE >= thresh.get().getBbb()) {
+	    		price = price * (1 - percent.get().getBbb() * 0.01);
+	    	} else if (numOfE >= thresh.get().getBb()) {
+	    		price = price * (1 - percent.get().getBb() * 0.01);
+	    	} else if (numOfE >= thresh.get().getB()) {
+	    		price = price * (1 - percent.get().getB() * 0.01);
+	    	}
+	    			
+	    	reservation.setPrice(price);
+	    	
+			RoomReservation r9 = rrService.save(reservation);
+			
+			for (HotelExtras e : extrasRealList) {
+				RoomResExtras r = new RoomResExtras();
+				r.setRoom_res(r9);
+				r.setExtras(e);
+				xS.saveResExtra(r);
+			}
+		}
+		
+    	return new ResponseEntity<String>("Success", HttpStatus.OK);
+    }
+	
+	@RequestMapping(value="/reservePromo", method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE) 
+    public ResponseEntity<String> reserveRoom(@RequestBody RoomResDTO res) {
+		
+		Room room = service.getOne(res.getRoom_id().get(0));
+		
+		List<PromoRoom> pr = prs.getByRoom(room.getId());
+		
+		List<HotelExtras> extras = new ArrayList<>();
+		for (PromoRoom a0 : pr) {
+			extras.add(a0.getExtra());
+		}
+		
+		// Provere
+		//--------------------------
+		
+		//Long res_id = (Long)session.getAttribute("res_id");
+		//Long res_num = (Long)session.getAttribute("res_num");
+		
+		// Mock
+		Long res_id = 1001L;
+		
+		ReservationPackage rp = rrService.getRP(res_id);
+		
+		if (rp.getReservedRooms() == true) {
+			return new ResponseEntity<String>("Rooms already reserved", HttpStatus.BAD_REQUEST);
+		}
+		
+		// Broj kreveta
+		// Provera da li je broj kreveta veci od broja karata
+		if (rp.getTickets() < room.getBeds()) {
+			return new ResponseEntity<String>("Too many beds", HttpStatus.BAD_REQUEST);
+		}
+		
+		//-----------------------------------------------
+		
 		RoomReservation reservation = new RoomReservation();
 		reservation.setRated(false);
 		reservation.setActive(true);
 		reservation.setReservation(rp);
-		
-		
-		Room room = service.getOne(res.getRoom_id());
-		
+		Date today = new Date();
+		reservation.setResDate(today);
 		reservation.setRoom(room);
 		
 		SearchObject obj = res.getObj();
@@ -173,36 +336,20 @@ public class RoomController {
     	reservation.setStartDate(from);
     	reservation.setEndDate(to);
     	
-    	// Racunanje cene 
-    	// TODO: racunati popuste
+    	Double price = room.getPrice() * obj.getDays() * room.getDiscount() * 0.01;
     	
-    	Double price = room.getPrice() * obj.getDays();
-    	
-    	List<Long> extrasList = res.getExtras().stream().distinct().collect(Collectors.toList());
-    	int numOfE = extrasList.size();
-    	
-    	//if 
-		
     	reservation.setPrice(price);
     	
-		List<HotelExtras> extras = new ArrayList<>();
-		for (Long l : extrasList) {
-			
+		RoomReservation r9 = rrService.save(reservation);
+		
+		for (HotelExtras e : extras) {
+			RoomResExtras r = new RoomResExtras();
+			r.setRoom_res(r9);
+			r.setExtras(e);
+			xS.saveResExtra(r);
 		}
 		
-		rrService.save(reservation);
-		
-    	return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    }
-	
-	@RequestMapping(value="/reservePromo/{{id}}", method = RequestMethod.POST,
-			produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Boolean> reserveRoom(@PathVariable Long id) {
-		
-		Room room = service.getOne(id);
-		
-		
-    	return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+    	return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 	
 	@RequestMapping(value="/{id}/searchRooms", method = RequestMethod.POST,
@@ -275,9 +422,14 @@ public class RoomController {
 			Date exf = reservation.getStartDate();
 			Date ext = reservation.getEndDate();
 			
+			if (reservation.getActive() == false) {
+				return false;
+			}
+			
 			if (!(exf.after(to) || ext.before(from)))  {
 				return false;
 			}
+			
 		}
 		
 		return true;

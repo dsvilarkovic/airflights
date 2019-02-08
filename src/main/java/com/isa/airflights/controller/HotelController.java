@@ -1,5 +1,7 @@
 package com.isa.airflights.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -133,7 +135,11 @@ public class HotelController {
     				Date ext = reservation.getEndDate();
     				
 					if (!(exf.after(to) || ext.before(from)))  {
-						break ROOM_LOOP;	
+						break ROOM_LOOP;
+					}
+					
+					if (reservation.getActive() == false) {
+						break ROOM_LOOP;
 					}
     			}
     			set.add(hotel);
@@ -141,4 +147,152 @@ public class HotelController {
     	}
 		return new ResponseEntity<Set<Hotel>>(set, HttpStatus.OK);
 	}
+    
+    @RequestMapping(value="/revenues/{id}", method = RequestMethod.POST,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Double> getRev(@RequestBody SearchObject obj, @PathVariable Long id) {
+    	
+    	Double ret = 0.0;
+    	
+    	Date from = new GregorianCalendar(obj.getStartY(), obj.getStartM()-1, obj.getStartD()).getTime();
+    	Date to = new GregorianCalendar(obj.getEndY(), obj.getEndM()-1, obj.getEndD()).getTime();
+    	
+    	List<Room> rooms = rService.getRoomByHotel(id);
+    	
+    	for (Room room : rooms) {
+    		List<RoomReservation> rrs = rrService.getByRoom(room.getId());
+    		for (RoomReservation rr : rrs) {
+    			if (rr.getEndDate().after(from) && rr.getEndDate().before(to)) {
+    				ret += rr.getPrice();
+    			}
+    		}
+    	}
+    	
+    	return new ResponseEntity<Double>(ret,HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/chartWeek/{id}", method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Double>> weekChart(@PathVariable Long id) {
+    	
+    	List<Double> list = new ArrayList<Double>(7);
+    	List<RoomReservation> all = new ArrayList<>();
+    	
+    	List<Room> rooms = rService.getRoomByHotel(id);
+    	
+		for (Room room : rooms) {
+    		List<RoomReservation> rrs = rrService.getByRoom(room.getId());
+    		for (RoomReservation rr : rrs) {
+    			all.add(rr);
+    		}
+    	}
+    	int i = 0;
+    	
+    	
+    	
+    	while (i < 7) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, i-7);
+			Date past = cal.getTime();
+			
+			Double d = 0.0;
+			for (RoomReservation rr : all) {
+    			if (rr.getStartDate().before(past) && rr.getEndDate().after(past)) {
+    				d += rr.getRoom().getBeds();
+    			}
+    		}
+			
+			list.add(i, d);
+			
+			i++;
+    	}
+    	
+    	
+    	
+    	return new ResponseEntity<List<Double>>(list,HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/lastM/{id}", method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Double>> monthChart(@PathVariable Long id) {
+    	List<Double> list = new ArrayList<Double>(5);
+    	List<RoomReservation> all = new ArrayList<>();
+    	
+    	List<Room> rooms = rService.getRoomByHotel(id);
+    	
+    	for (Room room : rooms) {
+    		List<RoomReservation> rrs = rrService.getByRoom(room.getId());
+    		for (RoomReservation rr : rrs) {
+    			all.add(rr);
+    		}
+    	}
+    	int i = 0;
+   
+    	while (i < 5) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -(5-i)*7);
+			Date l = cal.getTime();
+			cal.add(Calendar.DATE, 7);
+			Date h = cal.getTime();
+			
+			Double d = 0.0;
+			for (RoomReservation rr : all) {
+    			if ((rr.getStartDate().after(l) && rr.getStartDate().before(h))
+    					|| (rr.getEndDate().after(l) && rr.getEndDate().before(h))) {
+    				d += rr.getRoom().getBeds();
+    			}
+    		}
+			
+			list.add(i, d);
+			
+			i++;
+    	}
+    	
+    	
+    	
+    	return new ResponseEntity<List<Double>>(list,HttpStatus.OK);
+    	
+    }
+    
+    @RequestMapping(value="/lastYear/{id}", method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Double>> yearChart(@PathVariable Long id) {
+    	List<Double> list = new ArrayList<Double>(12);
+    	List<RoomReservation> all = new ArrayList<>();
+    	
+    	List<Room> rooms = rService.getRoomByHotel(id);
+    	
+    	for (Room room : rooms) {
+    		List<RoomReservation> rrs = rrService.getByRoom(room.getId());
+    		for (RoomReservation rr : rrs) {
+    			all.add(rr);
+    		}
+    	}
+    	int i = 0;
+   
+    	while (i < 12) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -(12-i)*30);
+			Date l = cal.getTime();
+			cal.add(Calendar.DATE, 30);
+			Date h = cal.getTime();
+			
+			Double d = 0.0;
+			for (RoomReservation rr : all) {
+    			if ((rr.getStartDate().after(l) && rr.getStartDate().before(h))
+    					|| (rr.getEndDate().after(l) && rr.getEndDate().before(h))) {
+    				d += rr.getRoom().getBeds();
+    			}
+    		}
+			
+			list.add(i, d);
+			
+			i++;
+    	}
+    	
+    	
+    	return new ResponseEntity<List<Double>>(list,HttpStatus.OK);
+    	
+    }
+    
 }
