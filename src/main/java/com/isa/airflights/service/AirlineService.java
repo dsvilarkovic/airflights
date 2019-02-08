@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.AirlineDTO;
 import com.isa.airflights.dto.LuggagePriceListDTO;
@@ -26,6 +27,7 @@ import com.isa.airflights.repository.LuggagePriceListRepository;
 import com.isa.airflights.repository.LuggagePriceRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class AirlineService {
 	@Autowired
 	private AirlineRepository airlineRepository;
@@ -51,10 +53,12 @@ public class AirlineService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Transactional(readOnly = false)
 	public void saveAirline(Airline airline) {
 		airlineRepository.save(airline);	
 	}
 	
+	@Transactional(readOnly = false)
 	public void addAirline(Airline airline) {
 		
 		airlineRepository.save(airline);		
@@ -68,6 +72,7 @@ public class AirlineService {
 		luggagePriceListRepository.save(luggagePriceList);
 	}
 	
+	@Transactional(readOnly = false)
 	public Boolean updateAirline(Airline airline) {
 		Airline foundAirline;
 		try {
@@ -84,6 +89,7 @@ public class AirlineService {
 		return true;
 	}
 	
+	@Transactional(readOnly = false)
 	public Boolean deleteAirline(Long id) {
 		try {
 			airlineRepository.deleteById(id);
@@ -93,6 +99,7 @@ public class AirlineService {
 		}
 		return true;
 	}
+	
 	
 	public Airline getAirline(Long id) {
 		return airlineRepository.getOne(id);
@@ -140,6 +147,7 @@ public class AirlineService {
 	/**
 	 * Logicko brisanje
 	 */
+	@Transactional(readOnly = false)
 	public void deleteAir(Long id) {
 		Airline a = airlineRepository.getOne(id);
 		a.setActive(false);

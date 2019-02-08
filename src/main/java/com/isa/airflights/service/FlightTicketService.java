@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.AirportDestinationDTO;
 import com.isa.airflights.dto.FlightTicketDTO;
@@ -29,6 +30,7 @@ import com.isa.airflights.repository.FlightTicketRepository;
 import com.isa.airflights.repository.SeatRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class FlightTicketService {
 
 	@Autowired
@@ -57,15 +59,16 @@ public class FlightTicketService {
 	
 	
 	//kreiraj kartu
+	@Transactional(readOnly = false)
 	public void saveFlightTicket(FlightTicket flightTicket) {
 		flightTicketRepository.save(flightTicket);
 	}
 	
-	//uzmi kartu
 	public FlightTicket getFlightTicket(Long id) {
 		return flightTicketRepository.getOne(id);
 	}
 	//obrisi kartu
+	@Transactional(readOnly = false)
 	public Boolean deleteFlightTicket(Long id) {
 		try {
 			flightTicketRepository.getOne(id);

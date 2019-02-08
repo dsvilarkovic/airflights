@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.LuggagePriceDTO;
 import com.isa.airflights.model.LuggagePrice;
@@ -20,6 +21,7 @@ import com.isa.airflights.repository.LuggagePriceRepository;
  *
  */
 @Service
+@Transactional(readOnly = true)
 public class LuggageService {
 
 	@Autowired 
@@ -34,13 +36,15 @@ public class LuggageService {
 	@Autowired 
 	private LuggagePriceListRepository luggagePriceListRepository;
 	
+	
+	@Transactional(readOnly = false)
 	public void addLuggagePrice(LuggagePrice luggagePrice, Long luggagePriceListId) {
 		LuggagePriceList luggagePriceList = luggagePriceListRepository.getOne(luggagePriceListId);
 		luggagePrice.setLuggagePriceList(luggagePriceList);
 		luggagePriceRepository.save(luggagePrice);
 	}
 	
-	
+	@Transactional(readOnly = false)
 	public Boolean updateLuggagePrice(LuggagePrice luggagePrice) {
 		LuggagePrice foundLuggagePrice;
 		try {
@@ -58,7 +62,7 @@ public class LuggageService {
 		luggagePriceRepository.save(foundLuggagePrice);
 		return true;
 	}
-	
+	@Transactional(readOnly = false)
 	public Boolean deleteLuggagePrice(Long id) {
 		try {
 			luggagePriceRepository.getOne(id);

@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.AirportDestinationDTO;
 import com.isa.airflights.model.Airline;
@@ -16,6 +17,7 @@ import com.isa.airflights.repository.AirlineRepository;
 import com.isa.airflights.repository.AirportDestinationRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class AirportDestinationService {
 	
 	@Autowired
@@ -37,6 +39,7 @@ public class AirportDestinationService {
 	 * @param airportDestination - destinacija koja se dodaje
 	 * @param airline_id - za koju aviokompaniju
 	 */
+	@Transactional(readOnly = false)
 	public void addAirportDestination(AirportDestinationDTO airportDestination, Long airline_id) {		
 		//podesiti i na aviokompaniju
 		Airline airline = airlineRepository.getOne(airline_id);
@@ -56,6 +59,7 @@ public class AirportDestinationService {
 	 * @param airport_destination_id
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public Boolean deleteAirportDestination(Long airport_destination_id) {
 		
 		try {
@@ -76,6 +80,7 @@ public class AirportDestinationService {
 	 * @param airportDestination
 	 * @return
 	 */
+	@Transactional(readOnly = false)
 	public Boolean updateAirportDestination(AirportDestination airportDestination) {
 		try {
 			AirportDestination foundAirportDestination = airportDestinationRepository.getOne(airportDestination.getId());
