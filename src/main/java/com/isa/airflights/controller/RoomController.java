@@ -214,9 +214,12 @@ public class RoomController {
 			RoomReservation reservation = new RoomReservation();
 			reservation.setRated(false);
 			reservation.setActive(true);
+			reservation.setRateHotel(false);
+			reservation.setRateRoom(false);
 			reservation.setReservation(rp);
 			Date today = new Date();
 			reservation.setResDate(today);
+			reservation.setReservationDate(today);
 			
 			//Room room = service.getOne(res.getRoom_id());
 			

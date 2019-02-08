@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.dto.AdminDTO;
 import com.isa.airflights.dto.AirlineDTO;
+import com.isa.airflights.dto.AirlineDTO2;
+import com.isa.airflights.dto.UserDTODjuka;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Hotel;
@@ -73,14 +75,14 @@ public class AdminController {
 	
 	
     @GetMapping("/all")
-    public Collection<AbstractUserDTO> getAllAdmins() {
+    public Collection<UserDTODjuka> getAllAdmins() {
     	Collection<AbstractUser> users = service.getAll();
         
     	List<AbstractUser> admins = users.stream().filter(u -> u.getRole()!=null && u.getRole().getId() != 1).collect(Collectors.toList());
-    	List<AbstractUserDTO> usersDTO = new ArrayList<AbstractUserDTO>();
+    	List<UserDTODjuka> usersDTO = new ArrayList<UserDTODjuka>();
     	
     	for (AbstractUser u : admins) {
-    		usersDTO.add(new AbstractUserDTO(u));
+    		usersDTO.add(new UserDTODjuka(u));
     	}
     	
     	return usersDTO;
@@ -123,7 +125,7 @@ public class AdminController {
     @RequestMapping(value="/add", method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> addAdmin(@RequestBody AbstractUser abstractUser) {
+    public ResponseEntity<UserDTODjuka> addAdmin(@RequestBody AbstractUser abstractUser) {
 		
     	abstractUser.setPassword(encoder.encode(abstractUser.getPassword()));
     	
@@ -147,75 +149,77 @@ public class AdminController {
     		
     	}*/
     	
-    	AbstractUserDTO au = new AbstractUserDTO(service.save(abstractUser));
+    	//AbstractUserDTO au = new AbstractUserDTO(service.save(abstractUser));
+    	UserDTODjuka ret = new UserDTODjuka(service.save(abstractUser));
     	
     	
     	
-    	return new ResponseEntity<AbstractUserDTO>(au,HttpStatus.CREATED);
+    	return new ResponseEntity<UserDTODjuka>(ret,HttpStatus.CREATED);
     }
     
     @RequestMapping(value="/{id}", method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> getAdmin(@PathVariable Long id) {
+    public ResponseEntity<UserDTODjuka> getAdmin(@PathVariable Long id) {
 		
-    	AbstractUserDTO ret = new AbstractUserDTO(service.findOne(id));
+    	//AbstractUserDTO ret = new AbstractUserDTO(service.findOne(id));
+    	UserDTODjuka ret = new UserDTODjuka(service.findOne(id));
     	
-    	return new ResponseEntity<AbstractUserDTO>(ret, HttpStatus.CREATED);
+    	return new ResponseEntity<UserDTODjuka>(ret, HttpStatus.CREATED);
     }
     
     @RequestMapping(value="/passUpdate", method = RequestMethod.PUT, 
     		consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> updatePass(@RequestBody AbstractUserDTO user) {
+    public ResponseEntity<UserDTODjuka> updatePass(@RequestBody UserDTODjuka user) {
 		
     	AbstractUser u = service.findOne(user.getId());
     	u.setPassword(encoder.encode(user.getNewPassword()));
     	
     	service.save(u);
     	
-    	return new ResponseEntity<AbstractUserDTO>(new AbstractUserDTO(u), HttpStatus.CREATED);
+    	return new ResponseEntity<UserDTODjuka>(new UserDTODjuka(u), HttpStatus.CREATED);
     }
     
     
     
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> delAdmin(@PathVariable Long id) {
+    public ResponseEntity<UserDTODjuka> delAdmin(@PathVariable Long id) {
 		
     	service.remove(id);
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    	return new ResponseEntity<UserDTODjuka>(HttpStatus.OK);
     }
     
     @RequestMapping(value="/rac/{id}", method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> delRac(@PathVariable Long id) {
+    public ResponseEntity<UserDTODjuka> delRac(@PathVariable Long id) {
 		
     	racService.deleteRac(id);
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    	return new ResponseEntity<UserDTODjuka>(HttpStatus.OK);
     }
     
     @RequestMapping(value="/air/{id}", method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> delAir(@PathVariable Long id) {
+    public ResponseEntity<UserDTODjuka> delAir(@PathVariable Long id) {
 		
     	airService.deleteAir(id);
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    	return new ResponseEntity<UserDTODjuka>(HttpStatus.OK);
     }
     
     @RequestMapping(value="/updateAdmin", method = RequestMethod.PUT,
     		consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractUserDTO> updateA(@RequestBody AbstractUser u) {
+    public ResponseEntity<UserDTODjuka> updateA(@RequestBody AbstractUser u) {
 		
     	AbstractUser au = auSrv.getOne(u.getId());
     	au.setFirstName(u.getFirstName());
     	au.setLastName(u.getLastName());
     	auSrv.save(au);
     	
-    	return new ResponseEntity<AbstractUserDTO>(HttpStatus.OK);
+    	return new ResponseEntity<UserDTODjuka>(HttpStatus.OK);
     }
     
     @RequestMapping(value="/misc", method = RequestMethod.GET,  
@@ -249,12 +253,12 @@ public class AdminController {
     
     @RequestMapping(value="/getAL", method = RequestMethod.GET,  
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AirlineDTO>> getAL() {
+    public ResponseEntity<List<AirlineDTO2>> getAL() {
     	
     	List<Airline> aa = fs.getAllAdmin();
-    	List<AirlineDTO> ad = new ArrayList<>();
+    	List<AirlineDTO2> ad = new ArrayList<>();
     	for (Airline a : aa) {
-    		AirlineDTO l = new AirlineDTO();
+    		AirlineDTO2 l = new AirlineDTO2();
     		l.setActive(a.getActive());
     		l.setFullName(a.getFullName());
     		l.setAddress(a.getAddress());
@@ -265,7 +269,7 @@ public class AdminController {
     		ad.add(l);
     	}
     	
-    	return new ResponseEntity<List<AirlineDTO>>(ad,HttpStatus.OK);
+    	return new ResponseEntity<List<AirlineDTO2>>(ad,HttpStatus.OK);
     }
    
     

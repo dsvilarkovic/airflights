@@ -29,16 +29,16 @@ public class HotelService {
 		return repository.getOne(id);
 	}
 
-	public void save(Hotel hotel) {
-		repository.save(hotel);
+	public Hotel save(Hotel hotel) {
+		return repository.save(hotel);
 	}
 
 	@Transactional(readOnly = false)
-	public void update(Hotel hotel) {
-		repository.save(hotel);
+	public Hotel update(Hotel hotel) {
+		return repository.save(hotel);
 	}
 	
-	public void delete(Long id) {
+	public void  delete(Long id) {
 		repository.deleteById(id);
 	}
 
