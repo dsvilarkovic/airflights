@@ -54,7 +54,7 @@ public class UserProfileController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		
 		//pretvori ga u DTO
-		AbstractUserDTO loggedUserDTO = abstractUserService.convertToDTO(loggedUser);
+		AbstractUserDTO loggedUserDTO = new AbstractUserDTO(loggedUser);
 		
 		if(loggedUserDTO == null) {
 			return new ResponseEntity<AbstractUserDTO>(HttpStatus.NOT_FOUND);

@@ -35,10 +35,10 @@ public class Airplane {
 	@JoinColumn
 	private Airline airline;
 	
-	@OneToOne(mappedBy = "airplane", cascade = CascadeType.REFRESH)
+	@OneToOne(mappedBy = "airplane", cascade = CascadeType.ALL)
 	private SegmentConfig segmentConfig;
 	
-	@OneToMany(mappedBy = "airplane", cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "airplane", cascade = CascadeType.ALL)
 	@NonNull
 	private Set<Flight> flight = new HashSet<>();
 

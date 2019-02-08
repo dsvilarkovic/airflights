@@ -56,8 +56,8 @@ public class AirportDestinationController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addAirportDestination(@RequestBody AirportDestinationDTO airportDestinationDTO, @PathVariable Long airline_id) {
-		AirportDestination airportDestination = airportDestinationService.convertToEntity(airportDestinationDTO);
-		airportDestinationService.addAirportDestination(airportDestination, airline_id);
+		//AirportDestination airportDestination = airportDestinationService.convertToEntity(airportDestinationDTO);
+		airportDestinationService.addAirportDestination(airportDestinationDTO, airline_id);
 		
 		return new ResponseEntity<>(new StringJSON("Successfully created new destination!"), HttpStatus.OK);
 	}

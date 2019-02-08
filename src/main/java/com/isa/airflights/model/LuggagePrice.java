@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import io.jsonwebtoken.lang.Objects;
@@ -18,11 +19,12 @@ import io.jsonwebtoken.lang.Objects;
  *
  */
 @Entity
+@SequenceGenerator(name="luggage_seq", initialValue=10)
 @Table(name = "luggagePrice")
 public class LuggagePrice {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="luggage_seq")
 	private Long id;
 	
 	/**

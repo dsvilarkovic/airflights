@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +55,8 @@ public class FlightClassPrice {
 	/**
 	 * klasa u letu kojoj pripada
 	 */
-	@Column(name = "class")
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "class")	
 	private AirlineClassType airlineClassType;
 
 

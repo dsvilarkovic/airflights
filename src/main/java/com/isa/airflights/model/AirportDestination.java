@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -35,7 +36,11 @@ public class AirportDestination {
 	@JoinColumn(unique = true)
 	private Location location;
 	
-	@ManyToMany(mappedBy = "destinations")
+	@ManyToMany
+	@JoinTable(name = "airlineDestinations",
+	joinColumns = @JoinColumn(name = "destination_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "airline_id", referencedColumnName = "id"))
+	
 	private Set<Airline> airlines = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "flightsLegs")

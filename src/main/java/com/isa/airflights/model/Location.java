@@ -29,10 +29,10 @@ public class Location {
 	@NonNull
 	private Double longitude;
 	
-	@OneToOne(optional = true)
+	@OneToOne(optional = true, mappedBy = "location")
 	private Airline airline;
 	
-	@OneToOne(optional = true)
+	@OneToOne(optional = true, mappedBy = "location")
 	private AirportDestination airportDestination;
 	
 	public Long getId() {

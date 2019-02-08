@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.FlightDTO;
 import com.isa.airflights.model.Flight;
+import com.isa.airflights.model.FlightClassPrice;
 import com.isa.airflights.service.FlightService;
 import com.isa.airflights.utils.StringJSON;
 
@@ -54,7 +55,9 @@ public class FlightCRUDController {
 		Flight flight;
 		try {
 			//airportDestination = airportDestinationService.getAirportDestination(id);
+			
 			flight = flightService.getFlight(id);
+			
 		}
 		catch(EntityNotFoundException exception) {
 			return new ResponseEntity<>(new StringJSON("No such flight found"), HttpStatus.NOT_FOUND);
@@ -114,7 +117,7 @@ public class FlightCRUDController {
 		Boolean success = flightService.updateFlight(flight);
 		
 		if(success) {
-			return new ResponseEntity<>(new StringJSON("Flight successfully deleted!"), HttpStatus.OK);		
+			return new ResponseEntity<>(new StringJSON("Flight successfully updated!"), HttpStatus.OK);		
 			
 		}
 		return new ResponseEntity<>(new StringJSON("Error, no such flight found"), HttpStatus.NOT_FOUND);

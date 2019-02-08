@@ -1,5 +1,6 @@
 package com.isa.airflights.dto;
 
+import com.isa.airflights.model.Seat;
 import com.isa.airflights.model.enumtypes.AirlineClassType;
 
 public class SeatDTO {
@@ -11,6 +12,16 @@ public class SeatDTO {
 	
 	private Long configuration;
 
+	public SeatDTO() {}
+	public SeatDTO(Seat s) {
+		this.id = s.getId();
+		this.airlineClass = s.getAirlineClass();
+		this.seatRow = s.getSeatRow();
+		this.seatColumn = s.getSeatColumn();
+		this.segmentNum = s.getSegmentNum();
+		this.configuration = s.getSegmentConfig().getId();
+	}
+	
 	public Long getId() {
 		return id;
 	}
