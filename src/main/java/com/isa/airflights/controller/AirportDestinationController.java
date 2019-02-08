@@ -1,5 +1,7 @@
 package com.isa.airflights.controller;
 
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,14 @@ public class AirportDestinationController {
 	
 	
 	
+	@RequestMapping(value = "/all",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getAllDestinations() {
+		List<AirportDestinationDTO> dests = airportDestinationService.getAirportDestinations();
+		return new ResponseEntity<List<AirportDestinationDTO>>(dests, HttpStatus.OK);
+	}
+	
 	/**
 	 * Trazenje destinacije po id-u
 	 * @param id - id aerodroma
@@ -47,7 +57,7 @@ public class AirportDestinationController {
 			return new ResponseEntity<>(new StringJSON("No such airport found"), HttpStatus.NOT_FOUND);
 		}
 		airportDestinationDTO = airportDestinationService.convertToDTO(airportDestination);
-		return new ResponseEntity<AirportDestinationDTO>(airportDestinationDTO, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<AirportDestinationDTO>(airportDestinationDTO, HttpStatus.OK);
 		
 	}
 	

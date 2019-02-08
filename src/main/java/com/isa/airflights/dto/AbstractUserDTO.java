@@ -26,6 +26,7 @@ public class AbstractUserDTO{
 	private String password;
 	private String newPassword;
 	private Boolean changePass;
+	private String friendStatus;
 	/**
 	 * @author dusan
 	 */
@@ -35,6 +36,14 @@ public class AbstractUserDTO{
 	
 	}
 	
+	public String getFriendStatus() {
+		return friendStatus;
+	}
+
+	public void setFriendStatus(String friendStatus) {
+		this.friendStatus = friendStatus;
+	}
+
 	public Role getRole() {
 		return role;
 	}

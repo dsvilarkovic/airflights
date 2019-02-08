@@ -56,9 +56,6 @@ public class UserProfileController {
 		//pretvori ga u DTO
 		AbstractUserDTO loggedUserDTO = new AbstractUserDTO(loggedUser);
 		
-		if(loggedUserDTO == null) {
-			return new ResponseEntity<AbstractUserDTO>(HttpStatus.NOT_FOUND);
-		} 
 		
 		return new ResponseEntity<AbstractUserDTO>(loggedUserDTO, HttpStatus.OK);
 	}

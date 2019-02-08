@@ -39,14 +39,12 @@ public class FlightSearchController {
 	
 		
 	@RequestMapping(value = "/find/all",
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
+			method = RequestMethod.GET)
 	public ResponseEntity<?> searchByPage(
 			@RequestParam(value = "arrival_id", required = true) Long arrival_id,
 			@RequestParam(value = "departure_id", required = true) Long departure_id,
-			@RequestParam(value = "departure_date_time", required = true) Date departureDatetime,
-			@RequestParam(value = "arrival_date_time", required = true) Date arrivalDatetime,
+			@RequestParam(value = "departure_date_time", required = false) Date departureDatetime,
+			@RequestParam(value = "arrival_date_time", required = false) Date arrivalDatetime,
 			@RequestParam(value = "flight_type", required = false) FlightType flightType,
 			@RequestParam(value = "persons_num", required = false) Integer persons_num,
 			@RequestParam(value = "class_type", required = false) AirlineClassType airlineClassType,
@@ -54,8 +52,8 @@ public class FlightSearchController {
 			Pageable pageRequest){
 		
 		
-		List<Flight> flights = flightService.findAllByArrivalIdAndDepartureIdAndDepartureDatetimeAndArrivalDatetime
-				(arrival_id, departure_id, departureDatetime, arrivalDatetime, pageRequest);
+		List<Flight> flights = flightService.findAllByArrivalIdAndDepartureId
+				(arrival_id, departure_id, pageRequest);
 		
 		List<Flight> flightList = new ArrayList<>();
 		for (Flight flight : flights) {
