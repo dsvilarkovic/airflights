@@ -67,6 +67,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  home() {
+    this.router.navigate(['/home']);
+  }
   register() {
       this.signupInfo = new SignUpInfo(
           this.user.firstName,

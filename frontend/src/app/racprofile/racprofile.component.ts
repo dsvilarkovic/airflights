@@ -182,6 +182,8 @@ niz : Array<any>;
     this.updateV.type = this.type.value;
     this.updateV.rentACarId = this.rac.id;
     this.updateV.branchOffice_id = this.currentVehicle.branchOffice_id;
+    alert("Type:ewrwer " + this.type.value);
+    alert("Type: " + this.updateV.brand);
 
     this.racService.updateVehicle(this.updateV).subscribe(data => {
       
