@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { AirlineAdminService } from "src/services/airline-admin.service";
+import { UserProfileService } from "src/services/user-profile.service";
 
 @Component({
   selector: "app-airplane-table",
@@ -7,6 +9,9 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AirplaneTableComponent implements OnInit {
   clickedAirplaneId;
+  pageNo = 1;
+  collectionSize = 40;
+  pageSize = 1;
   seatsMock = [
     { id: 1, row: 1, column: 1, segmentNum: 1, airlineClassType: "ECONOMY" },
     { id: 2, row: 1, column: 2, segmentNum: 1, airlineClassType: "ECONOMY" },
@@ -16,14 +21,32 @@ export class AirplaneTableComponent implements OnInit {
     { id: 6, row: 2, column: 1, segmentNum: 2, airlineClassType: "PREMIUM" }
   ];
   airplanesMock = [
-    { id: 1, fullName: "Boeing 787 Dreamliner", segmentConfig: this.seatsMock },
-    { id: 2, fullName: "Žiška - AirBus A320", segmentConfig: this.seatsMock }
+    {
+      id: 1,
+      fullName: "Boeing 787 Dreamliner",
+      segmentConfig: { seats: [] },
+      length: 0
+    }
   ];
 
-  constructor() {}
+  constructor(
+    private airlineAdminService: AirlineAdminService,
+    private userProfileService: UserProfileService
+  ) {}
 
   ngOnInit() {
     // GET REQUEST: get first n airplanes from db
+    this.userProfileService.getLoggedUser().subscribe(user => {
+      this.airlineAdminService
+        .getPlanes(0, user["airline"].id)
+        .subscribe(res => {
+          let thisAirline = user["airline"];
+          console.log(res);
+          this.airplanesMock = res.content;
+          this.collectionSize = res.totalElements;
+          this.pageSize = res.size;
+        });
+    });
   }
 
   airplaneClicked(airplaneId) {
@@ -36,5 +59,8 @@ export class AirplaneTableComponent implements OnInit {
       return plane.id != airplaneId;
     });
     this.airplanesMock = filtered;
+    this.airlineAdminService.removePlane(airplaneId).subscribe(res => {
+      console.log(res);
+    });
   }
 }

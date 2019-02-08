@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { AirlineAdminService } from "src/services/airline-admin.service";
+import { UserProfileService } from "src/services/user-profile.service";
 
 @Component({
   selector: "app-add-plane",
@@ -6,7 +8,10 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
   styleUrls: ["./add-plane.component.scss"]
 })
 export class AddPlaneComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private airlineService: AirlineAdminService,
+    private userProfileService: UserProfileService
+  ) {}
 
   errorMsg = "";
   Arr = Array;
@@ -15,40 +20,45 @@ export class AddPlaneComponent implements OnInit {
   segmentNumbers = [2, 1, 2];
   airplaneName;
   seats = [];
-
+  airline;
   segmentNumbersMock = [];
-  ngOnInit() {}
+  ngOnInit() {
+    this.userProfileService.getLoggedUser().subscribe(res => {
+      console.log(res["airline"]);
+      this.airline = res["airline"];
+    });
+  }
 
   cellClicked(row, col, seg) {
     this.seats
       .filter(
-        seat => seat.row == row && seat.column == col && seat.segmentNum == seg
+        seat =>
+          seat.seatRow == row &&
+          seat.seatColumn == col &&
+          seat.segmentNum == seg
       )
       .map(seat => {
-        if (seat.airlineClassType == "ECONOMY")
-          seat.airlineClassType = "BUSINESS";
-        else if (seat.airlineClassType == "BUSINESS")
-          seat.airlineClassType = "FIRST";
-        else if (seat.airlineClassType == "FIRST")
-          seat.airlineClassType = "PREMIUM";
-        else if (seat.airlineClassType == "PREMIUM")
-          seat.airlineClassType = "ECONOMY";
+        if (seat.airlineClass == "ECONOMY") seat.airlineClass = "BUSINESS";
+        else if (seat.airlineClass == "BUSINESS") seat.airlineClass = "FIRST";
+        else if (seat.airlineClass == "FIRST") seat.airlineClass = "PREMIUM";
+        else if (seat.airlineClass == "PREMIUM") seat.airlineClass = "ECONOMY";
       });
   }
 
   checkSeat(row, col, seg) {
     let seat = this.seats.filter(
-      seat => seat.row == row && seat.column == col && seat.segmentNum == seg
+      seat =>
+        seat.seatRow == row && seat.seatColumn == col && seat.segmentNum == seg
     );
     if (seat[0]) {
-      return seat[0].airlineClassType.toLowerCase();
+      return seat[0].airlineClass.toLowerCase();
     } else {
       this.seats.push({
-        id: 0,
-        row: row,
-        column: col,
+        id: null,
+        seatRow: row,
+        seatColumn: col,
         segmentNum: seg,
-        airlineClassType: "ECONOMY"
+        airlineClass: "ECONOMY"
       });
     }
     return "economy";
@@ -63,9 +73,9 @@ export class AddPlaneComponent implements OnInit {
 
     for (let seat of this.seats) {
       if (
-        seat.row <= this.rows &&
+        seat.seatRow <= this.rows &&
         seat.segmentNum <= this.segmentNumber &&
-        seat.column <= this.segmentNumbers[seat.segmentNum - 1]
+        seat.seatColumn <= this.segmentNumbers[seat.segmentNum - 1]
       ) {
         finalSeats.push(seat);
       }
@@ -74,7 +84,16 @@ export class AddPlaneComponent implements OnInit {
       this.errorMsg = "You have to enter airplane's name!";
     } else {
       console.log(this.airplaneName);
-      console.log(finalSeats);
+
+      let plane = {
+        fullName: this.airplaneName,
+        airline: this.airline,
+        segmentConfig: { seats: finalSeats, segmentNum: this.segmentNumber }
+      };
+      console.log(plane);
+      this.airlineService.addPlane(plane).subscribe(res => {
+        console.log(res);
+      });
     }
   }
 }

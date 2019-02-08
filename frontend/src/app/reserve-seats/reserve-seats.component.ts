@@ -10,6 +10,7 @@ export class ReserveSeatsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
