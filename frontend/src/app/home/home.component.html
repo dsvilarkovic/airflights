@@ -13,10 +13,11 @@
 						<li class="nav-item"><a routerLink="/listAirflights" class="nav-link">Flights</a></li>
 						<li class="nav-item"><a routerLink="/hotels" class="nav-link">Hotels</a></li>
 						<li class="nav-item"><a routerLink="/rentacarPreview" class="nav-link">Rent a cars</a></li>
-						<li class="nav-item" *ngIf="!loggedFlag"><a routerLink="/login" class="nav-link">Log in</a></li>
-						<li class="nav-item cta" *ngIf="loggedFlag"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
-							<span>Sign Out</span>
-					</button></li>
+            <li *ngIf="boolLogIn"class="nav-item"><a routerLink="/login" class="nav-link" a>Sign in</a></li>
+            <li *ngIf="boolLogOff" class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+            <span>Sign Out</span>
+        </button></li>
+						<li *ngIf="boolLogIn"class="nav-item"><a routerLink="/register" class="nav-link">Register</a></li>		
 					</ul>
 				</div>
 			</div>

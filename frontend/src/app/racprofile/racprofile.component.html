@@ -29,12 +29,48 @@
                   </button>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" routerLink="/rentacar/{{id}}">
+                  <a class="nav-link active" (click)="general()">
                     <span data-feather="home"></span>
-                      Reports
+                      General
                     <span class="sr-only">(current)</span>
                   </a>
                 </li>
+                <form #ProfileEditForm="ngForm" (ngSubmit)="update()">
+                  <div class="form-content">
+                      <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input type="text" [(ngModel)]="user.firstName" required class="form-control" name="firstName" placeholder="Enter first name">
+                        <small id="roomMsg" class="form-text text-muted" hidden>Invalid</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="lastName">Last Name</label>
+                      <input type="text" [(ngModel)]="user.lastName" required class="form-control" name="lastName" placeholder="Enter last name">
+                      <small id="floorMsg" class="form-text text-muted" hidden>Invalid</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="email">E-mail</label>
+                      <input type="text" [(ngModel)]="user.email" required class="form-control" name="email" placeholder="Enter email" disabled>
+                      <small id="emailMsg" class="form-text text-muted" hidden>Invalid</small>
+                    </div>
+                    <div class="float-right">
+                      <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!ProfileEditForm.form.valid">Update</button>
+                    </div>
+                  </div>
+                  </form>
+                  <br/>
+                    <form #pForm="ngForm" (ngSubmit)="changeP(pForm.value)">
+                      <div class="form-group">
+                      <label for="pass">Password</label>
+                        <small id="pMsg" class="form-text text-muted msg" *ngIf="pm">Entered password not valid</small> <br />
+                        <input type="text" [(ngModel)]="passwordNew1" required class="form-control" name="passwordNew1" placeholder="New password" (focus)="focusn()">
+                        <input type="text" [(ngModel)]="passwordNew2" required class="form-control" name="passwordNew2" placeholder="Confirm new password" (focus)="focusn()">
+                        <small id="p2Msg" class="form-text text-muted msg" *ngIf="pm2">Please enter new password two times</small>
+                      </div>
+              
+                      <div class="float-right">
+                        <button id="btnAdd" class="btn btn-primary" type="submit" [disabled]="!pForm.form.valid">Change password</button>
+                      </div>
+                  </form>
                 
               </ul>
             </div>
@@ -372,9 +408,50 @@
                 </div>
               </div>
 
+
+              <!-- chart -->
+
+              <div class="dropdown" style="color: black">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Choose period
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click)="week()">Last week</a>
+                  <a class="dropdown-item" (click)="month()">Last month</a>
+                  <a class="dropdown-item" (click)="yearChart()">Last year</a>
+                </div>
+              </div>
+              <br />
+            <div class="row" style="color: black">
+                <div class="col-md-6">
+                  <div style="display: block;">
+                  <canvas baseChart width="400" height="400"
+                              [datasets]="lineChartData"
+                              [labels]="lineChartLabels"
+                              [options]="lineChartOptions"
+                              [colors]="lineChartColors"
+                              [legend]="lineChartLegend"
+                              [chartType]="lineChartType"
+                              (chartHover)="chartHovered($event)"
+                              (chartClick)="chartClicked($event)"></canvas>
+                  </div>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 10px">
+                  <table class="table table-responsive table-condensed">
+                    <tr>
+                      <th *ngFor="let label of lineChartLabels">{{label}}</th>
+                    </tr>
+                    <tr *ngFor="let d of lineChartData">
+                      <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
           </main>
         </div>
       </div>
+
 
       
                   <div *ngIf="updateBranchFlag" class="modal fade" id="updateModalBranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -428,6 +505,9 @@
                           </div>
                         </div>
                       </div>
+
+
+                    
         
                 
   

@@ -177,6 +177,8 @@ public class AdminController {
     	return new ResponseEntity<AbstractUserDTO>(new AbstractUserDTO(u), HttpStatus.CREATED);
     }
     
+    
+    
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractUserDTO> delAdmin(@PathVariable Long id) {

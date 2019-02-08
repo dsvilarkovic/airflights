@@ -90,6 +90,7 @@ import { AdminSystemAddComponent } from './admin/admin-system-add/admin-system-a
 import { FlightSeatReservationComponent } from './flight-seat-reservation/flight-seat-reservation.component';
 import { FlightFriendInvitationComponent } from './flight-friend-invitation/flight-friend-invitation.component';
 
+
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
@@ -145,7 +146,7 @@ const appRoutes: Routes = [
   {path: 'rooms/list', component : HotelRoomsComponent},
   {path: ':id/rooms/list', component : HotelRoomsComponent},
 
-  {path: 'rentacarDiscount/:id/:date1/:date2', component: RentACarDiscountComponent},
+  {path: 'rentacarPreview/:id/discount', component: RentACarDiscountComponent},
   {path: 'authHomePage/:id',component: AuthhomepageComponent},
   {path: 'listAirflights', component: ListAirflightsComponent},
   {path: 'listHotels', component: ListHotelsComponent},

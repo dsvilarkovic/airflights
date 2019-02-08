@@ -30,6 +30,8 @@ export class RentacarPreviewComponent implements OnInit {
 
   //boolean flagovi za promenu stanja
   branchFlag: boolean = false;
+  boolLogOff: boolean = false;
+  boolLog: boolean = false;
 
   constructor(private calendar: NgbCalendar, private racService: RentacarService, private router: Router, private token: TokenStorageService) { }
 
@@ -55,6 +57,14 @@ export class RentacarPreviewComponent implements OnInit {
         this.branches2.push(b);
       }
     })
+
+    if(this.token.getUser() == null) {
+      this.boolLogOff = false;
+      this.boolLog = true;
+    } else {
+      this.boolLogOff = true;
+      this.boolLog = false;
+    }
 
 
   }
