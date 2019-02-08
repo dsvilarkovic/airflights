@@ -36,7 +36,7 @@ VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$V
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar, role_id, hotel_id,change_pass)
 VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','43537', true,3, 4, 1002,true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
-VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,2,true);
+VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,1,true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
 VALUES (4, 'Subotica', 'pero@gmail.com', 'Pera', '867867','Peric','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true, 0,true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
@@ -58,7 +58,7 @@ VALUES (3, 'Puškinova',' Novi Sad', 'aksjfdalksjflsjadfklsadf', 'NS 021',2,7);
 
 INSERT INTO user_roles(user_id, role_id) VALUES(1,2);
 INSERT INTO user_roles(user_id, role_id) VALUES(2,4);
-INSERT INTO user_roles(user_id, role_id) VALUES(3,5);
+INSERT INTO user_roles(user_id, role_id) VALUES(3,3);
 INSERT INTO user_roles(user_id, role_id) VALUES(5,5);
 INSERT INTO user_roles(user_id, role_id) VALUES(4,1);
 
