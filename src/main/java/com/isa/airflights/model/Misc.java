@@ -61,6 +61,12 @@ public class Misc {
 		this.bbb = bbb;
 	}
 
+	public Misc(Long id, Integer b, Integer bb, Integer bbb) {
+		this.id = id;
+		this.b = b;
+		this.bb = bb;
+		this.bbb = bbb;
+	}
 
 
 }

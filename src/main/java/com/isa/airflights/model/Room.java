@@ -171,7 +171,16 @@ public class Room {
         return Objects.hashCode(id);
     }
 	
-    /*public Room() {
+    public Room() {
 		// Default 
-	}*/
+	}
+    
+    public Room(Long id, Integer floor, Integer number, Integer beds, Integer rooms, Double price) {
+    	this.id = id;
+    	this.floor = floor;
+    	this.number = number;
+    	this.beds = beds;
+    	this.rooms = rooms;
+    	this.price = price;
+    }
 }

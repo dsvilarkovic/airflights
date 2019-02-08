@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.dto.AdminDTO;
-import com.isa.airflights.dto.AirlineDTO;
 import com.isa.airflights.dto.AirlineDTO2;
 import com.isa.airflights.dto.UserDTODjuka;
 import com.isa.airflights.model.AbstractUser;
