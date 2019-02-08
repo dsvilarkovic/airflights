@@ -74,6 +74,7 @@ public class ExtrasServiceTest {
 		
 		when(rep.save(he)).thenReturn(he);
 		
+		int size1 = ser.getAll().size();
 		
 		HotelExtras sa = ser.save(he);
 		
@@ -83,10 +84,10 @@ public class ExtrasServiceTest {
 		
 		List<HotelExtras> list = (List<HotelExtras>)ser.getAll();
 		
-		sa = list.get(list.size() - 1);
+		sa = list.get(size1 - 1);
 		
-		assertThat(sa.getName()).isEqualTo("Bar");
-		assertThat(sa.getPrice()).isEqualTo(3.5);
+		assertThat(sa.getName()).isEqualTo("Bazen");
+		assertThat(sa.getPrice()).isEqualTo(4.5);
 		
 		verify(rep, times(2)).findAll();
 		verify(rep).save(he);
@@ -109,12 +110,20 @@ public class ExtrasServiceTest {
 	
 	@Test
 	public void testsaveE() {
-		
+		when(rrx.save(rre)).thenReturn(rre);
+		RoomResExtras c = ser.saveResExtra(rre);
+		assertThat(c, is(equalTo(rre)));
 	}
 	
 	@Test
 	public void testroomres() {
+		when(rep.findByHotel_id(1L)).thenReturn(Arrays.asList(new HotelExtras(1L, "Bazen", 4.5)));
+		List<HotelExtras> e = ser.getExtrasByHotel(1L);
 		
+		assertTrue(e.size()==1);
+		
+		verify(rep, times(1)).findByHotel_id(1L);
+		verifyNoMoreInteractions(rep);
 	}
 	
 	

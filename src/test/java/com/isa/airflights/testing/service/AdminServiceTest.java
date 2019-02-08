@@ -58,6 +58,8 @@ public class AdminServiceTest {
 		
 		when(repository.save(u)).thenReturn(u);
 		
+		int size1 = ser.getAll().size();
+		
 		AbstractUser sa = ser.save(u);
 		
 		assertThat(sa).isNotNull();
@@ -66,10 +68,10 @@ public class AdminServiceTest {
 		
 		List<AbstractUser> list = (List<AbstractUser>)ser.getAll();
 		
-		sa = list.get(list.size() - 1);
+		sa = list.get(size1 - 1);
 		
-		assertThat(sa.getFirstName()).isEqualTo("Mika");
-		assertThat(sa.getLastName()).isEqualTo("Mikic");
+		assertThat(sa.getFirstName()).isEqualTo("Pera");
+		assertThat(sa.getLastName()).isEqualTo("Peric");
 		
 		verify(repository, times(2)).findAll();
 		verify(repository).save(u);
