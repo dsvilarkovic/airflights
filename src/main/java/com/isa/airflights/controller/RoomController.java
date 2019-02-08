@@ -28,7 +28,6 @@ import com.isa.airflights.model.Misc;
 import com.isa.airflights.model.PromoRoom;
 import com.isa.airflights.model.ReservationPackage;
 import com.isa.airflights.model.Room;
-import com.isa.airflights.model.RoomResExtras;
 import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.SearchObject;
 import com.isa.airflights.service.ExtrasService;
