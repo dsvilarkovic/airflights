@@ -1,5 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { AirlineAdminService } from "src/services/airline-admin.service";
 
 @Component({
   selector: "app-airline-info",
@@ -7,7 +8,7 @@ import { Component, OnInit, ViewChild, Input } from "@angular/core";
   styleUrls: ["./airline-info.component.scss"]
 })
 export class AirlineInfoComponent implements OnInit {
-  constructor() {}
+  constructor(private airlineAdminService: AirlineAdminService) {}
   @ViewChild("gmap") gmapElement: any;
   map: google.maps.Map;
   showMap = false;
@@ -31,6 +32,10 @@ export class AirlineInfoComponent implements OnInit {
 
   saveChanges() {
     console.log(this.airlineMock);
+    this.airlineAdminService.updateAirline(this.airlineMock).subscribe(res => {
+      console.log(res);
+      alert("Airline info updated successfully!");
+    });
   }
 
   luggageClicked(luggageId) {
@@ -46,6 +51,9 @@ export class AirlineInfoComponent implements OnInit {
       this.luggageInfo
     );
     // POST REQUEST - add luggage info
+    this.airlineAdminService.addLuggage(this.luggageInfo).subscribe(res => {
+      console.log(res);
+    });
   }
 
   removeLuggage(luggageId) {
@@ -57,5 +65,8 @@ export class AirlineInfoComponent implements OnInit {
       }
     );
     this.airlineMock.luggageClassPriceList.luggageClassPrices = filtered;
+    this.airlineAdminService.removeLuggage(luggageId).subscribe(res => {
+      console.log(res);
+    });
   }
 }

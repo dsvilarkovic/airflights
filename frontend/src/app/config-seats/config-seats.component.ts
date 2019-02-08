@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { AirlineAdminService } from "src/services/airline-admin.service";
 
 @Component({
   selector: "app-config-seats",
@@ -6,13 +8,17 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./config-seats.component.scss"]
 })
 export class ConfigSeatsComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private airlineAdminService: AirlineAdminService
+  ) {}
 
+  id;
   errorMsg = "";
   Arr = Array;
   rows = 2;
   segmentNumber = 2;
-  segmentNumbers = [2, 1];
+  segmentNumbers = [];
   seatsMock = [
     { id: 1, row: 1, column: 1, segmentNum: 1, airlineClassType: "ECONOMY" },
     { id: 2, row: 1, column: 2, segmentNum: 1, airlineClassType: "ECONOMY" },
@@ -25,14 +31,17 @@ export class ConfigSeatsComponent implements OnInit {
     {
       seat: {
         id: 5,
-        row: 1,
-        column: 1,
+        seatRow: 1,
+        seatColumn: 1,
         segmentNum: 2,
-        airlineClassType: "FIRST"
+        airlineClass: "FIRST"
       }
     }
   ];
-  airplaneMock = { id: 1, fullName: "Žiška (AirBus A320)" };
+  airplaneMock = {
+    fullName: null,
+    segmentConfig: { seats: [], segmentNum: 3 }
+  };
   seatConfigMock = {
     airplane: this.airplaneMock,
     segmentNum: this.segmentNumber,
@@ -40,52 +49,67 @@ export class ConfigSeatsComponent implements OnInit {
   };
   segmentNumbersMock = [];
   ngOnInit() {
+    this.id = this.route.snapshot.params.id;
+    this.airlineAdminService.getPlane(this.id).subscribe(res => {
+      this.airplaneMock = res;
+      console.log(this.airplaneMock);
+      this.getNumberOfSeatsPerSegment();
+      this.rows = this.getNumberOfRows();
+    });
     // this.seatConf = this.getSeatConfig(airplaneId);
-    this.getNumberOfSeatsPerSegment();
+  }
+
+  getNumberOfRows() {
+    let rows = [];
+    for (let j = 1; j <= this.airplaneMock.segmentConfig.seats.length; j++) {
+      rows.push(this.airplaneMock.segmentConfig.seats[j - 1].seatRow);
+    }
+
+    return Math.max.apply(null, rows);
   }
   getNumberOfSeatsPerSegment() {
-    for (let i = 1; i <= this.segmentNumber; i++) {
+    for (let i = 1; i <= this.airplaneMock.segmentConfig.segmentNum; i++) {
       let columns = [];
-      for (let j = 1; j <= this.seatsMock.length; j++) {
-        if (this.seatsMock[j - 1].segmentNum === i) {
-          columns.push(this.seatsMock[j - 1].column);
+      for (let j = 1; j <= this.airplaneMock.segmentConfig.seats.length; j++) {
+        if (this.airplaneMock.segmentConfig.seats[j - 1].segmentNum === i) {
+          columns.push(this.airplaneMock.segmentConfig.seats[j - 1].seatColumn);
         }
       }
-      this.segmentNumbersMock.push(Math.max.apply(null, columns));
+      this.segmentNumbers.push(Math.max.apply(null, columns));
     }
   }
 
   cellClicked(row, col, seg) {
     if (this.isReserved(row, col, seg)) return null;
-    this.seatsMock
+    this.airplaneMock.segmentConfig.seats
       .filter(
-        seat => seat.row == row && seat.column == col && seat.segmentNum == seg
+        seat =>
+          seat.seatRow == row &&
+          seat.seatColumn == col &&
+          seat.segmentNum == seg
       )
       .map(seat => {
-        if (seat.airlineClassType == "ECONOMY")
-          seat.airlineClassType = "BUSINESS";
-        else if (seat.airlineClassType == "BUSINESS")
-          seat.airlineClassType = "FIRST";
-        else if (seat.airlineClassType == "FIRST")
-          seat.airlineClassType = "PREMIUM";
-        else if (seat.airlineClassType == "PREMIUM")
-          seat.airlineClassType = "ECONOMY";
+        if (seat.airlineClass == "ECONOMY") seat.airlineClass = "BUSINESS";
+        else if (seat.airlineClass == "BUSINESS") seat.airlineClass = "FIRST";
+        else if (seat.airlineClass == "FIRST") seat.airlineClass = "PREMIUM";
+        else if (seat.airlineClass == "PREMIUM") seat.airlineClass = "ECONOMY";
       });
   }
 
   checkSeat(row, col, seg) {
-    let seat = this.seatsMock.filter(
-      seat => seat.row == row && seat.column == col && seat.segmentNum == seg
+    let seat = this.airplaneMock.segmentConfig.seats.filter(
+      seat =>
+        seat.seatRow == row && seat.seatColumn == col && seat.segmentNum == seg
     );
     if (seat[0]) {
-      return seat[0].airlineClassType.toLowerCase();
+      return seat[0].airlineClass.toLowerCase();
     } else {
-      this.seatsMock.push({
-        id: 0,
-        row: row,
-        column: col,
+      this.airplaneMock.segmentConfig.seats.push({
+        id: null,
+        seatRow: row,
+        seatColumn: col,
         segmentNum: seg,
-        airlineClassType: "ECONOMY"
+        airlineClass: "ECONOMY"
       });
     }
     return "economy";
@@ -93,8 +117,8 @@ export class ConfigSeatsComponent implements OnInit {
   isReserved(row, col, seg) {
     let seat = this.reservedSeatsMock.filter(
       rseat =>
-        rseat.seat.row == row &&
-        rseat.seat.column == col &&
+        rseat.seat.seatRow == row &&
+        rseat.seat.seatColumn == col &&
         rseat.seat.segmentNum == seg
     );
     if (seat[0]) {
@@ -110,11 +134,11 @@ export class ConfigSeatsComponent implements OnInit {
     let finalSeats = [];
     let reservedSeatsNo = this.reservedSeatsMock.length;
     let reservedSeatsNoFinal = 0;
-    for (let seat of this.seatsMock) {
+    for (let seat of this.airplaneMock.segmentConfig.seats) {
       if (
-        seat.row <= this.rows &&
+        seat.seatRow <= this.rows &&
         seat.segmentNum <= this.segmentNumber &&
-        seat.column <= this.segmentNumbers[seat.segmentNum - 1]
+        seat.seatColumn <= this.segmentNumbers[seat.segmentNum - 1]
       ) {
         this.reservedSeatsMock.map(rs => {
           if (rs.seat.id === seat.id) reservedSeatsNoFinal++;
@@ -135,7 +159,23 @@ export class ConfigSeatsComponent implements OnInit {
       this.errorMsg = "You have to provide airplane name!";
     } else {
       console.log(this.airplaneMock.fullName);
-      console.log(finalSeats);
+      console.log(this.airplaneMock.segmentConfig);
+
+      // this.airplaneMock.segmentConfig.seats = finalSeats;
+      this.airlineAdminService
+        .updatePlaneInfo(this.airplaneMock)
+        .subscribe(res => {
+          console.log("RES1: ");
+          console.log(res);
+        });
+
+      //config.seats = finalSeats;
+      this.airlineAdminService
+        .updateSeatConfig(this.airplaneMock.segmentConfig)
+        .subscribe(res => {
+          console.log("RES2: ");
+          console.log(res);
+        });
     }
   }
 }

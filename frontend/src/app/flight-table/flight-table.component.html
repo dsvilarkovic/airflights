@@ -34,18 +34,20 @@
   <tbody>
     <tr *ngFor="let flight of flightsMock; let i = index">
       <th scope="row">{{ i + 1 }}</th>
-      <td>{{ flight.flightLegs[0].fullName }}</td>
-      <td>{{ flight.flightLegs[flight.flightLegs.length - 1].fullName }}</td>
+      <td>{{ flight.flightLegsDTO[0].fullName }}</td>
       <td>
-        <span *ngIf="flight.flightLegs.length - 2 == 0">Direct</span
-        ><span *ngIf="flight.flightLegs.length - 2 == 1"
-          >{{ flight.flightLegs.length - 2 }} Stop</span
-        ><span *ngIf="flight.flightLegs.length - 2 > 1"
-          >{{ flight.flightLegs.length - 2 }} Stops</span
+        {{ flight.flightLegsDTO[flight.flightLegsDTO.length - 1].fullName }}
+      </td>
+      <td>
+        <span *ngIf="flight.flightLegsDTO.length - 2 == 0">Direct</span
+        ><span *ngIf="flight.flightLegsDTO.length - 2 == 1"
+          >{{ flight.flightLegsDTO.length - 2 }} Stop</span
+        ><span *ngIf="flight.flightLegsDTO.length - 2 > 1"
+          >{{ flight.flightLegsDTO.length - 2 }} Stops</span
         >
       </td>
-      <td>{{ flight.departureDateTime }}</td>
-      <td>{{ flight.arrivalDateTime }}</td>
+      <td>{{ flight.departureDatetime }}</td>
+      <td>{{ flight.arrivalDatetime }}</td>
       <td>
         <button
           class="btn btn-secondary"
@@ -72,9 +74,10 @@
 <ngb-pagination
   [(collectionSize)]="collectionSize"
   [(page)]="pageNo"
-  [maxSize]="5"
+  [(pageSize)]="pageSize"
   [boundaryLinks]="true"
   style="float:right"
+  (pageChange)="onPageChange(pageNo)"
 ></ngb-pagination>
 
 <div class="modal" id="flightDetailsModal" tabindex="-1" role="dialog">
@@ -94,12 +97,13 @@
       <div class="modal-body" style="text-align:center">
         <p>
           <b>Travel Plan:</b>
-          <span *ngFor="let city of clickedFlight.flightLegs">
+          <span *ngFor="let city of clickedFlight.flightLegsDTO">
             {{ city.fullName
             }}<span
               *ngIf="
-                clickedFlight.flightLegs[clickedFlight.flightLegs.length - 1]
-                  .fullName != city.fullName
+                clickedFlight.flightLegsDTO[
+                  clickedFlight.flightLegsDTO.length - 1
+                ].fullName != city.fullName
               "
               >,
             </span>
@@ -113,19 +117,55 @@
         <br />
         <br />
         <p><b>PRICES:</b></p>
-        <span *ngFor="let classPrice of clickedFlight.flightClassPrices">
-          <p>
-            <i>{{ classPrice.airlineClassType }} Class:</i>
-            {{ classPrice.price }}&euro;
-            <b *ngIf="clickedFlight.flightDiscount > 0">
-              - discount:
-              {{
-                classPrice.price -
-                  (classPrice.price / 100) * clickedFlight.flightDiscount
-              }}&euro;</b
-            >
-          </p>
-        </span>
+
+        <p>
+          <i>Economy Class:</i>
+          {{ clickedFlight.flightClassPricesMap.ECONOMY }}&euro;
+          <b *ngIf="clickedFlight.flightDiscount > 0">
+            - discount:
+            {{
+              clickedFlight.flightClassPricesMap.ECONOMY -
+                (clickedFlight.flightClassPricesMap.ECONOMY / 100) *
+                  clickedFlight.flightDiscount
+            }}&euro;</b
+          >
+        </p>
+        <p>
+          <i>Business Class:</i>
+          {{ clickedFlight.flightClassPricesMap.BUSINESS }}&euro;
+          <b *ngIf="clickedFlight.flightDiscount > 0">
+            - discount:
+            {{
+              clickedFlight.flightClassPricesMap.BUSINESS -
+                (clickedFlight.flightClassPricesMap.BUSINESS / 100) *
+                  clickedFlight.flightDiscount
+            }}&euro;</b
+          >
+        </p>
+        <p>
+          <i>First Class:</i>
+          {{ clickedFlight.flightClassPricesMap.FIRST }}&euro;
+          <b *ngIf="clickedFlight.flightDiscount > 0">
+            - discount:
+            {{
+              clickedFlight.flightClassPricesMap.FIRST -
+                (clickedFlight.flightClassPricesMap.FIRST / 100) *
+                  clickedFlight.flightDiscount
+            }}&euro;</b
+          >
+        </p>
+        <p>
+          <i>Premium Class:</i>
+          {{ clickedFlight.flightClassPricesMap.PREMIUM }}&euro;
+          <b *ngIf="clickedFlight.flightDiscount > 0">
+            - discount:
+            {{
+              clickedFlight.flightClassPricesMap.PREMIUM -
+                (clickedFlight.flightClassPricesMap.PREMIUM / 100) *
+                  clickedFlight.flightDiscount
+            }}&euro;</b
+          >
+        </p>
       </div>
       <div class="modal-footer">
         <button
@@ -394,7 +434,7 @@
       type="datetime-local"
       class="form-control"
       placeholder="Departure Date & Time"
-      [(ngModel)]="clickedFlight.departureDateTime"
+      [(ngModel)]="clickedFlight.departureDatetime"
       style="margin-left: 30px"
     />
     <label style="margin-left: 30px;margin-top: 30px"
@@ -404,7 +444,7 @@
       type="datetime-local"
       class="form-control"
       placeholder="Arrival Date & Time"
-      [(ngModel)]="clickedFlight.arrivalDateTime"
+      [(ngModel)]="clickedFlight.arrivalDatetime"
       style="margin-left: 30px"
     />
     <label style="margin-left: 30px;margin-top: 30px">Travel Time</label>
@@ -449,7 +489,7 @@
       <select
         class="form-control"
         style="margin-left: 30px"
-        [(ngModel)]="clickedFlight.flightLegs[i]"
+        [(ngModel)]="clickedFlight.flightLegsDTO[i]"
         ><option selected disabled>Choose city...</option>
         <option *ngFor="let c of destinationsMock" [ngValue]="c">{{
           c.fullName
@@ -464,7 +504,7 @@
       type="number"
       class="form-control"
       placeholder="Enter price"
-      [(ngModel)]="clickedFlight.flightClassPrices[0].price"
+      [(ngModel)]="clickedFlight.flightClassPricesMap.ECONOMY"
       style="margin-left: 30px"
     />
     <label style="margin-left: 30px;margin-top: 30px"
@@ -474,7 +514,7 @@
       type="number"
       class="form-control"
       placeholder="Enter price"
-      [(ngModel)]="clickedFlight.flightClassPrices[1].price"
+      [(ngModel)]="clickedFlight.flightClassPricesMap.BUSINESS"
       style="margin-left: 30px"
     />
     <label style="margin-left: 30px;margin-top: 30px">First Class Price</label>
@@ -482,7 +522,7 @@
       type="number"
       class="form-control"
       placeholder="Enter price"
-      [(ngModel)]="clickedFlight.flightClassPrices[2].price"
+      [(ngModel)]="clickedFlight.flightClassPricesMap.FIRST"
       style="margin-left: 30px"
     />
     <label style="margin-left: 30px;margin-top: 30px"
@@ -492,7 +532,7 @@
       type="number"
       class="form-control"
       placeholder="Enter price"
-      [(ngModel)]="clickedFlight.flightClassPrices[3].price"
+      [(ngModel)]="clickedFlight.flightClassPricesMap.PREMIUM"
       style="margin-left: 30px"
     />
   </div>
