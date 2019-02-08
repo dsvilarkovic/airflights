@@ -290,7 +290,7 @@ public class RoomController {
 	
 	@RequestMapping(value="/reservePromo", method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<String> reserveRoom(@RequestBody RoomResDTO res) {
+    public ResponseEntity<Boolean> reserveRoom(@RequestBody RoomResDTO res) {
 		
 		Room room = service.getOne(res.getRoom_id().get(0));
 		
@@ -313,13 +313,13 @@ public class RoomController {
 		ReservationPackage rp = rrService.getRP(res_id);
 		
 		if (rp.getReservedRooms() == true) {
-			return new ResponseEntity<String>("Rooms already reserved", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 		
 		// Broj kreveta
 		// Provera da li je broj kreveta veci od broja karata
 		if (rp.getTickets() < room.getBeds()) {
-			return new ResponseEntity<String>("Too many beds", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 		
 		//-----------------------------------------------
@@ -343,16 +343,22 @@ public class RoomController {
     	
     	reservation.setPrice(price);
     	
-		RoomReservation r9 = rrService.save(reservation);
+		//RoomReservation r9 = rrService.save(reservation);
 		
-		for (HotelExtras e : extras) {
+		RoomReservation r9 = rrService.saveFull(reservation, extras);
+		
+		if (r9 == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+		}
+		
+		/*for (HotelExtras e : extras) {
 			RoomResExtras r = new RoomResExtras();
 			r.setRoom_res(r9);
 			r.setExtras(e);
 			xS.saveResExtra(r);
-		}
+		}*/
 		
-    	return new ResponseEntity<String>("Success", HttpStatus.OK);
+    	return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 	
 	@RequestMapping(value="/{id}/searchRooms", method = RequestMethod.POST,
