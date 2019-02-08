@@ -8,6 +8,11 @@ public class AirlineDTO {
 	private String promoInfo;
 	private Double longitude;
 	private Double latitude;
+	private Boolean active = true;
+	private String address;
+	private String city;
+	private Double gradeSum = 0.0;	
+	private Integer gradeCount = 0;
 	private LuggagePriceListDTO luggageClassPriceList;
 	
 	public Long getId() {
@@ -46,6 +51,37 @@ public class AirlineDTO {
 	}
 	public void setLuggageClassPriceList(LuggagePriceListDTO luggageList) {
 		this.luggageClassPriceList = luggageList;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public Double getGradeSum() {
+		return gradeSum;
+	}
+	public void setGradeSum(Double gradeSum) {
+		this.gradeSum = gradeSum;
+	}
+	public Integer getGradeCount() {
+		return gradeCount;
+	}
+	public void setGradeCount(Integer gradeCount) {
+		this.gradeCount = gradeCount;
 	}
 	public AirlineDTO(Airline a) {
 		this.id = a.getId();

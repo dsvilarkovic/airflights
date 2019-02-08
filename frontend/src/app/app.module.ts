@@ -219,6 +219,8 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     HotelDiscountsComponent,
     AdminSystemAddComponent,
+    FlightSeatReservationComponent,
+    FlightFriendInvitationComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -237,9 +239,7 @@ const appRoutes: Routes = [
       }
     ),
     GoogleChartsModule.forRoot(),
-    PassengerFormComponent,
-    FlightSeatReservationComponent,
-    FlightFriendInvitationComponent
+    
   ],
   providers: [LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
