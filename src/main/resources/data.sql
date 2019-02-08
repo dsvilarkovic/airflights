@@ -158,7 +158,7 @@ INSERT INTO misc(id, b, b2, b3) VALUES (1, 1, 2, 3);
 INSERT INTO misc(id, b, b2, b3) VALUES (2, 1, 3, 5);
 
 -- Popusti za izbor dodatnih usluga na osnovu pragova
-INSERT INTO misc(id, b, b2, b3) VALUES (3, 5, 10, 15);
+INSERT INTO misc(id, b, b2, b3) VALUES (3, 5, 10, 15); 
 
 -- Broj poena i procenat popusta na ukupnu svotu
 INSERT INTO misc(id, b, b2, b3) VALUES (4, 5, 10, 15);
