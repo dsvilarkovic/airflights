@@ -58,6 +58,11 @@ export class AdminAddComponent implements OnInit {
   save(form: NgForm) {
     let role : Role = new Role();
     this.admin.verify = true;
+    var regex = /^[0-9A-Za-z]+@[A-Za-z]+\.[A-Za-z]{2,3}$/g
+    if (!regex.test(this.admin.email)) {
+      alert("Not valid email format!")
+      return;
+    }
     switch(this.type) {
       case 'A': 
         role.name = ROLE_A;

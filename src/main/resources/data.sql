@@ -152,13 +152,16 @@ VALUES(true, 5, 3);
 
 -- Tabela za bodove i racunanje popusta
 -- Bonus bodovi za rezervisanje samo leta, leta i jos necega i sve tri stvari
-INSERT INTO misc(b, b2, b3) VALUES (1, 2, 3);
+INSERT INTO misc(id, b, b2, b3) VALUES (1, 1, 2, 3);
 
 -- Granice za popust pri izboru dodataka u hotelu
-INSERT INTO misc(b, b2, b3) VALUES (1, 3, 5);
+INSERT INTO misc(id, b, b2, b3) VALUES (2, 1, 3, 5);
 
 -- Popusti za izbor dodatnih usluga na osnovu pragova
-INSERT INTO misc(b, b2, b3) VALUES (5, 10, 15);
+INSERT INTO misc(id, b, b2, b3) VALUES (3, 5, 10, 15);
+
+-- Broj poena i procenat popusta na ukupnu svotu
+INSERT INTO misc(id, b, b2, b3) VALUES (4, 5, 10, 15);
 
 -- Rezervacije u paketu
 INSERT INTO reservation_package(id, tickets, reserved_rooms) VALUES (1001, 5, false);

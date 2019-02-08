@@ -13,6 +13,9 @@ import { Misc } from 'src/app/misc';
 export class AdminBonusesComponent implements OnInit {
 
   m: Misc = new Misc();
+  i: number;
+  th: number;
+  dis: number;
 
   constructor(private ts: TokenStorageService, private router: Router,
     private aS: AdminsService) { }
@@ -30,6 +33,19 @@ export class AdminBonusesComponent implements OnInit {
       this.m.bbb=r.bbb;
     })
 
+    this.aS.getMiscAll().subscribe( r => {
+      r.forEach(element => {
+       switch(element.id) {
+         case 4:
+          this.i = element.id
+          this.th = element.b
+          this.dis = element.bb
+         break;
+       } 
+      });
+
+    }) 
+
   }
 
   logout() {
@@ -40,6 +56,21 @@ export class AdminBonusesComponent implements OnInit {
   save() {
     if (this.m.b && this.m.bb && this.m.bbb && this.m.b > 0 && this.m.bb > 0 && this.m.bbb > 0) {
       this.aS.upMisc(this.m).subscribe( r => {
+        window.location.reload();
+      })
+    }else {
+      alert("Please insert postitive integers")
+    }
+  }
+
+  save2() {
+    if (this.th && this.dis && this.th > 0 && this.dis > 0) {
+      let m = new Misc();
+      m.b = this.th
+      m.bb = this.dis
+      m.id = this.i
+      m.bbb = 0
+      this.aS.upMisc(m).subscribe( r => {
         window.location.reload();
       })
     }else {

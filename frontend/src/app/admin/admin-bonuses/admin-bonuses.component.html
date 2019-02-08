@@ -59,6 +59,14 @@
               </tbody>
           </table>
         </form>
-      </div>
+        <form #Form2="ngForm" (ngSubmit)="save2()">
+            <p>For every 
+              <input type="number" [(ngModel)]="th" required class="form-control" name="th" id="th" placeholder="Points">
+              points user gets
+              <input type="number" [(ngModel)]="dis" required class="form-control" name="dis" id="dis" placeholder="Discount">
+            </p> percent discount.
+            <button id="btnAdd" class="btn btn-primary float-right" type="submit" [disabled]="!Form2.form.valid">Update</button> 
+        </form>
+         </div>
     </div>
   </div>
