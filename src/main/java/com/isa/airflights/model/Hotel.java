@@ -158,4 +158,17 @@ public class Hotel {
 		// Default
 	}*/
 	
+	public Hotel(String name, String address, String desc, String city, Long count, Long sum) {
+		this.name = name;
+		this.address = address;
+		this.description = desc;
+		this.city = city;
+		this.ratingsCount = count;
+		this.ratingsSum = sum;
+	}
+	
+	public Hotel() {
+		// default
+	}
+	
 }

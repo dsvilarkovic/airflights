@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.dto.AdminDTO;
 import com.isa.airflights.dto.AirlineDTO;
+import com.isa.airflights.dto.AirlineDTO2;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Hotel;
@@ -247,12 +248,12 @@ public class AdminController {
     
     @RequestMapping(value="/getAL", method = RequestMethod.GET,  
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AirlineDTO>> getAL() {
+    public ResponseEntity<List<AirlineDTO2>> getAL() {
     	
     	List<Airline> aa = fs.getAllAdmin();
-    	List<AirlineDTO> ad = new ArrayList<>();
+    	List<AirlineDTO2> ad = new ArrayList<>();
     	for (Airline a : aa) {
-    		AirlineDTO l = new AirlineDTO();
+    		AirlineDTO2 l = new AirlineDTO2();
     		l.setActive(a.getActive());
     		l.setFullName(a.getFullName());
     		l.setAddress(a.getAddress());
@@ -263,7 +264,7 @@ public class AdminController {
     		ad.add(l);
     	}
     	
-    	return new ResponseEntity<List<AirlineDTO>>(ad,HttpStatus.OK);
+    	return new ResponseEntity<List<AirlineDTO2>>(ad,HttpStatus.OK);
     }
    
     
