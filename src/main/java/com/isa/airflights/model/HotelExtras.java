@@ -26,6 +26,16 @@ public class HotelExtras {
 		PER_DAY_PER_PERSON,
 	}
 	
+	public HotelExtras(Long id, String name, Double price) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+	}
+	
+	public HotelExtras() {
+		
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

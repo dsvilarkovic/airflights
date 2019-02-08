@@ -58,8 +58,6 @@ public class AdminServiceTest {
 		
 		when(repository.save(u)).thenReturn(u);
 		
-		int size1 = ser.getAll().size();
-		
 		AbstractUser sa = ser.save(u);
 		
 		assertThat(sa).isNotNull();

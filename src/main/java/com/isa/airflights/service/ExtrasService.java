@@ -47,8 +47,8 @@ public class ExtrasService {
 		return repository.findByHotel_id(id);
 	}
 	
-	public void saveResExtra(RoomResExtras r) {
-		rrx.save(r);
+	public RoomResExtras saveResExtra(RoomResExtras r) {
+		return rrx.save(r);
 	}
 	
 	
