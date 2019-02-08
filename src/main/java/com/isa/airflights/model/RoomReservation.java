@@ -60,6 +60,70 @@ public class RoomReservation {
 	@Column(nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date resDate;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private AbstractUser abstractUser;
+
+	
+	/*
+	 * @djuka ubacio
+	 * */
+	@Column
+	private boolean rateRoom;
+	
+	@Column
+	private boolean rateHotel;
+	
+	@Column
+	@Temporal(TemporalType.DATE)
+	private Date reservationDate;
+	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Hotel hotel;
+	
+	
+	
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public Date getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(Date reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public boolean isRateRoom() {
+		return rateRoom;
+	}
+
+	public void setRateRoom(boolean rateRoom) {
+		this.rateRoom = rateRoom;
+	}
+
+	public boolean isRateHotel() {
+		return rateHotel;
+	}
+
+	public void setRateHotel(boolean rateHotel) {
+		this.rateHotel = rateHotel;
+	}
+
+	public AbstractUser getAbstractUser() {
+		return abstractUser;
+	}
+
+	public void setAbstractUser(AbstractUser abstractUser) {
+		this.abstractUser = abstractUser;
+	}
 
 	public Boolean getRated() {
 		return rated;

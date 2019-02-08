@@ -35,6 +35,10 @@ public class RoomReservationService {
 	public RoomReservation save(RoomReservation r) {
 		return repository.save(r);
 	}
+
+	public List<RoomReservation> findAll() {
+		return repository.findAll();
+	}
 	
 	
 	

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.RoomResDTO;
+import com.isa.airflights.dto.RoomResMockDTO;
 import com.isa.airflights.model.Condition;
 import com.isa.airflights.model.HotelExtras;
 import com.isa.airflights.model.Misc;
@@ -453,5 +454,23 @@ public class RoomController {
 		}
 		
 		return ret;
+	}
+	
+	/**
+	 * Getujem sve rezervacije od konkretnog korisnika
+	 * */
+	@RequestMapping(value="/allReservation/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<RoomResMockDTO>> getAllByUserId(@PathVariable Long id) {
+		List<RoomReservation> lista = rrService.findAll();
+		List<RoomResMockDTO> dto = new ArrayList<>();
+		for (RoomReservation v : lista) {
+			if(v.getAbstractUser().getId().equals(id) && v.getActive() == true) {
+				System.out.println("Ima jedna, dve...");
+				dto.add(new RoomResMockDTO(v));
+			}
+		}
+		
+		
+		return new ResponseEntity<List<RoomResMockDTO>>(dto,HttpStatus.OK);
 	}
 }

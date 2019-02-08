@@ -19,7 +19,7 @@ export class ReservationServiceService {
     return this.http.get(RESERVATION_API + "getAllByUserId/"+id);
   }
 
-  cancel(id): Observable<any> {
+  cancelVehicle(id): Observable<any> {
     return this.http.delete(RESERVATION_API + "cancel/"+id);
   }
 
@@ -33,5 +33,9 @@ export class ReservationServiceService {
 
   getAllByDate(date1,date2,id): Observable<any> {
     return this.http.get(RESERVATION_API + "getAllByDate/"+date1+"/"+date2+"/"+id);
+  }
+
+  cancelRoom(id): Observable<any> {
+    return this.http.delete(RESERVATION_API + "cancelRoom/"+id);
   }
 }

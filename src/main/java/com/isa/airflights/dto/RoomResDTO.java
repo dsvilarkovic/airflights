@@ -9,7 +9,10 @@ public class RoomResDTO {
 	//private Long id;
 	private SearchObject obj;
 	private List<Long> extras;
+
 	private List<Long> room_id;
+	//private Long room_id;
+
 	public SearchObject getObj() {
 		return obj;
 	}

@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.RentACarDTO;
+import com.isa.airflights.dto.RoomResMockDTO;
 import com.isa.airflights.dto.VehicleReservationDTO;
 import com.isa.airflights.model.AbstractUser;
+import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.RentACar;
+import com.isa.airflights.model.Room;
+import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.model.VehicleReservation;
+import com.isa.airflights.repository.HotelRepository;
+import com.isa.airflights.repository.RoomRepository;
+import com.isa.airflights.repository.RoomReservationRepository;
 import com.isa.airflights.service.AbstractUserService;
 import com.isa.airflights.service.RentACarService;
 import com.isa.airflights.service.VehicleReservationService;
@@ -37,6 +44,15 @@ public class RatingController {
 	
 	@Autowired
 	private VehicleReservationService vss;
+	
+	@Autowired
+	private RoomReservationRepository rrr;
+	
+	@Autowired
+	private RoomRepository roomrep;
+	
+	@Autowired
+	private HotelRepository hr;
 	
 	
 	/**
@@ -77,7 +93,7 @@ public class RatingController {
 	
 	
 	/**
-	 * Metoda koja ocenjuje rent a car servis
+	 * Metoda koja ocenjuje vozilo servis
 	 * tri parametra, prvi je ocena, drugi id rent acar servisa koji je ocenjen, a treci id rezervacije
 	 * user- id rezervacije
 	 * */
@@ -115,6 +131,82 @@ public class RatingController {
 		VehicleReservationDTO dto2 = new VehicleReservationDTO(vr);
 				
 		return new ResponseEntity<VehicleReservationDTO>(dto2,HttpStatus.OK);
+	}
+	
+	/**
+	 * Metoda koja ocenjuje sobus
+	 * tri parametra, prvi je ocena, drugi id rent acar servisa koji je ocenjen, a treci id rezervacije
+	 * user- id rezervacije
+	 * */
+	@RequestMapping("/rate/room/{rate}/{id}/{user}")
+	public ResponseEntity<RoomResMockDTO> setRateRoom(@PathVariable String rate,@PathVariable Long id,@PathVariable Long user) {
+		Room rac = roomrep.getOne(id);
+		RoomReservation rr = rrr.getOne(user); //id rezervacije
+		
+
+		rr.setRateRoom(true);// setovali smo na rezervaciji da je ocenjen rent a car servis
+		
+		RoomResMockDTO dto2 = new RoomResMockDTO(rr);
+
+		
+		System.out.println("Usao ?");
+		
+		int r = Integer.parseInt(rate); //trenutno ocenjen - ocena korisnika
+
+		//rac.setRating(rating); //stavimo u tabelu rent a car-a
+		Long pomdfs = rac.getRatingsCount();
+		System.out.println("Count " + pomdfs);
+		pomdfs++;
+		rac.setRatingsCount(pomdfs);
+		
+		Long pom2 = rac.getRatingsSum();
+		System.out.println("Sum " + pom2);
+		pom2 += r;
+		rac.setRatingsSum(pom2);
+
+		roomrep.save(rac);
+
+
+				
+		return new ResponseEntity<RoomResMockDTO>(dto2,HttpStatus.OK);
+	}
+	
+	/**
+	 * Metoda koja ocenjuje hotel
+	 * tri parametra, prvi je ocena, drugi id rent acar servisa koji je ocenjen, a treci id rezervacije
+	 * user- id rezervacije
+	 * */
+	@RequestMapping("/rate/hotel/{rate}/{id}/{user}")
+	public ResponseEntity<RoomResMockDTO> setRateHotel(@PathVariable String rate,@PathVariable Long id,@PathVariable Long user) {
+		Hotel rac = hr.getOne(id);
+		RoomReservation rr = rrr.getOne(user); //id rezervacije
+		
+
+		rr.setRateHotel(true);// setovali smo na rezervaciji da je ocenjen rent a car servis
+		
+		RoomResMockDTO dto2 = new RoomResMockDTO(rr);
+
+		
+		System.out.println("Usao ?");
+		
+		int r = Integer.parseInt(rate); //trenutno ocenjen - ocena korisnika
+
+		//rac.setRating(rating); //stavimo u tabelu rent a car-a
+		Long pomdfs = rac.getRatingsCount();
+		System.out.println("Count " + pomdfs);
+		pomdfs++;
+		rac.setRatingsCount(pomdfs);
+		
+		Long pom2 = rac.getRatingsSum();
+		System.out.println("Sum " + pom2);
+		pom2 += r;
+		rac.setRatingsSum(pom2);
+
+		hr.save(rac);
+
+
+				
+		return new ResponseEntity<RoomResMockDTO>(dto2,HttpStatus.OK);
 	}
 	
 	
