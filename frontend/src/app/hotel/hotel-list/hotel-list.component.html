@@ -61,7 +61,7 @@
             <img src="assets/hotel-icon.png" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><b>{{hotel.name}}&nbsp;&nbsp;&nbsp;</b><span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{hotel.ratingsSum/hotel.ratingsCount | number: '1.0-2'}}</span></h5>
-                <p class="card-text">{{hotel.address}}, {{hotel.city}}</p>
+                <p class="card-text" style="color: black"><i class="fas fa-city"></i> {{hotel.address}}, {{hotel.city}}</p>  
                 <button  (click)="details(hotel.id)" class="btn btn-primary mt-4 mb-4">Explore</button>
             </div>
           </div>

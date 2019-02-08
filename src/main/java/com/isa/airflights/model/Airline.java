@@ -14,19 +14,27 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
 
 import io.jsonwebtoken.lang.Objects;
 
+/**
+ * Moliim da generisanje id-a ostane ovakvo ili da se u data.sql 
+ * unose veci brojevi kako ne bi doslo do poklapanja primarnih kljuceva
+ * jer to onemogucava dodavanje aviokompanije
+ * @author Sveta
+ */
 
 @Entity
 @Table(name = "airline")
+@SequenceGenerator(name="seq90", initialValue=90)
 public class Airline {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq90")
 	private Long id;
 	
 	/**

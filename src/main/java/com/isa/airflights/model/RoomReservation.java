@@ -70,10 +70,10 @@ public class RoomReservation {
 	 * @djuka ubacio
 	 * */
 	@Column
-	private boolean rateRoom;
+	private Boolean rateRoom;
 	
 	@Column
-	private boolean rateHotel;
+	private Boolean rateHotel;
 	
 	@Column
 	@Temporal(TemporalType.DATE)
@@ -109,11 +109,11 @@ public class RoomReservation {
 		this.rateRoom = rateRoom;
 	}
 
-	public boolean isRateHotel() {
+	public Boolean isRateHotel() {
 		return rateHotel;
 	}
 
-	public void setRateHotel(boolean rateHotel) {
+	public void setRateHotel(Boolean rateHotel) {
 		this.rateHotel = rateHotel;
 	}
 

@@ -7,6 +7,7 @@ import { RentacarService } from 'src/services/rentacar.service';
 import { rentacar } from '../rentacar';
 import { Branch } from '../branch';
 import { Router } from '@angular/router';
+import { ROLE_USER } from '../globals';
 
 @Component({
   selector: 'app-rentacar-preview',
@@ -32,7 +33,15 @@ export class RentacarPreviewComponent implements OnInit {
 
   constructor(private calendar: NgbCalendar, private racService: RentacarService, private router: Router, private token: TokenStorageService) { }
 
+  logged: boolean = false;
   ngOnInit() {
+
+    if (this.token.getAuthorities().includes(ROLE_USER)) {
+      this.logged = true;
+    } else {
+      this.logged = false;
+    }
+
     this.racService.getAll().subscribe(data => {
       this.rentacars = data;
       for(let v of this.rentacars) {
@@ -68,6 +77,10 @@ export class RentacarPreviewComponent implements OnInit {
   
   logout() {
     this.token.signOut();
+    this.router.navigate(['/login']);
+  }
+
+  login() {
     this.router.navigate(['/login']);
   }
 }

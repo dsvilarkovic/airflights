@@ -86,6 +86,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { HotelDiscountsComponent } from './hotel/hotel-discounts/hotel-discounts.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { AdminSystemAddComponent } from './admin/admin-system-add/admin-system-add.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -120,6 +121,7 @@ const appRoutes: Routes = [
   {path: 'admin/hotels', component: AdminHotelsComponent},
   {path: 'admin/rac', component: AdminRentACarComponent},
   {path: 'admin/admins', component: AdminsComponent},
+  {path: 'admin/system/add', component: AdminSystemAddComponent},
   {path: 'admin/bonus', component: AdminBonusesComponent},
   {path: 'admin/:id/:type/newAdmin', component: AdminAddComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -213,6 +215,7 @@ const appRoutes: Routes = [
     InvitationListComponent,
     ChangePasswordComponent,
     HotelDiscountsComponent,
+    AdminSystemAddComponent,
   ],
   imports: [
     ReactiveFormsModule,

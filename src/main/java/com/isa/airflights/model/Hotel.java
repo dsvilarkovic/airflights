@@ -37,7 +37,7 @@ public class Hotel {
 	
 	@Version
 	@Column(name = "version")
-	private Long version;
+	private Long version; 
 	
 	//@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonIgnoreProperties("hotel")
@@ -119,6 +119,14 @@ public class Hotel {
 
 	public void setRatingsSum(Long ratingsSum) {
 		this.ratingsSum = ratingsSum;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	@Override

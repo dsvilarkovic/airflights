@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.dto.AdminDTO;
+import com.isa.airflights.dto.AirlineDTO;
 import com.isa.airflights.model.AbstractUser;
+import com.isa.airflights.model.Airline;
+import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.Misc;
 import com.isa.airflights.model.Role;
 import com.isa.airflights.service.AbstractUserService;
@@ -62,6 +67,9 @@ public class AdminController {
     
     @Autowired
 	private MiscService ms;
+    
+    @Autowired
+    private AirlineService fs;
 	
 	
     @GetMapping("/all")
@@ -111,7 +119,7 @@ public class AdminController {
     	return usersDTO;
     }
     
-    
+    @Transactional
     @RequestMapping(value="/add", method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,6 +130,11 @@ public class AdminController {
     	Role role = abstractUser.getRole();
     	abstractUser.getRoles().add(role);
     	abstractUser.setChangePass(false);
+    	
+    	Hotel hh = abstractUser.getHotel();
+    	if (hh != null) {
+    		hs.save(hh);
+    	}
     	
     	/*if (abstractUser.getAirline()!=null) {
     		
@@ -230,6 +243,27 @@ public class AdminController {
     	
     	
     	return new ResponseEntity<List<Misc>>(ms.get(),HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/getAL", method = RequestMethod.GET,  
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AirlineDTO>> getAL() {
+    	
+    	List<Airline> aa = fs.getAllAdmin();
+    	List<AirlineDTO> ad = new ArrayList<>();
+    	for (Airline a : aa) {
+    		AirlineDTO l = new AirlineDTO();
+    		l.setActive(a.getActive());
+    		l.setFullName(a.getFullName());
+    		l.setAddress(a.getAddress());
+    		l.setCity(a.getCity());
+    		l.setGradeCount(a.getGradeCount());
+    		l.setGradeSum(a.getGradeSum());
+    		l.setId(a.getId());
+    		ad.add(l);
+    	}
+    	
+    	return new ResponseEntity<List<AirlineDTO>>(ad,HttpStatus.OK);
     }
    
     

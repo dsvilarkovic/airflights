@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.model.Hotel;
 import com.isa.airflights.model.SearchObject;
@@ -32,6 +33,7 @@ public class HotelService {
 		repository.save(hotel);
 	}
 
+	@Transactional(readOnly = false)
 	public void update(Hotel hotel) {
 		repository.save(hotel);
 	}

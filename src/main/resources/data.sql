@@ -4,18 +4,18 @@ INSERT INTO roles(name) VALUES('ROLE_AIRFLIGHTADMIN');
 INSERT INTO roles(name) VALUES('ROLE_HOTELADMIN');
 INSERT INTO roles(name) VALUES('ROLE_RENTACARADMIN');
 
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0);
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'Garni', 42,13);
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0);
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1004, 'Svetogorska 10', 'Beograd', '', 'Sava', 0,0);
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1005, 'Bulevar Arsenija Carnojevica', 'Beograd', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'In', 90,22);
-INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count) 
-VALUES (1006, 'Nikole Pasica', 'Nis', 'Sjajna lokacija, uopšteno, za obilaske znamenitosti, rekreaciju i prevoz u lokalu', 'Eter', 10,2);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1001, 'Vrsacka 10', 'Novi Sad', '', 'Dash', 0,0,0);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1002, 'Fruskogorska 19', 'Novi Sad', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'Garni', 42,13,0);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1003, 'Bulevar Mihajla Pupina 30', 'Novi Sad', 'Inspirisan pozoristem koje se nalazi sa druge strane ulice', 'Centar', 0,0,0);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1004, 'Svetogorska 10', 'Beograd', '', 'Sava', 0,0, 0);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1005, 'Bulevar Arsenija Carnojevica', 'Beograd', 'Lorem ipsum dolor sit amet, no sed adhuc soluta appetere, vix quot percipitur inciderint ea, ferri accusam ad duo. Sed amet theophrastus ad, ad vis meis harum offendit, dolor torquatos voluptatum ei mei. Vim cu aliquid invenire dissentias. Sit esse mundi indoctum at, sit appareat accusata ut, rationibus reprimique ius an. Te augue suscipit ullamcorper sit, sit ei detraxit salutandi vituperatoribus. Sit cu consetetur reprehendunt definitionem.', 'In', 90,22,0);
+INSERT INTO hotel(id, address, city, description, name, rating_sum, rating_count, version) 
+VALUES (1006, 'Nikole Pasica', 'Nis', 'Sjajna lokacija, uopšteno, za obilaske znamenitosti, rekreaciju i prevoz u lokalu', 'Eter', 10,2,0);
 
 INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, rating_count, rating_sum, rooms, hotel_id)
 VALUES (1001, 101, true, 2, null, 1, 30, false, 20, 83, 1, 1002);

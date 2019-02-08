@@ -39,7 +39,7 @@
               <th scope="row">{{airline.fullName}}</th>
               <td>{{airline.address}}</td>
               <td>{{airline.city}}</td>
-              <td>{{airline.rating}}</td>
+              <td>{{airline.gradeSum / airline.gradeCount | number: '1.0-2'}}</td>
               <td><button class="btn btn-success" routerLink="/admin/{{airline.id}}/A/newAdmin">Add admin</button></td>
               <td><button class="btn btn-danger" (click)="delete(airline.id)">Delete</button></td>
             </tr>

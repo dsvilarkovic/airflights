@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { RoomService } from 'src/services/room.service';
 import { RoomResMock } from '../roomResMock';
+import { ROLE_USER } from '../globals';
 
 
 @Component({
@@ -62,7 +63,16 @@ export class AuthhomepageComponent implements OnInit {
     private roomService: RoomService,
     private hotelService: HotelService) { }
 
+  logged: boolean = false;
+
   ngOnInit() {
+
+    if (this.tokenService.getAuthorities().includes(ROLE_USER)) {
+      this.logged = true;
+    } else {
+      this.logged = false;
+    }
+
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.id = this.tokenService.getUser();
     //alert("Id? " + this.id);

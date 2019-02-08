@@ -23,14 +23,14 @@ public class AbstractUserDTO{
 	private String email;
 	private String phoneNumber; 
 	private String address;
-	private int idCompany;
-	private boolean verify;
+	private Integer idCompany;
+	private Boolean verify;
 	private Role role;
 	private Hotel hotel;
 	private Airline airline;
 	private String password;
 	private String newPassword;
-	private boolean changePass;
+	private Boolean changePass;
 	/**
 	 * @author dusan
 	 */
@@ -109,11 +109,11 @@ public class AbstractUserDTO{
 	
 	
 	
-	public int getRentacar() {
+	public Integer getRentacar() {
 		return idCompany;
 	}
 
-	public void setRentacar(int rentacar) {
+	public void setRentacar(Integer rentacar) {
 		this.idCompany = rentacar;
 	}
 

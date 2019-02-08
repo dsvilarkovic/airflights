@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { TokenStorageService } from 'src/services/auth/token-storage.service';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { SearchObject } from 'src/app/searchObject';
+import { ROLE_USER } from 'src/app/globals';
 
 @Component({
   selector: 'app-hotel-list',
@@ -41,7 +42,15 @@ export class HotelListComponent implements OnInit {
       this.sObj.name = "";
      }
 
+
+  logged: boolean = false;
+     
   ngOnInit() {
+    if (this.ts.getAuthorities().includes(ROLE_USER)) {
+      this.logged = true; 
+    } else {
+      this.logged = false;
+    }
     this.hotelService.getAll().subscribe(data => {
       this.hotels = data;
       this._address += this.hotels[1].address;
