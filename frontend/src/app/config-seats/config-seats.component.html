@@ -19,13 +19,18 @@
   <label style="margin-left: 30px; margin-top: 30px">Number of segments:</label>
   <input
     type="number"
-    [(ngModel)]="segmentNumber"
+    [(ngModel)]="airplaneMock.segmentConfig.segmentNum"
     (ngModelChange)="refreshView()"
     class="form-control"
     placeholder="Enter number of segments"
     style=" margin-left: 30px;"
   />
-  <span *ngFor="let i of Arr(segmentNumber).fill(1); let j = index">
+  <span
+    *ngFor="
+      let i of Arr(airplaneMock.segmentConfig.segmentNum).fill(1);
+      let j = index
+    "
+  >
     <label style="margin-left: 30px; margin-top: 30px"
       >Number of seats in segment {{ j + 1 }}:</label
     >
@@ -51,7 +56,12 @@
 >
   <div class="divTableBody">
     <div class="divTableRow" *ngFor="let a of Arr(rows).fill(1); let i = index">
-      <span *ngFor="let a of Arr(segmentNumber).fill(1); let k = index">
+      <span
+        *ngFor="
+          let a of Arr(airplaneMock.segmentConfig.segmentNum).fill(1);
+          let k = index
+        "
+      >
         <span style="margin-top: 300px; text-align: center"> </span>
 
         <span *ngFor="let a of Arr(segmentNumbers[k]).fill(1); let j = index">

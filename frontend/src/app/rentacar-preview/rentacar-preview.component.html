@@ -9,13 +9,15 @@
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a routerLink="/home"class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
+          <li class="nav-item"><a routerLink="/listAirflights" class="nav-link">Flights</a></li>
           <li class="nav-item"><a reouterLink="/hotels" class="nav-link">Hotels</a></li>
           <li class="nav-item active"><a routerLink="/rentacarPreview" class="nav-link">Rent a cars</a></li>
           <li *ngIf="boolLogIn"class="nav-item"><a reouterLink="/login" class="nav-link" a>Sign in</a></li>
           <li *ngIf="boolLogOff" class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
             <span>Sign Out</span>
+        </button></li>
+        <li class="nav-item cta" *ngIf="!logged"> <button  class="list-group-item list-group-item-action" (click)="login()" >
+            <span>Log in</span>
         </button></li>
         </ul>
       </div>

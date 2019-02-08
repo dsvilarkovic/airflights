@@ -96,7 +96,7 @@ public class SegmentConfigService {
 			seat.setSegmentConfig(segmentConfig);
 			
 			seatDTO.setConfiguration(segmentConfig.getId());
-			segmentConfigDTO.getSeatDTOs().add(seatDTO);
+			segmentConfigDTO.getSeats().add(seatDTO);
 		}
 		return segmentConfigDTO;
 	}
@@ -105,7 +105,7 @@ public class SegmentConfigService {
 		SegmentConfig segmentConfig = modelMapper.map(segmentConfigDTO, SegmentConfig.class);
 		
 		
-		Set<SeatDTO> seatDTOs = segmentConfigDTO.getSeatDTOs();
+		Set<SeatDTO> seatDTOs = segmentConfigDTO.getSeats();
 		for (SeatDTO seatDTO : seatDTOs) {
 			Seat seat = new Seat();
 			seat = modelMapper.map(seatDTO, Seat.class);

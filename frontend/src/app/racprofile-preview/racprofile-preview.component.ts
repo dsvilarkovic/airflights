@@ -16,6 +16,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { rentacar } from '../rentacar';
+import { ROLE_USER } from '../globals';
 
 
 
@@ -147,7 +148,14 @@ export class RacprofilePreviewComponent implements OnInit {
   }
 
 
+  logged: boolean = false;
+
   ngOnInit() {
+    if (this.token.getAuthorities().includes(ROLE_USER)) {
+      this.logged = true;
+    } else {
+      this.logged = false;
+    }
     this.searchPush = true;
     this.vehicles2 = [];
     this.branches2 = [];
@@ -173,9 +181,6 @@ export class RacprofilePreviewComponent implements OnInit {
 
     this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
     this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
-
-   // alert("dslkfj " + this.reserv.pickupdate )
-   // alert("dslkfj " + this.reserv.dropoffdate )
 
 
     this.resServise.checkDate(this.reserv.pickupdate,this.reserv.dropoffdate,this.id).subscribe(data => {
@@ -215,7 +220,6 @@ export class RacprofilePreviewComponent implements OnInit {
     })
 
     if(sessionStorage.getItem("AuthUsername") == null) {
-     // alert("Niko nije ulogovan!");
       this.loggedFlag = false;
       this.boolLog = true;
       this.boolLogOff = false;

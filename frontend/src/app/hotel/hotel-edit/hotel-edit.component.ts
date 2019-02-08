@@ -41,7 +41,7 @@ export class HotelEditComponent implements OnInit {
     this.hotelService.update(this.hotel).subscribe(result => {
       //this.gotoList();
       window.location.reload();
-    }, error => console.error(error));
+    }, error => alert("Somebody update hotel, please reload"));
   }
 
   remove(href) {

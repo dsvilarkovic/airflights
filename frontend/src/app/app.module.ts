@@ -86,6 +86,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { HotelDiscountsComponent } from './hotel/hotel-discounts/hotel-discounts.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { AdminSystemAddComponent } from './admin/admin-system-add/admin-system-add.component';
+import { FlightSeatReservationComponent } from './flight-seat-reservation/flight-seat-reservation.component';
+import { FlightFriendInvitationComponent } from './flight-friend-invitation/flight-friend-invitation.component';
 
 
 const appRoutes: Routes = [
@@ -121,22 +124,24 @@ const appRoutes: Routes = [
   {path: 'admin/hotels', component: AdminHotelsComponent},
   {path: 'admin/rac', component: AdminRentACarComponent},
   {path: 'admin/admins', component: AdminsComponent},
+  {path: 'admin/system/add', component: AdminSystemAddComponent},
   {path: 'admin/bonus', component: AdminBonusesComponent},
   {path: 'admin/:id/:type/newAdmin', component: AdminAddComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'rentacarPreview', component: RentacarPreviewComponent},
   {path: 'rentacarPreview/:id', component: RacprofilePreviewComponent},
-  {path: 'seatConfig', component : ConfigSeatsComponent},
 
   
   { path: "addflight", component: AddFlightsComponent },
   { path: "addplane", component: AddPlaneComponent },
-  { path: "seatconfig", component: ConfigSeatsComponent },
+  { path: "seatconfig/:id", component: ConfigSeatsComponent },
   { path: "findflight", component: SearchComponent },
   { path: "friends", component: FriendsComponent },
   { path: "flight-administration", component: FlightAdministrationComponent},
-
+  { path: "flight-seat-reservation", component : FlightSeatReservationComponent},
+  { path: "passenger-form", component : PassengerFormComponent},
+  { path: "flight-friend-invitation", component : FlightFriendInvitationComponent},
 
   {path: 'rooms/list', component : HotelRoomsComponent},
   {path: ':id/rooms/list', component : HotelRoomsComponent},
@@ -214,6 +219,9 @@ const appRoutes: Routes = [
     InvitationListComponent,
     ChangePasswordComponent,
     HotelDiscountsComponent,
+    AdminSystemAddComponent,
+    FlightSeatReservationComponent,
+    FlightFriendInvitationComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -231,7 +239,8 @@ const appRoutes: Routes = [
         enableTracing: true
       }
     ),
-    GoogleChartsModule.forRoot()
+    GoogleChartsModule.forRoot(),
+    
   ],
   providers: [LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

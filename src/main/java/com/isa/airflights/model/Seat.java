@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,8 +31,9 @@ public class Seat {
 	/**
 	 * Svako sediste ima svoju klasu u avionu kojoj pripada
 	 */
-	@Column(name = "airline_class")
-	private AirlineClassType airline_class;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "airline_class")	
+	private AirlineClassType airlineClass;
 	
 	@Column(name = "seat_row")
 	private Integer seatRow;
@@ -114,13 +117,13 @@ public class Seat {
 
 
 	
-	public AirlineClassType getAirline_class() {
-		return airline_class;
+	public AirlineClassType getAirlineClass() {
+		return airlineClass;
 	}
 
 
-	public void setAirline_class(AirlineClassType airline_class) {
-		this.airline_class = airline_class;
+	public void setAirline_class(AirlineClassType airlineClass) {
+		this.airlineClass = airlineClass;
 	}
 
 

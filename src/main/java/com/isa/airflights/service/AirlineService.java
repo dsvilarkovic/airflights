@@ -143,5 +143,12 @@ public class AirlineService {
 		a.setActive(false);
 		airlineRepository.save(a);
 	}
-
+	
+	/**
+	 * Metoda za preuzimanje kompanija pri prikazu adminu
+	 * @author Sveta
+	 */
+	public List<Airline> getAllAdmin() {
+		return airlineRepository.findAll();
+	}
 }

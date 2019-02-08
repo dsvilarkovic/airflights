@@ -22,9 +22,12 @@
     <tr *ngFor="let plane of airplanesMock; let i = index">
       <th scope="row">{{ i + 1 }}</th>
       <td>{{ plane.fullName }}</td>
-      <td>{{ plane.segmentConfig.length }}</td>
+      <td>{{ plane.segmentConfig.seats.length }}</td>
       <td>
-        <button class="btn btn-secondary" routerLink="/seatconfig">
+        <button
+          class="btn btn-secondary"
+          routerLink="/seatConfig/{{ plane.id }}"
+        >
           Segment Configuration
         </button>
       </td>
@@ -44,7 +47,7 @@
 <ngb-pagination
   [(collectionSize)]="collectionSize"
   [(page)]="pageNo"
-  [maxSize]="5"
+  [(pageSize)]="pageSize"
   [boundaryLinks]="true"
   style="float:right"
 ></ngb-pagination>

@@ -1,13 +1,8 @@
 package com.isa.airflights.dto;
 
-import java.util.ArrayList;
-
-import org.hibernate.mapping.Array;
 
 import com.isa.airflights.model.AbstractUser;
-import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Hotel;
-import com.isa.airflights.model.RentACar;
 import com.isa.airflights.model.Role;
 
 /**
@@ -23,14 +18,14 @@ public class AbstractUserDTO{
 	private String email;
 	private String phoneNumber; 
 	private String address;
-	private int idCompany;
-	private boolean verify;
+	private Integer idCompany;
+	private Boolean verify;
 	private Role role;
 	private Hotel hotel;
-	private Airline airline;
+	private AirlineDTO airline;
 	private String password;
 	private String newPassword;
-	private boolean changePass;
+	private Boolean changePass;
 	/**
 	 * @author dusan
 	 */
@@ -109,11 +104,11 @@ public class AbstractUserDTO{
 	
 	
 	
-	public int getRentacar() {
+	public Integer getRentacar() {
 		return idCompany;
 	}
 
-	public void setRentacar(int rentacar) {
+	public void setRentacar(Integer rentacar) {
 		this.idCompany = rentacar;
 	}
 
@@ -133,6 +128,34 @@ public class AbstractUserDTO{
 	
 	
 
+	public Integer getIdCompany() {
+		return idCompany;
+	}
+
+	public void setIdCompany(Integer idCompany) {
+		this.idCompany = idCompany;
+	}
+
+	public Boolean getVerify() {
+		return verify;
+	}
+
+	public void setVerify(Boolean verify) {
+		this.verify = verify;
+	}
+
+	public Boolean getChangePass() {
+		return changePass;
+	}
+
+	public void setChangePass(Boolean changePass) {
+		this.changePass = changePass;
+	}
+
+	public void setAirline(AirlineDTO airline) {
+		this.airline = airline;
+	}
+
 	public Boolean getIsUnregistered() {
 		return isUnregistered;
 	}
@@ -147,13 +170,12 @@ public class AbstractUserDTO{
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
 	}
-	public Airline getAirline() {
+	
+	
+	public AirlineDTO getAirline() {
 		return airline;
 	}
-	public void setAirline(Airline airline) {
-		this.airline = airline;
-	}
-	
+
 	public AbstractUserDTO(AbstractUser user) {
 		this.id = user.getId();
 		this.index = user.getIndex();
@@ -166,7 +188,7 @@ public class AbstractUserDTO{
 		this.verify = user.getVerify();
 		this.role = user.getRole();
 		this.hotel = user.getHotel();
-		this.airline = user.getAirline();
+		this.airline = new AirlineDTO(user.getAirline());
 		this.password = getPassword();
 		
 		this.idCompany = user.getIdCompany();

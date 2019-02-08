@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AirportDestinationDTO;
 import com.isa.airflights.dto.FlightDTO;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.AirportDestination;
@@ -52,7 +53,6 @@ public class FlightService {
 	}
 	
 	public void addFlight(Flight flight) {
-		
 		flightRepository.save(flight);
 		
 		//podesi i cene karata
@@ -76,7 +76,7 @@ public class FlightService {
 			foundFlight.setLegCount(foundFlight.getFlightsLegs().size());
 			foundFlight.setTravelDistance(flight.getTravelDistance());
 			foundFlight.setTravelTime(flight.getTravelTime());
-			
+			foundFlight.setId(flight.getId());
 			//sacuvaj izmene
 			flightRepository.save(foundFlight);
 		}
@@ -136,17 +136,17 @@ public class FlightService {
 		
 		//namesti legove koji su po idjevima
 		List<AirportDestination> flightLegs = flight.getFlightsLegs();
-		List<Long> flightLegs_id = new ArrayList<>();
+		List<AirportDestinationDTO> flightLegs_id = new ArrayList<>();
 		for (AirportDestination airportDestination : flightLegs) {
-			Long airport_id = airportDestination.getId();
-			flightLegs_id.add(airport_id);
+			AirportDestinationDTO airport = new AirportDestinationDTO(airportDestination);
+			flightLegs_id.add(airport);
 		}
-		flightDTO.setFlightLegsId(flightLegs_id);
+		flightDTO.setFlightLegsDTO(flightLegs_id);
 		
 		//podesi cene letova
 		Map<AirlineClassType, Double> flightClassPricesMap = new TreeMap<AirlineClassType, Double>();
 		Set<FlightClassPrice> flightClassPrices = new HashSet<>();
-		for (FlightClassPrice flightClassPrice : flightClassPrices) {
+		for (FlightClassPrice flightClassPrice : flight.getFlightClassPrices()) {
 			flightClassPricesMap.put(flightClassPrice.getAirlineClassType(), flightClassPrice.getPrice());
 		}
 		flightDTO.setFlightClassPricesMap(flightClassPricesMap);
@@ -154,30 +154,35 @@ public class FlightService {
 		//podesi arrival i departure id-jeve
 		
 		//uzima se prvi leg kao pocetni za uzletanje
-		flightDTO.setDepartureDestination(flightLegs_id.get(0));
-		flightDTO.setArrivalDestination(flightLegs_id.get(flightLegs_id.size() - 1));
+		flightDTO.setDepartureDestination(flightLegs.get(0).getId());
+		flightDTO.setArrivalDestination(flightLegs.get(flightLegs_id.size() - 1).getId());
 			
 		return flightDTO;
 	}
 	
 	public Flight convertToEntity(FlightDTO flightDTO) {
-		Flight flight = modelMapper.map(flightDTO, Flight.class);
+		
+		Flight flight2 = new Flight();
 		Airline airline = airlineService.getAirline(flightDTO.getAirlineId());
-		
-		flight.setAirline(airline);
+		flight2.setAirline(airline);
+		flightRepository.save(flight2);
+		Flight flight = modelMapper.map(flightDTO, Flight.class);
+		flight.setId(flight2.getId());
+		//Airline airline = airlineService.getAirline(flightDTO.getAirlineId());
+		//flight.setAirline(airline);
 		List<AirportDestination> flightLegs = new ArrayList<>();
-		List<Long> flightLegs_id = flightDTO.getFlightLegsId();
+		List<AirportDestinationDTO> flightLegsDTO = flightDTO.getFlightLegsDTO();
 		
-		for (Long id : flightLegs_id) {
-			AirportDestination airportDestination = airportDestinationService.getAirportDestination(id);
+		for (AirportDestinationDTO ad : flightLegsDTO) {
+			AirportDestination airportDestination = airportDestinationService.getAirportDestination(ad.getId());
 			//TODO: ovde za flight dodati sta treba
 			flightLegs.add(airportDestination);
 		}
 		
 		flight.setFlightsLegs(flightLegs);
-		
-		flight.setDepartureDestination(flightLegs_id.get(0));
-		flight.setArrivalDestination(flightLegs_id.get(flightLegs_id.size() - 1));
+		flight.setLegCount(flight.getLegCount() + 2);
+		flight.setDepartureDestination(flightLegsDTO.get(0).getId());
+		flight.setArrivalDestination(flightLegsDTO.get(flightLegsDTO.size() - 1).getId());
 		
 		return flight;
 	}

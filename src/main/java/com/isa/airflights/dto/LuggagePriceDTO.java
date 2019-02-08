@@ -1,6 +1,6 @@
 package com.isa.airflights.dto;
 
-
+import com.isa.airflights.model.LuggagePrice;
 
 public class LuggagePriceDTO {
 	private Long id;	
@@ -13,6 +13,19 @@ public class LuggagePriceDTO {
 	private Integer height;	
 	private Integer weight;	
 	private Double price;
+	
+	
+	public LuggagePriceDTO() {}
+	
+	public LuggagePriceDTO(LuggagePrice lp) {
+		this.id = lp.getId();
+		this.length = lp.getLength();
+		this.width = lp.getWidth();
+		this.height = lp.getHeight();
+		this.weight = lp.getWeight();
+		this.price = lp.getPrice();
+	}
+	
 	public Long getId() {
 		return id;
 	}

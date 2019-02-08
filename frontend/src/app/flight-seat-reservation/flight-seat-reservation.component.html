@@ -1,0 +1,150 @@
+<hr style="margin-top:70px" />
+<div class="col-sm-8 offset-sm-2 col-md-3" style="float:left; ">
+  <h1 style="margin:30px">Reserve new flight</h1>
+  <h5 style="margin-left:30px">Airplane Name:</h5>
+  <input disabled
+    type="text"
+    [(ngModel)]="airplaneMock.fullName"
+    class="form-control"
+    style="margin-left: 30px"
+  />
+
+  <h5 style="margin-left:30px">Flight:</h5>
+  <input disabled
+    type="text"
+    [(ngModel)]="airplaneName"
+    class="form-control"
+    style="margin-left: 30px"
+  />
+  
+</div>
+
+<!-- Seat Plan starts-->
+<div
+  id="seatTable"
+  class="divTable"
+  style=" 
+                    border: 1px solid #dbdbdb;
+                    margin: 30px;
+                    float: left;
+                "
+>
+  <div class="divTableBody">
+    <div class="divTableRow" *ngFor="let a of Arr(rows).fill(1); let i = index">
+      <span *ngFor="let a of Arr(segmentNumber).fill(1); let k = index">
+        <span style="margin-top: 300px; text-align: center"> </span>
+
+        <span *ngFor="let a of Arr(segmentNumbers[k]).fill(1); let j = index">
+          <div
+            *ngIf="checkSeat(i + 1, j + 1, k + 1); let seatClass"
+            class="divTableCell"
+            [ngbTooltip]="tipContent"
+            placement="top"
+            disabled
+            (click)="cellClicked(i + 1, j + 1, k + 1)"
+            [ngClass]="{
+              firstClass: (seatClass)? seatClass.includes('first') : false,
+              economyClass: (seatClass)? seatClass.includes('economy') : false,
+              businessClass: (seatClass)? seatClass.includes('business') : false,
+              premiumClass: (seatClass)? seatClass.includes('premium') : false,
+              reserved : (seatClass)? seatClass.includes('reserved') : false
+            }"
+          >
+            <span style="margin:1px">
+              {{ i + 1 }}/{{ j + 1 }} <br />
+              <span style="font-size:8pt"> sg. {{ k + 1 }} </span>
+            </span>
+
+            <ng-template #tipContent>
+              {{seatClass.includes('reserved')? 'Reserved!': ''}} <br />
+              Class: {{ seatClass.replace("reserved", "") }} <br />
+              Segment: {{ k + 1 }} <br />
+              Row: {{ i + 1 }} <br />
+              Column: {{ j + 1 }} <br />              
+            </ng-template>
+          </div>
+
+          <div
+            *ngIf="segmentNumbers[k] == j + 1 && k + 1 != segmentNumbers.length"
+            class="divEmptySpace"
+          >
+            seg
+          </div>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+<!-- Seat Plan ends -->
+
+<!-- Legend and Save Button-->
+<div class="col-sm-12 col-md-4" style="float:left; padding-left: 100px;">
+  <h5 style="margin: 50px">Legend:</h5>
+
+  <div
+    class="economyClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Economy Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="businessClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Business Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="firstClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    First Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="premiumClass"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+    Premium Class
+  </div>
+  <br />
+  <br />
+  <div
+    class="premiumClass reserved"
+    style="height:30px; width:30px; border: 1px solid #a1a1a1; float:left"
+  ></div>
+  <div style="float:left;height:30px;font-size:12pt;margin-left:5px">
+      Your reservation
+   </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <p style="color:red">{{ errorMsg }}</p>
+
+  
+</div>
+
+
+    <div class="offset-sm-3">
+      
+      <button class="btn btn-md btn-danger col-sm-3" (click)="goBack()">
+        Cancel reservation
+      </button>
+      <button class="btn btn-md btn-success col-sm-3" (click)="saveChanges()">
+        Next step
+      </button>
+    </div>
+
+    <hr style="margin-top:70px" />
+

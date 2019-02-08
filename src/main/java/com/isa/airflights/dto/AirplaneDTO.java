@@ -1,11 +1,23 @@
 package com.isa.airflights.dto;
 
+
 public class AirplaneDTO {
 	
 	private Long id;
 	private String fullName;
 	private Long airline_id;
+	private SegmentConfigDTO segmentConfig;
 	
+	
+	
+	public SegmentConfigDTO getSegmentConfig() {
+		return segmentConfig;
+	}
+
+	public void setSegmentConfig(SegmentConfigDTO segmentConfig) {
+		this.segmentConfig = segmentConfig;
+	}
+
 	public Long getId() {
 		return id;
 	}

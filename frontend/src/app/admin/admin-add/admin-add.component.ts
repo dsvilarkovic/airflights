@@ -6,10 +6,11 @@ import { Hotel } from 'src/app/hotel';
 import { NgForOfContext } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Role } from 'src/app/role';
-import { ROLE_H, ROLE_R, ROLE_A } from 'src/app/globals';
+import { ROLE_H, ROLE_R, ROLE_A, ROLE_SYS } from 'src/app/globals';
 import { AdminsService } from 'src/services/admins.service';
 import { RentacarService } from 'src/services/rentacar.service';
 import { AirlineService } from 'src/services/airline.service';
+import { TokenStorageService } from 'src/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-admin-add',
@@ -22,11 +23,16 @@ export class AdminAddComponent implements OnInit {
   admin: Admin = new Admin();
   type: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private hotelservice : HotelService, 
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private hotelservice : HotelService, 
     private aService: AdminsService, private racService: RentacarService, private airService: AirlineService ) { }
 
 
   ngOnInit() {
+    if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
+      alert("Unauthorized");
+      this.router.navigate(['/home']);
+      
+    }
     this.type = this.route.snapshot.params['type'];
     const id = this.route.snapshot.params['id'];
     switch(this.type) {
@@ -51,7 +57,7 @@ export class AdminAddComponent implements OnInit {
 
   save(form: NgForm) {
     let role : Role = new Role();
-    this.admin.verify = false;
+    this.admin.verify = true;
     switch(this.type) {
       case 'A': 
         role.name = ROLE_A;

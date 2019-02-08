@@ -34,14 +34,16 @@ public class AirportDestinationService {
 	 * @param airportDestination - destinacija koja se dodaje
 	 * @param airline_id - za koju aviokompaniju
 	 */
-	public void addAirportDestination(AirportDestination airportDestination, Long airline_id) {		
+	public void addAirportDestination(AirportDestinationDTO airportDestination, Long airline_id) {		
 		//podesiti i na aviokompaniju
 		Airline airline = airlineRepository.getOne(airline_id);
-		
+		AirportDestination ad = new AirportDestination();
+		ad.getAirlines().add(airline);
+		ad.setFullName(airportDestination.getFullName());
 		//sacuvati u airportDestination
-		airportDestination.getAirlines().add(airline);
+		//airportDestination.getAirlines().add(airline);
 		//snimiti destinaciju
-		airportDestinationRepository.save(airportDestination);
+		airportDestinationRepository.save(ad);
 		//snimiti ponovo i airline
 		airlineRepository.save(airline);
 	}

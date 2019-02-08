@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,23 +19,21 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Check;
 
 import com.isa.airflights.model.enumtypes.FlightType;
 
 import io.jsonwebtoken.lang.Objects;
 
 @Entity
-@Table(name = "flight")
-//TODO: privremeno dropovan, @Check(constraints = "departure_datetime < arrival_datetime")
+@SequenceGenerator(name="flight_seq", initialValue=10)
 public class Flight {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="flight_seq")
 	private Long id;
 
 	@Column(name = "departureDatetime")
@@ -45,6 +45,7 @@ public class Flight {
 	private Date arrivalDatetime;
 	
 	@Column(name = "flightType")
+	@Enumerated(EnumType.ORDINAL)
 	private FlightType flightType;
 	
 	@ManyToOne(optional = false)
@@ -66,7 +67,10 @@ public class Flight {
 	/**
 	 * Broj destinacija u letu
 	 */
-	@ManyToMany
+	@ManyToMany(cascade = {
+	        CascadeType.PERSIST,
+	        CascadeType.MERGE
+	    })
 	@JoinTable(name = "flight_flight_legs",
 		joinColumns = { @JoinColumn(name = "flight_id") },
 		inverseJoinColumns = { @JoinColumn(name = "airport_id") })
@@ -75,13 +79,13 @@ public class Flight {
 	/**
 	 * Svaki let ima vise cena karata za razlicite klase
 	 */
-	@OneToMany(mappedBy = "flight", cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
 	private Set<FlightClassPrice> flightClassPrices = new HashSet<>();
 	
 	/**
 	 * Svaki let ima vise karata za let
 	 */
-	@OneToMany(mappedBy = "flight", cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
 	private Set<FlightTicket> flightTickets;
 	
 	
@@ -272,7 +276,18 @@ public class Flight {
         }
         return flight.getId().equals(getId());
 	}
-	
+
+//	@Override
+//	public String toString() {
+//		return "Flight [id=" + id + ", departureDatetime=" + departureDatetime + ", arrivalDatetime=" + arrivalDatetime
+//				+ ", flightType=" + flightType + ", airline=" + airline + ", airplane=" + airplane
+//				+ ", departureDestination=" + departureDestination + ", arrivalDestination=" + arrivalDestination
+//				+ ", flightsLegs=" + flightsLegs + ", flightClassPrices=" + flightClassPrices + ", flightTickets="
+//				+ flightTickets + ", travelTime=" + travelTime + ", travelDistance=" + travelDistance + ", legCount="
+//				+ legCount + ", flightDiscount=" + flightDiscount + ", gradeSum=" + gradeSum + ", gradeCount="
+//				+ gradeCount + "]";
+//	}
+//	
 	
 	
 }

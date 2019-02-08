@@ -70,5 +70,8 @@ export class AdminsService {
     return this.http.post(ADMIN_API + "misc", m, {headers: this.headers});
   }
 
+  getAllAirlines(): any {
+    return this.http.get(ADMIN_API + "getAL");
+  }
 
 }

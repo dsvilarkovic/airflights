@@ -14,17 +14,17 @@ export class AdminFlightsComponent implements OnInit {
 
   airlines: Array<any> = new Array();
 
-  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private aService: AirlineService, private aaService: AdminsService) { }
+  constructor(private route: ActivatedRoute, private ts: TokenStorageService, private router: Router, private aaService: AdminsService) { }
 
   ngOnInit() {
     if (!this.ts.getAuthorities().includes(ROLE_SYS)) {
       alert("Unauthorized");
       this.router.navigate(['/home']);
     }
-    this.aService.getAllAirlines().subscribe(data => {
+    this.aaService.getAllAirlines().subscribe(data => {
       data.forEach(element => {
         if (element.active) {
-          this.airlines = data;
+          this.airlines.push(element)
         }
       });
 

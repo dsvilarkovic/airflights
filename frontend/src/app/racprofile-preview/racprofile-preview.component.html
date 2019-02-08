@@ -9,11 +9,16 @@
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a routerLink='/home' class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
-        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
+        <li class="nav-item"><a routerLink="/listAirflights" class="nav-link">Flights</a></li>
+        <li class="nav-item"><a routerLink='/hotels' class="nav-link">Hotels</a></li>
         <li class="nav-item active"><a  class="nav-link">Rent a cars</a></li>
+<<<<<<< HEAD
         <li *ngIf="boolLog" class="nav-item"><a routerLink="/login" class="nav-link">Sign In</a></li>
         <li *ngIf="boolLogOff" class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+=======
+        <li class="nav-item" *ngIf="!logged"><a routerLink="/login" class="nav-link">Log In</a></li>
+        <li class="nav-item cta" *ngIf="logged"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+>>>>>>> 8abb596c92a4ce1cf46772018bc1345007189123
           <span>Sign Out</span>
       </button></li>
       </ul>
@@ -98,6 +103,7 @@
 </div>
 
 <!-- tabela posle search-a -->
+
 <h1 *ngIf="searchPush" style="color: black; text-align: center">Spisak vozila koja su slobodna za period od narednih 10 dana na svim lokacijama koje nudi servis</h1>
 <div class="theelements" *ngFor="let vehicle of vehicles2" style="background-blend-mode: inherit">
     <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
@@ -118,6 +124,35 @@
         </div>
   </div>
 </div>
+
+<div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title"><a data-toggle="collapse" href="#collapse2">Details</a></h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <p>Description: {{rent.description}}</p>
+        <br />
+        <span>Rating: <span style="color:gold"><i class="fas fa-star"></i></span><span class="ml-1">{{rent.ratingsSum/rent.ratingsCount | number: '1.0-2'}}</span></span>
+        <br />
+        <br />
+        <span>Address: {{rent.address}}, {{rent.city}}</span>
+        <br />
+      </div>
+    </div>
+    <hr />
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title"> <a data-toggle="collapse" href="#collapse1">Branches</a></h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">
+        <ul class="list-group" *ngFor="let b of branches2">
+          <div>{{b.address}}, {{b.city}}</div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br />
   
 <div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="500" id="gmap_canvas" [src]='sanitizer.bypassSecurityTrustResourceUrl(_finalAddress)' frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.pureblack.de"></a></div><style>.mapouter{text-align:right;height:500px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div>
    

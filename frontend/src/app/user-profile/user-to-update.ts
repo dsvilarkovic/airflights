@@ -10,6 +10,7 @@ export class UserToUpdate {
     newPassword: string;
     verify : boolean;
     
+    passportNumber: number;
 
     idRentACar : number;    
 

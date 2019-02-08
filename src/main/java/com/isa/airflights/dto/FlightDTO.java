@@ -27,7 +27,7 @@ public class FlightDTO {
 	
 	
 	//na osnovu id-jeva koji postoje u podrzanim combobox-ovima na frontu mozes da izvuces id-jeve letova
-	private List<Long> flightLegsId = new ArrayList<>();
+	private List<AirportDestinationDTO> flightLegsDTO = new ArrayList<>();
 	private Map<AirlineClassType, Double> flightClassPricesMap = new TreeMap<>();
 	
 	private Integer travelTime;
@@ -64,11 +64,12 @@ public class FlightDTO {
 	public void setAirlineId(Long airlineId) {
 		this.airlineId = airlineId;
 	}
-	public List<Long> getFlightLegsId() {
-		return flightLegsId;
+	
+	public List<AirportDestinationDTO> getFlightLegsDTO() {
+		return flightLegsDTO;
 	}
-	public void setFlightLegsId(List<Long> flightLegsId) {
-		this.flightLegsId = flightLegsId;
+	public void setFlightLegsDTO(List<AirportDestinationDTO> flightLegsDTO) {
+		this.flightLegsDTO = flightLegsDTO;
 	}
 	public Map<AirlineClassType, Double> getFlightClassPricesMap() {
 		return flightClassPricesMap;
