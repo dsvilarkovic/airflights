@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.dto.FlightDTO;
+import com.isa.airflights.dto.SeatDTO;
 import com.isa.airflights.model.Airplane;
 import com.isa.airflights.model.Flight;
+import com.isa.airflights.model.FlightTicket;
+import com.isa.airflights.model.Seat;
 import com.isa.airflights.service.AirplaneService;
 import com.isa.airflights.service.FlightService;
+import com.isa.airflights.service.FlightTicketService;
 import com.isa.airflights.utils.StringJSON;
 
 /**
@@ -43,6 +48,11 @@ public class FlightCRUDController {
 	@Autowired
 	private AirplaneService airplaneService;
 	
+	@Autowired
+	private FlightTicketService flightTicketService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	/**
@@ -172,5 +182,29 @@ public class FlightCRUDController {
 		
 	}
 	
+	
+	/**
+	 * Uzmi sva vec rezervisana sedista
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping(value = "/reserved-seats/{flight_id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getReservedSeatsForFlight(@PathVariable Long flight_id){
+		List<FlightTicket> flightTickets = flightTicketService.findAllByFlight_Id(flight_id);
+		
+		//napravi seatDTO set, i posalji ih nazad
+		List<SeatDTO> seatDTOs = new ArrayList<>();
+		
+		for (FlightTicket flightTicket : flightTickets) {
+			Seat seat = flightTicket.getSeat();
+			SeatDTO seatDTO = modelMapper.map(seat, SeatDTO.class);
+			seatDTOs.add(seatDTO);
+		}
+		
+		
+		return ResponseEntity.ok(seatDTOs);
+	}
 	
 }

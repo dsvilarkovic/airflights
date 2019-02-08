@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -235,12 +236,14 @@ public class FriendshipService {
 			totalFriends.addAll(senderFriends);
 			totalFriends.addAll(receiverFriends);
 		}		
+		
 		for (AbstractUser abstractUser : totalFriends) {
 			System.out.println(abstractUser);
 		}
-		//proveri keyword
-		totalFriends.removeIf(user -> !user.getFirstName().contains(keyword) && !user.getLastName().contains(keyword));
 		
+		totalFriends = totalFriends.stream().filter(user -> user.getFirstName().contains(keyword) || user.getLastName().contains(keyword)).collect(Collectors.toSet()); 
+		
+		System.out.println("Total friends count je: " + totalFriends.size());
 		
 		Page<AbstractUser> ret = new PageImpl<>(new ArrayList<>(totalFriends), pageRequest, totalFriends.size());
 		//return totalFriends;		

@@ -1,17 +1,18 @@
 <div class="container" style="margin-top: 50px">
    
-    <div *ngIf="friends.length >= 0" class="col-md-12">
+    <div *ngIf="true" class="col-md-12">
       <h4>Add friends to reservation</h4>
       <div class="input-group mb-3">
         <input
           type="text"
           class="form-control"
-          placeholder="Search users"
-          aria-label="Recipient's username"
+          [(ngModel)]="keyword"
+          placeholder="Insert keyword"
+          
           aria-describedby="basic-addon2"
         />
         <div class="input-group-append">
-          <button class="btn btn-info" type="button">
+          <button class="btn btn-info" (click) = "search(keyword)" type="button">
             Search <i class="fa fa-user"></i>
           </button>
         </div>
@@ -47,9 +48,10 @@
       <ngb-pagination
         [(collectionSize)]="collectionSize"
         [(page)]="pageNo"
-        [maxSize]="5"
+        [maxSize]="3"
         [boundaryLinks]="true"
         style="float:right"
+        (pageChange) = "loadPage($event)"
       ></ngb-pagination>
     </div>
     <hr style="margin-top:70px" />

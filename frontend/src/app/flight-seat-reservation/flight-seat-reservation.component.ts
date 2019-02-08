@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Route } from "@angular/router";
 import { AirlineAdminService } from "src/services/airline-admin.service";
 import { FlightService}  from 'src/services/flight.service';
+import { toTypeScript } from '@angular/compiler';
+import { Flight } from '../flight';
 
 @Component({
   selector: 'app-flight-seat-reservation',
@@ -54,20 +56,14 @@ export class FlightSeatReservationComponent implements OnInit {
   segmentNumbersMock = [];
 
   ngOnInit() {
+    //id leta
     this.id = this.activatedRoute.snapshot.params.id;
-    this.id = 1;
-    // this.airlineAdminService.getPlane(this.id).subscribe(res => {
-    //   this.airplaneMock = res;
-    //   console.log(this.airplaneMock);
-    //   this.getNumberOfSeatsPerSegment();
-    //   this.rows = this.getNumberOfRows();
-    // });
-
+    //this.id = 1;
     
-    // this.airplaneMock.fullName = "Neki avion";
-    // this.airplaneMock.segmentConfig = this.seatConfigMock;
-    // this.getNumberOfSeatsPerSegment();
-    // this.rows = this.getNumberOfRows();
+
+    this.flightService.getReservedSeats(this.id).subscribe(res => {
+        this.reservedSeatsMock = res;
+    });
 
     this.flightService.getPlane(this.id).subscribe(res => {
         this.airplaneMock = res;
@@ -199,6 +195,13 @@ export class FlightSeatReservationComponent implements OnInit {
                 userReservedSeats.push(observedSeat);
             }
         }
+        
+        this.flightService.getFlight(this.id).subscribe(
+            res => {
+              let flight : Flight = res;
+              sessionStorage.setItem('flight', JSON.stringify(flight));
+            }
+        );
         //i ubaci u session storage
         sessionStorage.setItem('userReservedSeats', JSON.stringify(userReservedSeats));
         //ubaci i id-leta (flightDTO) za koji se podesava, u slucaju da se korisnik vrati na stranicu
