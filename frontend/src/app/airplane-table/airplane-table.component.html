@@ -50,6 +50,7 @@
   [(pageSize)]="pageSize"
   [boundaryLinks]="true"
   style="float:right"
+  (pageChange)="onPageChange(pageNo)"
 ></ngb-pagination>
 
 <div class="modal" id="removeAirplaneModal" tabindex="-1" role="dialog">

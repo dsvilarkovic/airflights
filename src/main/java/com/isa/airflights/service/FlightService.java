@@ -126,6 +126,12 @@ public class FlightService {
 				(arrival_id, departure_id, departureDatetime, ArrivalDatetime);
 	}
 	
+	public List<Flight> findAllByArrivalIdAndDepartureId
+	(Long arrival_id, Long departure_id, Pageable pageRequest){
+		return flightRepository.findAllByArrivalDestinationAndDepartureDestination
+				(arrival_id, departure_id);
+	}
+	
 //	public List<Flight> find(){
 //		flightRepository.findBy
 //	}

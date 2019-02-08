@@ -67,7 +67,6 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 	Page<Friendship> findAllByAcceptedIsFalseAndReceiverId(Long receiverId, Pageable pageRequest);
 	
 	
-	
 
 	/**
 	 * Nadji sve korisnike koji su u odnosu sa nasim korisnikom
@@ -95,14 +94,18 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 	Page<Friendship> findAllByAcceptedAndSenderId(Boolean accepted, Long senderId, Pageable pageRequest);
 	
 	Page<Friendship> findAllByAcceptedAndReceiverId(Boolean accepted, Long receiverId, Pageable pageRequest);
-		
+	
 	
 	List<Friendship> findAllByAcceptedAndSenderId(Boolean accepted, Long senderId);
 	List<Friendship> findAllByAcceptedAndReceiverId(Boolean accepted, Long receiverId);
 	
 	Friendship findByReceiverIdAndSenderId(Long receiverId, Long senderId);
 	Friendship findBySenderIdAndReceiverId(Long senderId, Long receiverId);
-	
-	
+	Friendship findByReceiverIdOrSenderId(Long receiverId, Long senderId);
+	Friendship findBySenderIdOrReceiverId(Long senderId, Long receiverId);
+
+	List<Friendship> findAllBySenderId(Long userId);
+
+	List<Friendship> findAllByReceiverId(Long userId);
 	
 }

@@ -1,5 +1,8 @@
 package com.isa.airflights.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
@@ -95,6 +98,18 @@ public class AirportDestinationService {
 	public AirportDestination convertToEntity(AirportDestinationDTO airportDestinationDTO) {
 		AirportDestination airportDestination = modelMapper.map(airportDestinationDTO, AirportDestination.class);
 		return airportDestination;
+	}
+
+
+	public List<AirportDestinationDTO> getAirportDestinations() {
+		List<AirportDestination> dests = airportDestinationRepository.findAll();
+		List<AirportDestinationDTO> destsDTO = new ArrayList<>();
+		for(AirportDestination dest : dests) {
+			AirportDestinationDTO d = new AirportDestinationDTO(dest);
+			destsDTO.add(d);
+		}
+		
+		return destsDTO;
 	}
 
 }

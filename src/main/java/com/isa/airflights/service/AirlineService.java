@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.isa.airflights.dto.AirlineDTO;
+import com.isa.airflights.dto.LuggagePriceListDTO;
 import com.isa.airflights.model.Airline;
 import com.isa.airflights.model.Airplane;
 import com.isa.airflights.model.AirportDestination;
@@ -107,6 +108,7 @@ public class AirlineService {
 	
 	public AirlineDTO convertToDTO(Airline airline) {
 		AirlineDTO airlineDTO = modelMapper.map(airline, AirlineDTO.class);
+		airlineDTO.setLuggageClassPriceList(new LuggagePriceListDTO(airline.getLuggagePriceList()));
 		if(airline.getLocation() != null) {
 			airlineDTO.setLongitude(airline.getLocation().getLongitude());
 			airlineDTO.setLatitude(airline.getLocation().getLatitude());
@@ -151,4 +153,5 @@ public class AirlineService {
 	public List<Airline> getAllAdmin() {
 		return airlineRepository.findAll();
 	}
+
 }

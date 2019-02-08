@@ -28,6 +28,7 @@ export class AirplaneTableComponent implements OnInit {
       length: 0
     }
   ];
+  airline;
 
   constructor(
     private airlineAdminService: AirlineAdminService,
@@ -40,7 +41,7 @@ export class AirplaneTableComponent implements OnInit {
       this.airlineAdminService
         .getPlanes(0, user["airline"].id)
         .subscribe(res => {
-          let thisAirline = user["airline"];
+          this.airline = user["airline"];
           console.log(res);
           this.airplanesMock = res.content;
           this.collectionSize = res.totalElements;
@@ -62,5 +63,15 @@ export class AirplaneTableComponent implements OnInit {
     this.airlineAdminService.removePlane(airplaneId).subscribe(res => {
       console.log(res);
     });
+  }
+
+  onPageChange(pageNo) {
+    this.airlineAdminService
+      .getPlanes(pageNo - 1, this.airline.id)
+      .subscribe(res => {
+        console.log(res);
+
+        this.airplanesMock = res.content;
+      });
   }
 }

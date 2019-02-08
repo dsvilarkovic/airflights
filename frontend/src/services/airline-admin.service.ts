@@ -85,4 +85,7 @@ export class AirlineAdminService {
     throw this.http.get(API + "airline/airplane/flight/" + flightId);
   }
     
+  getAllDestinations(): Observable<any> {
+    return this.http.get(API + "airport/all/");
+  }
 }

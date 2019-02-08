@@ -93,8 +93,10 @@ public class FriendshipController {
 					method = RequestMethod.DELETE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> revertRequest(@PathVariable Long id){
-		
-		Boolean success = friendshipService.deleteFriendship(id);
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("Ulogovani je : " + loggedInUser.getName());
+		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
+		Boolean success = friendshipService.deleteFriendship(id, loggedUser.getId());
 		
 		if(!success) {
 			return new ResponseEntity<>(new StringJSON("Unsuccesful deletion of friendship"), HttpStatus.NOT_FOUND);
@@ -113,12 +115,14 @@ public class FriendshipController {
 					method = RequestMethod.POST,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> acceptFriendRequest(@PathVariable Long id){
-		
-		Boolean success = friendshipService.acceptFriendship(id);
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("Ulogovani je : " + loggedInUser.getName());
+		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
+		Boolean success = friendshipService.acceptFriendship(id, loggedUser.getId());
 		if(!success) {
 			return new ResponseEntity<>(new StringJSON("Friendship not accepted, because it does not exist"), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(new StringJSON("Friendship started, congratulations"), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(new StringJSON("Friendship started, congratulations"), HttpStatus.OK);
 	}
 	
 	/**
@@ -242,7 +246,7 @@ public class FriendshipController {
 		AbstractUser loggedUser = abstractUserService.getAbstractUser(loggedInUser);
 		Long userId = loggedUser.getId();
 		
-		Page<AbstractUser> foundUsers = friendshipService.getFriendsByCriteria(userId, accepted, sender, receiver, keyword, pageRequest);
+		Page<AbstractUser> foundUsers = friendshipService.getAllUsersByKeyword(userId, keyword, pageRequest);
 		
 	
 		Set<AbstractUserDTO> foundUsersDTOs = new HashSet<>();
@@ -259,7 +263,7 @@ public class FriendshipController {
 				break; 
 			}
 		}
-		
+		foundUsersDTOs = friendshipService.setFriendStatus(foundUsersDTOs, loggedUser.getId());
 		Page<AbstractUserDTO> ret = new PageImpl<>(new ArrayList<>(foundUsersDTOs), foundUsers.getPageable(), foundUsers.getTotalElements());
 		return ResponseEntity.ok(ret);
 		//return new ResponseEntity<>(foundUsersDTOs, HttpStatus.OK);
