@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.model.HotelExtras;
 import com.isa.airflights.model.RoomResExtras;
@@ -29,6 +30,7 @@ public class ExtrasService {
 		return repository.getOne(id);
 	}
 
+	@Transactional
 	public HotelExtras save(HotelExtras extra) {
 		return repository.save(extra);
 	}

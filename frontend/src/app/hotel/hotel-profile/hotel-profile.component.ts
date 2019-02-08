@@ -360,7 +360,7 @@ export class HotelProfileComponent implements OnInit {
     this.rService.reserve(res).subscribe(r=>{
       alert("Reservation made succesfully!")
       window.location.reload();
-    }, e => console.error(e))
+    }, e => alert("Room already reserved or too many beds"))
 
   }
 
