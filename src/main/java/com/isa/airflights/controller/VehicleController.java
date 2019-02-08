@@ -80,6 +80,8 @@ public class VehicleController {
 		vdto.setRentACarId(vehicle.getRentacar().getId());
 		vdto.setBranchOffice_id(vehicle.getBranch_locations().getId());
 		vdto.setRating(0);
+		vdto.setRatingsCount(0);
+		vdto.setRatingsSum(0);
 		vdto.setReserved(true);
 		vdto.setDiscount(0);
 		/*
@@ -104,11 +106,11 @@ public class VehicleController {
 		return new ResponseEntity<VehicleDTO>(vdto,HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value="/update", method = RequestMethod.PUT)
-	public ResponseEntity<Vehicle> updateVehicle(@RequestBody Vehicle vehicle){
+	@RequestMapping(value="/update/{idBranch}", method = RequestMethod.PUT)
+	public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long idBranch,@RequestBody Vehicle vehicle){
 		Vehicle v = vs.getOne(vehicle.getId());
 		if(v != null){
-			Vehicle u = vs.update(v, vehicle);
+			Vehicle u = vs.update(v, vehicle,idBranch);
 			if(u == null) {
 				return null;
 			} else {

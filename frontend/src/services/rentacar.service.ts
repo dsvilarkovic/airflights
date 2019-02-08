@@ -24,7 +24,6 @@ export class RentacarService {
   } 
 
   getAllVehicles(): Observable<any> {
-    alert("OVDE SAM!!!");
     return this.http.get(VEHICLE_API + "test");
   }
 
@@ -33,17 +32,15 @@ export class RentacarService {
   }
 
   addVehicle(vehicle: Object, id1,id2): Observable<any> {
-    alert("TUSAM");
+
     return this.http.post(VEHICLE_API + "addVehicle/"+id1+"/"+id2,vehicle);
   }
 
-  updateVehicle(vehicle: Object): Observable<any> {
-    alert("Usao");
-    return this.http.put(VEHICLE_API + "update",vehicle);
+  updateVehicle(idBranch: number,vehicle: Object): Observable<any> {
+    return this.http.put(VEHICLE_API + "update/"+idBranch,vehicle);
   }
 
   deleteVehicle(id): Observable<any> {
-    alert("Usao");
     return this.http.delete(VEHICLE_API + "delete/"+id);
   }
 
@@ -64,7 +61,6 @@ export class RentacarService {
   }
 
   search(name): Observable<any> {
-    alert("Ovde!")
     return this.http.get(RENT_A_CAR_API + "search/"+name);
   }
 

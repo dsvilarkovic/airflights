@@ -55,6 +55,7 @@ export class RacprofileComponent implements OnInit {
   seats = new FormControl("");
   price = new FormControl("");
   type = new FormControl("");
+  branchhh = new FormControl("");
 
   branchAddress = new FormControl("");
   city = new FormControl("");
@@ -177,10 +178,10 @@ niz : Array<any>;
 
   addVehicle() {
     this.newVehicle.rentACarId = this.rac.id;
-    alert(this.newVehicle.branchOffice_id);
-    alert(this.branchPom.value);
+    //alert(this.newVehicle.branchOffice_id);
+    //alert(this.branchPom.value);
     this.newVehicle.branchOffice_id = this.branchPom.value;
-    alert(this.newVehicle.branchOffice_id);
+    //alert(this.newVehicle.branchOffice_id);
    // this.newVehicle.branch_locations = this.newVehicle.branch_locations;
     //alert("Filijala: " + this.newVehicle.branch_locations.id);
     this.racService.addVehicle(this.newVehicle,this.newVehicle.rentACarId,this.newVehicle.branchOffice_id).subscribe(data => {
@@ -189,7 +190,9 @@ niz : Array<any>;
         this.newVehicle.id = this.tempVehicle.id;
         this.newVehicle.branchOffice_id = this.tempVehicle.branchOffice_id;
         this.vehicles2.push(this.tempVehicle);
+        window.location.reload();
     });
+
   }
 
   updateVehicle(v : Vehicle) {
@@ -203,7 +206,7 @@ niz : Array<any>;
     this.seats.setValue(this.currentVehicle.seats);
     this.price.setValue(this.currentVehicle.price);
     this.type.setValue(this.currentVehicle.type);
-    alert("Curr branch loc: " + this.currentVehicle.branchOffice_id)
+   // alert("Curr branch loc: " + this.currentVehicle.branchOffice_id)
   }
 
   update() {
@@ -216,14 +219,15 @@ niz : Array<any>;
     this.updateV.price = this.price.value;
     this.updateV.type = this.type.value;
     this.updateV.rentACarId = this.rac.id;
-    this.updateV.branchOffice_id = this.currentVehicle.branchOffice_id;
-    alert("Type:ewrwer " + this.type.value);
-    alert("Type: " + this.updateV.brand);
+    alert("Type:ewrwer " + this.branchhh.value);
+    this.updateV.branchOffice_id = this.branchhh.value;
+    //alert("Type:ewrwer " + this.type.value);
+    //alert("Type: " + this.updateV.brand);
 
-    this.racService.updateVehicle(this.updateV).subscribe(data => {
+    this.racService.updateVehicle(this.branchhh.value,this.updateV).subscribe(data => {
       
       this.tempVehicle = data;
-      alert("Id izmenjenog vozila " + this.tempVehicle.id);
+      //alert("Id izmenjenog vozila " + this.tempVehicle.id);
       if(this.tempVehicle == null) {
         alert("Vozilo je rezervizano i nije moguce izmena");
       } else {
@@ -236,6 +240,7 @@ niz : Array<any>;
         this.currentVehicle.price = this.tempVehicle.price;
         this.currentVehicle.type = this.tempVehicle.type;
         this.currentVehicle.branchOffice_id = this.tempVehicle.branchOffice_id;
+        window.location.reload();
       }
       
      
@@ -276,6 +281,7 @@ niz : Array<any>;
         this.tempBranch = data;
         this.newBranch.id = this.tempBranch.id;
         this.branches2.push(this.newBranch);
+        window.location.reload();
     });
   }
 
@@ -298,7 +304,7 @@ niz : Array<any>;
       this.tempBranch = data;
       this.currentBranch.address = this.tempBranch.address;
       this.currentBranch.city = this.tempBranch.city;
-
+      window.location.reload();
     })
 
   }
@@ -309,14 +315,20 @@ niz : Array<any>;
   }
   deleteBranch2() {
     this.racService.deleteBranch(this.currentBranch.id).subscribe(data => {
-      alert("Uspesno obrisao: ");
+      if(data == false) {
+        alert("Nije moguce obrisati jer ima vozila u filijali")
+      } else {
+        alert("Uspesno obrisao filijalu: ");
+        const index: number = this.branches2.indexOf(this.currentBranch);
+        if (index !== -1) {
+         this.branches2.splice(index, 1);
+        }   
+      }
+      
       
     })
 
-    const index: number = this.branches2.indexOf(this.currentBranch);
-      if (index !== -1) {
-        this.branches2.splice(index, 1);
-    }   
+    
 
   }
 
