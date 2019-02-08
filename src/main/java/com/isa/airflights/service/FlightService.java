@@ -16,6 +16,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.AirportDestinationDTO;
 import com.isa.airflights.dto.FlightDTO;
@@ -27,7 +28,9 @@ import com.isa.airflights.model.enumtypes.AirlineClassType;
 import com.isa.airflights.repository.FlightClassPriceRepository;
 import com.isa.airflights.repository.FlightRepository;
 
+
 @Service
+@Transactional(readOnly = true)
 public class FlightService {
 	
 	@Autowired
@@ -48,10 +51,13 @@ public class FlightService {
 	public Flight getFlight(Long id) {
 		return flightRepository.getOne(id);
 	}
+	
+	@Transactional(readOnly = false)
 	public void saveFlight(Flight flight) {
 		flightRepository.save(flight);		
 	}
 	
+	@Transactional(readOnly = false)
 	public void addFlight(Flight flight) {
 		flightRepository.save(flight);
 		
@@ -63,6 +69,7 @@ public class FlightService {
 		}
 	}
 	
+	@Transactional(readOnly = false)
 	public Boolean updateFlight(Flight flight) {
 		Flight foundFlight;
 		try {
@@ -86,6 +93,7 @@ public class FlightService {
 		return true;
 	}
 	
+	@Transactional(readOnly = false)
 	public Boolean deleteFlight(Long id) {
 		try {
 			flightRepository.getOne(id);

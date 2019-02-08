@@ -20,6 +20,10 @@ export class FlightService {
     return this.http.get(API + "flight/" + id);
   }
 
+  getAllAirlines(): Observable<any> {
+    return this.http.get(API + "airline/find/all");
+  }
+
 
   getPlane(planeId): Observable<any> {
     return this.http.get(API + "flight/airplane/" + planeId);
@@ -32,5 +36,28 @@ export class FlightService {
   sendFlightTicket(flightTicket : FlightTicket){
     let link =API + "flight-ticket/create/fast";
     this.http.post(link, JSON.stringify(flightTicket));
+  }
+
+  findFlights(
+    pageNo,
+    arrivalId,
+    departureId,
+    arrivalDate,
+    departureDate
+  ): Observable<any> {
+    return this.http.get(
+      API +
+        "flight/search/find/all" +
+        "?page=" +
+        pageNo +
+        "&size=5&arrival_id=" +
+        arrivalId +
+        "&departure_id=" +
+        departureId
+    );
+  }
+
+  getAirlineInfo(id): Observable<any> {
+    return this.http.get(API + "airline/get/" + id);
   }
 }

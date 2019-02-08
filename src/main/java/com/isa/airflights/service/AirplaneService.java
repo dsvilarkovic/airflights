@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.model.Airplane;
 import com.isa.airflights.repository.AirplaneRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class AirplaneService {
 
 	@Autowired
@@ -27,14 +29,14 @@ public class AirplaneService {
 		return airplaneRepository.getOne(id);
 	}
 
-
+	@Transactional(readOnly = false)
 	public void createAirplane(Airplane airplane) {
 		airplaneRepository.save(airplane);
 		
 	}
 
 
-	
+	@Transactional(readOnly = false)
 	public Boolean updateAirplane(Airplane airplane) {
 		Airplane foundAirplane;
 		try {
@@ -56,6 +58,7 @@ public class AirplaneService {
 	 * @param id - id aviona koji treba obrisati
 	 * @return - false ako je prosledjen null parametar
 	 */
+	@Transactional(readOnly = false)
 	public Boolean deleteAirplane(Long id) {
 		try {
 			airplaneRepository.deleteById(id);

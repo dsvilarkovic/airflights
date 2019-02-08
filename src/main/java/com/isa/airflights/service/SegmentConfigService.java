@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.dto.SeatDTO;
 import com.isa.airflights.dto.SegmentConfigDTO;
@@ -16,6 +17,7 @@ import com.isa.airflights.repository.SeatRepository;
 import com.isa.airflights.repository.SegmentConfigRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class SegmentConfigService {
 
 	@Autowired
@@ -34,12 +36,13 @@ public class SegmentConfigService {
 		return segmentConfigRepository.getOne(id);
 	}
 	
+	@Transactional(readOnly = false)
 	public void addConfig(SegmentConfig segmentConfig) {
 		
 		segmentConfigRepository.save(segmentConfig);
 		//updateSeats(segmentConfig);
 	}
-	
+	@Transactional(readOnly = false)
 	public Boolean deleteConfig(Long id) {
 		try {
 			segmentConfigRepository.deleteById(id);
@@ -51,7 +54,7 @@ public class SegmentConfigService {
 		}		
 		return true;
 	}
-	
+	@Transactional(readOnly = false)
 	public Boolean updateConfig(SegmentConfig segmentConfig) {
 		SegmentConfig foundConfig;
 		try {
@@ -78,6 +81,7 @@ public class SegmentConfigService {
 	 * Azuriranje sedista koja su falila u prethodnoj konfiguraciji
 	 * @param segmentConfig
 	 */
+	@Transactional(readOnly = false)
 	public void updateSeats(SegmentConfig segmentConfig) {
 		Set<Seat> seats = segmentConfig.getSeats();
 		for (Seat seat : seats) {
