@@ -103,6 +103,12 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 	Friendship findByReceiverIdAndSenderId(Long receiverId, Long senderId);
 	Friendship findBySenderIdAndReceiverId(Long senderId, Long receiverId);
 	
+	Friendship findByReceiverIdOrSenderId(Long receiverId, Long senderId);
+	Friendship findBySenderIdOrReceiverId(Long senderId, Long receiverId);
+
+	List<Friendship> findAllBySenderId(Long userId);
+
+	List<Friendship> findAllByReceiverId(Long userId);
 	
 	
 }

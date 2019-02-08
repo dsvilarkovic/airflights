@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -15,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.isa.airflights.dto.AbstractUserDTO;
 import com.isa.airflights.dto.FriendshipDTO;
 import com.isa.airflights.model.AbstractUser;
 import com.isa.airflights.model.Friendship;
@@ -61,10 +61,13 @@ public class FriendshipService {
 	 * @param id
 	 * @return
 	 */
-	public Boolean deleteFriendship(Long id) {
+	public Boolean deleteFriendship(Long id, Long userId) {
 		try {
-			friendshipRepository.getOne(id);
-			friendshipRepository.deleteById(id);
+			Friendship friendship = friendshipRepository.findByReceiverIdAndSenderId(userId, id);
+			if(friendship == null) {
+				friendship = friendshipRepository.findByReceiverIdAndSenderId(id, userId);
+			}
+			friendshipRepository.deleteById(friendship.getId());
 		}
 		catch (Exception e) {
 			return false;
@@ -100,9 +103,9 @@ public class FriendshipService {
 		return friendshipDTO;
 	}
 
-	public Boolean acceptFriendship(Long id) {
+	public Boolean acceptFriendship(Long id, Long userId) {
 		try {
-			Friendship friendship = friendshipRepository.getOne(id);
+			Friendship friendship = friendshipRepository.findByReceiverIdOrSenderId(userId, id);
 			friendship.setAccepted(true);
 			friendshipRepository.save(friendship);
 		}
@@ -236,14 +239,34 @@ public class FriendshipService {
 			totalFriends.addAll(senderFriends);
 			totalFriends.addAll(receiverFriends);
 		}		
-		
 		for (AbstractUser abstractUser : totalFriends) {
 			System.out.println(abstractUser);
 		}
+		//proveri keyword
+		totalFriends.removeIf(user -> !user.getFirstName().contains(keyword) && !user.getLastName().contains(keyword));
 		
-		totalFriends = totalFriends.stream().filter(user -> user.getFirstName().contains(keyword) || user.getLastName().contains(keyword)).collect(Collectors.toSet()); 
 		
-		System.out.println("Total friends count je: " + totalFriends.size());
+		Page<AbstractUser> ret = new PageImpl<>(new ArrayList<>(totalFriends), pageRequest, totalFriends.size());
+		//return totalFriends;		
+		return ret;
+	}
+	
+	public Page<AbstractUser> getAllUsersByKeyword(Long userId, String keyword,Pageable pageRequest){
+		
+		Set<AbstractUser> totalFriends = new HashSet<>();
+		
+		Set<AbstractUser> allUsers = new HashSet<>(); 
+		for(AbstractUser u : abstractUserRepository.findAll()) {
+			allUsers.add(u);
+		}
+		allUsers.remove(abstractUserRepository.getOne(userId));
+		totalFriends.addAll(allUsers);
+		for (AbstractUser abstractUser : totalFriends) {
+			System.out.println(abstractUser);
+		}
+		//proveri keyword
+		totalFriends.removeIf(user -> !user.getFirstName().contains(keyword) && !user.getLastName().contains(keyword));
+		
 		
 		Page<AbstractUser> ret = new PageImpl<>(new ArrayList<>(totalFriends), pageRequest, totalFriends.size());
 		//return totalFriends;		
@@ -281,4 +304,28 @@ public class FriendshipService {
 		
 		return (oneside != null || otherside != null);
  	}
+
+	public Set<AbstractUserDTO> setFriendStatus(Set<AbstractUserDTO> foundUsersDTOs, Long userId) {
+		for(AbstractUserDTO uDTO : foundUsersDTOs) {
+			System.out.println("\nUser: "+ uDTO.getFirstName() +"\n");
+			AbstractUser u = abstractUserRepository.getOne(uDTO.getId());
+			Friendship friendship = friendshipRepository.findByReceiverIdAndSenderId(userId, u.getId());
+			if(friendship == null) {
+				friendship = friendshipRepository.findByReceiverIdAndSenderId( u.getId(), userId);
+				if(friendship == null) {
+					uDTO.setFriendStatus("NONE");
+				} else { 
+					if(friendship.getAccepted() == true) {
+						uDTO.setFriendStatus("FRIEND");
+					} else uDTO.setFriendStatus("PENDING");
+				}
+			} else { 
+				if(friendship.getAccepted() == true) {
+					uDTO.setFriendStatus("FRIEND");
+				} else uDTO.setFriendStatus("REQUESTED");
+			}
+			System.out.println("\n Status: "+ uDTO.getFriendStatus() +"\n");
+		}
+		return foundUsersDTOs;
+	}
 }

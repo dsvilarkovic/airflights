@@ -13,6 +13,8 @@ import {
   filter,
   map
 } from "rxjs/operators";
+import { AirlineAdminService } from "src/services/airline-admin.service";
+import { FlightService } from "src/services/flight.service";
 
 @Component({
   selector: "app-search",
@@ -20,6 +22,8 @@ import {
   styleUrls: ["./search.component.scss"]
 })
 export class SearchComponent implements OnInit {
+  allAirlines = [];
+  allFlights;
   airlineMock = {
     fullName: "Nikola Tesla Airport",
     promoInfo: "Promotivni opis aerodroma",
@@ -52,49 +56,29 @@ export class SearchComponent implements OnInit {
     {
       id: 1,
       legCount: 0,
-      departureDateTime: "2020-02-03T01:06",
-      arrivalDateTime: "2020-02-06T01:32",
+      departureDatetime: "2020-02-03T01:06",
+      arrivalDatetime: "2020-02-06T01:32",
       airline: this.airlineMock,
       travelTime: 220,
       travelDistance: 1305,
       flightDiscount: 10,
-      flightLegs: [
+      flightLegsDTO: [
         { id: 1, fullName: "Belgrade" },
         { id: 2, fullName: "London" }
       ],
-      flightClassPrices: [
-        { price: 440.5, airlineClassType: "ECONOMY" },
-        { price: 540.5, airlineClassType: "BUSINESS" },
-        { price: 750, airlineClassType: "FIRST" },
-        { price: 940, airlineClassType: "PREMIUM" }
-      ]
-    },
-    {
-      id: 2,
-      legCount: 1,
-      departureDateTime: "2020-02-01T01:02",
-      arrivalDateTime: "2020-03-13T01:26",
-      airline: this.airlineMock,
-      travelTime: 390,
-      travelDistance: 1455,
-      flightDiscount: 0,
-      flightLegs: [
-        { id: 1, fullName: "Belgrade" },
-        { id: 4, fullName: "Helsinki" },
-        { id: 3, fullName: "Moscow" }
-      ],
-      flightClassPrices: [
-        { price: 440.5, airlineClassType: "ECONOMY" },
-        { price: 540.5, airlineClassType: "BUSINESS" },
-        { price: 750, airlineClassType: "FIRST" },
-        { price: 940, airlineClassType: "PREMIUM" }
-      ]
+      flightClassPricesMap: {
+        ECONOMY: 232,
+        BUSINESS: 434,
+        FIRST: 234,
+        PREMIUM: 434
+      }
     }
   ];
   airlinesMock = [this.airlineMock, this.airlineMock];
 
+  pageSize = 2;
   pageNo = 1;
-  collectionSize = 40;
+  collectionSize = 5;
   oneWay = true;
   navigation = "select";
   dateFrom: NgbDate = null;
@@ -109,8 +93,13 @@ export class SearchComponent implements OnInit {
   cities = [];
   cityNames = [];
   clickedFlight = {
-    flightLegs: null,
-    flightClassPrices: null,
+    flightLegsDTO: null,
+    flightClassPricesMap: {
+      ECONOMY: 232,
+      BUSINESS: 434,
+      FIRST: 234,
+      PREMIUM: 434
+    },
     airline: { luggageClassPriceList: {} }
   };
   lastSearch = {};
@@ -143,15 +132,21 @@ export class SearchComponent implements OnInit {
   focus2$ = new Subject<string>();
   click2$ = new Subject<string>();
 
-  constructor(private calendar: NgbCalendar) {}
+  constructor(
+    private calendar: NgbCalendar,
+    private airlineAdminService: AirlineAdminService,
+    private flightService: FlightService
+  ) {}
 
   ngOnInit() {
-    this.cities = [
-      { fullName: "Belgrade" },
-      { fullName: "London" },
-      { fullName: "Lisabon" }
-    ];
-    this.cities.map(c => this.cityNames.push(c.fullName));
+    this.airlineAdminService.getAllDestinations().subscribe(res => {
+      console.log(res);
+      this.cities = res;
+      this.cities.map(c => this.cityNames.push(c.fullName));
+    });
+    this.flightService.getAllAirlines().subscribe(res => {
+      this.allAirlines = res.content;
+    });
   }
 
   flightTypeChanged() {
@@ -188,25 +183,105 @@ export class SearchComponent implements OnInit {
       }
       this.dateFromCopy = this.dateFrom;
       this.dateToCopy = this.dateTo;
-      console.log(this.searchModel);
+
       console.log(this.dateTo);
       console.log(this.searchModel.dateFrom);
       this.lastSearch = this.searchModel;
+      let filtered1 = this.cities.filter(c => {
+        return c.fullName == this.searchModel.cityFrom;
+      });
+      let filtered2 = this.cities.filter(c => {
+        return c.fullName == this.searchModel.cityTo;
+      });
+      let cityFrom = filtered1[0];
+      let cityTo = filtered2[0];
+      console.log(this.searchModel);
+      this.flightService
+        .findFlights(
+          0,
+          cityFrom.id,
+          cityTo.id,
+          this.searchModel.dateFrom,
+          this.searchModel.dateTo
+        )
+        .subscribe(res => {
+          console.log(res);
+          res.content.map(flight => (flight["airline"] = this.airlineMock));
+          res.content.map(flight => {
+            this.flightService
+              .getAirlineInfo(flight["airlineId"])
+              .subscribe(airline => {
+                flight["airline"] = airline;
+                this.flightsMock = res.content;
+                this.allFlights = res.content;
+                console.log(this.flightsMock);
+                this.collectionSize = res.totalElements;
+                this.pageSize = res.size;
+              });
+          });
+        });
+
       this.searchResults = true;
     } else this.searchResults = false;
   }
 
+  onPageChange(pageNo) {
+    this.lastSearch = this.searchModel;
+    let filtered1 = this.cities.filter(c => {
+      return c.fullName == this.searchModel.cityFrom;
+    });
+    let filtered2 = this.cities.filter(c => {
+      return c.fullName == this.searchModel.cityTo;
+    });
+    let cityFrom = filtered1[0];
+    let cityTo = filtered2[0];
+    console.log(this.searchModel);
+    this.flightService
+      .findFlights(
+        pageNo,
+        cityFrom.id,
+        cityTo.id,
+        this.searchModel.dateFrom,
+        this.searchModel.dateTo
+      )
+      .subscribe(res => {
+        console.log(res);
+        res.content.map(flight => (flight["airline"] = this.airlineMock));
+        res.content.map(flight => {
+          this.flightService
+            .getAirlineInfo(flight["airlineId"])
+            .subscribe(airline => {
+              flight["airline"] = airline;
+              this.flightsMock = res.content;
+              this.allFlights = res.content;
+              console.log(this.flightsMock);
+              this.collectionSize = res.totalElements;
+              this.pageSize = res.size;
+            });
+        });
+      });
+
+    this.searchResults = true;
+  }
   onFilter() {
     if (this.airlineFilter == "All Airlines") {
       this.filterModel.airlineFilter = null;
     } else
       this.filterModel.airlineFilter = this.airlineFilter.nativeElement.value;
-    if (this.airlineFilter == "Any") {
+    if (this.travelTimeFilter == "Any") {
       this.filterModel.travelTimeFilter = null;
     } else
       this.filterModel.travelTimeFilter = this.travelTimeFilter.nativeElement.value;
     this.filterModel.searchModel = this.lastSearch;
     console.log(this.filterModel);
+    console.log(this.filterModel.airlineFilter);
+    if (this.filterModel.airlineFilter == "All Airlines") {
+      this.flightsMock = this.allFlights;
+    } else {
+      this.flightsMock = this.allFlights.filter(flight => {
+        return flight.airline.fullName == this.filterModel.airlineFilter;
+      });
+    }
   }
   validateSearch() {
     if (
