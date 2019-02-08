@@ -75,7 +75,7 @@ public class RoomServiceTest {
 		Room room = new Room();
 		room.setBeds(4);
 		room.setBalcony(true);
-		room.setFloor(1);;
+		room.setFloor(1);
 		room.setNumber(101);
 		room.setDiscount(10.0);
 		room.setRatingsCount(20L);
@@ -116,7 +116,7 @@ public class RoomServiceTest {
 	}
 	
 	@Test
-	public void testSave2() {
+	public void testsave() {
 		when(rep.save(room)).thenReturn(room);
 		Room r = ser.save(room);
 		assertThat(r, is(equalTo(room)));

@@ -55,6 +55,7 @@ export class RacprofileComponent implements OnInit {
   seats = new FormControl("");
   price = new FormControl("");
   type = new FormControl("");
+  branchhh = new FormControl("");
 
   branchAddress = new FormControl("");
   city = new FormControl("");
@@ -218,11 +219,12 @@ niz : Array<any>;
     this.updateV.price = this.price.value;
     this.updateV.type = this.type.value;
     this.updateV.rentACarId = this.rac.id;
-    this.updateV.branchOffice_id = this.currentVehicle.branchOffice_id;
+    alert("Type:ewrwer " + this.branchhh.value);
+    this.updateV.branchOffice_id = this.branchhh.value;
     //alert("Type:ewrwer " + this.type.value);
     //alert("Type: " + this.updateV.brand);
 
-    this.racService.updateVehicle(this.updateV).subscribe(data => {
+    this.racService.updateVehicle(this.branchhh.value,this.updateV).subscribe(data => {
       
       this.tempVehicle = data;
       //alert("Id izmenjenog vozila " + this.tempVehicle.id);
@@ -279,6 +281,7 @@ niz : Array<any>;
         this.tempBranch = data;
         this.newBranch.id = this.tempBranch.id;
         this.branches2.push(this.newBranch);
+        window.location.reload();
     });
   }
 
@@ -301,7 +304,7 @@ niz : Array<any>;
       this.tempBranch = data;
       this.currentBranch.address = this.tempBranch.address;
       this.currentBranch.city = this.tempBranch.city;
-
+      window.location.reload();
     })
 
   }
@@ -312,14 +315,20 @@ niz : Array<any>;
   }
   deleteBranch2() {
     this.racService.deleteBranch(this.currentBranch.id).subscribe(data => {
-      alert("Uspesno obrisao: ");
+      if(data == false) {
+        alert("Nije moguce obrisati jer ima vozila u filijali")
+      } else {
+        alert("Uspesno obrisao filijalu: ");
+        const index: number = this.branches2.indexOf(this.currentBranch);
+        if (index !== -1) {
+         this.branches2.splice(index, 1);
+        }   
+      }
+      
       
     })
 
-    const index: number = this.branches2.indexOf(this.currentBranch);
-      if (index !== -1) {
-        this.branches2.splice(index, 1);
-    }   
+    
 
   }
 

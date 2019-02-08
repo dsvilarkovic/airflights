@@ -73,7 +73,7 @@ public class AdminController {
 	
 	
     @GetMapping("/all")
-    public Collection<UserDTODjuka> getAllAdmins() {
+    public ResponseEntity<Collection<UserDTODjuka>> getAllAdmins() {
     	Collection<AbstractUser> users = service.getAll();
         
     	List<AbstractUser> admins = users.stream().filter(u -> u.getRole()!=null && u.getRole().getId() != 1).collect(Collectors.toList());
@@ -82,13 +82,13 @@ public class AdminController {
     	for (AbstractUser u : admins) {
     		usersDTO.add(new UserDTODjuka(u));
     	}
-    	
-    	return usersDTO;
+
+    	return new ResponseEntity<Collection<UserDTODjuka>>(usersDTO,HttpStatus.OK);
     }
     
     
     @GetMapping("/allA")
-    public Collection<AdminDTO> getAllA() {
+    public ResponseEntity<Collection<AdminDTO>> getAllA() {
     	Collection<AbstractUser> users = service.getAll();
         
     	List<AbstractUser> admins = users.stream().filter(u -> u.getRole()!=null && u.getRole().getId() != 1).collect(Collectors.toList());
@@ -116,7 +116,7 @@ public class AdminController {
     		usersDTO.add(aa);
     	}
     	
-    	return usersDTO;
+    	return new ResponseEntity<Collection<AdminDTO>>(usersDTO,HttpStatus.OK);
     }
     
     @Transactional

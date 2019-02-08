@@ -367,7 +367,7 @@ export class HotelProfileComponent implements OnInit {
   reservePromo(room) {
     let res: RoomRes = new RoomRes()
 
-    alert(this.sObjBack.startM)
+    //alert(this.sObjBack.startM)
     res.obj = this.sObjBack
     
     res.room_id = new Array<number>()
@@ -375,8 +375,8 @@ export class HotelProfileComponent implements OnInit {
 
     this.rService.reservePromo(res).subscribe(r=>{
       alert("Reservation made succesfully!")
-      //window.location.reload();
-    }, e => console.error(e))
+      window.location.reload();
+    }, e => alert("Room already reserved or too many beds"))
   }
 
 }

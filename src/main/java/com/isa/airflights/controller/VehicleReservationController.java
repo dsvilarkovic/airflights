@@ -3,6 +3,7 @@ package com.isa.airflights.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -74,8 +75,40 @@ public class VehicleReservationController {
 	public ResponseEntity<?> cancel(@PathVariable Long id) {
 	//	vss.delete(id);
 		VehicleReservation r = rep.getOne(id);
+		List<VehicleReservation> vr = rep.findAll();
+		boolean exist = false;
+		Calendar cal = Calendar.getInstance();
+		Date l = cal.getTime();
+		
+		
+		//Ovde treba da bude da vozilo nije rezervisano ako postoji rezervacija koja je out of date
+		int i = 0;
+		for (VehicleReservation v : vr) {
+			if(r.getVehicle().getId().equals(v.getId())) { 
+				i++;
+				System.out.println("usao 1 " + i);
+				 if( r.getPickupdate().before(l)) {
+						i++;
+						System.out.println("usao 2 " + i);
+						if( !r.isCancel()) {
+							i++;
+							System.out.println("usao 3 "+ i);
+							exist = true;
+							break;
+						}
+				 }
+			}
+			
+		} 
+
 
 		r.setCancel(true); //obrisano
+		if(!exist) {
+			Vehicle veh = vs.getOne(r.getVehicle().getId());
+			veh.setReserved(false);
+			vs.save(veh);
+		}
+		
 		
 		rep.save(r);
 		

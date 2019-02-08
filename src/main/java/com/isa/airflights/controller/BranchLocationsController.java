@@ -75,9 +75,17 @@ public class BranchLocationsController {
 	}
 	
 	@RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?>  deleteBranch(@PathVariable Long id) {
-		bls.delete(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Boolean>  deleteBranch(@PathVariable Long id) {
+		BranchLocations b = bls.getOne(id);
+		if(!b.getVehicles().isEmpty()) {
+			System.out.println("Ima vozila pa se ne moze obrisati");
+			return new ResponseEntity<Boolean>(false,HttpStatus.OK);
+		} else {
+			bls.delete(id);	
+			return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+		}
+		
+		
 	}
 	
 	//proverava da li postoji vozilo u trazenoj (pick up) filijali

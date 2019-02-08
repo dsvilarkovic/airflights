@@ -49,9 +49,9 @@ public class HotelController {
 	private RoomReservationService rrService;
 	
     @GetMapping("/list")
-    public Collection<Hotel> hotels() {
+    public ResponseEntity<Collection<Hotel>> hotels() {
     	//System.out.println("Pokupio");
-        return service.getAll();
+        return new ResponseEntity<Collection<Hotel>>(service.getAll(), HttpStatus.OK);
     }
     
     @GetMapping("/{id}" )

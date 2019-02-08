@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.model.Hotel;
@@ -33,7 +34,7 @@ public class HotelService {
 		return repository.save(hotel);
 	}
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false, propagation=Propagation.REQUIRES_NEW)
 	public Hotel update(Hotel hotel) {
 		return repository.save(hotel);
 	}
