@@ -132,6 +132,12 @@ public class VehicleReservationController {
 		vr.setPrice(reservation.getPrice());
 		vr.setRateRentacar(false);
 		vr.setRateVehicle(false);
+		vr.setVersion(0L);
+		
+		Vehicle v = vs.getOne(reservation.getVehicle().getId());
+		v.setReserved(true);
+		vs.save(v);
+		
 		
 		vss.save(vr);
 		

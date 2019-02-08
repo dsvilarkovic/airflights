@@ -104,7 +104,7 @@ export class AuthhomepageComponent implements OnInit {
 
     this.roomService.getAllByUserId(this.id).subscribe(data => {
       this.roomRes = data;
-      alert("Usao ovde@ " + this.roomRes.length)
+      //alert("Usao ovde@ " + this.roomRes.length)
       for(let r of this.roomRes) {
         var now = moment(this.today); 
         var end = moment(r.endDate); 

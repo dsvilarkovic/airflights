@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 
 
 
@@ -71,6 +72,10 @@ public class Vehicle {
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<VehicleReservation> reservations = new HashSet<VehicleReservation>();
 	
+	@Version
+	@Column
+	private Long version;
+	
 	public Vehicle() {
 		//super();
 		// TODO Auto-generated constructor stub
@@ -110,6 +115,18 @@ public class Vehicle {
 
 
 	
+
+
+	public Long getVersion() {
+		return version;
+	}
+
+
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
 
 
 	public double getRatingsCount() {

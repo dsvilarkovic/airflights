@@ -47,7 +47,7 @@ public class PromoRoomServiceTest {
 	public void testDelete() {
 		when(rep.deleteByRoom_id(1L)).thenReturn(Arrays.asList(pr));
 		List<PromoRoom> he = ser.deletyByRoom(1L);
-		assertThat(he, is(equalTo(pr)));
+		assertThat(he, is(equalTo(Arrays.asList(pr))));
 	}
 	
 	@Test

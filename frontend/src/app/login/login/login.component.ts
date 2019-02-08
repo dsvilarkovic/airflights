@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ROLE_H, ROLE_SYS } from 'src/app/globals';
+import { ROLE_H, ROLE_SYS, ROLE_A } from 'src/app/globals';
 import { allSettled } from 'q';
 
 @Component({
@@ -72,6 +72,8 @@ export class LoginComponent implements OnInit {
                   this.router.navigate(['/rentacar/'+ this.idCompany]);
                 } else if(this.roles.includes(ROLE_H)) {
                   this.router.navigate(['/admin/hotel/profile']);
+                } else if(this.roles.includes(ROLE_A)) {
+                  this.router.navigate(['/home']);
                 }
               })
             } else {

@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.isa.airflights.model.BranchLocations;
 import com.isa.airflights.repository.BranchLocationsRepository;
@@ -27,6 +31,7 @@ public class BranchLocationsService {
 		return blRepository.getOne(id);
 	}
 	
+	@Transactional(readOnly = false)
 	public BranchLocations update(BranchLocations old_vehicle, BranchLocations new_vehicle) {
 		// TODO Auto-generated method stub
 		if( new_vehicle.getAddress() != null){

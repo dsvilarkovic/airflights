@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -66,6 +67,10 @@ public class VehicleReservation {
 	@Column
 	private boolean rateRentacar;
 	
+	@Version
+	@Column
+	private Long version;
+	
 	
 	public VehicleReservation() {
 		
@@ -74,6 +79,18 @@ public class VehicleReservation {
 
 	
 	
+	public Long getVersion() {
+		return version;
+	}
+
+
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+
+
 	public boolean isRateVehicle() {
 		return rateVehicle;
 	}
