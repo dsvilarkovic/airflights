@@ -99,5 +99,18 @@ export class RentacarService {
   rateVehicle(rate,id,user): Observable<any> {
     return this.http.get(RATING_API + "rate/vehicle/"+rate+"/"+id+"/"+user);
   }
+
+  lastWeek(id: number) {
+    return this.http.get(RENT_A_CAR_API + 'chartWeek/' + id);
+  }
+
+  lastM(id: number) {
+    return this.http.get(RENT_A_CAR_API + 'lastM/' + id);
+  }
+
+  lastYear(id: number) {
+    return this.http.get(RENT_A_CAR_API + 'lastYear/' + id);
+  }
+
 }
   

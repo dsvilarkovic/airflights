@@ -87,6 +87,7 @@ import { HotelDiscountsComponent } from './hotel/hotel-discounts/hotel-discounts
 
 import { ChartsModule } from 'ng2-charts';
 
+
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
@@ -140,7 +141,7 @@ const appRoutes: Routes = [
   {path: 'rooms/list', component : HotelRoomsComponent},
   {path: ':id/rooms/list', component : HotelRoomsComponent},
 
-  {path: 'rentacarDiscount/:id/:date1/:date2', component: RentACarDiscountComponent},
+  {path: 'rentacarPreview/:id/discount', component: RentACarDiscountComponent},
   {path: 'authHomePage/:id',component: AuthhomepageComponent},
   {path: 'listAirflights', component: ListAirflightsComponent},
   {path: 'listHotels', component: ListHotelsComponent},

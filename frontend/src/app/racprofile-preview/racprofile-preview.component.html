@@ -12,8 +12,8 @@
         <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
         <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
         <li class="nav-item active"><a  class="nav-link">Rent a cars</a></li>
-        <li class="nav-item"><a routerLink="/login" href="contact.html" class="nav-link">Sign In</a></li>
-        <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+        <li *ngIf="boolLog" class="nav-item"><a routerLink="/login" class="nav-link">Sign In</a></li>
+        <li *ngIf="boolLogOff" class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
           <span>Sign Out</span>
       </button></li>
       </ul>
@@ -79,8 +79,14 @@
             </select>
         </div>
 
-        <button class="btn btn-primary mt-4 mb-4" (click)="search()">Search</button>
-        <button class="btn btn-primary mt-4 mb-4" (click)="reset()">Reset</button>
+        <div class="float-right">
+          <button class="btn btn-primary mt-4 mb-4" (click)="search()">Search</button>
+          <button class="btn btn-primary mt-4 mb-4" (click)="reset()">Reset</button>
+          <button id="sb" class="btn btn-warning" data-toggle="collapse" (click)="discount()" role="button">
+            Promo vehicles
+          </button>
+      </div>
+        
        
 
       </form>

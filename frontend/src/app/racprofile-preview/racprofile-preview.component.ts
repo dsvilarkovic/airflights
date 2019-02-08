@@ -102,6 +102,9 @@ export class RacprofilePreviewComponent implements OnInit {
   types: VehicleType;
   typess:string[] = ["SMALL_CARS", "MEDIUM_CARS", "LARGE_CARS", "PREMIUM_CARS"];
 
+  boolLog: boolean = false;
+  boolLogOff: boolean = false;
+
 
   constructor(private racService: RentacarService, private router: Router,
     private route : ActivatedRoute, private datePipe: DatePipe,
@@ -171,14 +174,19 @@ export class RacprofilePreviewComponent implements OnInit {
     this.reserv.pickupdate = this.fromDate.year + "-" + this.fromDate.month + "-" + this.fromDate.day;
     this.reserv.dropoffdate = this.toDate.year + "-" + this.toDate.month + "-" + this.toDate.day;
 
-    alert("dslkfj " + this.reserv.pickupdate )
-    alert("dslkfj " + this.reserv.dropoffdate )
+   // alert("dslkfj " + this.reserv.pickupdate )
+   // alert("dslkfj " + this.reserv.dropoffdate )
 
 
     this.resServise.checkDate(this.reserv.pickupdate,this.reserv.dropoffdate,this.id).subscribe(data => {
       this.vehicles = data;
       for(let ve of this.vehicles) {
+        if(ve.discount != 0) {
+          //na popustu su i ne stavljamo ih ovde
+        }else {
           this.vehicles2.push(ve);
+        }
+         
       }
     })
 
@@ -207,14 +215,18 @@ export class RacprofilePreviewComponent implements OnInit {
     })
 
     if(sessionStorage.getItem("AuthUsername") == null) {
-      alert("Niko nije ulogovan!");
+     // alert("Niko nije ulogovan!");
       this.loggedFlag = false;
+      this.boolLog = true;
+      this.boolLogOff = false;
     } else {
     this.loginService.getLogged(sessionStorage.getItem("AuthUsername")).subscribe(data => 
         {
         this.currentUser = data;
-        alert("User: " + this.currentUser.firstName);
+        //alert("User: " + this.currentUser.firstName);
         this.loggedFlag = true;
+        this.boolLog = false;
+        this.boolLogOff = true;
         });
       }
 
@@ -252,7 +264,12 @@ export class RacprofilePreviewComponent implements OnInit {
         //u reservationSearh ce biti svi slobodni
       for(let v of this.vehicles3) {
         if(v.branchOffice_id == this.pickuploc.value && v.type == this.types && v.seats == this.seats && v.price < this.rangerTo && v.price > this.rangerFrom) {
-          this.vehicles2.push(v);
+          if(v.discount != 0) {
+            //na popustu su i ne stavljamo ih ovde
+          }else {
+            this.vehicles2.push(v);
+          }
+          
         }
       }
 
@@ -339,6 +356,10 @@ export class RacprofilePreviewComponent implements OnInit {
    
     
 
+  }
+
+  discount() {
+    this.router.navigate(['rentacarPreview/'+ this.id +'/discount']);
   }
 
   logout() {

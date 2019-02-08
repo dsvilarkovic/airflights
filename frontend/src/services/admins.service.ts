@@ -1,3 +1,4 @@
+import { USER_API } from './../app/globals';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -68,5 +69,6 @@ export class AdminsService {
   upMisc(m: Misc) {
     return this.http.post(ADMIN_API + "misc", m, {headers: this.headers});
   }
+
 
 }

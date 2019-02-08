@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.isa.airflights.model.RentACar;
+import com.isa.airflights.model.RoomReservation;
 import com.isa.airflights.model.VehicleReservation;
 
 @Repository
@@ -20,4 +21,5 @@ public interface VehicleReservationRepository  extends JpaRepository<VehicleRese
 	@Query("select b from VehicleReservation b where b.rentacar = ?1 and (b.reservationdate between ?2 and ?3)")
 	List<VehicleReservation> getAllByDate(RentACar r,Date pickupdate, Date dropoffdate);
 	
+	public List<VehicleReservation> findByVehicle_id(Long vehicle_id);
 }

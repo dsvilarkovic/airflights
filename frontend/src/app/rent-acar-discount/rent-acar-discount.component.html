@@ -9,12 +9,11 @@
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
         <li class="nav-item"><a href="tour.html" class="nav-link">Flights</a></li>
-        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
-        <li class="nav-item active"><a  class="nav-link">Rent a cars</a></li>
-        <li class="nav-item"><a routerLink="/login" href="contact.html" class="nav-link">Sign In</a></li>
-        <li class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
+        <li class="nav-item"><a routerLink="/hotels" class="nav-link">Hotels</a></li>
+        <li class="nav-item active"><a routerLink="/rentacarPreview" class="nav-link">Rent a cars</a></li>
+        <li *ngIf="boolLog" class="nav-item"><a routerLink="/login" class="nav-link">Sign In</a></li>
+        <li *ngIf="boolLogOff" class="nav-item cta"> <button  class="list-group-item list-group-item-action" (click)="logout()" >
           <span>Sign Out</span>
       </button></li>
       </ul>
@@ -32,7 +31,30 @@
       <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"></p>
       
       <br><br><br>
-      <h1 style="text-align: center">VOZILA NA POPUSTU U {{city}}!!! </h1>
+      <h1 style="text-align: center">Discount vehicle in {{city}}!!! </h1>
+      
+      <form #SearchForm="ngForm" (ngSubmit)="promos()" style="align-self: center">
+        <p style=" color: wheat;">Choose date</p>
+        <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" style="color: black; background-color: white">
+        </ngb-datepicker>
+         <ng-template #t let-date let-focused="focused">
+          <span class="custom-day"
+                [class.focused]="focused"
+                [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)"
+                (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null">
+            {{ date.day }}
+          </span>
+        </ng-template>
+        
+        
+        
+        <div class="">
+
+          <button class="btn btn-primary" type="submit">Search</button><br/>
+        </div>     
+      </form>
         
       
      
@@ -46,7 +68,7 @@
     <div class="card mt-2 ml-2 mb-4 " style="width: 18rem;">
         <img src="https://image.flaticon.com/icons/png/512/75/75702.png" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{vehicle.brand}} {{vehicle.model}} <span class="ml-1">{{vehicle.rating}}</span><span style="color:gold"><i class="fas fa-star"></i></span></h5>
+            <h5 class="card-title">{{vehicle.brand}} {{vehicle.model}} <span class="ml-1">{{vehicle.ratingsSum/vehicle.ratingsCount}}</span><span style="color:gold"><i class="fas fa-star"></i></span></h5>
               
                   <p style="color: black"><i class="fas fa-user"></i> {{vehicle.seats}} </p>  
                   <p style="color: black"><i class="fas fa-car"></i>Type: {{vehicle.type}} </p> 
@@ -54,7 +76,7 @@
                   <p style="color: black"><i class="fas fa-euro-sign"></i>Price per day: {{vehicle.price - vehicle.price*vehicle.discount}} </p>           
                   <p style="color: black"><i class="fas fa-percentage"></i>Discount: {{vehicle.discount * 100}}% </p> 
           
-            <button (click)="btnBook(vehicle.id)" class="btn btn-primary mt-4 mb-4">Book me</button>
+            <button *ngIf="boolLogOff" (click)="btnBook(vehicle.id)" class="btn btn-primary mt-4 mb-4">Book me</button>
         </div>
   </div>
 </div>

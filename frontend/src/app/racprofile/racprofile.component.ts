@@ -1,3 +1,6 @@
+import { AdminsService } from 'src/services/admins.service';
+import { LoginService } from './../../services/login.service';
+import { User } from './../user';
 import { VehicleReservation } from './../vehicleReservation';
 import { TokenStorageService } from './../../services/auth/token-storage.service';
 import { ModalService } from './../../services/modal.service';
@@ -7,7 +10,7 @@ import { RentacarService } from './../../services/rentacar.service';
 import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../vehicle';
 import { Branch } from '../branch';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { ReservationServiceService } from 'src/services/reservation-service.service';
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,6 +22,7 @@ import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 export class RacprofileComponent implements OnInit {
 
   id;
+  user: User = new User();
   rac: rentacar = new rentacar();
   vehicles : Array<Vehicle>;
   vehicles2 :Vehicle[] = []; //ovde se nalaze sva vozila iz izabranog servisa
@@ -70,12 +74,14 @@ niz : Array<any>;
   branchPom = new FormControl("");
 
   constructor(private racService : RentacarService, 
+    private loginService: LoginService,
     private route : ActivatedRoute, 
     private modalService: ModalService, 
     private router: Router, 
     private token: TokenStorageService,
     private resService: ReservationServiceService,
-    private calendar: NgbCalendar) {
+    private calendar: NgbCalendar,
+    private adminService: AdminsService) {
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
      }
@@ -83,8 +89,9 @@ niz : Array<any>;
   ngOnInit() {
     this.incomeFlag = false;
     this.niz = this.token.getAuthorities();
+    
     this.pom = JSON.stringify(this.niz);
-    if(this.pom == "[\"ROLE_SYSTEMADMIN\"]" || this.pom == "[\"ROLE_RENTACARADMIN\"]") {
+    if(this.pom == "[\"ROLE_RENTACARADMIN\"]") {
       this.id = this.route.snapshot.params.id;
       this.racService.getOne(this.id).subscribe(data => {
       this.rac = data;
@@ -114,12 +121,40 @@ niz : Array<any>;
       alert("Niko nije ulogovan, ne moze se pristupiti ovoj stranici!");
       this.router.navigate(['/error45']);
     }
+
+    this.loginService.getLoggedById(this.token.getUser()).subscribe(data => {
+      this.user = data;
+    })
     
 
   }
 
+  passwordNew1 :string;
+  passwordNew2 :string;
+  pm2: boolean;
+  pm: boolean;
+
+  focusn() {
+    this.pm = false;
+    this.pm2 = false;
+  }
+
+  changeP(f: NgForm) {
+
+    if (this.passwordNew1!=this.passwordNew2) {
+      this.pm2 = true;
+      return;
+    }
+
+    this.user.password = this.passwordNew1;
+    this.loginService.setNewPassword(this.passwordNew1,this.token.getUser()).subscribe(r => {
+      window.location.reload();
+    }, e => console.error(e));
+
+  }
+
   income23() {
-    alert("Odsdaf");
+    //alert("Odsdaf");
     this.incomeFlag = true;
   }
 
@@ -337,7 +372,82 @@ niz : Array<any>;
 
   }
 
+
+  //chart poceo
+
+  public lineChartData:Array<any> = [
+    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Number of reservations'},
+  ];
+
+  public lineChartLabels:Array<any> = ['', '', '', '', '', '', '', '', '', '', '', ''];
+
+  
+  public lineChartOptions:any = {
+    responsive: true
+  };
+
+  public lineChartColors:Array<any> = [
+    { 
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'bar';
  
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
+  week() {
+    this.racService.lastWeek(this.rac.id).subscribe( r => {
+      let _lineChartData:Array<any> = new Array(1);
+      _lineChartData [0]= {data: new Array(12), label: this.lineChartData[0].label}
+      for (let i = 0; i < 7; i++) {
+        _lineChartData[0].data[i+5] = r[i]
+      }
+      this.lineChartData = _lineChartData;
+      this.lineChartLabels = ['', '', '', '', '','Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
+    })
+  }
+
+  month() {
+    this.racService.lastM(this.rac.id).subscribe( r => {
+      let _lineChartData:Array<any> = new Array(1);
+      _lineChartData [0]= {data: new Array(12), label: this.lineChartData[0].label}
+      for (let i = 0; i < 5; i++) {
+        _lineChartData[0].data[i+7] = r[i]
+      }
+      this.lineChartData = _lineChartData;
+      this.lineChartLabels = ['', '', '', '', '','', '', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+    })
+  }
+
+  yearChart() {
+    this.racService.lastYear(this.rac.id).subscribe( r => {
+      let _lineChartData:Array<any> = new Array(1);
+      _lineChartData [0]= {data: new Array(12), label: this.lineChartData[0].label}
+      for (let i = 0; i < 12; i++) {
+        _lineChartData[0].data[i] = r[i]
+      }
+      this.lineChartData = _lineChartData;
+      this.lineChartLabels = ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5','Month 6', 'Month 7', 'Month 8', 'Month 9', 'Month 10', 'Month 11', 'Month 12'];
+    })
+  }
+
+  //chart zavrsio
+
+ general() {
+
+ }
 
   logout() {
     this.token.signOut();
