@@ -36,6 +36,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  home() {
+    this.router.navigate(['/home']);
+  }
   login() {
     this.loginInfo = new AuthLoginInfo(this.user.email,this.user.password);
     this.authService.attemptAuth(this.loginInfo).subscribe(data => {

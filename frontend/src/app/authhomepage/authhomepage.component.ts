@@ -143,7 +143,7 @@ export class AuthhomepageComponent implements OnInit {
     } else {
 
     }
-
+    window.location.reload();
     
   }
 
@@ -168,7 +168,7 @@ export class AuthhomepageComponent implements OnInit {
     } else {
 
     }
-
+    window.location.reload();
     
   }
 
@@ -177,21 +177,34 @@ export class AuthhomepageComponent implements OnInit {
       alert("ocena " + last);
       alert("Id rez " + idRes);
       
-      this.racService.rateVehicle(last,id,idRes).subscribe(data => {
-       // this.tempRes = data;
-       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
-      })
+      if(last == null) {
+
+      } else {
+        this.racService.rateVehicle(last,id,idRes).subscribe(data => {
+          // this.tempRes = data;
+          // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+         })
+      }
+      
+
+      window.location.reload();
     }
 
 
   pobediRentacar(id,last,idRes) {
   //  alert("Id " + id);
     //alert("last " + last);
+    if(last == null) {
+
+    } else {
+      this.racService.rateRac(last,id,idRes).subscribe(data => {
+        this.tempRes = data;
+       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+      })
+    }
     
-    this.racService.rateRac(last,id,idRes).subscribe(data => {
-      this.tempRes = data;
-     // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
-    })
+
+    window.location.reload();
   }
 
  /* rateThisRac(id,last) {
@@ -209,20 +222,32 @@ export class AuthhomepageComponent implements OnInit {
   pobediRoom(id,last,idRes) {
     //  alert("Id " + id);
       //alert("last " + last);
+      if(last == null) {
+
+      } else {
+        this.roomService.rateRoom(last,id,idRes).subscribe(data => {
+          this.tempRes = data;
+         // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+        })
+      }
       
-      this.roomService.rateRoom(last,id,idRes).subscribe(data => {
-        this.tempRes = data;
-       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
-      })
+
+      window.location.reload();
   }
   pobediHotel(id,last,idRes) {
     //  alert("Id " + id);
       //alert("last " + last);
-      
-      this.roomService.rateHotel(last,id,idRes).subscribe(data => {
-        this.tempRes = data;
-       // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
-      })
+      if(last == null) {
+
+      } else {
+        this.roomService.rateHotel(last,id,idRes).subscribe(data => {
+          this.tempRes = data;
+         // alert("Vracamo ocenjeni: " + this.tempRent.ratingsSum/this.tempRent.ratingsCount);
+        })
+      }
+     
+
+      window.location.reload();
   }
   
   

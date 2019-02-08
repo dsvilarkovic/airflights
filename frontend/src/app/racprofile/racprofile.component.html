@@ -1,6 +1,6 @@
 
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/home">Home</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/rentacar/{{id}}">{{rac.name}}</a>
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" style="color: aliceblue" aria-label="Search">
         <ul class="navbar-nav px-3">
           <li class="nav-item text-nowrap">
@@ -227,7 +227,7 @@
                     <th>Model</th>
                     <th>The year of production:</th>
                     <th>Number of seats</th>
-                    <th>Tzpe</th>
+                    <th>Type</th>
                     <th>Price per day in €</th>
                     <th>Rating</th>
                     <th>Reserved</th>
@@ -246,7 +246,7 @@
                       <td>{{v.seats}}</td>
                       <td>{{v.type}}</td>
                       <td>{{v.price}}</td>
-                      <td>{{v.rating}}</td>
+                      <td>{{v.ratingsSum/v.ratingsCount}}</td>
                       <td>{{v.reserved}}</td>
                       <td>{{v.branchOffice_id}}</td>
                       <td> <button *ngIf="checkReserved == false" (click)="updateVehicle(v)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal" data-whatever="@getbootstrap">Update</button>
@@ -328,7 +328,7 @@
                       </div>
                       <div class="form-group">
                         <label for="message-text" class="col-form-label">Type:</label>
-                        <select [(ngModel)]="type" name="type">
+                        <select [formControl]="type" name="type">
                                 <option value="0">SMALL_CARS</option>
                                 <option value="1">MEDIUM_CARS</option>
                                 <option value="2">LARGE_CARS</option>
