@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 
 public class HotelControllerTest {
 	
-	private static final String URL_PREFIX = "/api/rentacar";
+	private static final String URL_PREFIX = "/api/hotel";
 	
 	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
