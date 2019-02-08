@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa.airflights.model.Vehicle;
 import com.isa.airflights.repository.VehicleRepository;
@@ -29,7 +30,7 @@ public class VehicleService {
 		return vr.getOne(id);
 	}
 	
-	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public Vehicle update(Vehicle old_vehicle, Vehicle new_vehicle) {
 		// TODO Auto-generated method stub
 		
@@ -60,6 +61,7 @@ public class VehicleService {
 			if(new_vehicle.getBranch_locations() != null) {
 				old_vehicle.setBranch_locations(new_vehicle.getBranch_locations());
 			}
+			
 			
 			
 
