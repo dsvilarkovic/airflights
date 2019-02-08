@@ -173,5 +173,9 @@ public class FlightTicketService {
 		return flightTicketRepository.findAllByFlight_Id(flight_id, pageRequest);
 	}
 
+	public List<FlightTicket> findAllByFlight_Id(Long flight_id) {
+		return flightTicketRepository.findAllByFlight_Id(flight_id);
+	}
+
 	
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from 'src/services/friends.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { User } from '../user';
 
 @Component({
   selector: 'app-flight-friend-invitation',
@@ -9,14 +11,16 @@ import { Router } from '@angular/router';
 })
 export class FlightFriendInvitationComponent implements OnInit {
 
-  constructor(private friendsService: FriendsService, private router : Router) { }
+  constructor(private friendsService: FriendsService, 
+              private router : Router,
+              private location : Location) { }
   mockFriends = [
     { id: 1, firstName: "Biljan", lastName: "Ristic" },
     { id: 2, firstName: "Dragan", lastName: "Torbica" },
     { id: 3, firstName: "Zivan", lastName: "Radosavljevic" }
   ];
-  invitedFriends = [];
-  friends = [];
+  invitedFriends: User[] = [];
+  friends: User[] = [];
 
   seatRemaining = 0;
 
@@ -27,15 +31,20 @@ export class FlightFriendInvitationComponent implements OnInit {
   pageNo3 = 1;
   collectionSize3 = 10;
 
+
+  keyword = "";
+
   ngOnInit() {
     // this.friendsService.getFriends().subscribe(res => {
     //   this.friends = res;
       
     // });
-    this.friends = this.mockFriends;
+    this.friends = [];//this.mockFriends;
 
+    
 
     this.setUpComponent();
+    this.search("");
   }
 
   setUpComponent(){
@@ -51,6 +60,12 @@ export class FlightFriendInvitationComponent implements OnInit {
     let seats : Seat[] = JSON.parse(seatItem) as Seat[];
     let friendsLength = this.invitedFriends.length;
 
+    if(!seats){
+      seats = [];
+    }
+    if(!this.invitedFriends){
+      this.invitedFriends = [];
+    }
     this.seatRemaining = (seats.length - friendsLength > 1) ? seats.length - friendsLength -  1: 0;
   }
   removeFriend(friendId) {
@@ -94,7 +109,9 @@ export class FlightFriendInvitationComponent implements OnInit {
   }
 
   goBack(){
-    this.router.navigate(['/flight-seat-reservation']);
+    // let link = sessionStorage.getItem('previous-seat-reservation-window');
+    // this.router.navigate([link]);
+    this.location.back();
   }
 
   saveChanges(){
@@ -106,5 +123,26 @@ export class FlightFriendInvitationComponent implements OnInit {
     this.router.navigate(['/passenger-form']);
   }
 
+  /**
+   * Baca zahtev ka prijateljima
+   */
+  search(keyword : string) {
+    this.friendsService.getFriendsByKeyword(this.keyword, 0).subscribe(
+      res => {
+        
+        this.friends = res["content"] as User[];
+        this.collectionSize = res["totalElements"] as number;
+      }
 
+    );
+  }
+
+  loadPage(pageNo : number){
+    this.friendsService.getFriendsByKeyword(this.keyword, pageNo - 1).subscribe(
+      res => {
+        
+        this.friends = res["content"] as User[];
+      }
+    )
+  }
 }

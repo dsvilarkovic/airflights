@@ -95,4 +95,9 @@ public class AirplaneService {
 		return airplane;
 	}
 
+
+	public Airplane findByFlight_Id(Long flight_id) {
+		return airplaneRepository.findByFlight_Id(flight_id);
+	}
+
 }

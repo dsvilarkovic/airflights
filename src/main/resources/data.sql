@@ -31,12 +31,21 @@ INSERT INTO room(id, number, balcony, beds, discount, floor, price, promo, ratin
 VALUES (1006, 310, true, 2, null, 3, 30, false, 20, 83, 1, 1002);
 
 
+INSERT INTO location(id, latitude, longitude) 
+VALUES(1,44.7866,20.4489 );
+
+
+INSERT INTO airline
+(id, full_name, grade_count, grade_sum, promo_info, location_id)
+VALUES(1, 'Jat Airway', 0, 0, 'Jugoslovenski avio transport', 1);
+
+
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number,verify,id_rentacar, role_id,change_pass)
 VALUES (1, 'Beocin', 'nemanja@gmail.com', 'Nemanja', '345345','Dimsic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4535',true,0,2,true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar, role_id, hotel_id,change_pass)
 VALUES (2, 'Sremska Kamenica', 'sveta@gmail.com', 'Svetislav', '2222','Simic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','43537', true,3, 4, 1002,true);
-INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
-VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,1,true);
+INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar, airline_id, change_pass)
+VALUES (3, 'Klisa', 'dule@gmail.com', 'Dusan', '867867','Svilarkovic','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true,0,1, true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
 VALUES (4, 'Subotica', 'pero@gmail.com', 'Pera', '867867','Peric','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','4353', true, 0,true);
 INSERT INTO abstract_user(id, address, email, first_name, index_number,last_name, password ,phone_number, verify,id_rentacar,change_pass)
@@ -93,15 +102,11 @@ VALUES ('2019-1-14', '2019-1-25', 320, '2019-1-1', 'Bulevar oslobođenja 13/1', 
 INSERT INTO vehicle_reservation(pickupdate,	dropoffdate,price,reservationdate,drop_off_location,pick_up_location,vehicle_id,abstract_user_id,rentacar_id,cancel,rate_vehicle,rate_rentacar,version) 
 VALUES ('2019-2-4', '2019-2-14', 200, '2019-2-3', 'Bulevar oslobođenja 13/1', 'Bulevar oslobođenja 13/1', '1','5','1',false,false,false,0);
 
-
-
-
 --unosenje Dusanovog dela
 
+
 --aviokompanije
-INSERT INTO public.airline
-(id, full_name, grade_count, grade_sum, promo_info, location_id)
-VALUES(1, 'Jat Airway', 0, 0, 'Jugoslovenski avio transport', NULL);
+
 INSERT INTO public.airline
 (id, full_name, grade_count, grade_sum, promo_info, location_id)
 VALUES(2, 'Air Serbia', 0, 0, 'Opterecenje za budzet', NULL);
@@ -110,23 +115,229 @@ INSERT INTO public.airline
 VALUES(3, 'Dusan Galactic', 0, 0, 'Ponos kapitalizma', NULL);
 
 
+
+
 --avioni i njegovi segment i sedista
 INSERT INTO public.airplane
 (id, full_name, airline_id)
 VALUES(1, 'Boing', 1);
 INSERT INTO public.airplane
 (id, full_name, airline_id)
-VALUES(2, 'Boing 2', 2);
+VALUES(2, 'Boing 2', 1);
 INSERT INTO public.airplane
 (id, full_name, airline_id)
-VALUES(3, 'Boing 3', 3);
+VALUES(3, 'Boing 3', 1);
+
+--segment
+INSERT INTO public.segment_config
+(id, segment_num, airplane_id)
+VALUES(1, 1, 3);
+INSERT INTO public.segment_config
+(id, segment_num, airplane_id)
+VALUES(2, 2, 1);
+INSERT INTO public.segment_config
+(id, segment_num, airplane_id)
+VALUES(3, 3, 2);
+
+--sedista
+
 
 
 --destinacije
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(1, 'Tesla', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(2, 'CDG', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(3, 'Hitrou', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(4, 'Amsterdam', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(5, 'Munich', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(6, 'Cenej', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(7, 'Budva', NULL);
+INSERT INTO public.airport
+(id, full_name, location_id)
+VALUES(8, 'Aerodrom ', NULL);
+
+--luggage_price_list
+INSERT INTO public.luggage_price_list
+(id, airline_id)
+VALUES(1, 1);
+INSERT INTO public.luggage_price_list
+(id, airline_id)
+VALUES(2, 2);
+INSERT INTO public.luggage_price_list
+(id, airline_id)
+VALUES(3, 3);
+
+--luggage_price tj prtljag
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(1, 10, 10, 10, 10, 1, 3);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(2, 20, 20, 20, 20, 2, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(3, 32, 26, 48, 30, 3, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(4, 86, 13, 8, 14, 4, 3);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(5, 233, 11, 444, 1213, 5, 2);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(6, 22, 22, 22, 22, 6, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(7, 4, 4, 44, 331, 7, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(8, 32, 32, 32, 32, 8, 3);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(9, 25, 25, 25, 25, 9, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(10, 40, 40, 40, 40, 10, 1);
+INSERT INTO public.luggage_price
+(id, height, length, price, weight, width, luggage_price_list_id)
+VALUES(11, 30, 30, 30, 30, 11, 1);
+
 --let
+INSERT INTO public.flight
+(id, arrival_datetime, arrival_destination, departure_datetime, departure_destination, flight_discount,  grade_count, grade_sum, leg_count, travel_distance, travel_time, airline_id, airplane_id)
+VALUES(1, '1991-01-08 13:59:36.322', 1, '1988-02-25 11:57:47.991', 2, 0.201005712,  0, 0, 3, 13929, 13279, 1, 1);
+INSERT INTO public.flight
+(id, arrival_datetime, arrival_destination, departure_datetime, departure_destination, flight_discount,  grade_count, grade_sum, leg_count, travel_distance, travel_time, airline_id, airplane_id)
+VALUES(2, '2017-03-29 07:41:20.970', 5, '2008-01-14 17:15:41.099', 6, 0.736966016,  0, 0, 2, 30775, 19284, 1, 3);
+INSERT INTO public.flight
+(id, arrival_datetime, arrival_destination, departure_datetime, departure_destination, flight_discount,  grade_count, grade_sum, leg_count, travel_distance, travel_time, airline_id, airplane_id)
+VALUES(3, '2017-07-05 04:58:30.397', 5, '2014-09-19 07:35:28.225', 6, 0.1257152384,  0, 0, 4, 29844, 32656, 1, 3);
+INSERT INTO public.flight
+(id, arrival_datetime, arrival_destination, departure_datetime, departure_destination, flight_discount,  grade_count, grade_sum, leg_count, travel_distance, travel_time, airline_id, airplane_id)
+VALUES(4, '2011-12-20 18:12:44.469', 1, '1996-02-19 09:15:54.679', 2, 0.1331361536,  0, 0, 2, 1895, 14579, 1, 3);
 
 
---cena leta po klasi
+--airline_destinations
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(1,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(2,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(3,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(4,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(5,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(6,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(7,1);
+INSERT INTO public.airline_destinations
+(destination_id, airline_id)
+VALUES(8,1);
+
+
+--flight legs
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(1, 1);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(1, 3);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(1, 2);
+
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(2, 5);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(2, 6);
+
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(3, 5);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(3, 1);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(3, 2);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(3, 6);
+
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(4, 1);
+INSERT INTO public.flight_flight_legs
+(flight_id, airport_id)
+VALUES(4, 2);
+
+-- Cena leta po klasi
+
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(1, 0, 0.769344128, 1);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(2, 1, 0.197782448, 1);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(3, 2, 0.705530048, 1);
+
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(5, 0, 0.304346176, 2);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(6, 1, 0.141416128, 2);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(7, 2, 0.1069985088, 2);
+
+
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(8, 0, 0.12718506, 3);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(9, 1, 0.537961408, 3);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(10, 2, 0.509612608, 3);
+
+
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(11, 1, 0.136847872, 4);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(12, 2, 0.1297698688, 4);
+INSERT INTO public.flight_class_price
+(id, "class", price, flight_id)
+VALUES(13, 3, 0.603290176, 4);
 
 
 --pravljenje karte 
@@ -149,6 +360,21 @@ VALUES(true, 4, 3);
 INSERT INTO public.friendship
 (accepted, receiver_id, sender_id)
 VALUES(true, 5, 3);
+
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(1,1,1,1,1,2);
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(2,2,2,1,1,2);
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(3,3,1,2,1,2);
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(4,2,2,2,1,2);
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(5,1,1,1,2,2);
+INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
+VALUES(6,3,1,2,2,2);
+
+
 
 -- Tabela za bodove i racunanje popusta
 -- Bonus bodovi za rezervisanje samo leta, leta i jos necega i sve tri stvari

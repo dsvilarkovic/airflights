@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,10 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.dto.FlightDTO;
+import com.isa.airflights.dto.SeatDTO;
+import com.isa.airflights.model.Airplane;
 import com.isa.airflights.model.Flight;
-import com.isa.airflights.model.FlightClassPrice;
+import com.isa.airflights.model.FlightTicket;
+import com.isa.airflights.model.Seat;
+import com.isa.airflights.service.AirplaneService;
 import com.isa.airflights.service.FlightService;
+import com.isa.airflights.service.FlightTicketService;
 import com.isa.airflights.utils.StringJSON;
 
 /**
@@ -38,13 +45,19 @@ public class FlightCRUDController {
 	@Autowired
 	private FlightService flightService;
 	
-
+	@Autowired
+	private AirplaneService airplaneService;
 	
+	@Autowired
+	private FlightTicketService flightTicketService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	/**
 	 * Trazenje leta po id-u
-	 * @param id - id aerodroma
+	 * @param id - id leta
 	 * @return
 	 */
 	@RequestMapping(value = "/{id}",
@@ -63,7 +76,7 @@ public class FlightCRUDController {
 			return new ResponseEntity<>(new StringJSON("No such flight found"), HttpStatus.NOT_FOUND);
 		}
 		flightDTO = flightService.convertToDTO(flight);
-		return new ResponseEntity<FlightDTO>(flightDTO, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<FlightDTO>(flightDTO, HttpStatus.OK);
 		
 	}
 	
@@ -147,5 +160,51 @@ public class FlightCRUDController {
 		//return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * Vraca avion koji se koristi za odabrani let
+	 */
+	@RequestMapping(value = "/airplane/{flight_id}",
+					method = RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getAirplaneByFlight(@PathVariable Long flight_id){
+		
+		Airplane airplane;
+		try {
+			airplane = airplaneService.findByFlight_Id(flight_id);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<StringJSON>(new StringJSON("Airplane not found"), HttpStatus.NOT_FOUND);
+		}
+		
+		AirplaneDTO airplaneDTO = airplaneService.convertToDTO(airplane);
+		return new ResponseEntity<AirplaneDTO>(airplaneDTO, HttpStatus.OK);
+		
+	}
+	
+	
+	/**
+	 * Uzmi sva vec rezervisana sedista
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping(value = "/reserved-seats/{flight_id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getReservedSeatsForFlight(@PathVariable Long flight_id){
+		List<FlightTicket> flightTickets = flightTicketService.findAllByFlight_Id(flight_id);
+		
+		//napravi seatDTO set, i posalji ih nazad
+		List<SeatDTO> seatDTOs = new ArrayList<>();
+		
+		for (FlightTicket flightTicket : flightTickets) {
+			Seat seat = flightTicket.getSeat();
+			SeatDTO seatDTO = modelMapper.map(seat, SeatDTO.class);
+			seatDTOs.add(seatDTO);
+		}
+		
+		
+		return ResponseEntity.ok(seatDTOs);
+	}
 	
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserToUpdate} from '../user-profile/user-to-update';
 import { Router } from '@angular/router';
+import { FlightTicket } from './flight-ticket';
+import { FlightService } from 'src/services/flight.service';
+import { Flight } from '../flight';
 @Component({
   selector: 'app-passenger-form',
   templateUrl: './passenger-form.component.html',
@@ -8,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class PassengerFormComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  constructor(private router : Router,
+              private flightService : FlightService) { }
 
   tabsCount = 0;
   passengers : UserToUpdate[] = [];
@@ -71,11 +75,95 @@ export class PassengerFormComponent implements OnInit {
   }
 
   saveChanges(){
+    let seatItem = sessionStorage.getItem('userReservedSeats');
+    let seats : Seat[] = JSON.parse(seatItem) as Seat[];
     //sacuvaj ih kao posebne rezervacije
+    for (let i = 0; i < this.passengers.length; i++) {
+      //uzmi odaberi sediste
+      let seat = seats.pop();
+
+      let airlineClass = seat.airlineClass;
+      let numberClass = 0;
+      if(airlineClass.includes("ECONOMY"))
+        numberClass = 0;
+      if(airlineClass.includes("FIRST"))
+        numberClass = 1;
+      if(airlineClass.includes("BUSINESS"))
+        numberClass = 2;
+      if(airlineClass.includes("PREMIUM"))
+        numberClass = 3;
+
+      let item =  sessionStorage.getItem('flight');
+      let flight : Flight = JSON.parse(item) as Flight;
+
+      let flightTicket : FlightTicket = {
+        abstractUserDTO : this.passengers[i],
+        airlineClassType : numberClass,
+        airlineGrade : 0,
+        arrivalDatetime : flight.arrivalDatetime,
+        departureDatetime : flight.departureDateTime,
+        flightClassPrice : 100,
+        flightGrade : 0,
+        arrivalDestination : flight.flightLegsDTO[0],
+        departureDestination  :flight.flightLegsDTO[flight.legCount - 1],
+        id : null,
+        isAccepted : false,
+        isFastReservation : false,
+        seatDTO : seat,
+        flightId : flight.id,
+        priceReduction : 1.0,
+        travelDistance : 10000,
+        travelTime : 100
+      }
+
+      this.flightService.sendFlightTicket(flightTicket);
+      
+    }
+
+    let seat = seats.pop();
+
+      let airlineClass = seat.airlineClass;
+      let numberClass = 0;
+      if(airlineClass.includes("ECONOMY"))
+        numberClass = 0;
+      if(airlineClass.includes("FIRST"))
+        numberClass = 1;
+      if(airlineClass.includes("BUSINESS"))
+        numberClass = 2;
+      if(airlineClass.includes("PREMIUM"))
+        numberClass = 3;
+
+      let item =  sessionStorage.getItem('flight');
+      let flight : Flight = JSON.parse(item) as Flight;
+
+      let flightTicket : FlightTicket = {
+        abstractUserDTO : this.loggedInUser,
+        airlineClassType : numberClass,
+        airlineGrade : 0,
+        arrivalDatetime : flight.arrivalDatetime,
+        departureDatetime : flight.departureDateTime,
+        flightClassPrice : 100,
+        flightGrade : 0,
+        arrivalDestination : flight.flightLegsDTO[0],
+        departureDestination  :flight.flightLegsDTO[flight.legCount - 1],
+        id : null,
+        isAccepted : false,
+        isFastReservation : false,
+        seatDTO : seat,
+        flightId : flight.id,
+        priceReduction : 1.0,
+        travelDistance : 10000,
+        travelTime : 100
+      }
+
+      this.flightService.sendFlightTicket(flightTicket);
+
+    
 
     //idi na izvestaj o pozvanim korisnicima
-    this.router.navigate(['/checkout']);
+    this.router.navigate(['/home']);
   }
+
 
   searchForHotel(){
     this.router.navigate(['/hotels']);

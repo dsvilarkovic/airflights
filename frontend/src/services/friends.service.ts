@@ -15,4 +15,8 @@ export class FriendsService {
   getPending(): Observable<any> {
     return this.http.get(API + "userProfile/friends/pending");
   }
+
+  getFriendsByKeyword(keyword:string,page: number = 0){
+    return this.http.get(API + "userProfile/friends/search?page=" + page + "&size=3&" + "keyword=" + keyword);
+  }
 }
