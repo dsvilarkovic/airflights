@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from 'src/services/friends.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-flight-friend-invitation',
@@ -9,7 +10,9 @@ import { Router } from '@angular/router';
 })
 export class FlightFriendInvitationComponent implements OnInit {
 
-  constructor(private friendsService: FriendsService, private router : Router) { }
+  constructor(private friendsService: FriendsService, 
+              private router : Router,
+              private location : Location) { }
   mockFriends = [
     { id: 1, firstName: "Biljan", lastName: "Ristic" },
     { id: 2, firstName: "Dragan", lastName: "Torbica" },
@@ -94,7 +97,9 @@ export class FlightFriendInvitationComponent implements OnInit {
   }
 
   goBack(){
-    this.router.navigate(['/flight-seat-reservation']);
+    // let link = sessionStorage.getItem('previous-seat-reservation-window');
+    // this.router.navigate([link]);
+    this.location.back();
   }
 
   saveChanges(){

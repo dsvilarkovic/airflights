@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.airflights.dto.AirplaneDTO;
 import com.isa.airflights.dto.FlightDTO;
+import com.isa.airflights.model.Airplane;
 import com.isa.airflights.model.Flight;
-import com.isa.airflights.model.FlightClassPrice;
+import com.isa.airflights.service.AirplaneService;
 import com.isa.airflights.service.FlightService;
 import com.isa.airflights.utils.StringJSON;
 
@@ -38,13 +40,14 @@ public class FlightCRUDController {
 	@Autowired
 	private FlightService flightService;
 	
-
+	@Autowired
+	private AirplaneService airplaneService;
 	
 	
 	
 	/**
 	 * Trazenje leta po id-u
-	 * @param id - id aerodroma
+	 * @param id - id leta
 	 * @return
 	 */
 	@RequestMapping(value = "/{id}",
@@ -63,7 +66,7 @@ public class FlightCRUDController {
 			return new ResponseEntity<>(new StringJSON("No such flight found"), HttpStatus.NOT_FOUND);
 		}
 		flightDTO = flightService.convertToDTO(flight);
-		return new ResponseEntity<FlightDTO>(flightDTO, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<FlightDTO>(flightDTO, HttpStatus.OK);
 		
 	}
 	
@@ -145,6 +148,28 @@ public class FlightCRUDController {
 		Page<FlightDTO> ret = new PageImpl<>(flightDTOs, pageRequest, flights.getTotalElements());
 		return ResponseEntity.ok(ret);
 		//return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * Vraca avion koji se koristi za odabrani let
+	 */
+	@RequestMapping(value = "/airplane/{flight_id}",
+					method = RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getAirplaneByFlight(@PathVariable Long flight_id){
+		
+		Airplane airplane;
+		try {
+			airplane = airplaneService.findByFlight_Id(flight_id);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<StringJSON>(new StringJSON("Airplane not found"), HttpStatus.NOT_FOUND);
+		}
+		
+		AirplaneDTO airplaneDTO = airplaneService.convertToDTO(airplane);
+		return new ResponseEntity<AirplaneDTO>(airplaneDTO, HttpStatus.OK);
+		
 	}
 	
 	

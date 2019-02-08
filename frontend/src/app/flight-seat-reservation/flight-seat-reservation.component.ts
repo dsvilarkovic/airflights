@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Route } from "@angular/router";
 import { AirlineAdminService } from "src/services/airline-admin.service";
+import { FlightService}  from 'src/services/flight.service';
 
 @Component({
   selector: 'app-flight-seat-reservation',
@@ -10,7 +11,8 @@ import { AirlineAdminService } from "src/services/airline-admin.service";
 export class FlightSeatReservationComponent implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, private router : Router,
-              private airlineAdminService : AirlineAdminService) { }
+              private airlineAdminService : AirlineAdminService,
+              private flightService: FlightService) { }
   id;
   errorMsg = "";
   Arr = Array;
@@ -23,12 +25,22 @@ export class FlightSeatReservationComponent implements OnInit {
     { id: 3, seatRow: 2, seatColumn: 1, segmentNum: 1, airlineClass: "ECONOMY" },
     { id: 4, seatRow: 2, seatColumn: 2, segmentNum: 1, airlineClass: "BUSINESS"},
     { id: 5, seatRow: 1, seatColumn: 1, segmentNum: 2, airlineClass: "FIRST" },
-    { id: 6, seatRow: 2, seatColumn: 1, segmentNum: 2, airlineClass: "PREMIUM"}
+    // { id: 6, seatRow: 2, seatColumn: 1, segmentNum: 2, airlineClass: "PREMIUM"}
   ];
 
 
   /**Ovo se misli na rezervisana sedista iz nekih drugih narudzbina */
-  reservedSeatsMock = [];
+  reservedSeatsMock = [
+    // {
+    //   seat: {
+    //     id: 5,
+    //     seatRow: 1,
+    //     seatColumn: 1,
+    //     segmentNum: 2,
+    //     airlineClass: "FIRST"
+    //   }
+    // }
+  ];
 
   airplaneMock = {
     fullName: null,
@@ -42,22 +54,29 @@ export class FlightSeatReservationComponent implements OnInit {
   segmentNumbersMock = [];
 
   ngOnInit() {
-    //TODO: obrisati this.id = 1
     this.id = this.activatedRoute.snapshot.params.id;
     this.id = 1;
-    
-    this.airlineAdminService.getPlane(this.id).subscribe(res => {
-      this.airplaneMock = res;
-      console.log(this.airplaneMock);
-      this.getNumberOfSeatsPerSegment();
-      this.rows = this.getNumberOfRows();
-    });
+    // this.airlineAdminService.getPlane(this.id).subscribe(res => {
+    //   this.airplaneMock = res;
+    //   console.log(this.airplaneMock);
+    //   this.getNumberOfSeatsPerSegment();
+    //   this.rows = this.getNumberOfRows();
+    // });
 
-    //TODO: podesiti reservedSeats koja su zauzeta od strane drugih korisnika
     
+    // this.airplaneMock.fullName = "Neki avion";
+    // this.airplaneMock.segmentConfig = this.seatConfigMock;
+    // this.getNumberOfSeatsPerSegment();
+    // this.rows = this.getNumberOfRows();
+
+    this.flightService.getPlane(this.id).subscribe(res => {
+        this.airplaneMock = res;
+        console.log(this.airplaneMock);
+        this.getNumberOfSeatsPerSegment();
+        this.rows = this.getNumberOfRows();
+      });
     /**
-     * ovde proveri ima li  u session storage nesto prethodno rezervisano 
-     * od strane istog korisnika
+     * ovde proveri ima li  u session storage nesto prethodno rezervisano
      */
     if(sessionStorage.getItem('userReservedSeats')){
       //podesi sedista u nasem mock airplane-u
@@ -186,6 +205,8 @@ export class FlightSeatReservationComponent implements OnInit {
         //TODO: u let ubaciti kao flightDTO da ima airplaneDTO
 
         //nastavi na sledecu stranu
+
+        sessionStorage.setItem('previous-seat-reservation-window', window.location.href);
         this.router.navigate(['/flight-friend-invitation']);
 
         //TODO: pri submitu cele pozivnice konacno izbaci klase koje su sacuvane, ako je potrebno

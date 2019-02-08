@@ -89,6 +89,7 @@ import { ChartsModule } from 'ng2-charts';
 import { AdminSystemAddComponent } from './admin/admin-system-add/admin-system-add.component';
 import { FlightSeatReservationComponent } from './flight-seat-reservation/flight-seat-reservation.component';
 import { FlightFriendInvitationComponent } from './flight-friend-invitation/flight-friend-invitation.component';
+import { FlightService } from 'src/services/flight.service';
 
 
 const appRoutes: Routes = [
@@ -242,7 +243,7 @@ const appRoutes: Routes = [
     GoogleChartsModule.forRoot(),
     
   ],
-  providers: [LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
+  providers: [FlightService, LoginService, RegisterService,RentacarService, RoomService, AdminsService, HotelService, ModalService,{ provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
     },DatePipe],

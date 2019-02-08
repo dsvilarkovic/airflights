@@ -360,7 +360,6 @@ VALUES(true, 4, 3);
 INSERT INTO public.friendship
 (accepted, receiver_id, sender_id)
 VALUES(true, 5, 3);
-INSERT INTO misc(b, b2, b3) VALUES (1, 2, 3);
 
 INSERT INTO public.seat (id, airline_class, seat_column, seat_row,  segment_num, configuration)
 VALUES(1,1,1,1,1,2);

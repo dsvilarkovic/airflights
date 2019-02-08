@@ -10,6 +10,6 @@ export class Flight {
     travelDistance: number;
     flightDiscount: number;
     airlineId: number;
-    flightLegsDTO: [];
-      flightClassPricesMap: { BUSINESS: 23, FIRST: 434 }
+    flightLegsDTO: any[];
+    flightClassPricesMap: Map<String, number>;
 }

@@ -80,4 +80,9 @@ export class AirlineAdminService {
   removeDestination(destId): Observable<any> {
     return this.http.delete(API + "airport/delete/" + destId);
   }
+
+  getFlightPlane(flightId): Observable<any> {
+    throw this.http.get(API + "airline/airplane/flight/" + flightId);
+  }
+    
 }

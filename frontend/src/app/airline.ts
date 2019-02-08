@@ -9,5 +9,5 @@ export class Airline {
     active : boolean;
     gradeSum : number;
     gradeCount : number;
-    luggagePriceList : any; //TODO: kasnije promeni u odgovarajuci oblik
+    luggageClassPriceList : any; //TODO: kasnije promeni u odgovarajuci oblik
 }
