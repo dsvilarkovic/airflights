@@ -36,8 +36,8 @@ export class RentacarService {
     return this.http.post(VEHICLE_API + "addVehicle/"+id1+"/"+id2,vehicle);
   }
 
-  updateVehicle(vehicle: Object): Observable<any> {
-    return this.http.put(VEHICLE_API + "update",vehicle);
+  updateVehicle(idBranch: number,vehicle: Object): Observable<any> {
+    return this.http.put(VEHICLE_API + "update/"+idBranch,vehicle);
   }
 
   deleteVehicle(id): Observable<any> {
